@@ -93,6 +93,6 @@ Briefly, you can:
 * add route defaults and constraints,
 * specify route precedence,
 * generate lowercase urls by convention, and
-* auto-constrain primitive (currently only int) route paramters.
+* auto-constrain primitive (currently only int) route parameters.
 
 In addition, there are html helpers for generating RESTful forms and a few other handy bits.
