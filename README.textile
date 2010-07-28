@@ -1,6 +1,8 @@
-h1. AttributeRouting - Define your routes using attributes on action methods in ASP.NET MVC.
+h1. AttributeRouting 
 
-h2. Quickstart
+h2. Define your routes using attributes on action methods in ASP.NET MVC.
+
+h3. Quickstart
 
 Use RouteAttributes to decorate actions in your controllers. There is a specific RouteAtribute for each of the four HTTP verbs: GET, PUT, POST, and DELETE.
 
@@ -80,7 +82,7 @@ Once you've added the RouteAttributes to your action methods, you will need to h
 
 When you're done, hit F5. That's it.
 
-h2. More Advanced Usage
+h3. More Advanced Usage
 
 The AttributeRouting.Web project's home page has complete documentation on how to use all of the features available. 
 
