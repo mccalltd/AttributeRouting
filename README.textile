@@ -90,9 +90,7 @@ Briefly, you can:
 * define areas,
 * define nested routes,
 * define multiple routes that map to a single action,
-* add route defaults and constraints,
+* add route defaults and constraints, and
 * specify route precedence,
-* generate lowercase urls by convention, and
-* auto-constrain primitive (currently only int) route parameters.
 
 In addition, there are html helpers for generating RESTful forms and a few other handy bits.
