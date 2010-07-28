@@ -91,6 +91,6 @@ Briefly, you can:
 * define nested routes,
 * define multiple routes that map to a single action,
 * add route defaults and constraints, and
-* specify route precedence,
+* specify route precedence.
 
 In addition, there are html helpers for generating RESTful forms and a few other handy bits.
