@@ -1,0 +1,83 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#@ output extension="cs" #>
+<#
+MvcTextTemplateHost mvcHost = (MvcTextTemplateHost)(Host);
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Mvc.Ajax;
+
+namespace <#= mvcHost.Namespace #>
+{
+    public class <#= mvcHost.ControllerName #> : Controller
+    {
+		[GET("<#= mvcHost.ControllerRootName #>")]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+<#
+if(mvcHost.AddActionMethods) {
+#>
+		[GET("<#= mvcHost.ControllerRootName #>/New")]
+        public ActionResult New()
+        {
+            return View();
+        } 
+
+		[PUT("<#= mvcHost.ControllerRootName #>")]
+        public ActionResult Create(FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+		[GET("<#= mvcHost.ControllerRootName #>/{id}")]
+        public ActionResult Show(int id)
+        {
+            return View();
+        }
+
+		[GET("<#= mvcHost.ControllerRootName #>/{id}/Edit")]
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+		[POST("<#= mvcHost.ControllerRootName #>/{id}")]
+        public ActionResult Update(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+ 
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+		
+		[DELETE("<#= mvcHost.ControllerRootName #>/{id}")]
+		public ActionResult Destroy(int id)
+		{
+			throw new NotImplementedException();
+		}
+<#
+}
+#>
+    }
+}

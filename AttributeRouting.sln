@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web", "AttributeRouting.Web\AttributeRouting.Web.csproj", "{486087C6-E95B-4FE2-8263-7B6B2DF81888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting", "AttributeRouting\AttributeRouting.csproj", "{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Tests", "AttributeRouting.Tests\AttributeRouting.Tests.csproj", "{76550EAA-397F-4DE7-B771-E19A71BAF02D}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76550EAA-397F-4DE7-B771-E19A71BAF02D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76550EAA-397F-4DE7-B771-E19A71BAF02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76550EAA-397F-4DE7-B771-E19A71BAF02D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76550EAA-397F-4DE7-B771-E19A71BAF02D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
