@@ -105,11 +105,6 @@
     <Content Include="Views\Admin\Home\Index.aspx" />
     <Content Include="Views\Nested\Index.aspx" />
     <Content Include="Views\Nested\Show.aspx" />
-    <Content Include="Views\Home\Configuration.ascx" />
-    <Content Include="Views\Home\Extras.ascx" />
-    <Content Include="Views\Home\Quickstart.ascx" />
-    <Content Include="Views\Home\Setup.ascx" />
-    <Content Include="Views\Home\Using.ascx" />
     <Content Include="Views\Restful\Delete.aspx" />
     <Content Include="Views\Restful\Edit.aspx" />
     <Content Include="Views\Restful\Index.aspx" />
