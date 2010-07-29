@@ -45,10 +45,10 @@ namespace AttributeRouting
 
             var urlBuilder = new StringBuilder(routeSpec.Url);
 
-            if (routeSpec.RoutePrefix.HasValue())
+            if (routeSpec.RoutePrefix.HasValue() && !routeSpec.Url.StartsWith(routeSpec.RoutePrefix))
                 urlBuilder.Insert(0, routeSpec.RoutePrefix + "/");
             
-            if (routeSpec.AreaName.HasValue())
+            if (routeSpec.AreaName.HasValue() && !routeSpec.Url.StartsWith(routeSpec.AreaName))
                 urlBuilder.Insert(0, routeSpec.AreaName + "/");
 
             return urlBuilder.ToString();

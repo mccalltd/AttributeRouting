@@ -14,5 +14,11 @@ namespace AttributeRouting.Tests.Subjects.Controllers
         {
             return Content("");
         }
+
+        [GET("Area/DuplicateArea")]
+        public ActionResult DuplicateArea()
+        {
+            return Content("");
+        }
     }
 }

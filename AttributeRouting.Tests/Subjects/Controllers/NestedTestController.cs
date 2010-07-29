@@ -14,5 +14,11 @@ namespace AttributeRouting.Tests.Subjects.Controllers
         {
             return Content("");
         }
+
+        [GET("Parent/{parentId}/DuplicateNest")]
+        public ActionResult DuplicateNest()
+        {
+            return Content("");
+        }
     }
 }

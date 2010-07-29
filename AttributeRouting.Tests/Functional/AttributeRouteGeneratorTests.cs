@@ -192,6 +192,22 @@ namespace AttributeRouting.Tests.Functional.AttributeRouteGeneratorTests
         }
     }
 
+    public class when_generating_an_explicit_area_route_in_a_controller_decorated_with_the_route_area_attribute : when_generating_routes
+    {
+        private AttributeRoute _route;
+
+        protected override void SetUp()
+        {
+            _route = FetchRoute("AreaTest", "DuplicateArea");
+        }
+
+        [Test]
+        public void the_area_is_not_duplicated_in_the_url()
+        {
+            _route.Url.ShouldEqual("Area/DuplicateArea");
+        }
+    }
+
     public class when_generating_routes_using_the_route_prefix_attribute : when_generating_routes
     {
         private AttributeRoute _route;
@@ -205,6 +221,23 @@ namespace AttributeRouting.Tests.Functional.AttributeRouteGeneratorTests
         public void the_route_includes_the_prefix_in_the_url()
         {
             _route.Url.ShouldEqual("Parent/{parentId}/Child");
+        }
+    }
+
+    public class when_generating_an_explicitly_prefixed_route_in_a_controller_decorated_with_the_route_prefix_attribute : when_generating_routes
+    {
+        private AttributeRoute _route;
+
+        protected override void SetUp()
+        {
+            _route = FetchRoute("NestedTest", "DuplicateNest");
+            _route.LogTo(Console.Out);
+        }
+
+        [Test]
+        public void the_prefix_is_not_duplicated_in_the_url()
+        {
+            _route.Url.ShouldEqual("Parent/{parentId}/DuplicateNest");
         }
     }
 
