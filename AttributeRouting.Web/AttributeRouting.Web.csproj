@@ -90,13 +90,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\QUnit\Styles\qunit.css" />
-    <Content Include="Content\Scripts\jquery.beautyOfCode.js" />
-    <Content Include="Content\QUnit\Scripts\qunit.js" />
-    <Content Include="Content\QUnit\Tests\index.htm" />
-    <Content Include="Content\QUnit\Tests\routes.htm" />
-    <Content Include="Content\QUnit\Scripts\qunit-same.js" />
-    <Content Include="Content\QUnit\Scripts\qunit-test.js" />
     <Content Include="Global.asax" />
     <Content Include="Views\Account\ChangePassword.aspx" />
     <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
@@ -120,18 +113,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Content\Styles\Site.css" />
-    <Content Include="Content\Scripts\jquery-1.4.1.js" />
-    <Content Include="Content\Scripts\jquery-1.4.1.min.js" />
-    <Content Include="Content\Scripts\jquery-1.4.1-vsdoc.js" />
-    <Content Include="Content\Scripts\jquery.validate.js" />
-    <Content Include="Content\Scripts\jquery.validate.min.js" />
-    <Content Include="Content\Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Content\Scripts\MicrosoftAjax.js" />
-    <Content Include="Content\Scripts\MicrosoftAjax.debug.js" />
-    <Content Include="Content\Scripts\MicrosoftMvcAjax.js" />
-    <Content Include="Content\Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Content\Scripts\MicrosoftMvcValidation.js" />
-    <Content Include="Content\Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\Site.Master" />
