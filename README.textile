@@ -1,1 +1,1 @@
-Please refer to the wiki pages.
+h3. Please refer to the wiki pages for documentation.
