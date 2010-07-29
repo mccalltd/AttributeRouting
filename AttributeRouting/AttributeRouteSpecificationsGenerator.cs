@@ -18,10 +18,9 @@ namespace AttributeRouting
 
         public IEnumerable<AttributeRouteSpecification> Generate()
         {
-            var orderedRouteSpecs = new List<AttributeRouteSpecification>();
-
             var controllerRouteSpecs = GetRouteSpecifications(_configuration.ControllerTypes);
-            orderedRouteSpecs.AddRange(controllerRouteSpecs);
+            foreach (var spec in controllerRouteSpecs)
+                yield return spec;
 
             if (_configuration.AddScannedRoutes)
             {
@@ -31,10 +30,9 @@ namespace AttributeRouting
                 var remainingRouteSpecs = scannedRouteSpecs.Except(controllerRouteSpecs,
                                                                    new AttributeRouteSpecificationComparer());
 
-                orderedRouteSpecs.AddRange(remainingRouteSpecs);
+                foreach (var spec in remainingRouteSpecs)
+                    yield return spec;
             }
-
-            return orderedRouteSpecs;
         }
 
         private IEnumerable<AttributeRouteSpecification> GetRouteSpecifications(IEnumerable<Type> controllerTypes)
