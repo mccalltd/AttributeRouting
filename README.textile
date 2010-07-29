@@ -1,1 +1,1 @@
-h3. Please refer to the wiki pages for documentation.
+h3. Please refer to the [wiki pages](http://wiki.github.com/mccalltd/AttributeRouting/) for documentation.
