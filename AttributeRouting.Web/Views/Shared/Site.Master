@@ -41,21 +41,5 @@
             </div>
         </div>
     </div>
-
-    <script src="/Content/Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
-    <script src="/Content/Scripts/jquery.beautyOfCode.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $.beautyOfCode.init({
-            theme: 'Default',
-            brushes: ['Xml', 'JScript', 'CSharp', 'Plain'],
-            settings: {
-                addControls: true,
-                collapse: false
-            },
-            ready: function() {
-                $.beautyOfCode.beautifyAll();
-            }
-        });
-    </script>
 </body>
 </html>
