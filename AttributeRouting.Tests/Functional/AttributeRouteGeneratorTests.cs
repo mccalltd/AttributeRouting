@@ -396,20 +396,4 @@ namespace AttributeRouting.Tests.Functional.AttributeRouteGeneratorTests
             routesAfterTestBaseController.Any(r => r.Defaults["controller"].Equals("DerivedTest")).ShouldBeFalse();
         }
     }
-
-    public class when_generating_routes_for_actions_decorated_with_the_action_name_attribute : when_generating_routes
-    {
-        private AttributeRoute _route;
-
-        protected override void  SetUp()
-        {
-            _route = FetchRoute("Test", "SomethingElse");
-        }
-
-        [Test]
-        public void the_default_action_should_be_the_one_specified_in_the_attribute()
-        {
-            _route.ShouldNotBeNull();
-        }
-    }
 }

@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web.Mvc;
 
 namespace AttributeRouting
 {
-    public class RouteReflector
+    public class AttributeRouteSpecificationsGenerator
     {
         private readonly AttributeRoutingConfiguration _configuration;
 
-        public RouteReflector(AttributeRoutingConfiguration configuration)
+        public AttributeRouteSpecificationsGenerator(AttributeRoutingConfiguration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
             _configuration = configuration;
         }
 
-        public IEnumerable<AttributeRouteSpecification> GenerateRouteSpecifications()
+        public IEnumerable<AttributeRouteSpecification> Generate()
         {
             var controllerRouteSpecs = GetRouteSpecifications(_configuration.PromotedControllerTypes);
             foreach (var spec in controllerRouteSpecs)
@@ -47,7 +46,7 @@ namespace AttributeRouting
                         RoutePrefix = GetRoutePrefix(actionMethod),
                         ControllerType = controllerType,
                         ControllerName = controllerType.GetControllerName(),
-                        ActionName = GetActionName(actionMethod),
+                        ActionName = actionMethod.Name,
                         ActionParameters = actionMethod.GetParameters(),
                         Url = routeAttribute.Url,
                         HttpMethod = routeAttribute.HttpMethod,
@@ -73,16 +72,6 @@ namespace AttributeRouting
                 return routePrefixAttribute.Url;
 
             return "";
-        }
-
-
-        private string GetActionName(MethodInfo actionMethod)
-        {
-            var actionNameAttribute = actionMethod.GetCustomAttributes<ActionNameAttribute>(false).SingleOrDefault();
-            if (actionNameAttribute != null)
-                return actionNameAttribute.Name;
-
-            return actionMethod.Name;
         }
 
         private IEnumerable<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName)
