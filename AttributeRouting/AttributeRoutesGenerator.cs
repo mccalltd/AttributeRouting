@@ -20,8 +20,8 @@ namespace AttributeRouting
 
         public IEnumerable<AttributeRoute> Generate()
         {
-            var routeSpecificationGenerator = new AttributeRouteSpecificationsGenerator(_configuration);
-            var routeSpecs = routeSpecificationGenerator.Generate();
+            var routeSpecificationGenerator = new RouteReflector(_configuration);
+            var routeSpecs = routeSpecificationGenerator.GenerateRouteSpecifications();
 
             var attributeRouteBuilder = new AttributeRouteBuilder(_configuration);
             return routeSpecs.Select(attributeRouteBuilder.Build);

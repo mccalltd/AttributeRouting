@@ -5,18 +5,18 @@ using System.Reflection;
 
 namespace AttributeRouting
 {
-    public class AttributeRouteSpecificationsGenerator
+    public class RouteReflector
     {
         private readonly AttributeRoutingConfiguration _configuration;
 
-        public AttributeRouteSpecificationsGenerator(AttributeRoutingConfiguration configuration)
+        public RouteReflector(AttributeRoutingConfiguration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
             _configuration = configuration;
         }
 
-        public IEnumerable<AttributeRouteSpecification> Generate()
+        public IEnumerable<AttributeRouteSpecification> GenerateRouteSpecifications()
         {
             var controllerRouteSpecs = GetRouteSpecifications(_configuration.PromotedControllerTypes);
             foreach (var spec in controllerRouteSpecs)

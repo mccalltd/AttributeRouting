@@ -65,9 +65,9 @@ namespace AttributeRouting.Tests.Functional.AttributeRouteGeneratorTests
         }
 
         [Test]
-        public void it_creates_17_routes()
+        public void it_creates_16_routes()
         {
-            Routes.Count().ShouldEqual(17);
+            Routes.Count().ShouldEqual(16);
         }
     }
 
