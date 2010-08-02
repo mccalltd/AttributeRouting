@@ -40,5 +40,12 @@ namespace AttributeRouting.Tests.Subjects.Controllers
         {
             return Content("");
         }
+
+        [GET("Test/ActionWithActionNameAttribute")]
+        [ActionName("SomethingElse")]
+        public ActionResult ActionWithActionNameAttribute()
+        {
+            return Content("");
+        }
     }
 }
