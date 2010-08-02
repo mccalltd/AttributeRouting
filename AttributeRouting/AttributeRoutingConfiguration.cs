@@ -15,13 +15,11 @@ namespace AttributeRouting
             ConstrainPrimitiveRouteParameters = true;
 
             Assemblies = new List<Assembly>();
-            AreaControllerTypes = new Dictionary<string, List<Type>>();
-            ControllerTypes = new List<Type>();
+            PromotedControllerTypes = new List<Type>();
         }
 
         internal List<Assembly> Assemblies { get; set; }
-        internal Dictionary<string, List<Type>> AreaControllerTypes { get; set; }
-        internal List<Type> ControllerTypes { get; set; }
+        internal List<Type> PromotedControllerTypes { get; set; }
         internal bool AddScannedRoutes { get; set; }
         
         /// <summary>
@@ -88,8 +86,8 @@ namespace AttributeRouting
         {
             AddScannedRoutes = false;
 
-            if (!ControllerTypes.Contains(controllerType))
-                ControllerTypes.Add(controllerType);            
+            if (!PromotedControllerTypes.Contains(controllerType))
+                PromotedControllerTypes.Add(controllerType);            
         }
 
         /// <summary>

@@ -63,6 +63,12 @@ namespace AttributeRouting.Tests.Functional.AttributeRouteGeneratorTests
         {
             Routes.LogTo(Console.Out);
         }
+
+        [Test]
+        public void it_creates_17_routes()
+        {
+            Routes.Count().ShouldEqual(17);
+        }
     }
 
     public class when_generating_routes_for_an_action_method : when_generating_routes

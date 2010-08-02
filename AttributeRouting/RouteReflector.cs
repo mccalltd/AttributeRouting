@@ -19,17 +19,16 @@ namespace AttributeRouting
 
         public IEnumerable<AttributeRouteSpecification> GenerateRouteSpecifications()
         {
-            var controllerRouteSpecs = GetRouteSpecifications(_configuration.ControllerTypes);
+            var controllerRouteSpecs = GetRouteSpecifications(_configuration.PromotedControllerTypes);
             foreach (var spec in controllerRouteSpecs)
                 yield return spec;
 
             if (_configuration.AddScannedRoutes)
             {
-                var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes());
-                var scannedRouteSpecs = GetRouteSpecifications(scannedControllerTypes);
+                var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes()).ToList();
+                var remainingControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
 
-                var remainingRouteSpecs = scannedRouteSpecs.Except(controllerRouteSpecs,
-                                                                   new AttributeRouteSpecificationComparer());
+                var remainingRouteSpecs = GetRouteSpecifications(remainingControllerTypes);
 
                 foreach (var spec in remainingRouteSpecs)
                     yield return spec;

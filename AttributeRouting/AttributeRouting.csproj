@@ -53,7 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeRouteBuilder.cs" />
-    <Compile Include="AttributeRouteSpecificationComparer.cs" />
     <Compile Include="AttributeRoutingException.cs" />
     <Compile Include="AttributeRoutingViewEngine.cs" />
     <Compile Include="DELETEAttribute.cs" />
