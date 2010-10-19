@@ -36,6 +36,12 @@ namespace AttributeRouting
         public bool UseLowercaseRoutes { get; set; }
 
         /// <summary>
+        /// When true, the generated routes will have auto-generated route names in the form controller_action.
+        /// The default is false.
+        /// </summary>
+        public bool AutoGenerateRouteNames { get; set; }
+
+        /// <summary>
         /// Scans the assembly of the specified controller for routes to register.
         /// </summary>
         /// <typeparam name="TController">The controller type used to specify the assembly</typeparam>

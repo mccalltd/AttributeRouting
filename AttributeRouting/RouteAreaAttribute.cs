@@ -12,7 +12,7 @@ namespace AttributeRouting
         public RouteAreaAttribute(string areaName)
         {
             if (areaName == null) throw new ArgumentNullException("areaName");
-            if (Regex.IsMatch(areaName, @"\/") || !areaName.IsValidUrl(false))
+            if (Regex.IsMatch(areaName, @"\/") || !areaName.IsValidUrl())
                 throw new ArgumentException(
                     ("The areaName \"{0}\" is not valid. It cannot contain forward slashes " +
                      "or any other character not allowed in URLs.").FormatWith(areaName), "areaName");
@@ -21,5 +21,7 @@ namespace AttributeRouting
         }
 
         public string AreaName { get; private set; }
+
+        public string AreaUrl { get; set; }
     }
 }

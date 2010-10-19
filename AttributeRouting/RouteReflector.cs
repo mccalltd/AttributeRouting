@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Web.Mvc;
 
 namespace AttributeRouting
 {
@@ -16,7 +18,7 @@ namespace AttributeRouting
             _configuration = configuration;
         }
 
-        public IEnumerable<AttributeRouteSpecification> GenerateRouteSpecifications()
+        public IEnumerable<RouteSpecification> GenerateRouteSpecifications()
         {
             var controllerRouteSpecs = GetRouteSpecifications(_configuration.PromotedControllerTypes);
             foreach (var spec in controllerRouteSpecs)
@@ -34,15 +36,16 @@ namespace AttributeRouting
             }
         }
 
-        private IEnumerable<AttributeRouteSpecification> GetRouteSpecifications(IEnumerable<Type> controllerTypes)
+        private IEnumerable<RouteSpecification> GetRouteSpecifications(IEnumerable<Type> controllerTypes)
         {
             return (from controllerType in controllerTypes
                     from actionMethod in controllerType.GetActionMethods()
                     from routeAttribute in actionMethod.GetRouteAttributes()
                     let routeName = routeAttribute.RouteName
-                    select new AttributeRouteSpecification
+                    select new RouteSpecification
                     {
                         AreaName = GetAreaName(actionMethod),
+                        AreaUrl = GetAreaUrl(actionMethod),
                         RoutePrefix = GetRoutePrefix(actionMethod),
                         ControllerType = controllerType,
                         ControllerName = controllerType.GetControllerName(),
@@ -50,13 +53,13 @@ namespace AttributeRouting
                         ActionParameters = actionMethod.GetParameters(),
                         Url = routeAttribute.Url,
                         HttpMethod = routeAttribute.HttpMethod,
-                        DefaultAttributes = GetDefaultAttributes(actionMethod, routeName),
+                        DefaultAttributes = GetDefaultAttributes(actionMethod, routeAttribute),
                         ConstraintAttributes = GetConstraintAttributes(actionMethod, routeName),
                         RouteName = routeName
                     }).ToList();
         }
 
-        private string GetAreaName(MethodInfo actionMethod)
+        private static string GetAreaName(MethodInfo actionMethod)
         {
             var routeAreaAttribute = actionMethod.GetRouteAreaAttribute();
             if (routeAreaAttribute != null)
@@ -65,7 +68,16 @@ namespace AttributeRouting
             return "";
         }
 
-        private string GetRoutePrefix(MethodInfo actionMethod)
+        private static string GetAreaUrl(MethodInfo actionMethod)
+        {
+            var routeAreaAttribute = actionMethod.GetRouteAreaAttribute();
+            if (routeAreaAttribute != null)
+                return routeAreaAttribute.AreaUrl;
+
+            return "";
+        }
+
+        private static string GetRoutePrefix(MethodInfo actionMethod)
         {
             var routePrefixAttribute = actionMethod.GetRoutePrefixAttribute();
             if (routePrefixAttribute != null)
@@ -74,20 +86,20 @@ namespace AttributeRouting
             return "";
         }
 
-        private IEnumerable<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName)
+        private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, RouteAttribute attribute)
         {
-            return from defaultAttribute in actionMethod.GetCustomAttributes<RouteDefaultAttribute>(false)
-                   where !defaultAttribute.ForRouteNamed.HasValue() ||
-                         defaultAttribute.ForRouteNamed == routeName
-                   select defaultAttribute;
+            return (from defaultAttribute in actionMethod.GetCustomAttributes<RouteDefaultAttribute>(false)
+                    where !defaultAttribute.ForRouteNamed.HasValue() ||
+                          defaultAttribute.ForRouteNamed == attribute.RouteName
+                    select defaultAttribute).ToList();
         }
 
-        private IEnumerable<RouteConstraintAttribute> GetConstraintAttributes(MethodInfo actionMethod, string routeName)
+        private static ICollection<RouteConstraintAttribute> GetConstraintAttributes(MethodInfo actionMethod, string routeName)
         {
-            return from constraintAttribute in actionMethod.GetCustomAttributes<RouteConstraintAttribute>(false)
-                   where !constraintAttribute.ForRouteNamed.HasValue() ||
-                         constraintAttribute.ForRouteNamed == routeName
-                   select constraintAttribute;
+            return (from constraintAttribute in actionMethod.GetCustomAttributes<RouteConstraintAttribute>(false)
+                    where !constraintAttribute.ForRouteNamed.HasValue() ||
+                          constraintAttribute.ForRouteNamed == routeName
+                    select constraintAttribute).ToList();
         }
     }
 }

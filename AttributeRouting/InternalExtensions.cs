@@ -31,10 +31,13 @@ namespace AttributeRouting
             return String.Format(s, args);
         }
 
-        public static bool IsValidUrl(this string s, bool allowCurlyBraces)
+        public static bool IsValidUrl(this string s, bool allowTokens = false)
         {
             var urlParts = s.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-            var invalidUrlPattern = @"[#%&\*{0}\\:<>?/\+]|\.\.|\.$|^ | $".FormatWith(allowCurlyBraces ? "" : @"\{\}");
+
+            var invalidUrlPattern = @"[#%&\*\\:<>/\+{0}]|\.\.|\.$|^ | $"
+                .FormatWith(allowTokens ? "" : @"\{\}?");
+
             return !urlParts.Any(p => Regex.IsMatch(p, invalidUrlPattern));
         }
 

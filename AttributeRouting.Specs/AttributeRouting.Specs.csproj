@@ -5,21 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}</ProjectGuid>
+    <ProjectGuid>{E832A82B-2302-4113-83E3-261446E22C87}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AttributeRouting</RootNamespace>
-    <AssemblyName>AttributeRouting</AssemblyName>
+    <RootNamespace>AttributeRouting.Specs</RootNamespace>
+    <AssemblyName>AttributeRouting.Specs</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,44 +31,53 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.5.7.10213, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AttributeRouting.Library\NUnit-2.5.5.10112\bin\net-2.0\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TechTalk.SpecFlow">
+      <HintPath>..\AttributeRouting.Library\SpecFlow-1.3.5.2\TechTalk.SpecFlow.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RouteBuilder.cs" />
-    <Compile Include="AttributeRoutingException.cs" />
-    <Compile Include="AttributeRoutingViewEngine.cs" />
-    <Compile Include="DELETEAttribute.cs" />
-    <Compile Include="InternalExtensions.cs" />
-    <Compile Include="GETAttribute.cs" />
-    <Compile Include="LogRoutesHandler.cs" />
-    <Compile Include="RoutePrefixAttribute.cs" />
-    <Compile Include="RegexRouteConstraint.cs" />
-    <Compile Include="RegexRouteConstraintAttribute.cs" />
-    <Compile Include="HtmlHelperExtensions.cs" />
-    <Compile Include="RouteAreaAttribute.cs" />
-    <Compile Include="RouteConstraintAttribute.cs" />
-    <Compile Include="RouteDefaultAttribute.cs" />
-    <Compile Include="AttributeRoutingConfiguration.cs" />
-    <Compile Include="POSTAttribute.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Features\Routing.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Routing.feature</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PUTAttribute.cs" />
-    <Compile Include="RestfulHttpMethodConstraint.cs" />
-    <Compile Include="RouteSpecification.cs" />
-    <Compile Include="RouteAttribute.cs" />
-    <Compile Include="RouteCollectionExtensions.cs" />
-    <Compile Include="AttributeRoute.cs" />
-    <Compile Include="RouteReflector.cs" />
-    <Compile Include="LoggingExtensions.cs" />
+    <Compile Include="Steps\RoutingSteps.cs" />
+    <Compile Include="Subjects\AreaTestController.cs" />
+    <Compile Include="Subjects\DerivedTestController.cs" />
+    <Compile Include="Subjects\FakeController.cs" />
+    <Compile Include="Subjects\NestedAreaTestController.cs" />
+    <Compile Include="Subjects\NestedTestController.cs" />
+    <Compile Include="Subjects\RestfulTestController.cs" />
+    <Compile Include="Subjects\TestBaseController.cs" />
+    <Compile Include="Subjects\TestController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Features\Routing.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Routing.feature.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">
+      <Project>{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}</Project>
+      <Name>AttributeRouting</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

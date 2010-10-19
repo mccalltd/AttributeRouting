@@ -30,7 +30,7 @@ namespace AttributeRouting
 
         private static void MapAttributeRoutesInternal(this RouteCollection routes, AttributeRoutingConfiguration configuration)
         {
-            var generatedRoutes = new AttributeRoutesGenerator(configuration).Generate();
+            var generatedRoutes = new RouteBuilder(configuration).BuildAllRoutes();
             
             generatedRoutes.ToList().ForEach(r => routes.Add(r.Name, r));
         }

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting", "Attribu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Tests", "AttributeRouting.Tests\AttributeRouting.Tests.csproj", "{76550EAA-397F-4DE7-B771-E19A71BAF02D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Specs", "AttributeRouting.Specs\AttributeRouting.Specs.csproj", "{E832A82B-2302-4113-83E3-261446E22C87}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -29,6 +31,10 @@ Global
 		{76550EAA-397F-4DE7-B771-E19A71BAF02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76550EAA-397F-4DE7-B771-E19A71BAF02D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76550EAA-397F-4DE7-B771-E19A71BAF02D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E832A82B-2302-4113-83E3-261446E22C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E832A82B-2302-4113-83E3-261446E22C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E832A82B-2302-4113-83E3-261446E22C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E832A82B-2302-4113-83E3-261446E22C87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

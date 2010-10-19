@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace AttributeRouting.Tests.Subjects.Controllers
+namespace AttributeRouting.Specs.Subjects
 {
     public class TestController : Controller
     {
@@ -14,8 +10,8 @@ namespace AttributeRouting.Tests.Subjects.Controllers
             return Content("");
         }
 
-        [GET("Test/Multiple", Order = 1)]
         [GET("Test/Multiple/Routes", Order = 2)]
+        [GET("Test/Multiple", Order = 1)]
         [GET("Test/Multiple/Routes/Again", Order = 3)]
         public ActionResult MultipleRoutes()
         {

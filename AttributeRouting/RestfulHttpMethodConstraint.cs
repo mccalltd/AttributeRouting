@@ -12,19 +12,12 @@ namespace AttributeRouting
 
         protected override bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
         {
-            object httpMethod;
-
             if (routeDirection == RouteDirection.UrlGeneration)
-            {
-                if (!values.TryGetValue(parameterName, out httpMethod))
-                    httpMethod = "GET";
-            }
-            else
-                httpMethod = httpContext.Request.GetHttpMethod();
+                return true;
+            
+            var httpMethod = httpContext.Request.GetHttpMethod();
 
-            var match = AllowedMethods.Any(m => m.Equals((string)httpMethod, StringComparison.OrdinalIgnoreCase));
-
-            return match;
+            return AllowedMethods.Any(m => m.Equals(httpMethod, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

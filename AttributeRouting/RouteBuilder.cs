@@ -3,24 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace AttributeRouting
 {
-    public class AttributeRouteBuilder
+    public class RouteBuilder
     {
         private readonly AttributeRoutingConfiguration _configuration;
 
-        public AttributeRouteBuilder(AttributeRoutingConfiguration configuration)
+        public RouteBuilder(AttributeRoutingConfiguration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
             _configuration = configuration;
         }
 
-        public AttributeRoute Build(AttributeRouteSpecification routeSpec)
+        public IEnumerable<AttributeRoute> BuildAllRoutes()
         {
-            return new AttributeRoute(routeSpec.RouteName,
+            var routeSpecificationGenerator = new RouteReflector(_configuration);
+            var routeSpecs = routeSpecificationGenerator.GenerateRouteSpecifications();
+
+            return routeSpecs.Select(Build);
+        }
+        
+        public AttributeRoute Build(RouteSpecification routeSpec)
+        {
+            return new AttributeRoute(CreateRouteName(routeSpec),
                                       CreateRouteUrl(routeSpec),
                                       CreateRouteDefaults(routeSpec),
                                       CreateRouteConstraints(routeSpec),
@@ -28,10 +37,25 @@ namespace AttributeRouting
                                       _configuration.UseLowercaseRoutes);
         }
 
-        private string CreateRouteUrl(AttributeRouteSpecification routeSpec)
+        private string CreateRouteName(RouteSpecification routeSpec)
         {
-            var urlParameterNames = GetUrlParameterNames(routeSpec.Url);
-            
+            if (routeSpec.RouteName.HasValue())
+                return routeSpec.RouteName;
+
+            if (_configuration.AutoGenerateRouteNames)
+            {
+                var area = (routeSpec.AreaName.HasValue()) ? routeSpec.AreaName + "_" : null;
+                return "{0}{1}_{2}".FormatWith(area, routeSpec.ControllerName, routeSpec.ActionName);
+            }
+
+            return null;
+        }
+
+        private string CreateRouteUrl(RouteSpecification routeSpec)
+        {
+            var detokenizedUrl = DetokenizeUrl(routeSpec.Url);
+            var urlParameterNames = GetUrlParameterNames(detokenizedUrl);
+
             // {controller} and {action} tokens are not valid
             if (urlParameterNames.Any(n => n.ValueEquals("controller")))
                 throw new AttributeRoutingException("{controller} is not a valid url parameter.");
@@ -40,21 +64,21 @@ namespace AttributeRouting
 
             // Explicitly defined area routes are not valid
             if (urlParameterNames.Any(n => n.ValueEquals("area")))
-                    throw new AttributeRoutingException(
-                        "{area} url parameters are not allowed. Specify the area name by using the RouteAreaAttribute.");
+                throw new AttributeRoutingException(
+                    "{area} url parameters are not allowed. Specify the area name by using the RouteAreaAttribute.");
 
-            var urlBuilder = new StringBuilder(routeSpec.Url);
+            var urlBuilder = new StringBuilder(detokenizedUrl);
 
             if (routeSpec.RoutePrefix.HasValue() && !routeSpec.Url.StartsWith(routeSpec.RoutePrefix))
                 urlBuilder.Insert(0, routeSpec.RoutePrefix + "/");
-            
-            if (routeSpec.AreaName.HasValue() && !routeSpec.Url.StartsWith(routeSpec.AreaName))
-                urlBuilder.Insert(0, routeSpec.AreaName + "/");
+
+            if (routeSpec.AreaUrl.HasValue() && !routeSpec.Url.StartsWith(routeSpec.RoutePrefix))
+                urlBuilder.Insert(0, routeSpec.AreaUrl + "/");
 
             return urlBuilder.ToString();
         }
 
-        private RouteValueDictionary CreateRouteDefaults(AttributeRouteSpecification routeSpec)
+        private RouteValueDictionary CreateRouteDefaults(RouteSpecification routeSpec)
         {
             var defaults = new RouteValueDictionary
             {
@@ -65,10 +89,20 @@ namespace AttributeRouting
             foreach (var defaultAttribute in routeSpec.DefaultAttributes.Where(d => !defaults.ContainsKey(d.Key)))
                 defaults.Add(defaultAttribute.Key, defaultAttribute.Value);
 
+            // Inspect the url for optional parameters, specified with a leading ?
+            var optionalParameterDefaults =
+                from parameter in GetUrlParameterContents(routeSpec.Url)
+                where parameter.StartsWith("?")
+                let parameterName = parameter.TrimStart('?')
+                select new RouteDefaultAttribute(parameterName, UrlParameter.Optional);
+
+            foreach (var defautAttribute in optionalParameterDefaults.Where(d => !defaults.ContainsKey(d.Key)))
+                defaults.Add(defautAttribute.Key, defautAttribute.Value);
+
             return defaults;
         }
 
-        private RouteValueDictionary CreateRouteConstraints(AttributeRouteSpecification routeSpec)
+        private RouteValueDictionary CreateRouteConstraints(RouteSpecification routeSpec)
         {
             var constraints = new RouteValueDictionary();
 
@@ -82,7 +116,9 @@ namespace AttributeRouting
             // Automatic constraints on primitive types
             if (_configuration.ConstrainPrimitiveRouteParameters)
             {
-                var parametersToConstrain = from urlParameterName in GetUrlParameterNames(routeSpec.Url)
+                var detokenizedUrl = DetokenizeUrl(routeSpec.Url);
+
+                var parametersToConstrain = from urlParameterName in GetUrlParameterNames(detokenizedUrl)
                                             where !constraints.ContainsKey(urlParameterName)
                                             from parameter in routeSpec.ActionParameters
                                             where parameter.Name == urlParameterName
@@ -99,7 +135,7 @@ namespace AttributeRouting
             return constraints;
         }
 
-        private RouteValueDictionary CreateRouteDataTokens(AttributeRouteSpecification routeSpec)
+        private RouteValueDictionary CreateRouteDataTokens(RouteSpecification routeSpec)
         {
             var dataTokens = new RouteValueDictionary
             {
@@ -115,9 +151,20 @@ namespace AttributeRouting
             return dataTokens;
         }
 
+        private static string DetokenizeUrl(string url)
+        {
+            return Regex.Replace(url, @"\{\?", "{");
+        }
+
         private static IEnumerable<string> GetUrlParameterNames(string url)
         {
             return (from match in Regex.Matches(url, @"(?<={)\w*(?=})").Cast<Match>()
+                    select match.Captures[0].ToString()).ToList();
+        }
+
+        private static IEnumerable<string> GetUrlParameterContents(string url)
+        {
+            return (from match in Regex.Matches(url, @"(?<={).*?(?=})").Cast<Match>()
                     select match.Captures[0].ToString()).ToList();
         }
 

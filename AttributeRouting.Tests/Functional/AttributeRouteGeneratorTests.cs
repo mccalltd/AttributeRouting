@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Web.Mvc;
 using AttributeRouting.Tests.Subjects.Controllers;
 using NUnit.Framework;
 
@@ -17,9 +18,9 @@ namespace AttributeRouting.Tests.Functional.AttributeRouteGeneratorTests
         {
             var configuration = CreateConfiguration();
             
-            var routeGenerator = new AttributeRoutesGenerator(configuration);
+            var routeGenerator = new RouteBuilder(configuration);
 
-            Routes = routeGenerator.Generate();
+            Routes = routeGenerator.BuildAllRoutes();
 
             SetUp();
         }
@@ -65,9 +66,26 @@ namespace AttributeRouting.Tests.Functional.AttributeRouteGeneratorTests
         }
 
         [Test]
-        public void it_creates_16_routes()
+        public void it_creates_17_routes()
         {
-            Routes.Count().ShouldEqual(16);
+            Routes.Count().ShouldEqual(17);
+        }
+    }
+
+    public class when_generating_routes_containing_an_optional_url_parameter_token : when_generating_routes
+    {
+        private AttributeRoute _action;
+
+        protected override void SetUp()
+        {
+            _action = FetchRoute("Test", "OptionalParametersWithAToken");
+        }
+
+        [Test]
+        public void each_optional_parameter_has_a_default_of_urlparameter_optional()
+        {
+            new List<string> { "p1", "p2", "p3" }
+                .ForEach(key => _action.Defaults[key].ShouldEqual(UrlParameter.Optional));
         }
     }
 
