@@ -7,6 +7,8 @@ namespace AttributeRouting
 {
     public class RegexRouteConstraint : IRouteConstraint 
     {
+        public RegexRouteConstraint(string pattern) : this(pattern, RegexOptions.None) { }
+
         public RegexRouteConstraint(string pattern, RegexOptions options)
         {
             Pattern = pattern;

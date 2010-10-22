@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace AttributeRouting
 {
@@ -13,6 +14,7 @@ namespace AttributeRouting
             AddScannedRoutes = true;
             UseLowercaseRoutes = false;
             ConstrainPrimitiveRouteParameters = true;
+            DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
 
             Assemblies = new List<Assembly>();
             PromotedControllerTypes = new List<Type>();
@@ -21,7 +23,8 @@ namespace AttributeRouting
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }
         internal bool AddScannedRoutes { get; set; }
-        
+        internal IDictionary<string, IRouteConstraint> DefaultRouteConstraints { get; set; }
+
         /// <summary>
         /// When true, the route generator will automatically add route constraints 
         /// for URL parameters that map to action parameters with primitive types.
@@ -103,6 +106,18 @@ namespace AttributeRouting
         public void AddTheRemainingScannedRoutes()
         {
             AddScannedRoutes = true;
+        }
+
+        /// <summary>
+        /// Automatically applies the specified constaint against url parameters
+        /// with names that match the given regular expression.
+        /// </summary>
+        /// <param name="keyRegex">The regex used to match url parameter names</param>
+        /// <param name="constraint">The constraint to apply to matched parameters</param>
+        public void AddDefaultRouteConstraint(string keyRegex, IRouteConstraint constraint)
+        {
+            if (!DefaultRouteConstraints.ContainsKey(keyRegex))
+                DefaultRouteConstraints.Add(keyRegex, constraint);
         }
     }
 }

@@ -113,23 +113,16 @@ namespace AttributeRouting
             foreach (var constraintAttribute in routeSpec.ConstraintAttributes.Where(c => !constraints.ContainsKey(c.Key)))
                 constraints.Add(constraintAttribute.Key, constraintAttribute.Constraint);
 
-            // Automatic constraints on primitive types
-            if (_configuration.ConstrainPrimitiveRouteParameters)
+            var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec));
+            var urlParameterNames = GetUrlParameterNames(detokenizedUrl);
+
+            // Convention-based constraints
+            foreach (var defaultConstraint in _configuration.DefaultRouteConstraints)
             {
-                var detokenizedUrl = DetokenizeUrl(routeSpec.Url);
-
-                var parametersToConstrain = from urlParameterName in GetUrlParameterNames(detokenizedUrl)
-                                            where !constraints.ContainsKey(urlParameterName)
-                                            from parameter in routeSpec.ActionParameters
-                                            where parameter.Name == urlParameterName
-                                            select parameter;
-
-                foreach (var parameter in parametersToConstrain)
-                {
-                    var regex = GetRegexForType(parameter.ParameterType);
-                    if (regex != null)
-                        constraints.Add(parameter.Name, regex);
-                }
+                var pattern = defaultConstraint.Key;
+                var urlParameterName = urlParameterNames.FirstOrDefault(n => Regex.IsMatch(n, pattern));
+                if (urlParameterName.HasValue())
+                    constraints.Add(urlParameterName, defaultConstraint.Value);
             }
 
             return constraints;
@@ -166,14 +159,6 @@ namespace AttributeRouting
         {
             return (from match in Regex.Matches(url, @"(?<={).*?(?=})").Cast<Match>()
                     select match.Captures[0].ToString()).ToList();
-        }
-
-        private static string GetRegexForType(Type type)
-        {
-            if (type == typeof(int))
-                return @"[-+]?\b\d+\b";
-
-            return null;
         }
     }
 }

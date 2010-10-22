@@ -52,9 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttributeRoutingViewEngine.cs" />
     <Compile Include="RouteBuilder.cs" />
     <Compile Include="AttributeRoutingException.cs" />
-    <Compile Include="AttributeRoutingViewEngine.cs" />
     <Compile Include="DELETEAttribute.cs" />
     <Compile Include="InternalExtensions.cs" />
     <Compile Include="GETAttribute.cs" />
