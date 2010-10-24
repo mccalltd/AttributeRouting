@@ -13,7 +13,6 @@ namespace AttributeRouting
         {
             AddScannedRoutes = true;
             UseLowercaseRoutes = false;
-            ConstrainPrimitiveRouteParameters = true;
             DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
 
             Assemblies = new List<Assembly>();
@@ -25,13 +24,6 @@ namespace AttributeRouting
         internal bool AddScannedRoutes { get; set; }
         internal IDictionary<string, IRouteConstraint> DefaultRouteConstraints { get; set; }
 
-        /// <summary>
-        /// When true, the route generator will automatically add route constraints 
-        /// for URL parameters that map to action parameters with primitive types.
-        /// The default is true.
-        /// </summary>
-        public bool ConstrainPrimitiveRouteParameters { get; set; }
-        
         /// <summary>
         /// When true, the generated routes will produce lowercase outbound URLs.
         /// The default is false.
