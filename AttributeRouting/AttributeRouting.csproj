@@ -62,7 +62,6 @@
     <Compile Include="RoutePrefixAttribute.cs" />
     <Compile Include="RegexRouteConstraint.cs" />
     <Compile Include="RegexRouteConstraintAttribute.cs" />
-    <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="RouteAreaAttribute.cs" />
     <Compile Include="RouteConstraintAttribute.cs" />
     <Compile Include="RouteDefaultAttribute.cs" />
