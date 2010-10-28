@@ -9,7 +9,8 @@
 
     <h2>Edit Resource</h2>
 
-    <% Html.BeginFormPOST("Update"); %>
+    <% Html.BeginForm("Update"); %>
+        <%: Html.HttpMethodOverride(HttpVerbs.Put) %>
         <input type="submit" value="Update" />
     <% Html.EndForm(); %>
 

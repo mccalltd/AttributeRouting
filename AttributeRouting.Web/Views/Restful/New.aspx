@@ -9,7 +9,7 @@
 
     <h2>New Resource</h2>
 
-    <% Html.BeginFormPUT("Create"); %>
+    <% Html.BeginForm("Create"); %>
         <input type="submit" value="Create" />
     <% Html.EndForm(); %>
 

@@ -9,7 +9,8 @@
 
     <h2>Delete Resource</h2>
 
-    <% Html.BeginFormDELETE("Destroy"); %>
+    <% Html.BeginForm("Destroy"); %>
+        <%: Html.HttpMethodOverride(HttpVerbs.Delete) %>
         <input type="submit" value="Destroy" />
     <% Html.EndForm(); %>
 
