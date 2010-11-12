@@ -16,8 +16,6 @@ namespace AttributeRouting.Web
             AreaRegistration.RegisterAllAreas();
 
             RegisterRoutes(RouteTable.Routes);
-
-            ViewEngines.Engines.Insert(0, new AttributeRoutingViewEngine());
         }
 
         public static void RegisterRoutes(RouteCollection routes)

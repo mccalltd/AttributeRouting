@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeRoutingViewEngine.cs" />
     <Compile Include="RouteBuilder.cs" />
     <Compile Include="AttributeRoutingException.cs" />
     <Compile Include="DELETEAttribute.cs" />
@@ -80,6 +79,10 @@
     <Compile Include="LoggingExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

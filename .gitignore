@@ -5,3 +5,4 @@ _ReSharper.*
 *.csproj.user
 *.suo
 *.cache
+AttributeRouting.NuGet/lib
