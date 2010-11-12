@@ -21,8 +21,8 @@ namespace AttributeRouting
 
         public IEnumerable<AttributeRoute> BuildAllRoutes()
         {
-            var routeSpecificationGenerator = new RouteReflector(_configuration);
-            var routeSpecs = routeSpecificationGenerator.GenerateRouteSpecifications();
+            var routeReflector = new RouteReflector(_configuration);
+            var routeSpecs = routeReflector.GenerateRouteSpecifications();
 
             return routeSpecs.Select(Build);
         }

@@ -22,15 +22,12 @@ namespace AttributeRouting
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
-            var virtualPath = base.GetVirtualPath(requestContext, values);
+            var data = base.GetVirtualPath(requestContext, values);
 
-            if (!_useLowercaseRoutes)
-                return virtualPath;
+            if (_useLowercaseRoutes && data != null)
+                data.VirtualPath = data.VirtualPath.ToLowerInvariant();
 
-            if (virtualPath != null)
-                virtualPath.VirtualPath = virtualPath.VirtualPath.ToLowerInvariant();
-
-            return virtualPath;
+            return data;
         }
     }
 }
