@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{21478775
 	ProjectSection(SolutionItems) = preProject
 		AttributeRouting.NuGet\content\AppStart_AttributeRouting.cs.pp = AttributeRouting.NuGet\content\AppStart_AttributeRouting.cs.pp
 		AttributeRouting.NuGet\AttributeRouting.nuspec = AttributeRouting.NuGet\AttributeRouting.nuspec
+		AttributeRouting.NuGet\Content\web.config.transform = AttributeRouting.NuGet\Content\web.config.transform
 	EndProjectSection
 EndProject
 Global
