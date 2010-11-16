@@ -36,7 +36,7 @@ namespace AttributeRouting.Specs.Steps
         public void WhenIFetchTheRoutesFor(string controllerName)
         {
             _routes = from route in RouteTable.Routes.Cast<Route>()
-                      where route.Defaults["controller"].ToString() == controllerName 
+                      where route.Defaults["controller"].ToString() == controllerName
                       select route;
         }
 
@@ -51,7 +51,7 @@ namespace AttributeRouting.Specs.Steps
         {
             var i = nth.HasValue() ? int.Parse(nth) - 1 : 0;
             var route = _routes.ElementAt(i);
-            
+
             Assert.That(route, Is.Not.Null);
             Assert.That(route.Url, Is.EqualTo(url));
         }
@@ -74,6 +74,16 @@ namespace AttributeRouting.Specs.Steps
             Assert.That(route.Defaults[key], Is.EqualTo(value));
         }
 
+        [Then(@"the parameter ""(.*?)"" is constrained by the pattern ""(.*?)""")]
+        public void ThenTheParameterIsContrainedBy(string key, object pattern)
+        {
+            var route = _routes.First();
+
+            Assert.That(route, Is.Not.Null);
+            Assert.That(route.Constraints[key], Is.TypeOf(typeof(RegexRouteConstraint)));
+            Assert.That(((RegexRouteConstraint)route.Constraints[key]).Pattern, Is.EqualTo(pattern));
+        }
+
         [Then(@"the namespace is ""(.*?)""")]
         public void ThenTheNamespaceIs(string ns)
         {
@@ -87,11 +97,11 @@ namespace AttributeRouting.Specs.Steps
         public void ThenTheRouteForIsConstrainedToRequests(string action, string method)
         {
             var route = _routes.SingleOrDefault(r => r.Defaults["action"].ToString() == action);
-            
+
             Assert.That(route, Is.Not.Null);
 
             var constraint = route.Constraints["httpMethod"] as RestfulHttpMethodConstraint;
-            
+
             Assert.That(constraint, Is.Not.Null);
             Assert.That(constraint.AllowedMethods.Count, Is.EqualTo(1));
             Assert.That(constraint.AllowedMethods.First(), Is.EqualTo(method));

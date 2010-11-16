@@ -34,4 +34,17 @@ Scenario: Multiple routes for a single action
 	 And the 2nd route url is "Test/Multiple/Routes"
 	 And the 3rd route url is "Test/Multiple/Routes/Again"
 
+Scenario: Route defaults
+	When I fetch the routes for the Test controller's Default action
+	Then the default for "param1" is "mapleleaf"
 
+Scenario: Regex route constraints specified with an attribute
+	When I fetch the routes for the Test controller's Constraint action
+	Then the parameter "cat" is constrained by the pattern "^(kitty|meow-meow|purrbot)$"
+
+Scenario: Multiple routes with different defaults and constraints for a single action
+	When I fetch the routes for the Test controller's MultipleRoutesWithDefaultsAndConstraints action
+	Then the route named "FirstDitty" has a default for "number" of 666
+	 And the route named "FirstDitty" has a contraint on "number" of "^\d{4}$" 
+	 And the route named "SecondDitty" has a default for "number" of 777
+	 And the route named "SecondDitty" has a contraint on "number" of "^\d{1}$" 

@@ -31,7 +31,7 @@ namespace AttributeRouting.Specs.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Route Builder", "In order to generate routes for the MVC framework\r\nAs a user of the library\r\nI wa" +
-                    "nt to have routes built according to my specifications", "");
+                    "nt to have routes built according to my specifications", GenerationTargetLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -142,6 +142,58 @@ this.ScenarioSetup(scenarioInfo);
   testRunner.And("the 2nd route url is \"Test/Multiple/Routes\"");
 #line 35
   testRunner.And("the 3rd route url is \"Test/Multiple/Routes/Again\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Route defaults")]
+        public virtual void RouteDefaults()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route defaults", ((string[])(null)));
+#line 37
+this.ScenarioSetup(scenarioInfo);
+#line 38
+ testRunner.When("I fetch the routes for the Test controller\'s Default action");
+#line 39
+ testRunner.Then("the default for \"param1\" is \"mapleleaf\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Regex route constraints specified with an attribute")]
+        public virtual void RegexRouteConstraintsSpecifiedWithAnAttribute()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Regex route constraints specified with an attribute", ((string[])(null)));
+#line 41
+this.ScenarioSetup(scenarioInfo);
+#line 42
+ testRunner.When("I fetch the routes for the Test controller\'s Constraint action");
+#line 43
+ testRunner.Then("the parameter \"cat\" is constrained by the pattern \"^(kitty|meow-meow|purrbot)$\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Multiple routes with different defaults and constraints for a single action")]
+        public virtual void MultipleRoutesWithDifferentDefaultsAndConstraintsForASingleAction()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple routes with different defaults and constraints for a single action", ((string[])(null)));
+#line 45
+this.ScenarioSetup(scenarioInfo);
+#line 46
+ testRunner.When("I fetch the routes for the Test controller\'s MultipleRoutesWithDefaultsAndConstra" +
+                    "ints action");
+#line 47
+ testRunner.Then("the route named \"FirstDitty\" has a default for \"number\" of 666");
+#line 48
+  testRunner.And("the route named \"FirstDitty\" has a contraint on \"number\" of \"^\\d{4}$\"");
+#line 49
+  testRunner.And("the route named \"SecondDitty\" has a default for \"number\" of 777");
+#line 50
+  testRunner.And("the route named \"SecondDitty\" has a contraint on \"number\" of \"^\\d{1}$\"");
 #line hidden
             testRunner.CollectScenarioErrors();
         }
