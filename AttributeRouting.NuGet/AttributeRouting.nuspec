@@ -7,5 +7,8 @@
     <description>AttributeRouting is a library that allows you to specify routes using attributes on your MVC controllers and actions.</description>
     <language>en-US</language>
     <projectUrl>https://github.com/mccalltd/AttributeRouting/wiki/_pages</projectUrl>
+    <dependencies>
+      <dependency id="WebActivator" version="1.0.0.0" />
+    </dependencies>
   </metadata>
 </package>
