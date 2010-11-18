@@ -5,7 +5,6 @@ namespace AttributeRouting.Web.Controllers
     public class RestfulController : ControllerBase
     {
         [GET("Resources")]
-        [GET("Resources/Index")]
         public ActionResult Index()
         {
             return View();
@@ -17,7 +16,7 @@ namespace AttributeRouting.Web.Controllers
             return View();
         }
 
-        [PUT("Resources")]
+        [POST("Resources")]
         public ActionResult Create()
         {
             Flash("Resource Created");
@@ -36,7 +35,7 @@ namespace AttributeRouting.Web.Controllers
             return View();
         }
 
-        [POST("Resources/{id}")]
+        [PUT("Resources/{id}")]
         public ActionResult Update(int id)
         {
             Flash("Resource Updated");

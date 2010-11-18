@@ -10,7 +10,7 @@
 
     <p>
         The AttributeRouting documentation is available at 
-        <a href="http://wiki.github.com/mccalltd/AttributeRouting/">github</a>.
+        <a href="http://wiki.github.com/mccalltd/AttributeRouting/" target="_blank">github</a>.
     </p>
    
 </asp:Content>

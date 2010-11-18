@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
-<%@ Import Namespace="AttributeRouting" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Edit
@@ -9,7 +8,7 @@
 
     <h2>Edit Resource</h2>
 
-    <% Html.BeginForm("Update"); %>
+    <% Html.BeginForm("Update", "Restful"); %>
         <%: Html.HttpMethodOverride(HttpVerbs.Put) %>
         <input type="submit" value="Update" />
     <% Html.EndForm(); %>

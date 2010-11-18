@@ -74,10 +74,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminControllerBase.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Admin\AdminControllerBase.cs" />
-    <Compile Include="Controllers\Admin\HomeController.cs" />
-    <Compile Include="Controllers\Admin\UsersController.cs" />
     <Compile Include="Controllers\NestedController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -89,12 +90,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Views\Home\Index.aspx" />
+    <Content Include="Areas\Admin\Views\Users\Index.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Views\Account\ChangePassword.aspx" />
     <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Account\Register.aspx" />
-    <Content Include="Views\Admin\Home\Index.aspx" />
     <Content Include="Views\Nested\Index.aspx" />
     <Content Include="Views\Nested\Show.aspx" />
     <Content Include="Views\Restful\Delete.aspx" />
@@ -103,7 +105,6 @@
     <Content Include="Views\Restful\New.aspx" />
     <Content Include="Views\Restful\Show.aspx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
-    <Content Include="Views\Admin\Users\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -119,6 +120,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">
@@ -127,10 +130,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="CodeTemplates\AddController\Controller.tt" />
-    <None Include="CodeTemplates\AddView\RestfulNew.tt" />
-    <None Include="CodeTemplates\AddView\RestfulDelete.tt" />
-    <None Include="CodeTemplates\AddView\RestfulEdit.tt" />
+    <Content Include="Areas\Admin\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
