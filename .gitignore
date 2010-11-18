@@ -6,3 +6,4 @@ _ReSharper.*
 *.suo
 *.cache
 AttributeRouting.NuGet/lib
+AttributeRouting.Web/App_Data
