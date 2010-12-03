@@ -42,5 +42,7 @@ namespace AttributeRouting
         public ICollection<RouteConstraintAttribute> ConstraintAttributes { get; set; }
 
         public string RouteName { get; set; }
+
+        public bool IsAbsoluteUrl { get; set; }
     }
 }

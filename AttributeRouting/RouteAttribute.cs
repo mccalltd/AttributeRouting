@@ -32,7 +32,12 @@ namespace AttributeRouting
         public int Order { get; set; }
 
         public string RouteName { get; set; }
-        
+
+        /// <summary>
+        /// If true, the generated route url will be applied from the root, skipping any relevant area name or route prefix.
+        /// </summary>
+        public bool IsAbsolute { get; set; }
+
         public override bool IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
         {
             var httpMethod = (string)(controllerContext.RouteData.Values["httpMethod"] ??

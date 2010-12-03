@@ -69,11 +69,15 @@ namespace AttributeRouting
 
             var urlBuilder = new StringBuilder(detokenizedUrl);
 
-            if (routeSpec.RoutePrefix.HasValue() && !routeSpec.Url.StartsWith(routeSpec.RoutePrefix))
-                urlBuilder.Insert(0, routeSpec.RoutePrefix + "/");
+            // If this is an absolute url, do not prefix with a route prefix or area name
+            if (routeSpec.IsAbsoluteUrl)
+            {
+                if (routeSpec.RoutePrefix.HasValue() && !routeSpec.Url.StartsWith(routeSpec.RoutePrefix))
+                    urlBuilder.Insert(0, routeSpec.RoutePrefix + "/");
 
-            if (routeSpec.AreaUrl.HasValue() && !routeSpec.Url.StartsWith(routeSpec.AreaName))
-                urlBuilder.Insert(0, routeSpec.AreaUrl + "/");
+                if (routeSpec.AreaUrl.HasValue() && !routeSpec.Url.StartsWith(routeSpec.AreaName))
+                    urlBuilder.Insert(0, routeSpec.AreaUrl + "/");
+            }
 
             return urlBuilder.ToString();
         }

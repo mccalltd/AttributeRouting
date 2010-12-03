@@ -55,7 +55,8 @@ namespace AttributeRouting
                         HttpMethod = routeAttribute.HttpMethod,
                         DefaultAttributes = GetDefaultAttributes(actionMethod, routeAttribute),
                         ConstraintAttributes = GetConstraintAttributes(actionMethod, routeName),
-                        RouteName = routeName
+                        RouteName = routeName,
+                        IsAbsoluteUrl = routeAttribute.IsAbsolute
                     }).ToList();
         }
 
