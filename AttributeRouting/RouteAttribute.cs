@@ -36,7 +36,7 @@ namespace AttributeRouting
         /// <summary>
         /// If true, the generated route url will be applied from the root, skipping any relevant area name or route prefix.
         /// </summary>
-        public bool IsAbsolute { get; set; }
+        public bool IsAbsoluteUrl { get; set; }
 
         public override bool IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
         {
