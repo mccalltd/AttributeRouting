@@ -119,7 +119,7 @@ namespace AttributeRouting
             // Otherwise, this is a convention-based controller, get the convention-based prefix
             var conventionAttribute = actionMethod.DeclaringType.GetCustomAttribute<RestfulRouteConventionAttribute>(false);
             if (conventionAttribute != null)
-                return conventionAttribute.GetRoutePrefix(actionMethod);
+                return conventionAttribute.GetDefaultRoutePrefix(actionMethod);
 
             return "";
         }

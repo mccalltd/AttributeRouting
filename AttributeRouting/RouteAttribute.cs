@@ -28,14 +28,27 @@ namespace AttributeRouting
 
             Url = url;
             HttpMethod = httpMethod;
+            Order = int.MaxValue;
         }
 
+        /// <summary>
+        /// The url for this action.
+        /// </summary>
         public string Url { get; private set; }
 
+        /// <summary>
+        /// The HttpMethod this route is constrained against.
+        /// </summary>
         public string HttpMethod { get; private set; }
 
+        /// <summary>
+        /// The order of this route among all the routes defined against this action.
+        /// </summary>
         public int Order { get; set; }
 
+        /// <summary>
+        /// The name of this route will be registered with in the RouteTable.
+        /// </summary>
         public string RouteName { get; set; }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace AttributeRouting
                 yield return new RouteAttribute(convention.Url, convention.HttpMethod);
         }
 
-        public override string GetRoutePrefix(MethodInfo actionMethod)
+        public override string GetDefaultRoutePrefix(MethodInfo actionMethod)
         {
             return actionMethod.DeclaringType.GetControllerName();
         }

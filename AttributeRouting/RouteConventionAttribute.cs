@@ -11,7 +11,7 @@ namespace AttributeRouting
     {
         public abstract IEnumerable<RouteAttribute> GetRouteAttributes(MethodInfo actionMethod);
 
-        public virtual string GetRoutePrefix(MethodInfo action)
+        public virtual string GetDefaultRoutePrefix(MethodInfo action)
         {
             return "";
         }
