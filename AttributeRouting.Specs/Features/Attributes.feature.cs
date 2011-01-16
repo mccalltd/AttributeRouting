@@ -292,6 +292,25 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             testRunner.CollectScenarioErrors();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Specifying route order within a controller using the RouteActionOrder attribute")]
+        public virtual void SpecifyingRouteOrderWithinAControllerUsingTheRouteActionOrderAttribute()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Specifying route order within a controller using the RouteActionOrder attribute", ((string[])(null)));
+#line 74
+this.ScenarioSetup(scenarioInfo);
+#line 75
+ testRunner.When("I fetch the routes for the ActionOrderTest controller");
+#line 76
+ testRunner.Then("the 1st route url is \"Route1\"");
+#line 77
+  testRunner.And("the 2nd route url is \"Route2\"");
+#line 78
+  testRunner.And("the 3rd route url is \"Route3\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
     }
 }
 #endregion

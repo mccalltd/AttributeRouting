@@ -6,6 +6,10 @@ namespace AttributeRouting
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public abstract class RouteConstraintAttribute : Attribute
     {
+        /// <summary>
+        /// Specify a constraint for a url parameter defined in a RouteAttribute applied to this action.
+        /// </summary>
+        /// <param name="key">The key of the url parameter</param>
         protected RouteConstraintAttribute(string key)
         {
             if (key == null) throw new ArgumentNullException("key");

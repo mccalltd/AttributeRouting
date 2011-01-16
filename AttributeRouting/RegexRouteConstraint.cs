@@ -7,8 +7,17 @@ namespace AttributeRouting
 {
     public class RegexRouteConstraint : IRouteConstraint 
     {
+        /// <summary>
+        /// Applies a regex constraint against the associated url parameter.
+        /// </summary>
+        /// <param name="pattern">The regex pattern used to constrain the url parameter</param>
         public RegexRouteConstraint(string pattern) : this(pattern, RegexOptions.None) { }
 
+        /// <summary>
+        /// Applies a regex constraint against the associated url parameter.
+        /// </summary>
+        /// <param name="pattern">The regex pattern used to constrain the url parameter</param>
+        /// <param name="options">The RegexOptions to use when testing the url parameter value</param>
         public RegexRouteConstraint(string pattern, RegexOptions options)
         {
             Pattern = pattern;

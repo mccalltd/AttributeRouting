@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RestfulRouteConventionAttribute.cs" />
+    <Compile Include="RouteActionOrderAttribute.cs" />
     <Compile Include="RouteBuilder.cs" />
     <Compile Include="AttributeRoutingException.cs" />
     <Compile Include="DELETEAttribute.cs" />

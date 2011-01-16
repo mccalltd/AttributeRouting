@@ -9,6 +9,11 @@ namespace AttributeRouting
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class RouteAttribute : ActionMethodSelectorAttribute
     {
+        /// <summary>
+        /// Specify the route information for this action.
+        /// </summary>
+        /// <param name="url">The url that is associated with this action</param>
+        /// <param name="httpMethod">The httpMethod against which to constrain the route</param>
         public RouteAttribute(string url, string httpMethod)
         {
             if (url == null) throw new ArgumentNullException("url");

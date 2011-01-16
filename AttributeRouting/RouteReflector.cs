@@ -41,6 +41,7 @@ namespace AttributeRouting
             return (from controllerType in controllerTypes
                     from actionMethod in controllerType.GetActionMethods()
                     from routeAttribute in actionMethod.GetRouteAttributes()
+                    orderby GetActionOrder(actionMethod)
                     let routeName = routeAttribute.RouteName
                     select new RouteSpecification
                     {
@@ -58,6 +59,15 @@ namespace AttributeRouting
                         RouteName = routeName,
                         IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl
                     }).ToList();
+        }
+
+        private static int GetActionOrder(MethodInfo actionMethod)
+        {
+            var actionOrderAttribute = actionMethod.GetCustomAttributes<RouteActionOrderAttribute>(false).SingleOrDefault();
+            if (actionOrderAttribute != null)
+                return actionOrderAttribute.ActionOrder;
+
+            return int.MaxValue;
         }
 
         private static string GetAreaName(MethodInfo actionMethod)

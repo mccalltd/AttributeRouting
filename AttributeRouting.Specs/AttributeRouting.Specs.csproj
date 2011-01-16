@@ -75,6 +75,7 @@
     <Compile Include="Steps\AttributesSteps.cs" />
     <Compile Include="Steps\LoggingSteps.cs" />
     <Compile Include="Subjects\AbsoluteUrlTestController.cs" />
+    <Compile Include="Subjects\ActionOrderTestController.cs" />
     <Compile Include="Subjects\AreaTestController.cs" />
     <Compile Include="Subjects\FakeController.cs" />
     <Compile Include="Subjects\NestedAreaTestController.cs" />

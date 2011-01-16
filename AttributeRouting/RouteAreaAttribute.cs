@@ -9,6 +9,10 @@ namespace AttributeRouting
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class RouteAreaAttribute : Attribute
     {
+        /// <summary>
+        /// Specify an area to contain all the routes for this controller.
+        /// </summary>
+        /// <param name="areaName">The name of the containing area</param>
         public RouteAreaAttribute(string areaName)
         {
             if (areaName == null) throw new ArgumentNullException("areaName");

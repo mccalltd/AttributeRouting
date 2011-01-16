@@ -70,3 +70,9 @@ Scenario: Generating routes with both the RouteArea and RoutePrefix attribute
 Scenario: Generating routes using the IsAbsoluteUrl property of the RouteAttributes
 	When I fetch the routes for the AbsoluteUrlTest controller's Index action
 	Then the route url is "Something/Else"
+
+Scenario: Specifying route order within a controller using the RouteActionOrder attribute
+	When I fetch the routes for the ActionOrderTest controller
+	Then the 1st route url is "Route1"
+	 And the 2nd route url is "Route2"
+	 And the 3rd route url is "Route3"
