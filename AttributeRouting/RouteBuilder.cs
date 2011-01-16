@@ -69,8 +69,8 @@ namespace AttributeRouting
 
             var urlBuilder = new StringBuilder(detokenizedUrl);
 
-            // If this is an absolute url, do not prefix with a route prefix or area name
-            if (routeSpec.IsAbsoluteUrl)
+            // If this is not an absolute url, prefix with a route prefix or area name
+            if (!routeSpec.IsAbsoluteUrl)
             {
                 if (routeSpec.RoutePrefix.HasValue() && !routeSpec.Url.StartsWith(routeSpec.RoutePrefix))
                     urlBuilder.Insert(0, routeSpec.RoutePrefix + "/");
