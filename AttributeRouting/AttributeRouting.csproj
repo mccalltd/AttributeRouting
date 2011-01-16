@@ -54,12 +54,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RestfulRouteConventionAttribute.cs" />
     <Compile Include="RouteBuilder.cs" />
     <Compile Include="AttributeRoutingException.cs" />
     <Compile Include="DELETEAttribute.cs" />
     <Compile Include="InternalExtensions.cs" />
     <Compile Include="GETAttribute.cs" />
     <Compile Include="LogRoutesHandler.cs" />
+    <Compile Include="RouteConventionAttribute.cs" />
     <Compile Include="RoutePrefixAttribute.cs" />
     <Compile Include="RegexRouteConstraint.cs" />
     <Compile Include="RegexRouteConstraintAttribute.cs" />

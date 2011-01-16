@@ -53,7 +53,7 @@ namespace AttributeRouting
                         ActionParameters = actionMethod.GetParameters(),
                         Url = routeAttribute.Url,
                         HttpMethod = routeAttribute.HttpMethod,
-                        DefaultAttributes = GetDefaultAttributes(actionMethod, routeAttribute),
+                        DefaultAttributes = GetDefaultAttributes(actionMethod, routeName),
                         ConstraintAttributes = GetConstraintAttributes(actionMethod, routeName),
                         RouteName = routeName,
                         IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl
@@ -87,11 +87,11 @@ namespace AttributeRouting
             return "";
         }
 
-        private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, RouteAttribute attribute)
+        private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName)
         {
             return (from defaultAttribute in actionMethod.GetCustomAttributes<RouteDefaultAttribute>(false)
                     where !defaultAttribute.ForRouteNamed.HasValue() ||
-                          defaultAttribute.ForRouteNamed == attribute.RouteName
+                          defaultAttribute.ForRouteNamed == routeName
                     select defaultAttribute).ToList();
         }
 

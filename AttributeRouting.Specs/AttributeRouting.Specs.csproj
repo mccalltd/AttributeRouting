@@ -61,6 +61,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Configuration.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Conventions.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Conventions.feature</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\AttributesSteps.cs" />
     <Compile Include="Subjects\AbsoluteUrlTestController.cs" />
@@ -68,6 +73,7 @@
     <Compile Include="Subjects\FakeController.cs" />
     <Compile Include="Subjects\NestedAreaTestController.cs" />
     <Compile Include="Subjects\NestedTestController.cs" />
+    <Compile Include="Subjects\RestfulRouteConventionTestController.cs" />
     <Compile Include="Subjects\RestfulTestController.cs" />
     <Compile Include="Subjects\TestController.cs" />
   </ItemGroup>
@@ -79,6 +85,10 @@
     <None Include="Features\Configuration.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Configuration.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Conventions.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Conventions.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup />

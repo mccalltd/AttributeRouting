@@ -1,1 +1,1 @@
-﻿Feature: Configuration
+﻿Feature: Configuring Routes
