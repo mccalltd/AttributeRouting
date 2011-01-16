@@ -17,21 +17,20 @@ namespace AttributeRouting.Specs.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Route Builder")]
-    public partial class RouteBuilderFeature
+    [NUnit.Framework.DescriptionAttribute("Using Atributes to Define Routes")]
+    public partial class UsingAtributesToDefineRoutesFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "Routing.feature"
+#line 1 "Attributes.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Route Builder", "In order to generate routes for the MVC framework\r\nAs a user of the library\r\nI wa" +
-                    "nt to have routes built according to my specifications", GenerationTargetLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Using Atributes to Define Routes", "", GenerationTargetLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -56,8 +55,8 @@ namespace AttributeRouting.Specs.Features
         
         public virtual void FeatureBackground()
         {
-#line 6
-#line 7
+#line 3
+#line 4
  testRunner.Given("I generate the routes defined in the subject controllers");
 #line hidden
         }
@@ -67,17 +66,17 @@ namespace AttributeRouting.Specs.Features
         public virtual void GeneratingRoutesForAnActionMethod()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes for an action method", ((string[])(null)));
-#line 9
+#line 6
 this.ScenarioSetup(scenarioInfo);
-#line 10
+#line 7
  testRunner.When("I fetch the routes for the RestfulTest controller\'s Index action");
-#line 11
+#line 8
  testRunner.Then("the route url is \"Resources\"");
-#line 12
+#line 9
   testRunner.And("the default for \"controller\" is \"RestfulTest\"");
-#line 13
+#line 10
   testRunner.And("the default for \"action\" is \"Index\"");
-#line 14
+#line 11
   testRunner.And("the namespace is \"AttributeRouting.Specs.Subjects\"");
 #line hidden
             testRunner.CollectScenarioErrors();
@@ -88,39 +87,18 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void GeneratingRoutesWithTheRestfulHttpMethodAttribute()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes with the restful http method attribute", ((string[])(null)));
-#line 16
+#line 13
 this.ScenarioSetup(scenarioInfo);
-#line 17
+#line 14
  testRunner.When("I fetch the routes for the RestfulTest controller");
-#line 18
+#line 15
  testRunner.Then("the route for Index is constrained to GET requests");
-#line 19
+#line 16
   testRunner.And("the route for Create is constrained to POST requests");
-#line 20
+#line 17
   testRunner.And("the route for Update is constrained to PUT requests");
-#line 21
+#line 18
   testRunner.And("the route for Destroy is constrained to DELETE requests");
-#line hidden
-            testRunner.CollectScenarioErrors();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Optional parameters specified with a url parameter token")]
-        public virtual void OptionalParametersSpecifiedWithAUrlParameterToken()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Optional parameters specified with a url parameter token", ((string[])(null)));
-#line 23
-this.ScenarioSetup(scenarioInfo);
-#line 24
- testRunner.When("I fetch the routes for the Test controller\'s OptionalParametersWithAToken action");
-#line 25
- testRunner.Then("the route url is \"Test/Optionals/{p1}/{p2}/{p3}\"");
-#line 26
-  testRunner.And("the parameter p1 is optional");
-#line 27
-  testRunner.And("the parameter p2 is optional");
-#line 28
-  testRunner.And("the parameter p3 is optional");
 #line hidden
             testRunner.CollectScenarioErrors();
         }
@@ -130,17 +108,17 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void MultipleRoutesForASingleAction()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple routes for a single action", ((string[])(null)));
-#line 30
+#line 20
 this.ScenarioSetup(scenarioInfo);
-#line 31
+#line 21
  testRunner.When("I fetch the routes for the Test controller\'s MultipleRoutes action");
-#line 32
+#line 22
  testRunner.Then("3 routes should be found");
-#line 33
+#line 23
   testRunner.And("the 1st route url is \"Test/Multiple\"");
-#line 34
+#line 24
   testRunner.And("the 2nd route url is \"Test/Multiple/Routes\"");
-#line 35
+#line 25
   testRunner.And("the 3rd route url is \"Test/Multiple/Routes/Again\"");
 #line hidden
             testRunner.CollectScenarioErrors();
@@ -151,12 +129,33 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void RouteDefaults()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route defaults", ((string[])(null)));
-#line 37
+#line 27
 this.ScenarioSetup(scenarioInfo);
-#line 38
+#line 28
  testRunner.When("I fetch the routes for the Test controller\'s Default action");
-#line 39
+#line 29
  testRunner.Then("the default for \"param1\" is \"mapleleaf\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Optional parameters specified with a url parameter token")]
+        public virtual void OptionalParametersSpecifiedWithAUrlParameterToken()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Optional parameters specified with a url parameter token", ((string[])(null)));
+#line 31
+this.ScenarioSetup(scenarioInfo);
+#line 32
+ testRunner.When("I fetch the routes for the Test controller\'s OptionalParametersWithAToken action");
+#line 33
+ testRunner.Then("the route url is \"Test/Optionals/{p1}/{p2}/{p3}\"");
+#line 34
+  testRunner.And("the parameter p1 is optional");
+#line 35
+  testRunner.And("the parameter p2 is optional");
+#line 36
+  testRunner.And("the parameter p3 is optional");
 #line hidden
             testRunner.CollectScenarioErrors();
         }
@@ -166,11 +165,11 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void RegexRouteConstraintsSpecifiedWithAnAttribute()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Regex route constraints specified with an attribute", ((string[])(null)));
-#line 41
+#line 38
 this.ScenarioSetup(scenarioInfo);
-#line 42
+#line 39
  testRunner.When("I fetch the routes for the Test controller\'s Constraint action");
-#line 43
+#line 40
  testRunner.Then("the parameter \"cat\" is constrained by the pattern \"^(kitty|meow-meow|purrbot)$\"");
 #line hidden
             testRunner.CollectScenarioErrors();
@@ -181,19 +180,115 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void MultipleRoutesWithDifferentDefaultsAndConstraintsForASingleAction()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple routes with different defaults and constraints for a single action", ((string[])(null)));
-#line 45
+#line 42
 this.ScenarioSetup(scenarioInfo);
-#line 46
+#line 43
  testRunner.When("I fetch the routes for the Test controller\'s MultipleRoutesWithDefaultsAndConstra" +
                     "ints action");
-#line 47
+#line 44
  testRunner.Then("the route named \"FirstDitty\" has a default for \"number\" of 666");
-#line 48
-  testRunner.And("the route named \"FirstDitty\" has a contraint on \"number\" of \"^\\d{4}$\"");
-#line 49
+#line 45
+  testRunner.And("the route named \"FirstDitty\" has a constraint on \"number\" of \"^\\d{4}$\"");
+#line 46
   testRunner.And("the route named \"SecondDitty\" has a default for \"number\" of 777");
+#line 47
+  testRunner.And("the route named \"SecondDitty\" has a constraint on \"number\" of \"^\\d{1}$\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes with the RouteArea attribute")]
+        public virtual void GeneratingRoutesWithTheRouteAreaAttribute()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes with the RouteArea attribute", ((string[])(null)));
+#line 49
+this.ScenarioSetup(scenarioInfo);
 #line 50
-  testRunner.And("the route named \"SecondDitty\" has a contraint on \"number\" of \"^\\d{1}$\"");
+ testRunner.When("I fetch the routes for the AreaTest controller\'s Index action");
+#line 51
+ testRunner.Then("the route url is \"Area/Test\"");
+#line 52
+  testRunner.And("the data token for \"area\" is \"Area\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes with the RouteArea attribute on actions that specify a duplicat" +
+            "e area prefix")]
+        public virtual void GeneratingRoutesWithTheRouteAreaAttributeOnActionsThatSpecifyADuplicateAreaPrefix()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes with the RouteArea attribute on actions that specify a duplicat" +
+                    "e area prefix", ((string[])(null)));
+#line 54
+this.ScenarioSetup(scenarioInfo);
+#line 55
+ testRunner.When("I fetch the routes for the AreaTest controller\'s DuplicateArea action");
+#line 56
+ testRunner.Then("the route url is \"Area/DuplicateArea\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating nested routes with the RoutePrefix attribute")]
+        public virtual void GeneratingNestedRoutesWithTheRoutePrefixAttribute()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating nested routes with the RoutePrefix attribute", ((string[])(null)));
+#line 58
+this.ScenarioSetup(scenarioInfo);
+#line 59
+ testRunner.When("I fetch the routes for the NestedTest controller\'s Index action");
+#line 60
+ testRunner.Then("the route url is \"Parent/{parentId}/Child\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating nested routes with the RoutePrefix attribute on actions that specify a" +
+            " duplicate prefix")]
+        public virtual void GeneratingNestedRoutesWithTheRoutePrefixAttributeOnActionsThatSpecifyADuplicatePrefix()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating nested routes with the RoutePrefix attribute on actions that specify a" +
+                    " duplicate prefix", ((string[])(null)));
+#line 62
+this.ScenarioSetup(scenarioInfo);
+#line 63
+ testRunner.When("I fetch the routes for the NestedTest controller\'s DuplicateNest action");
+#line 64
+ testRunner.Then("the route url is \"Parent/{parentId}/DuplicateNest\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes with both the RouteArea and RoutePrefix attribute")]
+        public virtual void GeneratingRoutesWithBothTheRouteAreaAndRoutePrefixAttribute()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes with both the RouteArea and RoutePrefix attribute", ((string[])(null)));
+#line 66
+this.ScenarioSetup(scenarioInfo);
+#line 67
+ testRunner.When("I fetch the routes for the NestedAreaTest controller\'s Index action");
+#line 68
+ testRunner.Then("the route url is \"Area/Parent/{parentId}/Child\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the IsAbsoluteUrl property of the RouteAttributes")]
+        public virtual void GeneratingRoutesUsingTheIsAbsoluteUrlPropertyOfTheRouteAttributes()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes using the IsAbsoluteUrl property of the RouteAttributes", ((string[])(null)));
+#line 70
+this.ScenarioSetup(scenarioInfo);
+#line 71
+ testRunner.When("I fetch the routes for the AbsoluteUrlTest controller\'s Index action");
+#line 72
+ testRunner.Then("the route url is \"Something/Else\"");
 #line hidden
             testRunner.CollectScenarioErrors();
         }
