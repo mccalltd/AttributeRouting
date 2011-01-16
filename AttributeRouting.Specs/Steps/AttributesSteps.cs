@@ -96,7 +96,7 @@ namespace AttributeRouting.Specs.Steps
         [Then(@"the route for (.*?) is constrained to (.*?) requests")]
         public void ThenTheRouteForIsConstrainedToRequests(string action, string method)
         {
-            var route = _routes.SingleOrDefault(r => r.Defaults["action"].ToString() == action);
+            var route = _routes.FirstOrDefault(r => r.Defaults["action"].ToString() == action);
 
             Assert.That(route, Is.Not.Null);
 

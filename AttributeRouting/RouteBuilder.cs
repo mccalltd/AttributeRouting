@@ -79,7 +79,7 @@ namespace AttributeRouting
                     urlBuilder.Insert(0, routeSpec.AreaUrl + "/");
             }
 
-            return urlBuilder.ToString();
+            return urlBuilder.ToString().Trim('/');
         }
 
         private RouteValueDictionary CreateRouteDefaults(RouteSpecification routeSpec)

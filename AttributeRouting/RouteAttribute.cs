@@ -7,9 +7,9 @@ using System.Web.Mvc;
 namespace AttributeRouting
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public abstract class RouteAttribute : ActionMethodSelectorAttribute
+    public class RouteAttribute : ActionMethodSelectorAttribute
     {
-        protected RouteAttribute(string url, string httpMethod)
+        public RouteAttribute(string url, string httpMethod)
         {
             if (url == null) throw new ArgumentNullException("url");
             if (Regex.IsMatch(url, @"^\/|\/$") || !url.IsValidUrl(true))

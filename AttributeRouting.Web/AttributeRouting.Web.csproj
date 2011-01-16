@@ -83,6 +83,7 @@
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RestfulController.cs" />
+    <Compile Include="Controllers\RestfulConventionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -97,6 +98,11 @@
     <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\RestfulConvention\Delete.aspx" />
+    <Content Include="Views\RestfulConvention\Edit.aspx" />
+    <Content Include="Views\RestfulConvention\Index.aspx" />
+    <Content Include="Views\RestfulConvention\New.aspx" />
+    <Content Include="Views\RestfulConvention\Show.aspx" />
     <Content Include="Views\Nested\Index.aspx" />
     <Content Include="Views\Nested\Show.aspx" />
     <Content Include="Views\Restful\Delete.aspx" />

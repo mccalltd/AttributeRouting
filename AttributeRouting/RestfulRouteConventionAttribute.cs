@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -21,27 +22,11 @@ namespace AttributeRouting
             new RestfulRouteConventionInfo("Destroy", "DELETE", "{id}")
         };
 
-        public override IEnumerable<RouteSpecification> BuildRoutes(IEnumerable<RouteSpecification> routeSpecs)
+        public override IEnumerable<RouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
         {
-            foreach (var routeSpec in routeSpecs)
-            {
-                // Do not override any routes already defined via a RouteAttribute
-                if (routeSpec.Url != null)
-                    yield return routeSpec;
-
-                // Handle conventional actions
-                var convention = Conventions.SingleOrDefault(c => c.ActionName == routeSpec.ActionName);
-                if (convention != null)
-                {
-                    routeSpec.HttpMethod = convention.HttpMethod;
-                    routeSpec.Url = convention.Url;
-
-                    yield return routeSpec;
-                }
-                
-                // If the route spec does not pertain to an explictly defined route or a conventional route, 
-                // then do not yield.
-            }
+            var convention = Conventions.SingleOrDefault(c => c.ActionName == actionMethod.Name);
+            if (convention != null)
+                yield return new RouteAttribute(convention.Url, convention.HttpMethod);
         }
 
         private class RestfulRouteConventionInfo

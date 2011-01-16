@@ -1,59 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Web;
 using System.Web.Mvc;
 
-namespace AttributeRouting.Specs.Subjects
+namespace AttributeRouting.Web.Controllers
 {
     [RestfulRouteConvention]
-    public class RestfulRouteConventionTestController : Controller
+    [RoutePrefix("Conventions")]
+    public class RestfulConventionController : ControllerBase
     {
-        [GET("Legacy", IsAbsoluteUrl = true)]
         public ActionResult Index()
         {
-            return Content("");
+            return View();
         }
 
         public ActionResult New()
         {
-            return Content("");
+            return View();
         }
 
         public ActionResult Create()
         {
-            return Content("");
+            Flash("Resource Created");
+            return RedirectToAction("Show", new { id = 1 });
         }
 
         public ActionResult Show(int id)
         {
-            return Content("");
+            return View();
         }
 
         public ActionResult Edit(int id)
         {
-            return Content("");
+            return View();
         }
 
         public ActionResult Update(int id)
         {
-            return Content("");
+            Flash("Resource Updated");
+            return RedirectToAction("Show");
         }
 
         public ActionResult Delete(int id)
         {
-            return Content("");
+            return View();
         }
 
         public ActionResult Destroy(int id)
         {
-            return Content("");
-        }
-
-        [GET("Custom")]
-        public ActionResult Custom()
-        {
-            return Content("");
+            Flash("Resource Destroyed");
+            return RedirectToAction("Index");
         }
     }
 }

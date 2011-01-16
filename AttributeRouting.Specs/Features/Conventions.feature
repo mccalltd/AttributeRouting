@@ -3,7 +3,7 @@
 Background: 
 	Given I generate the routes defined in the subject controllers
 
-Scenario Outline: Generating routes using a custom RouteConvention
+Scenario Outline: Generating routes using the RestfulRouteConvention
 	When I fetch the routes for the RestfulRouteConventionTest controller's <action> action
 	Then the route url is "<url>"
 	 And the default for "controller" is "RestfulRouteConventionTest"
@@ -11,12 +11,18 @@ Scenario Outline: Generating routes using a custom RouteConvention
 	 And the route for <action> is constrained to <method> requests
 
 	Examples:
-		| action	| method	| url										|
-		| Index		| GET		| RestfulRouteConventionTest				|
-		| New		| GET		| RestfulRouteConventionTest/New			|		
-		| Create	| POST		| RestfulRouteConventionTest				|		
-		| Show		| GET		| RestfulRouteConventionTest/{id}			|		
-		| Edit		| GET		| RestfulRouteConventionTest/{id}/Edit		|		
-		| Update	| PUT		| RestfulRouteConventionTest/{id}			|		
-		| Delete	| GET		| RestfulRouteConventionTest/{id}/Delete	|		
-		| Destroy	| DELETE	| RestfulRouteConventionTest/{id}			|		
+		| action	| method	| url			|
+		| Index		| GET		|				|
+		| New		| GET		| New			|		
+		| Create	| POST		|				|		
+		| Show		| GET		| {id}			|		
+		| Edit		| GET		| {id}/Edit		|		
+		| Update	| PUT		| {id}			|		
+		| Delete	| GET		| {id}/Delete	|		
+		| Destroy	| DELETE	| {id}			|		
+		| Custom	| GET		| Custom		|
+
+Scenario: Generating routes using the RestfulRouteConvention on actions with an explicit route defined
+	When I fetch the routes for the RestfulRouteConventionTest controller's Index action
+	Then the 1st route url is ""
+	 And the 2nd route url is "Legacy"
