@@ -80,6 +80,9 @@
     <Compile Include="RouteReflector.cs" />
     <Compile Include="LoggingExtensions.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LogRoutes.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
