@@ -80,6 +80,7 @@
     <Compile Include="Subjects\FakeController.cs" />
     <Compile Include="Subjects\NestedAreaTestController.cs" />
     <Compile Include="Subjects\NestedTestController.cs" />
+    <Compile Include="Subjects\RestfulRouteConventionPrefixTestController.cs" />
     <Compile Include="Subjects\RestfulRouteConventionTestController.cs" />
     <Compile Include="Subjects\RestfulTestController.cs" />
     <Compile Include="Subjects\TestController.cs" />

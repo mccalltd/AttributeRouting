@@ -10,5 +10,10 @@ namespace AttributeRouting
     public abstract class RouteConventionAttribute : Attribute
     {
         public abstract IEnumerable<RouteAttribute> GetRouteAttributes(MethodInfo actionMethod);
+
+        public virtual string GetRoutePrefix(MethodInfo action)
+        {
+            return "";
+        }
     }
 }

@@ -29,6 +29,11 @@ namespace AttributeRouting
                 yield return new RouteAttribute(convention.Url, convention.HttpMethod);
         }
 
+        public override string GetRoutePrefix(MethodInfo actionMethod)
+        {
+            return actionMethod.DeclaringType.GetControllerName();
+        }
+
         private class RestfulRouteConventionInfo
         {
             public RestfulRouteConventionInfo(string actionName, string httpMethod, string url)

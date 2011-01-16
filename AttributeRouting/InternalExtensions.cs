@@ -69,30 +69,14 @@ namespace AttributeRouting
             return type.GetCustomAttributes(typeof(TAttribute), inherit).Cast<TAttribute>();
         }
 
+        public static TAttribute GetCustomAttribute<TAttribute>(this Type type, bool inherit)
+        {
+            return type.GetCustomAttributes(typeof(TAttribute), inherit).Cast<TAttribute>().FirstOrDefault();
+        }
+
         public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this MethodInfo method, bool inherit)
         {
             return method.GetCustomAttributes(typeof(TAttribute), inherit).Cast<TAttribute>();
-        }
-
-        public static IEnumerable<RouteAttribute> GetRouteAttributes(this MethodInfo actionMethod)
-        {
-            // Yield convention-based attributes
-            var conventionalAttributes =
-                from attribute in actionMethod.DeclaringType.GetCustomAttributes<RestfulRouteConventionAttribute>(false)
-                from routeAttribute in attribute.GetRouteAttributes(actionMethod)
-                select routeAttribute;
-
-            foreach (var conventionalAttribute in conventionalAttributes)
-                yield return conventionalAttribute;
-
-            // Yield explicitly-defined attributes
-            var explicitAttributes =
-                from routeAttribute in actionMethod.GetCustomAttributes<RouteAttribute>(false)
-                orderby routeAttribute.Order
-                select routeAttribute;
-
-            foreach (var explicitAttribute in explicitAttributes)
-                yield return explicitAttribute;
         }
 
         public static RouteAreaAttribute GetRouteAreaAttribute(this MethodInfo method)

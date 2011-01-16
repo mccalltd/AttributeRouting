@@ -84,63 +84,148 @@ this.ScenarioSetup(scenarioInfo);
         [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention")]
         public virtual void GeneratingRoutesUsingTheRestfulRouteConvention_Index()
         {
-            this.GeneratingRoutesUsingTheRestfulRouteConvention("Index", "GET", "");
+            this.GeneratingRoutesUsingTheRestfulRouteConvention("Index", "GET", "RestfulRouteConventionTest");
         }
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention")]
         public virtual void GeneratingRoutesUsingTheRestfulRouteConvention_New()
         {
-            this.GeneratingRoutesUsingTheRestfulRouteConvention("New", "GET", "New");
+            this.GeneratingRoutesUsingTheRestfulRouteConvention("New", "GET", "RestfulRouteConventionTest/New");
         }
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention")]
         public virtual void GeneratingRoutesUsingTheRestfulRouteConvention_Create()
         {
-            this.GeneratingRoutesUsingTheRestfulRouteConvention("Create", "POST", "");
+            this.GeneratingRoutesUsingTheRestfulRouteConvention("Create", "POST", "RestfulRouteConventionTest");
         }
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention")]
         public virtual void GeneratingRoutesUsingTheRestfulRouteConvention_Show()
         {
-            this.GeneratingRoutesUsingTheRestfulRouteConvention("Show", "GET", "{id}");
+            this.GeneratingRoutesUsingTheRestfulRouteConvention("Show", "GET", "RestfulRouteConventionTest/{id}");
         }
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention")]
         public virtual void GeneratingRoutesUsingTheRestfulRouteConvention_Edit()
         {
-            this.GeneratingRoutesUsingTheRestfulRouteConvention("Edit", "GET", "{id}/Edit");
+            this.GeneratingRoutesUsingTheRestfulRouteConvention("Edit", "GET", "RestfulRouteConventionTest/{id}/Edit");
         }
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention")]
         public virtual void GeneratingRoutesUsingTheRestfulRouteConvention_Update()
         {
-            this.GeneratingRoutesUsingTheRestfulRouteConvention("Update", "PUT", "{id}");
+            this.GeneratingRoutesUsingTheRestfulRouteConvention("Update", "PUT", "RestfulRouteConventionTest/{id}");
         }
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention")]
         public virtual void GeneratingRoutesUsingTheRestfulRouteConvention_Delete()
         {
-            this.GeneratingRoutesUsingTheRestfulRouteConvention("Delete", "GET", "{id}/Delete");
+            this.GeneratingRoutesUsingTheRestfulRouteConvention("Delete", "GET", "RestfulRouteConventionTest/{id}/Delete");
         }
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention")]
         public virtual void GeneratingRoutesUsingTheRestfulRouteConvention_Destroy()
         {
-            this.GeneratingRoutesUsingTheRestfulRouteConvention("Destroy", "DELETE", "{id}");
+            this.GeneratingRoutesUsingTheRestfulRouteConvention("Destroy", "DELETE", "RestfulRouteConventionTest/{id}");
         }
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention")]
         public virtual void GeneratingRoutesUsingTheRestfulRouteConvention_Custom()
         {
-            this.GeneratingRoutesUsingTheRestfulRouteConvention("Custom", "GET", "Custom");
+            this.GeneratingRoutesUsingTheRestfulRouteConvention("Custom", "GET", "RestfulRouteConventionTest/Custom");
+        }
+        
+        public virtual void GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute(string action, string method, string url)
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes using the RestfulRouteConvention on controllers with a RoutePre" +
+                    "fix attribute", ((string[])(null)));
+#line 25
+this.ScenarioSetup(scenarioInfo);
+#line 26
+ testRunner.When(string.Format("I fetch the routes for the RestfulRouteConventionPrefixTest controller\'s {0} acti" +
+                        "on", action));
+#line 27
+ testRunner.Then(string.Format("the route url is \"{0}\"", url));
+#line 28
+  testRunner.And("the default for \"controller\" is \"RestfulRouteConventionPrefixTest\"");
+#line 29
+  testRunner.And(string.Format("the default for \"action\" is \"{0}\"", action));
+#line 30
+  testRunner.And(string.Format("the route for {0} is constrained to {1} requests", action, method));
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention on controllers with a RoutePre" +
+            "fix attribute")]
+        public virtual void GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute_Index()
+        {
+            this.GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute("Index", "GET", "Prefix");
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention on controllers with a RoutePre" +
+            "fix attribute")]
+        public virtual void GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute_New()
+        {
+            this.GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute("New", "GET", "Prefix/New");
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention on controllers with a RoutePre" +
+            "fix attribute")]
+        public virtual void GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute_Create()
+        {
+            this.GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute("Create", "POST", "Prefix");
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention on controllers with a RoutePre" +
+            "fix attribute")]
+        public virtual void GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute_Show()
+        {
+            this.GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute("Show", "GET", "Prefix/{id}");
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention on controllers with a RoutePre" +
+            "fix attribute")]
+        public virtual void GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute_Edit()
+        {
+            this.GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute("Edit", "GET", "Prefix/{id}/Edit");
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention on controllers with a RoutePre" +
+            "fix attribute")]
+        public virtual void GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute_Update()
+        {
+            this.GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute("Update", "PUT", "Prefix/{id}");
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention on controllers with a RoutePre" +
+            "fix attribute")]
+        public virtual void GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute_Delete()
+        {
+            this.GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute("Delete", "GET", "Prefix/{id}/Delete");
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention on controllers with a RoutePre" +
+            "fix attribute")]
+        public virtual void GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute_Destroy()
+        {
+            this.GeneratingRoutesUsingTheRestfulRouteConventionOnControllersWithARoutePrefixAttribute("Destroy", "DELETE", "Prefix/{id}");
         }
         
         [NUnit.Framework.TestAttribute()]
@@ -150,13 +235,13 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes using the RestfulRouteConvention on actions with an explicit ro" +
                     "ute defined", ((string[])(null)));
-#line 25
+#line 43
 this.ScenarioSetup(scenarioInfo);
-#line 26
+#line 44
  testRunner.When("I fetch the routes for the RestfulRouteConventionTest controller\'s Index action");
-#line 27
- testRunner.Then("the 1st route url is \"\"");
-#line 28
+#line 45
+ testRunner.Then("the 1st route url is \"RestfulRouteConventionTest\"");
+#line 46
   testRunner.And("the 2nd route url is \"Legacy\"");
 #line hidden
             testRunner.CollectScenarioErrors();

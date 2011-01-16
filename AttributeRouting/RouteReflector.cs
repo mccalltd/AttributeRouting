@@ -40,7 +40,7 @@ namespace AttributeRouting
         {
             return (from controllerType in controllerTypes
                     from actionMethod in controllerType.GetActionMethods()
-                    from routeAttribute in actionMethod.GetRouteAttributes()
+                    from routeAttribute in GetRouteAttributes(actionMethod)
                     orderby GetActionOrder(actionMethod)
                     let routeName = routeAttribute.RouteName
                     select new RouteSpecification
@@ -59,6 +59,27 @@ namespace AttributeRouting
                         RouteName = routeName,
                         IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl
                     }).ToList();
+        }
+
+        private static IEnumerable<RouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
+        {
+            // Yield convention-based attributes
+            var conventionalAttributes =
+                from attribute in actionMethod.DeclaringType.GetCustomAttributes<RestfulRouteConventionAttribute>(false)
+                from routeAttribute in attribute.GetRouteAttributes(actionMethod)
+                select routeAttribute;
+
+            foreach (var conventionalAttribute in conventionalAttributes)
+                yield return conventionalAttribute;
+
+            // Yield explicitly-defined attributes
+            var explicitAttributes =
+                from routeAttribute in actionMethod.GetCustomAttributes<RouteAttribute>(false)
+                orderby routeAttribute.Order
+                select routeAttribute;
+
+            foreach (var explicitAttribute in explicitAttributes)
+                yield return explicitAttribute;
         }
 
         private static int GetActionOrder(MethodInfo actionMethod)
@@ -90,9 +111,15 @@ namespace AttributeRouting
 
         private static string GetRoutePrefix(MethodInfo actionMethod)
         {
+            // Return an explicitly defined route prefix, if defined
             var routePrefixAttribute = actionMethod.GetRoutePrefixAttribute();
             if (routePrefixAttribute != null)
                 return routePrefixAttribute.Url;
+
+            // Otherwise, this is a convention-based controller, get the convention-based prefix
+            var conventionAttribute = actionMethod.DeclaringType.GetCustomAttribute<RestfulRouteConventionAttribute>(false);
+            if (conventionAttribute != null)
+                return conventionAttribute.GetRoutePrefix(actionMethod);
 
             return "";
         }
