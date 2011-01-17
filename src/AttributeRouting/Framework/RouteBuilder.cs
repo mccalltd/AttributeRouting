@@ -5,8 +5,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AttributeRouting.Extensions;
 
-namespace AttributeRouting
+namespace AttributeRouting.Framework
 {
     public class RouteBuilder
     {
@@ -26,7 +27,7 @@ namespace AttributeRouting
 
             return routeSpecs.Select(Build);
         }
-        
+
         public AttributeRoute Build(RouteSpecification routeSpec)
         {
             return new AttributeRoute(CreateRouteName(routeSpec),
@@ -114,7 +115,8 @@ namespace AttributeRouting
             constraints.Add("httpMethod", new RestfulHttpMethodConstraint(routeSpec.HttpMethod));
 
             // Attribute-based constraints
-            foreach (var constraintAttribute in routeSpec.ConstraintAttributes.Where(c => !constraints.ContainsKey(c.Key)))
+            foreach (
+                var constraintAttribute in routeSpec.ConstraintAttributes.Where(c => !constraints.ContainsKey(c.Key)))
                 constraints.Add(constraintAttribute.Key, constraintAttribute.Constraint);
 
             var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec));

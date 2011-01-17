@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
+using AttributeRouting.Extensions;
 
 namespace AttributeRouting
 {
+    /// <summary>
+    /// Automatically generates RESTful-style routes for controller actions matching 
+    /// Index, New, Create, Show, Edit, Update, Delete, and Destroy.
+    /// </summary>
     public class RestfulRouteConventionAttribute : RouteConventionAttribute
     {
         // Setup conventions

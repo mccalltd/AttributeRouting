@@ -2,53 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 
-namespace AttributeRouting
+namespace AttributeRouting.Extensions
 {
-    internal static class InternalExtensions
+    internal static class ReflectionExtensions
     {
-        public static string GetControllerName(this Type type)
-        {
-            return Regex.Replace(type.Name, "Controller$", "");
-        }
-
-        public static bool ValueEquals(this string s, string other)
-        {
-            return s.Equals(other, StringComparison.OrdinalIgnoreCase);
-        }
-
-        public static bool HasValue(this string s)
-        {
-            return !String.IsNullOrWhiteSpace(s);
-        }
-
-        public static string FormatWith(this string s, params object[] args)
-        {
-            return String.Format(s, args);
-        }
-
-        public static bool IsValidUrl(this string s, bool allowTokens = false)
-        {
-            var urlParts = s.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-
-            var invalidUrlPattern = @"[#%&\*\\:<>/\+{0}]|\.\.|\.$|^ | $"
-                .FormatWith(allowTokens ? "" : @"\{\}?");
-
-            return !urlParts.Any(p => Regex.IsMatch(p, invalidUrlPattern));
-        }
-
-        public static string GetHttpMethod(this HttpRequestBase request)
-        {
-            return request.Headers["X-HTTP-Method-Override"] ??
-                   request.Form["X-HTTP-Method-Override"] ??
-                   request.QueryString["X-HTTP-Method-Override"] ??
-                   request.HttpMethod;
-        }
-
         public static IEnumerable<Type> GetControllerTypes(this Assembly assembly)
         {
             return from type in assembly.GetTypes()

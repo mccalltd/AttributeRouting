@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Web.Mvc;
+using AttributeRouting.Extensions;
 
-namespace AttributeRouting
+namespace AttributeRouting.Framework
 {
     public class RouteReflector
     {
@@ -45,7 +44,8 @@ namespace AttributeRouting
                     let convention = controllerType.GetCustomAttribute<RouteConventionAttribute>(false)
                     from actionMethod in controllerType.GetActionMethods()
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
-                    orderby controllerIndex, routeAttribute.Precedence // precedence is within a controller
+                    orderby controllerIndex , routeAttribute.Precedence
+                    // precedence is within a controller
                     let routeName = routeAttribute.RouteName
                     select new RouteSpecification
                     {
@@ -65,7 +65,8 @@ namespace AttributeRouting
                     }).ToList();
         }
 
-        private static IEnumerable<RouteAttribute> GetRouteAttributes(MethodInfo actionMethod, RouteConventionAttribute convention)
+        private static IEnumerable<RouteAttribute> GetRouteAttributes(MethodInfo actionMethod,
+                                                                      RouteConventionAttribute convention)
         {
             // Yield convention-based attributes first
             if (convention != null)
@@ -113,7 +114,8 @@ namespace AttributeRouting
             return "";
         }
 
-        private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName, RouteConventionAttribute convention)
+        private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName,
+                                                                               RouteConventionAttribute convention)
         {
             var defaultAttributes = new List<RouteDefaultAttribute>();
 
@@ -131,7 +133,9 @@ namespace AttributeRouting
             return defaultAttributes.ToList();
         }
 
-        private static ICollection<RouteConstraintAttribute> GetConstraintAttributes(MethodInfo actionMethod, string routeName, RouteConventionAttribute convention)
+        private static ICollection<RouteConstraintAttribute> GetConstraintAttributes(MethodInfo actionMethod,
+                                                                                     string routeName,
+                                                                                     RouteConventionAttribute convention)
         {
             var constraintAttributes = new List<RouteConstraintAttribute>();
 

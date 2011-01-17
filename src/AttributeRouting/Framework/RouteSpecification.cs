@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace AttributeRouting
+namespace AttributeRouting.Framework
 {
     public class RouteSpecification
     {

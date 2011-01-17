@@ -3,6 +3,9 @@ using System.Web.Routing;
 
 namespace AttributeRouting
 {
+    /// <summary>
+    /// Constrains a url parameter by a regex pattern.
+    /// </summary>
     public class RegexRouteConstraintAttribute : RouteConstraintAttribute
     {
         /// <summary>
@@ -10,7 +13,7 @@ namespace AttributeRouting
         /// </summary>
         /// <param name="key">The key of the url parameter</param>
         /// <param name="pattern">The regex pattern used to constrain the url parameter</param>
-        public RegexRouteConstraintAttribute(string key, string pattern) 
+        public RegexRouteConstraintAttribute(string key, string pattern)
             : this(key, pattern, RegexOptions.None) {}
 
         /// <summary>
@@ -18,16 +21,22 @@ namespace AttributeRouting
         /// </summary>
         /// <param name="key">The key of the url parameter</param>
         /// <param name="pattern">The regex pattern used to constrain the url parameter</param>
-        /// <param name="options">The RegexOptions to use when testing the url parameter value</param>
-        public RegexRouteConstraintAttribute(string key, string pattern, RegexOptions options) 
+        /// <param name="options">The RegexOptions used when testing the url parameter value</param>
+        public RegexRouteConstraintAttribute(string key, string pattern, RegexOptions options)
             : base(key)
         {
             Pattern = pattern;
             Options = options;
         }
 
+        /// <summary>
+        /// The regex pattern used to constrain the url parameter.
+        /// </summary>
         public string Pattern { get; private set; }
 
+        /// <summary>
+        /// The RegexOptions used when testing the url parameter value
+        /// </summary>
         public RegexOptions Options { get; set; }
 
         public override IRouteConstraint Constraint

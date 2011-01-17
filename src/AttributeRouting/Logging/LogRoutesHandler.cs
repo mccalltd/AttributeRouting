@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.Routing;
+using AttributeRouting.Extensions;
+using AttributeRouting.Framework;
 
-namespace AttributeRouting
+namespace AttributeRouting.Logging
 {
     public class LogRoutesHandler : IHttpHandler
     {
@@ -66,7 +67,7 @@ namespace AttributeRouting
                 BuildCollectionOutput(outputBuilder, info.Defaults);
                 BuildCollectionOutput(outputBuilder, info.Constraints);
                 BuildCollectionOutput(outputBuilder, info.DataTokens);
-                
+
                 outputBuilder.Append("</tr>");
             }
 
@@ -101,7 +102,7 @@ namespace AttributeRouting
                         else if (@default.Key.ValueEquals("action"))
                             item.Action = @default.Value.ToString();
                         else*/
-                            item.Defaults.Add(@default.Key, @default.Value.ToString());
+                        item.Defaults.Add(@default.Key, @default.Value.ToString());
                     }
                 }
 
@@ -110,7 +111,9 @@ namespace AttributeRouting
                     foreach (var constraint in route.Constraints)
                     {
                         if (constraint.Value.GetType() == typeof(RestfulHttpMethodConstraint))
-                            item.HttpMethod = ((RestfulHttpMethodConstraint)constraint.Value).AllowedMethods.Aggregate((n1, n2) => n1 + ", " + n2);
+                            item.HttpMethod =
+                                ((RestfulHttpMethodConstraint)constraint.Value).AllowedMethods.Aggregate(
+                                    (n1, n2) => n1 + ", " + n2);
                         else if (constraint.Value.GetType() == typeof(RegexRouteConstraint))
                             item.Constraints.Add(constraint.Key, ((RegexRouteConstraint)constraint.Value).Pattern);
                         else

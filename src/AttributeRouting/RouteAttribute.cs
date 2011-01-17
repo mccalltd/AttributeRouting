@@ -1,16 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using AttributeRouting.Extensions;
 
 namespace AttributeRouting
 {
+    /// <summary>
+    /// The route information for an action.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class RouteAttribute : ActionMethodSelectorAttribute
     {
         /// <summary>
-        /// Specify the route information for this action.
+        /// Specify the route information for an action.
         /// </summary>
         /// <param name="url">The url that is associated with this action</param>
         /// <param name="httpMethod">The httpMethod against which to constrain the route</param>
@@ -20,7 +23,7 @@ namespace AttributeRouting
             if (Regex.IsMatch(url, @"^\/|\/$") || !url.IsValidUrl(true))
                 throw new ArgumentException(
                     ("The url \"{0}\" is not valid. It cannot start or end with forward slashes " +
-                     "or contain any other character not allowed in URLs.").FormatWith(url), "url");
+                     "or contain any other character not allowed in URLs.").FormatWith(url));
 
             if (httpMethod == null) throw new ArgumentNullException("httpMethod");
             if (!Regex.IsMatch(httpMethod, "GET|POST|PUT|DELETE"))

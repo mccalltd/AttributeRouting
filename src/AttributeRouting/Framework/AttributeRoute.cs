@@ -1,17 +1,18 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace AttributeRouting
+namespace AttributeRouting.Framework
 {
     public class AttributeRoute : Route
     {
         private readonly bool _useLowercaseRoutes;
 
-        public AttributeRoute(string url, RouteValueDictionary defaults, RouteValueDictionary constraints, RouteValueDictionary dataTokens, bool useLowercaseRoutes) 
+        public AttributeRoute(string url, RouteValueDictionary defaults, RouteValueDictionary constraints,
+                              RouteValueDictionary dataTokens, bool useLowercaseRoutes)
             : this(null, url, defaults, constraints, dataTokens, useLowercaseRoutes) {}
 
-        public AttributeRoute(string name, string url, RouteValueDictionary defaults, RouteValueDictionary constraints, RouteValueDictionary dataTokens, bool useLowercaseRoutes) 
+        public AttributeRoute(string name, string url, RouteValueDictionary defaults, RouteValueDictionary constraints,
+                              RouteValueDictionary dataTokens, bool useLowercaseRoutes)
             : base(url, defaults, constraints, dataTokens, new MvcRouteHandler())
         {
             Name = name;

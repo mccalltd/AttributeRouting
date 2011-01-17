@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Routing;
+using AttributeRouting.Framework;
+using AttributeRouting.Logging;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 

@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AttributeRouting.Framework;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 

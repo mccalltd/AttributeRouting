@@ -4,11 +4,18 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AttributeRouting.Extensions;
 
 namespace AttributeRouting
 {
+    /// <summary>
+    /// Configuration options to use when mapping AttributeRoutes.
+    /// </summary>
     public class AttributeRoutingConfiguration
     {
+        /// <summary>
+        /// Creates and initializes a new configuration object.
+        /// </summary>
         public AttributeRoutingConfiguration()
         {
             AddScannedRoutes = true;
@@ -88,7 +95,7 @@ namespace AttributeRouting
             AddScannedRoutes = false;
 
             if (!PromotedControllerTypes.Contains(controllerType))
-                PromotedControllerTypes.Add(controllerType);            
+                PromotedControllerTypes.Add(controllerType);
         }
 
         /// <summary>
