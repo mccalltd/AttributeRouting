@@ -53,7 +53,7 @@ namespace AttributeRouting
         public int Precedence { get; set; }
 
         /// <summary>
-        /// The name of this route will be registered with in the RouteTable.
+        /// The name this route will be registered with in the RouteTable.
         /// </summary>
         public string RouteName { get; set; }
 
