@@ -1,8 +1,0 @@
-C:\Development\OpenSource\AttributeRouting\AttributeRouting.Web\bin\AttributeRouting.Web.dll
-C:\Development\OpenSource\AttributeRouting\AttributeRouting.Web\bin\AttributeRouting.Web.pdb
-C:\Development\OpenSource\AttributeRouting\AttributeRouting.Web\bin\AttributeRouting.dll
-C:\Development\OpenSource\AttributeRouting\AttributeRouting.Web\bin\AttributeRouting.pdb
-C:\Development\OpenSource\AttributeRouting\AttributeRouting.Web\bin\AttributeRouting.xml
-C:\Development\OpenSource\AttributeRouting\AttributeRouting.Web\obj\Release\ResolveAssemblyReference.cache
-C:\Development\OpenSource\AttributeRouting\AttributeRouting.Web\obj\Release\AttributeRouting.Web.dll
-C:\Development\OpenSource\AttributeRouting\AttributeRouting.Web\obj\Release\AttributeRouting.Web.pdb

@@ -1,9 +1,9 @@
-*/bin
-*/obj
+bin/
+obj/
 _ReSharper.*
 *.ReSharper.user
 *.csproj.user
 *.suo
 *.cache
-AttributeRouting.NuGet/*.nupkg
-AttributeRouting.Web/App_Data
+nuget/*.nupkg
+App_Data/
