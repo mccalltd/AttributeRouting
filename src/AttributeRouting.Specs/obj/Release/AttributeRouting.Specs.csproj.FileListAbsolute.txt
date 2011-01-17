@@ -1,0 +1,10 @@
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Specs\bin\Release\AttributeRouting.Specs.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Specs\bin\Release\AttributeRouting.Specs.pdb
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Specs\bin\Release\AttributeRouting.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Specs\bin\Release\nunit.framework.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Specs\bin\Release\TechTalk.SpecFlow.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Specs\bin\Release\AttributeRouting.pdb
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Specs\bin\Release\AttributeRouting.xml
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Specs\obj\Release\ResolveAssemblyReference.cache
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Specs\obj\Release\AttributeRouting.Specs.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Specs\obj\Release\AttributeRouting.Specs.pdb

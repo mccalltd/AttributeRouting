@@ -1,0 +1,17 @@
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\AttributeRouting.Tests.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\AttributeRouting.Tests.pdb
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\AttributeRouting.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\Moq.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\nunit.framework.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\Castle.Core.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\Castle.DynamicProxy2.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\AttributeRouting.pdb
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\AttributeRouting.xml
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\Moq.pdb
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\Moq.xml
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\Castle.Core.pdb
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\Castle.Core.xml
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\bin\Release\Castle.DynamicProxy2.xml
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\obj\Release\ResolveAssemblyReference.cache
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\obj\Release\AttributeRouting.Tests.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting.Tests\obj\Release\AttributeRouting.Tests.pdb

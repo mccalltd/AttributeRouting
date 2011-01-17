@@ -1,0 +1,6 @@
+C:\Development\OpenSource\AttributeRouting\AttributeRouting\bin\Release\AttributeRouting.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting\bin\Release\AttributeRouting.pdb
+C:\Development\OpenSource\AttributeRouting\AttributeRouting\obj\Release\ResolveAssemblyReference.cache
+C:\Development\OpenSource\AttributeRouting\AttributeRouting\obj\Release\AttributeRouting.dll
+C:\Development\OpenSource\AttributeRouting\AttributeRouting\obj\Release\AttributeRouting.pdb
+C:\Development\OpenSource\AttributeRouting\AttributeRouting\bin\Release\AttributeRouting.xml

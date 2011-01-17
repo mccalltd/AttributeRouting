@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AttributeRouting</name>
+    </assembly>
+    <members>
+        <member name="M:AttributeRouting.RouteAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Specify the route information for this action.
+            </summary>
+            <param name="url">The url that is associated with this action</param>
+            <param name="httpMethod">The httpMethod against which to constrain the route</param>
+        </member>
+        <member name="P:AttributeRouting.RouteAttribute.Url">
+            <summary>
+            The url for this action.
+            </summary>
+        </member>
+        <member name="P:AttributeRouting.RouteAttribute.HttpMethod">
+            <summary>
+            The HttpMethod this route is constrained against.
+            </summary>
+        </member>
+        <member name="P:AttributeRouting.RouteAttribute.Order">
+            <summary>
+            The order of this route among all the routes defined against this action.
+            </summary>
+        </member>
+        <member name="P:AttributeRouting.RouteAttribute.Precedence">
+            <summary>
+            The order of this route among all the routes defined against this controller.
+            </summary>
+        </member>
+        <member name="P:AttributeRouting.RouteAttribute.RouteName">
+            <summary>
+            The name this route will be registered with in the RouteTable.
+            </summary>
+        </member>
+        <member name="P:AttributeRouting.RouteAttribute.IsAbsoluteUrl">
+            <summary>
+            If true, the generated route url will be applied from the root, skipping any relevant area name or route prefix.
+            </summary>
+        </member>
+        <member name="M:AttributeRouting.POSTAttribute.#ctor(System.String)">
+            <summary>
+            Specify a route for this action constrained to requests providing an httpMethod value of POST.
+            </summary>
+            <param name="url">The url that is associated with this action</param>
+        </member>
+        <member name="M:AttributeRouting.RouteDefaultAttribute.#ctor(System.String,System.Object)">
+            <summary>
+            Specify a default value for a url parameter defined in a RouteAttribute applied to this action.
+            </summary>
+            <param name="key">The key of the url parameter</param>
+            <param name="value">The default value for the url parameter</param>
+        </member>
+        <member name="M:AttributeRouting.RegexRouteConstraint.#ctor(System.String)">
+            <summary>
+            Applies a regex constraint against the associated url parameter.
+            </summary>
+            <param name="pattern">The regex pattern used to constrain the url parameter</param>
+        </member>
+        <member name="M:AttributeRouting.RegexRouteConstraint.#ctor(System.String,System.Text.RegularExpressions.RegexOptions)">
+            <summary>
+            Applies a regex constraint against the associated url parameter.
+            </summary>
+            <param name="pattern">The regex pattern used to constrain the url parameter</param>
+            <param name="options">The RegexOptions to use when testing the url parameter value</param>
+        </member>
+        <member name="M:AttributeRouting.GETAttribute.#ctor(System.String)">
+            <summary>
+            Specify a route for this action constrained to requests providing an httpMethod value of GET.
+            </summary>
+            <param name="url">The url that is associated with this action</param>
+        </member>
+        <member name="M:AttributeRouting.PUTAttribute.#ctor(System.String)">
+            <summary>
+            Specify a route for this action constrained to requests providing an httpMethod value of PUT.
+            </summary>
+            <param name="url">The url that is associated with this action</param>
+        </member>
+        <member name="M:AttributeRouting.AttributeRoutingConfiguration.ScanAssemblyOf``1">
+            <summary>
+            Scans the assembly of the specified controller for routes to register.
+            </summary>
+            <typeparam name="TController">The controller type used to specify the assembly</typeparam>
+        </member>
+        <member name="M:AttributeRouting.AttributeRoutingConfiguration.ScanAssembly(System.Reflection.Assembly)">
+            <summary>
+            Scans the specified assembly for routes to register.
+            </summary>
+            <param name="assembly">The assembly</param>
+        </member>
+        <member name="M:AttributeRouting.AttributeRoutingConfiguration.AddRoutesFromControllersOfType``1">
+            <summary>
+            Adds all the routes for all the controllers that derive from the specified controller
+            to the end of the route collection.
+            </summary>
+            <typeparam name="TController">The base controller type</typeparam>
+        </member>
+        <member name="M:AttributeRouting.AttributeRoutingConfiguration.AddRoutesFromController``1">
+            <summary>
+            Adds all the routes for the specified controller to the end of the route collection.
+            </summary>
+            <typeparam name="TController">The controller type</typeparam>
+        </member>
+        <member name="M:AttributeRouting.AttributeRoutingConfiguration.AddTheRemainingScannedRoutes">
+            <summary>
+            When using AddRoutesFromControllersOfType or AddRoutesFromController to set the precendence of the routes,
+            you must explicitly specify that you want to include the remaining routes discoved while scanning assemblies.
+            </summary>
+        </member>
+        <member name="M:AttributeRouting.AttributeRoutingConfiguration.AddDefaultRouteConstraint(System.String,System.Web.Routing.IRouteConstraint)">
+            <summary>
+            Automatically applies the specified constaint against url parameters
+            with names that match the given regular expression.
+            </summary>
+            <param name="keyRegex">The regex used to match url parameter names</param>
+            <param name="constraint">The constraint to apply to matched parameters</param>
+        </member>
+        <member name="P:AttributeRouting.AttributeRoutingConfiguration.UseLowercaseRoutes">
+            <summary>
+            When true, the generated routes will produce lowercase outbound URLs.
+            The default is false.
+            </summary>
+        </member>
+        <member name="P:AttributeRouting.AttributeRoutingConfiguration.AutoGenerateRouteNames">
+            <summary>
+            When true, the generated routes will have auto-generated route names in the form controller_action.
+            The default is false.
+            </summary>
+        </member>
+        <member name="M:AttributeRouting.RouteConstraintAttribute.#ctor(System.String)">
+            <summary>
+            Specify a constraint for a url parameter defined in a RouteAttribute applied to this action.
+            </summary>
+            <param name="key">The key of the url parameter</param>
+        </member>
+        <member name="M:AttributeRouting.RouteCollectionExtensions.MapAttributeRoutes(System.Web.Routing.RouteCollection)">
+            <summary>
+            Scans the calling assembly for all routes defined with AttributeRouting attributes,
+            using the default conventions.
+            </summary>
+        </member>
+        <member name="M:AttributeRouting.RouteCollectionExtensions.MapAttributeRoutes(System.Web.Routing.RouteCollection,System.Action{AttributeRouting.AttributeRoutingConfiguration})">
+            <summary>
+            Scans the specified assemblies for all routes defined with AttributeRouting attributes,
+            and applies configuration options against the routes found.
+            </summary>
+            <param name="configurationAction">
+            The initialization action that builds the configuration object.
+            </param>
+        </member>
+        <member name="M:AttributeRouting.RouteCollectionExtensions.MapAttributeRoutes(System.Web.Routing.RouteCollection,AttributeRouting.AttributeRoutingConfiguration)">
+            <summary>
+            Scans the specified assemblies for all routes defined with AttributeRouting attributes,
+            and applies configuration options against the routes found.
+            </summary>
+            <param name="configuration">
+            The configuration object.
+            </param>
+        </member>
+        <member name="M:AttributeRouting.RouteAreaAttribute.#ctor(System.String)">
+            <summary>
+            Specify an area to contain all the routes for this controller.
+            </summary>
+            <param name="areaName">The name of the containing area</param>
+        </member>
+        <member name="M:AttributeRouting.DELETEAttribute.#ctor(System.String)">
+            <summary>
+            Specify a route for this action constrained to requests providing an httpMethod value of DELETE.
+            </summary>
+            <param name="url">The url that is associated with this action</param>
+        </member>
+        <member name="M:AttributeRouting.RegexRouteConstraintAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Specify a regex constraint for a url parameter defined in a RouteAttribute applied to this action.
+            </summary>
+            <param name="key">The key of the url parameter</param>
+            <param name="pattern">The regex pattern used to constrain the url parameter</param>
+        </member>
+        <member name="M:AttributeRouting.RegexRouteConstraintAttribute.#ctor(System.String,System.String,System.Text.RegularExpressions.RegexOptions)">
+            <summary>
+            Specify a regex constraint for a url parameter defined in a RouteAttribute applied to this action.
+            </summary>
+            <param name="key">The key of the url parameter</param>
+            <param name="pattern">The regex pattern used to constrain the url parameter</param>
+            <param name="options">The RegexOptions to use when testing the url parameter value</param>
+        </member>
+        <member name="M:AttributeRouting.RoutePrefixAttribute.#ctor(System.String)">
+            <summary>
+            Specify a prefix to be used before all routes defined in this controller.
+            </summary>
+            <param name="url">The url prefix to apply to the routes</param>
+        </member>
+    </members>
+</doc>
