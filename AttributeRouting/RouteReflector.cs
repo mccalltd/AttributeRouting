@@ -41,7 +41,7 @@ namespace AttributeRouting
             return (from controllerType in controllerTypes
                     from actionMethod in controllerType.GetActionMethods()
                     from routeAttribute in GetRouteAttributes(actionMethod)
-                    orderby GetActionOrder(actionMethod)
+                    orderby routeAttribute.Precedence, routeAttribute.Order
                     let routeName = routeAttribute.RouteName
                     select new RouteSpecification
                     {
@@ -73,22 +73,9 @@ namespace AttributeRouting
                 yield return conventionalAttribute;
 
             // Yield explicitly-defined attributes
-            var explicitAttributes =
-                from routeAttribute in actionMethod.GetCustomAttributes<RouteAttribute>(false)
-                orderby routeAttribute.Order
-                select routeAttribute;
-
+            var explicitAttributes = actionMethod.GetCustomAttributes<RouteAttribute>(false);
             foreach (var explicitAttribute in explicitAttributes)
                 yield return explicitAttribute;
-        }
-
-        private static int GetActionOrder(MethodInfo actionMethod)
-        {
-            var actionOrderAttribute = actionMethod.GetCustomAttributes<RouteActionOrderAttribute>(false).SingleOrDefault();
-            if (actionOrderAttribute != null)
-                return actionOrderAttribute.ActionOrder;
-
-            return int.MaxValue;
         }
 
         private static string GetAreaName(MethodInfo actionMethod)

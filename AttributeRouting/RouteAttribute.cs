@@ -29,6 +29,7 @@ namespace AttributeRouting
             Url = url;
             HttpMethod = httpMethod;
             Order = int.MaxValue;
+            Precedence = int.MaxValue;
         }
 
         /// <summary>
@@ -45,6 +46,11 @@ namespace AttributeRouting
         /// The order of this route among all the routes defined against this action.
         /// </summary>
         public int Order { get; set; }
+
+        /// <summary>
+        /// The order of this route among all the routes defined against this controller.
+        /// </summary>
+        public int Precedence { get; set; }
 
         /// <summary>
         /// The name of this route will be registered with in the RouteTable.

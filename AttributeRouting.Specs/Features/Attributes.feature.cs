@@ -294,10 +294,12 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Specifying route order within a controller using the RouteActionOrder attribute")]
-        public virtual void SpecifyingRouteOrderWithinAControllerUsingTheRouteActionOrderAttribute()
+        [NUnit.Framework.DescriptionAttribute("Specifying route precedence within a controller using the RouteAttribute Preceden" +
+            "ce property")]
+        public virtual void SpecifyingRoutePrecedenceWithinAControllerUsingTheRouteAttributePrecedenceProperty()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Specifying route order within a controller using the RouteActionOrder attribute", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Specifying route precedence within a controller using the RouteAttribute Preceden" +
+                    "ce property", ((string[])(null)));
 #line 74
 this.ScenarioSetup(scenarioInfo);
 #line 75
