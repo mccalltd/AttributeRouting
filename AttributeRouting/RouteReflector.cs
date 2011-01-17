@@ -38,11 +38,14 @@ namespace AttributeRouting
 
         private IEnumerable<RouteSpecification> GetRouteSpecifications(IEnumerable<Type> controllerTypes)
         {
+            var controllerCount = 0;
+
             return (from controllerType in controllerTypes
+                    let controllerIndex = controllerCount++
                     let convention = controllerType.GetCustomAttribute<RouteConventionAttribute>(false)
                     from actionMethod in controllerType.GetActionMethods()
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
-                    orderby routeAttribute.Precedence, routeAttribute.Order
+                    orderby controllerIndex, routeAttribute.Precedence // precedence is within a controller
                     let routeName = routeAttribute.RouteName
                     select new RouteSpecification
                     {
@@ -70,7 +73,10 @@ namespace AttributeRouting
                     yield return conventionRouteAttribute;
 
             // Yield explicitly-defined attributes
-            var explicitAttributes = actionMethod.GetCustomAttributes<RouteAttribute>(false);
+            var explicitAttributes = from routeAttribute in actionMethod.GetCustomAttributes<RouteAttribute>(false)
+                                     orderby routeAttribute.Order
+                                     select routeAttribute;
+
             foreach (var explicitAttribute in explicitAttributes)
                 yield return explicitAttribute;
         }

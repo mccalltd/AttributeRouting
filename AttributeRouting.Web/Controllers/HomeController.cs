@@ -22,5 +22,18 @@ namespace AttributeRouting.Web.Controllers
 
             return Content("<h1>404</h1>You got this because the route is not mapped.");
         }
+
+        [GET("About", Precedence = 2)]
+        public ActionResult About()
+        {
+            return Content("About");
+        }
+
+        [GET("Contact", Order = 2)]
+        [GET("ContactUs", Order = 1, Precedence = 1)]
+        public ActionResult Contact()
+        {
+            return Content("Contact");
+        }
     }
 }
