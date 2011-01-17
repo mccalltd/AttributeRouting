@@ -1,9 +1,9 @@
 h3. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRouting/ for documentation.
 
-h3. Changelog
+*Changelog*
 
-v0.6.4033
-======================
+_v0.6.4033_
+
 * Added IsAbsoluteUrl property to the RouteAttributes, which prevents the RouteAreaAttribute and RoutePrefixAttribute from prefixing the URL for a route. This can be handy for legacy URL support.  
 * Added Precedence property to the RouteAtrributes, which allows you to specify the precedence of a route among all the routes defined _for the controller_. 
 * New and improved output from the LogRoutesHandler.
