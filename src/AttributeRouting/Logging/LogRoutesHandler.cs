@@ -26,11 +26,11 @@ namespace AttributeRouting.Logging
             writer.Write(output);
         }
 
-        private string GetOutput(object tokenReplacements)
+        private static string GetOutput(object tokenReplacements)
         {
             // Read the contents of the html template.
             var assembly = Assembly.GetExecutingAssembly();
-            var fileName = "{0}.LogRoutes.html".FormatWith(assembly.GetName().Name);
+            var fileName = "{0}.LogRoutes.html".FormatWith(typeof(LogRoutesHandler).Namespace);
             string fileContent;
             using (var stream = assembly.GetManifestResourceStream(fileName))
             {
@@ -52,7 +52,7 @@ namespace AttributeRouting.Logging
             return outputBuilder.ToString();
         }
 
-        private string GetRouteInfoOutput()
+        private static string GetRouteInfoOutput()
         {
             var outputBuilder = new StringBuilder();
 
@@ -74,7 +74,7 @@ namespace AttributeRouting.Logging
             return outputBuilder.ToString();
         }
 
-        private void BuildCollectionOutput(StringBuilder builder, IDictionary<string, string> dictionary)
+        private static void BuildCollectionOutput(StringBuilder builder, IDictionary<string, string> dictionary)
         {
             builder.Append("<td>");
             if (dictionary.Count == 0)
@@ -85,7 +85,7 @@ namespace AttributeRouting.Logging
             builder.Append("</td>");
         }
 
-        private IEnumerable<RouteInfo> GetRouteInfo()
+        private static IEnumerable<RouteInfo> GetRouteInfo()
         {
             var items = new List<RouteInfo>();
 
@@ -96,14 +96,7 @@ namespace AttributeRouting.Logging
                 if (route.Defaults != null)
                 {
                     foreach (var @default in route.Defaults)
-                    {
-                        /*if (@default.Key.ValueEquals("controller"))
-                            item.Controller = @default.Value.ToString();
-                        else if (@default.Key.ValueEquals("action"))
-                            item.Action = @default.Value.ToString();
-                        else*/
                         item.Defaults.Add(@default.Key, @default.Value.ToString());
-                    }
                 }
 
                 if (route.Constraints != null)
