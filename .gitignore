@@ -5,5 +5,5 @@ _ReSharper.*
 *.csproj.user
 *.suo
 *.cache
-AttributeRouting.NuGet/lib
+AttributeRouting.NuGet/*.nupkg
 AttributeRouting.Web/App_Data
