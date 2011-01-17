@@ -23,7 +23,11 @@ namespace AttributeRouting.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapAttributeRoutes();
+            routes.MapAttributeRoutes(config =>
+            {
+                config.ScanAssemblyOf<ControllerBase>();
+                config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
+            });
 
             routes.MapRoute("CatchAll",
                             "{*path}",

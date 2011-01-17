@@ -61,14 +61,27 @@ namespace AttributeRouting
             {
                 outputBuilder.AppendFormat("<tr class=\"{0}\">", (++row % 2 == 0) ? "even" : "odd");
                 outputBuilder.AppendFormat("<td>{0}</td>", info.HttpMethod);
-                outputBuilder.AppendFormat("<td>{0}</td>", info.Url);
-                outputBuilder.AppendFormat("<td>{0}</td>", info.Endpoint);
-                outputBuilder.AppendFormat("<td>{0}</td>", info.Area);
-                outputBuilder.AppendFormat("<td>{0}</td>", info.Namespaces);
+                outputBuilder.AppendFormat("<td class=\"url\">{0}</td>", info.Url);
+
+                BuildCollectionOutput(outputBuilder, info.Defaults);
+                BuildCollectionOutput(outputBuilder, info.Constraints);
+                BuildCollectionOutput(outputBuilder, info.DataTokens);
+                
                 outputBuilder.Append("</tr>");
             }
 
             return outputBuilder.ToString();
+        }
+
+        private void BuildCollectionOutput(StringBuilder builder, IDictionary<string, string> dictionary)
+        {
+            builder.Append("<td>");
+            if (dictionary.Count == 0)
+                builder.Append("&nbsp;");
+            else
+                foreach (var pair in dictionary)
+                    builder.AppendFormat("<i>{0}</i>: {1}<br />", pair.Key, pair.Value);
+            builder.Append("</td>");
         }
 
         private IEnumerable<RouteInfo> GetRouteInfo()
@@ -81,31 +94,39 @@ namespace AttributeRouting
 
                 if (route.Defaults != null)
                 {
-                    object controller;
-                    if (route.Defaults.TryGetValue("controller", out controller))
-                        item.Controller = controller.ToString();
-
-                    object action;
-                    if (route.Defaults.TryGetValue("action", out action))
-                        item.Action = action.ToString();
+                    foreach (var @default in route.Defaults)
+                    {
+                        /*if (@default.Key.ValueEquals("controller"))
+                            item.Controller = @default.Value.ToString();
+                        else if (@default.Key.ValueEquals("action"))
+                            item.Action = @default.Value.ToString();
+                        else*/
+                            item.Defaults.Add(@default.Key, @default.Value.ToString());
+                    }
                 }
 
                 if (route.Constraints != null)
                 {
-                    object httpMethod;
-                    if (route.Constraints.TryGetValue("httpMethod", out httpMethod))
-                        item.HttpMethod = ((RestfulHttpMethodConstraint)httpMethod).AllowedMethods.Aggregate((n1, n2) => n1 + ", " + n2);
+                    foreach (var constraint in route.Constraints)
+                    {
+                        if (constraint.Value.GetType() == typeof(RestfulHttpMethodConstraint))
+                            item.HttpMethod = ((RestfulHttpMethodConstraint)constraint.Value).AllowedMethods.Aggregate((n1, n2) => n1 + ", " + n2);
+                        else if (constraint.Value.GetType() == typeof(RegexRouteConstraint))
+                            item.Constraints.Add(constraint.Key, ((RegexRouteConstraint)constraint.Value).Pattern);
+                        else
+                            item.Constraints.Add(constraint.Key, constraint.Value.ToString());
+                    }
                 }
 
                 if (route.DataTokens != null)
                 {
-                    object area;
-                    if (route.DataTokens.TryGetValue("area", out area))
-                        item.Area = area.ToString();
-
-                    object namespaces;
-                    if (route.DataTokens.TryGetValue("namespaces", out namespaces))
-                        item.Namespaces = ((string[])namespaces).Aggregate((n1, n2) => n1 + ", " + n2);
+                    foreach (var token in route.DataTokens)
+                    {
+                        if (token.Key.ValueEquals("namespaces"))
+                            item.DataTokens.Add(token.Key, ((string[])token.Value).Aggregate((n1, n2) => n1 + ", " + n2));
+                        else
+                            item.DataTokens.Add(token.Key, token.Value.ToString());
+                    }
                 }
 
                 items.Add(item);
@@ -116,23 +137,18 @@ namespace AttributeRouting
 
         private class RouteInfo
         {
-            public string Url { get; set; }
-            public string Controller { get; set; }
-            public string Action { get; set; }
-            public string HttpMethod { get; set; }
-            public string Area { get; set; }
-            public string Namespaces { get; set; }
-
-            public string Endpoint
+            public RouteInfo()
             {
-                get
-                {
-                    if (!Action.HasValue())
-                        return Controller;
-
-                    return "{0}#{1}".FormatWith(Controller, Action);
-                }
+                Defaults = new Dictionary<string, string>();
+                Constraints = new Dictionary<string, string>();
+                DataTokens = new Dictionary<string, string>();
             }
+
+            public string Url { get; set; }
+            public string HttpMethod { get; set; }
+            public IDictionary<string, string> Defaults { get; set; }
+            public IDictionary<string, string> Constraints { get; set; }
+            public IDictionary<string, string> DataTokens { get; set; }
         }
     }
 }

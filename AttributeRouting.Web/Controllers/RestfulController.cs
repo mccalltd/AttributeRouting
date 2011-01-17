@@ -24,6 +24,7 @@ namespace AttributeRouting.Web.Controllers
         }
 
         [GET("Resources/{id}")]
+        [RouteDefault("id", 1)]
         public ActionResult Show(int id)
         {
             return View();
