@@ -303,7 +303,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 74
 this.ScenarioSetup(scenarioInfo);
 #line 75
- testRunner.When("I fetch the routes for the ActionOrderTest controller");
+ testRunner.When("I fetch the routes for the RoutePrecedenceTest controller");
 #line 76
  testRunner.Then("the 1st route url is \"Route1\"");
 #line 77

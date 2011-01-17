@@ -72,7 +72,7 @@ Scenario: Generating routes using the IsAbsoluteUrl property of the RouteAttribu
 	Then the route url is "Something/Else"
 
 Scenario: Specifying route precedence within a controller using the RouteAttribute Precedence property
-	When I fetch the routes for the ActionOrderTest controller
+	When I fetch the routes for the RoutePrecedenceTest controller
 	Then the 1st route url is "Route1"
 	 And the 2nd route url is "Route2"
 	 And the 3rd route url is "Route3"
