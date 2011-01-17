@@ -9,13 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Tests", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Specs", "AttributeRouting.Specs\AttributeRouting.Specs.csproj", "{E832A82B-2302-4113-83E3-261446E22C87}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{21478775-C2ED-4F36-A2D1-C08E70671A65}"
-	ProjectSection(SolutionItems) = preProject
-		AttributeRouting.NuGet\content\AppStart_AttributeRouting.cs.pp = AttributeRouting.NuGet\content\AppStart_AttributeRouting.cs.pp
-		AttributeRouting.NuGet\AttributeRouting.nuspec = AttributeRouting.NuGet\AttributeRouting.nuspec
-		AttributeRouting.NuGet\Content\web.config.transform = AttributeRouting.NuGet\Content\web.config.transform
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
