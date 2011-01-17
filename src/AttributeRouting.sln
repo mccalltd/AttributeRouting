@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting", "src\AttributeRouting\AttributeRouting.csproj", "{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting", "AttributeRouting\AttributeRouting.csproj", "{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web", "src\AttributeRouting.Web\AttributeRouting.Web.csproj", "{486087C6-E95B-4FE2-8263-7B6B2DF81888}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Specs", "AttributeRouting.Specs\AttributeRouting.Specs.csproj", "{E832A82B-2302-4113-83E3-261446E22C87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Specs", "src\AttributeRouting.Specs\AttributeRouting.Specs.csproj", "{E832A82B-2302-4113-83E3-261446E22C87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web", "AttributeRouting.Web\AttributeRouting.Web.csproj", "{486087C6-E95B-4FE2-8263-7B6B2DF81888}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -21,14 +21,14 @@ Global
 		{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E832A82B-2302-4113-83E3-261446E22C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E832A82B-2302-4113-83E3-261446E22C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E832A82B-2302-4113-83E3-261446E22C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E832A82B-2302-4113-83E3-261446E22C87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
