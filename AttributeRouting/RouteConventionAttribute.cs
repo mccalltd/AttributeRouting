@@ -15,5 +15,15 @@ namespace AttributeRouting
         {
             return "";
         }
+
+        public virtual IEnumerable<RouteDefaultAttribute> GetRouteDefaultAttributes(MethodInfo action)
+        {
+            yield break;
+        }
+
+        public virtual IEnumerable<RouteConstraintAttribute> GetRouteConstraintAtributes(MethodInfo action)
+        {
+            yield break;
+        }
     }
 }

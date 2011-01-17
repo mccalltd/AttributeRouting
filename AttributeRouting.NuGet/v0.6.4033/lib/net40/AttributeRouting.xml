@@ -33,7 +33,7 @@
         </member>
         <member name="P:AttributeRouting.RouteAttribute.RouteName">
             <summary>
-            The name of this route will be registered with in the RouteTable.
+            The name this route will be registered with in the RouteTable.
             </summary>
         </member>
         <member name="P:AttributeRouting.RouteAttribute.IsAbsoluteUrl">
