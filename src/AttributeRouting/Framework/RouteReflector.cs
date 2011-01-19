@@ -19,7 +19,7 @@ namespace AttributeRouting.Framework
 
         public IEnumerable<RouteSpecification> GenerateRouteSpecifications()
         {
-            var controllerRouteSpecs = GetRouteSpecifications(_configuration.PromotedControllerTypes);
+            var controllerRouteSpecs = GenerateRouteSpecifications(_configuration.PromotedControllerTypes);
             foreach (var spec in controllerRouteSpecs)
                 yield return spec;
 
@@ -28,14 +28,14 @@ namespace AttributeRouting.Framework
                 var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes()).ToList();
                 var remainingControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
 
-                var remainingRouteSpecs = GetRouteSpecifications(remainingControllerTypes);
+                var remainingRouteSpecs = GenerateRouteSpecifications(remainingControllerTypes);
 
                 foreach (var spec in remainingRouteSpecs)
                     yield return spec;
             }
         }
 
-        private IEnumerable<RouteSpecification> GetRouteSpecifications(IEnumerable<Type> controllerTypes)
+        private IEnumerable<RouteSpecification> GenerateRouteSpecifications(IEnumerable<Type> controllerTypes)
         {
             var controllerCount = 0;
 
@@ -84,7 +84,7 @@ namespace AttributeRouting.Framework
 
         private static string GetAreaName(MethodInfo actionMethod)
         {
-            var routeAreaAttribute = actionMethod.GetRouteAreaAttribute();
+            var routeAreaAttribute = actionMethod.DeclaringType.GetCustomAttribute<RouteAreaAttribute>(true);
             if (routeAreaAttribute != null)
                 return routeAreaAttribute.AreaName;
 
@@ -93,7 +93,7 @@ namespace AttributeRouting.Framework
 
         private static string GetAreaUrl(MethodInfo actionMethod)
         {
-            var routeAreaAttribute = actionMethod.GetRouteAreaAttribute();
+            var routeAreaAttribute = actionMethod.DeclaringType.GetCustomAttribute<RouteAreaAttribute>(true);
             if (routeAreaAttribute != null)
                 return routeAreaAttribute.AreaUrl;
 
@@ -103,7 +103,7 @@ namespace AttributeRouting.Framework
         private static string GetRoutePrefix(MethodInfo actionMethod, RouteConventionAttribute convention)
         {
             // Return an explicitly defined route prefix, if defined
-            var routePrefixAttribute = actionMethod.GetRoutePrefixAttribute();
+            var routePrefixAttribute = actionMethod.DeclaringType.GetCustomAttribute<RoutePrefixAttribute>(true);
             if (routePrefixAttribute != null)
                 return routePrefixAttribute.Url;
 

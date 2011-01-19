@@ -37,15 +37,5 @@ namespace AttributeRouting.Extensions
         {
             return method.GetCustomAttributes(typeof(TAttribute), inherit).Cast<TAttribute>();
         }
-
-        public static RouteAreaAttribute GetRouteAreaAttribute(this MethodInfo method)
-        {
-            return method.DeclaringType.GetCustomAttributes<RouteAreaAttribute>(true).SingleOrDefault();
-        }
-
-        public static RoutePrefixAttribute GetRoutePrefixAttribute(this MethodInfo method)
-        {
-            return method.DeclaringType.GetCustomAttributes<RoutePrefixAttribute>(true).SingleOrDefault();
-        }
     }
 }
