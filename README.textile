@@ -1,6 +1,6 @@
 h3. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRouting/ for documentation.
 
-*If you encounter any issues using this library, please log them in the "issue tracker":https://github.com/mccalltd/AttributeRouting/issues. This library is stable, but is' not yet v1. Thanks.*
+*If you encounter any issues using this library, please log them in the "issue tracker":https://github.com/mccalltd/AttributeRouting/issues. This library is stable, but is not yet v1. Thanks.*
 
 *Changelog*
 
