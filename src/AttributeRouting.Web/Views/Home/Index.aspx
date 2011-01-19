@@ -13,4 +13,8 @@
         <a href="http://wiki.github.com/mccalltd/AttributeRouting/" target="_blank">github</a>.
     </p>
    
+    <p>
+        Do you want to <a href="routes.axd">debug the routes for this sample</a>?
+    </p>
+
 </asp:Content>
