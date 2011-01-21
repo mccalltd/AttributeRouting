@@ -1,0 +1,171 @@
+<#@ template language="VB" HostSpecific="True" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection" #>
+<#
+Dim mvcHost As MvcTextTemplateHost = CType(Host, MvcTextTemplateHost)
+Dim mvcViewDataTypeGenericString As String = String.Empty
+If (Not (String.IsNullOrEmpty(mvcHost.ViewDataTypeName))) Then
+	mvcViewDataTypeGenericString = "(Of " & mvcHost.ViewDataTypeName & ")"
+End If
+Dim CPHCounter As Integer = 1
+Dim isFramework4 as Boolean = (mvcHost.FrameworkVersion >= new System.Version(4, 0))
+Dim nugget as String = "="
+Dim htmlEncodeBegin as String = "Html.Encode("
+Dim htmlEncodeEnd as String = ")"
+If (isFramework4) Then
+	nugget = ":"
+	htmlEncodeBegin = ""
+	htmlEncodeEnd = ""
+End If
+#>
+<#
+' The following chained if-statement outputs the user-control needed for a partial view, or opens the asp:Content tag or html tags used in the case of a master page or regular view page
+If mvcHost.IsPartialView Then
+#>
+<%@ Control Language="VB" Inherits="System.Web.Mvc.ViewUserControl<#= mvcViewDataTypeGenericString #>" %>
+
+<#
+ElseIf mvcHost.IsContentPage Then
+#>
+<%@ Page Title="" Language="VB" MasterPageFile="<#= mvcHost.MasterPageFile #>" Inherits="System.Web.Mvc.ViewPage<#= mvcViewDataTypeGenericString #>" %>
+
+<#
+	For Each cphid As String In mvcHost.ContentPlaceHolderIDs 
+		If cphid.Equals("TitleContent", StringComparison.OrdinalIgnoreCase) Then
+#>
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= cphid #>" runat="server">
+	<#= mvcHost.ViewName #>
+</asp:Content>
+
+<#
+			CPHCounter += 1
+		End If
+	Next
+#>
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= mvcHost.PrimaryContentPlaceHolderID #>" runat="server">
+
+    <h2><#= mvcHost.ViewName #></h2>
+
+<#
+Else
+#>
+<%@ Page Language="VB" Inherits="System.Web.Mvc.ViewPage<#= mvcViewDataTypeGenericString #>" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title><#= mvcHost.ViewName #></title>
+</head>
+<body>
+<#
+End If
+#>
+<#
+If Not String.IsNullOrEmpty(mvcViewDataTypeGenericString) Then
+	Dim properties As Dictionary(Of String, String) = new Dictionary(Of String, String)()
+	FilterProperties(mvcHost.ViewDataType, properties)
+#>
+    <%-- The following line works around an ASP.NET compiler warning --%>
+    <%<#= nugget #> ""%>
+    <% Using Html.BeginForm()%>
+        <%<#= nugget #> Html.ValidationSummary(True) %>
+        <fieldset>
+            <legend>Fields</legend>
+            
+<#
+	For Each scaffoldProperty As KeyValuePair(Of String, String) In properties
+#>
+            <div class="editor-label">
+                <%<#= nugget #> Html.LabelFor(Function(model) model.<#= scaffoldProperty.Key #>) %>
+            </div>
+            <div class="editor-field">
+                <%<#= nugget #> Html.TextBoxFor(Function(model) model.<#= scaffoldProperty.Key #>) %>
+                <%<#= nugget #> Html.ValidationMessageFor(Function(model) model.<#= scaffoldProperty.Key #>) %>
+            </div>
+            
+<#
+	Next
+#>
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </fieldset>
+
+    <% End Using %>
+
+    <div>
+        <%<#= nugget #> Html.ActionLink("Back to List", "Index") %>
+    </div>
+
+<#
+End If
+#>
+<#
+' The following code closes the asp:Content tag used in the case of a master page and the body and html tags in the case of a regular view page
+#>
+<#
+If mvcHost.IsContentPage
+#>
+</asp:Content>
+<#
+	For Each cphid As String In mvcHost.ContentPlaceHolderIDs 
+		If Not cphid.Equals("TitleContent", StringComparison.OrdinalIgnoreCase) And Not cphid.Equals(mvcHost.PrimaryContentPlaceHolderID, StringComparison.OrdinalIgnoreCase) Then
+			CPHCounter +=1
+#>
+
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= cphid #>" runat="server">
+</asp:Content>
+<#
+		End If
+	Next
+#>
+<#
+Else If ((Not mvcHost.IsPartialView) And (Not mvcHost.IsContentPage)) Then
+#>
+</body>
+</html>
+<#
+End If
+#>
+
+<#+
+Public Sub FilterProperties(ByVal type As Type, ByVal properties As Dictionary(Of String, String))
+	If (Not (type Is Nothing)) Then
+		Dim publicProperties() As System.Reflection.PropertyInfo = type.GetProperties(BindingFlags.Public Or BindingFlags.Instance Or BindingFlags.Static)
+
+		For Each pi As PropertyInfo In publicProperties
+			If pi.GetIndexParameters().Length > 0 Then
+				Continue For
+			End If
+			
+			Dim currentPropertyType As Type = pi.PropertyType
+			Dim currentUnderlyingType As Type = System.Nullable.GetUnderlyingType(currentPropertyType)
+
+			If (Not (currentUnderlyingType Is Nothing)) Then
+				currentPropertyType = currentUnderlyingType
+			End If
+
+			If (IsBindableType(currentPropertyType) And pi.CanWrite) Then
+				If (currentPropertyType.Equals(GetType(Double)) OrElse currentPropertyType.Equals(GetType(Decimal))) Then
+					properties.Add(pi.Name, "String.Format(""{0:F}"", Model." + pi.Name + ")")
+				ElseIf (currentPropertyType.Equals(GetType(DateTime))) Then
+					properties.Add(pi.Name, "String.Format(""{0:g}"", Model." + pi.Name + ")")
+				Else
+					properties.Add(pi.Name, "Model." + pi.Name)
+				End If
+			End If
+		Next
+	End If
+End Sub
+
+Public Function IsBindableType(ByVal type As Type) As Boolean
+	Dim isBindable As Boolean = False
+
+	If (type.IsPrimitive OrElse type.Equals(GetType(String)) OrElse type.Equals(GetType(DateTime)) OrElse type.Equals(GetType(Decimal)) OrElse type.Equals(GetType(Guid)) OrElse type.Equals(GetType(DateTimeOffset)) OrElse type.Equals(GetType(TimeSpan))) Then
+		isBindable = True
+	End If
+
+	Return isBindable
+End Function
+#>
