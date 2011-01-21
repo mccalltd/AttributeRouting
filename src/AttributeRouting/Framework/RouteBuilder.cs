@@ -115,8 +115,7 @@ namespace AttributeRouting.Framework
             constraints.Add("httpMethod", new RestfulHttpMethodConstraint(routeSpec.HttpMethod));
 
             // Attribute-based constraints
-            foreach (
-                var constraintAttribute in routeSpec.ConstraintAttributes.Where(c => !constraints.ContainsKey(c.Key)))
+            foreach (var constraintAttribute in routeSpec.ConstraintAttributes.Where(c => !constraints.ContainsKey(c.Key)))
                 constraints.Add(constraintAttribute.Key, constraintAttribute.Constraint);
 
             var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec));
@@ -126,8 +125,8 @@ namespace AttributeRouting.Framework
             foreach (var defaultConstraint in _configuration.DefaultRouteConstraints)
             {
                 var pattern = defaultConstraint.Key;
-                var urlParameterName = urlParameterNames.FirstOrDefault(n => Regex.IsMatch(n, pattern));
-                if (urlParameterName.HasValue())
+                var matchedUrlParameterNames = urlParameterNames.Where(n => Regex.IsMatch(n, pattern));
+                foreach (var urlParameterName in matchedUrlParameterNames.Where(n => !constraints.ContainsKey(n)))
                     constraints.Add(urlParameterName, defaultConstraint.Value);
             }
 
