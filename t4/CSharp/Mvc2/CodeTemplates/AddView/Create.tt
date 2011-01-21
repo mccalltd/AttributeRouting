@@ -1,0 +1,177 @@
+<#@ template language="C#" HostSpecific="True" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection" #>
+<#
+MvcTextTemplateHost mvcHost = (MvcTextTemplateHost)(Host);
+string mvcViewDataTypeGenericString = (!String.IsNullOrEmpty(mvcHost.ViewDataTypeName)) ? "<" + mvcHost.ViewDataTypeName + ">" : String.Empty;
+int CPHCounter = 1;
+bool isFramework4 = (mvcHost.FrameworkVersion >= new System.Version(4, 0));
+string nugget, htmlEncodeBegin, htmlEncodeEnd;
+if (isFramework4) {
+	nugget = ":";
+	htmlEncodeBegin = "";
+	htmlEncodeEnd = "";
+	if (String.IsNullOrEmpty(mvcViewDataTypeGenericString)) {
+		mvcViewDataTypeGenericString = "<dynamic>";
+	}
+} else {
+	nugget = "=";
+	htmlEncodeBegin = "Html.Encode(";
+	htmlEncodeEnd = ")";
+}
+#>
+<#
+// The following chained if-statement outputs the user-control needed for a partial view, or opens the asp:Content tag or html tags used in the case of a master page or regular view page
+if(mvcHost.IsPartialView) {
+#>
+<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<#= mvcViewDataTypeGenericString #>" %>
+
+<#
+} else if(mvcHost.IsContentPage) {
+#>
+<%@ Page Title="" Language="C#" MasterPageFile="<#= mvcHost.MasterPageFile #>" Inherits="System.Web.Mvc.ViewPage<#= mvcViewDataTypeGenericString #>" %>
+
+<#
+	foreach(string cphid in mvcHost.ContentPlaceHolderIDs) {
+		if(cphid.Equals("TitleContent", StringComparison.OrdinalIgnoreCase)) {
+#>
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= cphid #>" runat="server">
+	<#= mvcHost.ViewName #>
+</asp:Content>
+
+<#
+			CPHCounter++;
+		}
+	}
+#>
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= mvcHost.PrimaryContentPlaceHolderID #>" runat="server">
+
+    <h2><#= mvcHost.ViewName #></h2>
+
+<#
+} else {
+#>
+<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<#= mvcViewDataTypeGenericString #>" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title><#= mvcHost.ViewName #></title>
+</head>
+<body>
+<#
+}
+#>
+<#
+if(!String.IsNullOrEmpty(mvcViewDataTypeGenericString)) {
+	Dictionary<string, string> properties = new Dictionary<string, string>();
+	FilterProperties(mvcHost.ViewDataType, properties);
+#>
+    <% using (Html.BeginForm()) {%>
+        <%<#= nugget #> Html.ValidationSummary(true) %>
+
+        <fieldset>
+            <legend>Fields</legend>
+            
+<#
+	foreach(KeyValuePair<string, string> property in properties) {
+#>
+            <div class="editor-label">
+                <%<#= nugget #> Html.LabelFor(model => model.<#= property.Key #>) %>
+            </div>
+            <div class="editor-field">
+                <%<#= nugget #> Html.TextBoxFor(model => model.<#= property.Key #>) %>
+                <%<#= nugget #> Html.ValidationMessageFor(model => model.<#= property.Key #>) %>
+            </div>
+            
+<#
+	}
+#>
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </fieldset>
+
+    <% } %>
+
+    <div>
+        <%<#= nugget #> Html.ActionLink("Back to List", "Index") %>
+    </div>
+
+<#
+}
+#>
+<#
+// The following code closes the asp:Content tag used in the case of a master page and the body and html tags in the case of a regular view page
+#>
+<#
+if(mvcHost.IsContentPage) {
+#>
+</asp:Content>
+<#
+	foreach(string cphid in mvcHost.ContentPlaceHolderIDs) {
+		if(!cphid.Equals("TitleContent", StringComparison.OrdinalIgnoreCase) && !cphid.Equals(mvcHost.PrimaryContentPlaceHolderID, StringComparison.OrdinalIgnoreCase)) {
+			CPHCounter++;
+#>
+
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= cphid #>" runat="server">
+</asp:Content>
+<#
+		}
+	}
+#>
+<#
+} else if(!mvcHost.IsPartialView && !mvcHost.IsContentPage) {
+#>
+</body>
+</html>
+<#
+}
+#>
+
+<#+
+public void FilterProperties(Type type, Dictionary<string, string> properties) {
+	if(type != null) {
+		PropertyInfo[] publicProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+
+		foreach (PropertyInfo pi in publicProperties)
+		{
+			if (pi.GetIndexParameters().Length > 0)
+			{
+				continue;
+			}
+			
+			Type currentPropertyType = pi.PropertyType;
+			Type currentUnderlyingType = System.Nullable.GetUnderlyingType(currentPropertyType);
+			
+			if(currentUnderlyingType != null) {
+				currentPropertyType = currentUnderlyingType;
+			}
+			
+			if (IsBindableType(currentPropertyType) && pi.CanWrite)
+			{				
+				if(currentPropertyType.Equals(typeof(double)) || currentPropertyType.Equals(typeof(decimal))) {
+					properties.Add(pi.Name, "String.Format(\"{0:F}\", Model." + pi.Name + ")");
+				} else if(currentPropertyType.Equals(typeof(DateTime))) {
+					properties.Add(pi.Name, "String.Format(\"{0:g}\", Model." + pi.Name + ")");
+				} else {
+					properties.Add(pi.Name, "Model." + pi.Name);
+				}
+			}
+		}
+	}
+}
+
+public bool IsBindableType(Type type)
+{
+	bool isBindable = false;
+
+	if (type.IsPrimitive || type.Equals(typeof(string)) || type.Equals(typeof(DateTime)) || type.Equals(typeof(decimal)) || type.Equals(typeof(Guid)) || type.Equals(typeof(DateTimeOffset)) || type.Equals(typeof(TimeSpan)))
+	{
+		isBindable = true;
+	}
+
+	return isBindable;
+}
+#>
