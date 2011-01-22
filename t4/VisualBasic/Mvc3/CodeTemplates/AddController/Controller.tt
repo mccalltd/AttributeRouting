@@ -31,55 +31,55 @@ End If
 <#
 If mvcHost.AddActionMethods Then
 #>
-		<[GET]("New")> _
-        Function [New]() As ActionResult
+		<[GET]("Details/{id}")> _
+        Function Details(ByVal id As Integer) As ActionResult
             Return View()
         End Function
 
-		<POST("")> _
+		<[GET]("Create")> _
+        Function Create() As ActionResult
+            Return View()
+        End Function
+
+		<POST("Create")> _
         Function Create(ByVal collection As FormCollection) As ActionResult
             Try
                 ' TODO: Add insert logic here
                 Return RedirectToAction("Index")
             Catch
-                Return View("New")
+                Return View()
             End Try
         End Function
         
-		<[GET]("{id}")> _
-        Function Show(ByVal id As Integer) As ActionResult
-            Return View()
-        End Function
-
-		<[GET]("{id}/Edit")> _
+		<[GET]("Edit/{id}")> _
         Function Edit(ByVal id As Integer) As ActionResult
             Return View()
         End Function
 
-		<PUT("{id}")> _
-        Function Update(ByVal id As Integer, ByVal collection As FormCollection) As ActionResult
+		<POST("Edit/{id}")> _
+        Function Edit(ByVal id As Integer, ByVal collection As FormCollection) As ActionResult
             Try
                 ' TODO: Add update logic here
 
                 Return RedirectToAction("Index")
             Catch
-                Return View("Edit")
+                Return View()
             End Try
         End Function
 
-		<[GET]("{id}/Delete")> _
+		<[GET]("Delete/{id}")> _
         Function Delete(ByVal id As Integer) As ActionResult
             Return View()
         End Function
 
-		<DELETE("{id}")> _
-        Function Destroy(ByVal id As Integer, ByVal collection As FormCollection) As ActionResult
+		<POST("Delete/{id}")> _
+        Function Delete(ByVal id As Integer, ByVal collection As FormCollection) As ActionResult
             Try
                 ' TODO: Add delete logic here
 
                 Return RedirectToAction("Index")
             Catch
-                Return View("Delete")
+                Return View()
             End Try
         End Function     
 <#
