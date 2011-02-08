@@ -84,6 +84,8 @@
     <Compile Include="Steps\AttributesSteps.cs" />
     <Compile Include="Steps\LoggingSteps.cs" />
     <Compile Include="Subjects\AbsoluteUrlTestController.cs" />
+    <Compile Include="Subjects\RestfulRouteConventionWithExplicitOrderedRouteTestController.cs" />
+    <Compile Include="Subjects\RestfulRouteConventionWithExplicitRouteTestController.cs" />
     <Compile Include="Subjects\RoutePrecedenceTestController.cs" />
     <Compile Include="Subjects\AreaTestController.cs" />
     <Compile Include="Subjects\FakeController.cs" />

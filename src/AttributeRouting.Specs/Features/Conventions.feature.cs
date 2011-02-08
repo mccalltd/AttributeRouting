@@ -238,11 +238,33 @@ this.ScenarioSetup(scenarioInfo);
 #line 43
 this.ScenarioSetup(scenarioInfo);
 #line 44
- testRunner.When("I fetch the routes for the RestfulRouteConventionTest controller\'s Index action");
+ testRunner.When("I fetch the routes for the RestfulRouteConventionWithExplicitRouteTest controller" +
+                    "\'s Index action");
 #line 45
- testRunner.Then("the 1st route url is \"RestfulRouteConventionTest\"");
+ testRunner.Then("the 1st route url is \"RestfulRouteConventionWithExplicitRouteTest\"");
 #line 46
   testRunner.And("the 2nd route url is \"Legacy\"");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention on actions with an explicit or" +
+            "dered route defined")]
+        public virtual void GeneratingRoutesUsingTheRestfulRouteConventionOnActionsWithAnExplicitOrderedRouteDefined()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes using the RestfulRouteConvention on actions with an explicit or" +
+                    "dered route defined", ((string[])(null)));
+#line 48
+this.ScenarioSetup(scenarioInfo);
+#line 49
+ testRunner.When("I fetch the routes for the RestfulRouteConventionWithExplicitOrderedRouteTest con" +
+                    "troller\'s Index action");
+#line 50
+ testRunner.Then("the 1st route url is \"RestfulRouteConventionWithExplicitOrderedRouteTest/Primary\"" +
+                    "");
+#line 51
+  testRunner.And("the 2nd route url is \"RestfulRouteConventionWithExplicitOrderedRouteTest\"");
 #line hidden
             testRunner.CollectScenarioErrors();
         }

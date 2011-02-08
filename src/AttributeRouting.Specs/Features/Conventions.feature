@@ -41,6 +41,11 @@ Scenario Outline: Generating routes using the RestfulRouteConvention on controll
 		| Destroy	| DELETE	| Prefix/{id}			|		
 
 Scenario: Generating routes using the RestfulRouteConvention on actions with an explicit route defined
-	When I fetch the routes for the RestfulRouteConventionTest controller's Index action
-	Then the 1st route url is "RestfulRouteConventionTest"
+	When I fetch the routes for the RestfulRouteConventionWithExplicitRouteTest controller's Index action
+	Then the 1st route url is "RestfulRouteConventionWithExplicitRouteTest"
 	 And the 2nd route url is "Legacy"
+
+Scenario: Generating routes using the RestfulRouteConvention on actions with an explicit ordered route defined
+	When I fetch the routes for the RestfulRouteConventionWithExplicitOrderedRouteTest controller's Index action
+	Then the 1st route url is "RestfulRouteConventionWithExplicitOrderedRouteTest/Primary"
+	 And the 2nd route url is "RestfulRouteConventionWithExplicitOrderedRouteTest"

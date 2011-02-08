@@ -68,18 +68,16 @@ namespace AttributeRouting.Framework
         private static IEnumerable<RouteAttribute> GetRouteAttributes(MethodInfo actionMethod,
                                                                       RouteConventionAttribute convention)
         {
-            // Yield convention-based attributes first
+            var attributes = new List<RouteAttribute>();
+
+            // Add convention-based attributes
             if (convention != null)
-                foreach (var conventionRouteAttribute in convention.GetRouteAttributes(actionMethod))
-                    yield return conventionRouteAttribute;
+                attributes.AddRange(convention.GetRouteAttributes(actionMethod));
 
-            // Yield explicitly-defined attributes
-            var explicitAttributes = from routeAttribute in actionMethod.GetCustomAttributes<RouteAttribute>(false)
-                                     orderby routeAttribute.Order
-                                     select routeAttribute;
+            // Add explicitly-defined attributes
+            attributes.AddRange(actionMethod.GetCustomAttributes<RouteAttribute>(false));
 
-            foreach (var explicitAttribute in explicitAttributes)
-                yield return explicitAttribute;
+            return attributes.OrderBy(a => a.Order);
         }
 
         private static string GetAreaName(MethodInfo actionMethod)

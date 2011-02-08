@@ -24,7 +24,7 @@ namespace AttributeRouting.Framework
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
             var data = base.GetVirtualPath(requestContext, values);
-
+            
             if (_useLowercaseRoutes && data != null)
                 data.VirtualPath = data.VirtualPath.ToLowerInvariant();
 
