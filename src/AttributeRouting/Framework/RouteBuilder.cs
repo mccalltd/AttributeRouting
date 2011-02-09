@@ -76,7 +76,7 @@ namespace AttributeRouting.Framework
                 if (routeSpec.RoutePrefix.HasValue() && !routeSpec.Url.StartsWith(routeSpec.RoutePrefix))
                     urlBuilder.Insert(0, routeSpec.RoutePrefix + "/");
 
-                if (routeSpec.AreaUrl.HasValue() && !routeSpec.Url.StartsWith(routeSpec.AreaName))
+                if (routeSpec.AreaUrl.HasValue() && !routeSpec.Url.StartsWith(routeSpec.AreaUrl))
                     urlBuilder.Insert(0, routeSpec.AreaUrl + "/");
             }
 
