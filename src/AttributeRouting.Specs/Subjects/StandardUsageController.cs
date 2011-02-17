@@ -1,29 +1,29 @@
-﻿using System.Web.Mvc;
+using System.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
 {
-    public class RestfulTestController : Controller
+    public class StandardUsageController : Controller
     {
-        [GET("Resources")]
+        [GET("Index")]
         public ActionResult Index()
         {
             return Content("");
         }
 
-        [POST("Resources")]
+        [POST("Create")]
         public ActionResult Create()
         {
             return Content("");
         }
 
-        [PUT("Resources/{id}")]
-        public ActionResult Update(int id)
+        [PUT("Update/{id}")]
+        public ActionResult Update()
         {
             return Content("");
         }
 
-        [DELETE("Resources/{id}")]
-        public ActionResult Destroy(int id)
+        [DELETE("Destroy/{id}")]
+        public ActionResult Destroy()
         {
             return Content("");
         }

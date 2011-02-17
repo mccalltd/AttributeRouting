@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
 {
-    public partial class RoutePrecedenceTestController : Controller
+    public class RoutePrecedenceAmongRoutesController : Controller
+    {
+        [GET("Index/Second", Order = 2)]
+        [GET("Index/Third", Order = 3)]
+        [GET("Index/First", Order = 1)]
+        public ActionResult Index()
+        {
+            return Content("");
+        }    
+    }
+
+    public partial class RoutePrecedenceAmongActionsController : Controller
     {
         [GET("Route1", Precedence = 1)]
         public ActionResult Route1()
@@ -21,7 +28,7 @@ namespace AttributeRouting.Specs.Subjects
         }
     }
 
-    public partial class RoutePrecedenceTestController
+    public partial class RoutePrecedenceAmongActionsController
     {
         [GET("Route2", Precedence = 2)]
         public ActionResult Route2()

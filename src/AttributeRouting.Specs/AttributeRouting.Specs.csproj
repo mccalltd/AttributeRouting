@@ -60,59 +60,94 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
-    <Compile Include="Features\Attributes.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Attributes.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Features\Configuration.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Configuration.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Features\Conventions.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Conventions.feature</DependentUpon>
-    </Compile>
     <Compile Include="Features\Logging.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Logging.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\RouteAreas.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RouteAreas.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\RoutePrefixes.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RoutePrefixes.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\RouteConstraints.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RouteConstraints.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\RouteConventions.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RouteConventions.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\RouteDefaults.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RouteDefaults.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\RoutePrecedence.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RoutePrecedence.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\StandardUsage.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StandardUsage.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\RouteConstraintSteps.cs" />
+    <Compile Include="Steps\RouteDefaultsSteps.cs" />
+    <Compile Include="ScenarioContextExtensions.cs" />
+    <Compile Include="Steps\SharedSteps.cs" />
+    <Compile Include="Steps\StandardUsageSteps.cs" />
+    <Compile Include="Subjects\RouteAreasControllers.cs" />
+    <Compile Include="Subjects\RoutePrefixesControllers.cs" />
+    <Compile Include="Subjects\RouteConstraintsController.cs" />
+    <Compile Include="Subjects\RouteConventionsController.cs" />
+    <Compile Include="Subjects\RouteDefaultsController.cs" />
+    <Compile Include="Subjects\RoutePrecedenceController.cs" />
+    <Compile Include="Subjects\StandardUsageController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Steps\AttributesSteps.cs" />
     <Compile Include="Steps\LoggingSteps.cs" />
-    <Compile Include="Subjects\AbsoluteUrlTestController.cs" />
-    <Compile Include="Subjects\RestfulRouteConventionWithExplicitOrderedRouteTestController.cs" />
-    <Compile Include="Subjects\RestfulRouteConventionWithExplicitRouteTestController.cs" />
-    <Compile Include="Subjects\RoutePrecedenceTestController.cs" />
-    <Compile Include="Subjects\AreaTestController.cs" />
-    <Compile Include="Subjects\FakeController.cs" />
-    <Compile Include="Subjects\NestedAreaTestController.cs" />
-    <Compile Include="Subjects\NestedTestController.cs" />
-    <Compile Include="Subjects\RestfulRouteConventionPrefixTestController.cs" />
-    <Compile Include="Subjects\RestfulRouteConventionTestController.cs" />
-    <Compile Include="Subjects\RestfulTestController.cs" />
-    <Compile Include="Subjects\TestController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Features\Attributes.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Attributes.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\Configuration.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Configuration.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\Conventions.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Conventions.feature.cs</LastGenOutput>
-    </None>
     <None Include="Features\Logging.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Logging.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\RouteAreas.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RouteAreas.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\RoutePrefixes.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RoutePrefixes.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\RouteConstraints.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RouteConstraints.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\RouteConventions.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RouteConventions.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\RouteDefaults.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RouteDefaults.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\RoutePrecedence.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RoutePrecedence.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\StandardUsage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>StandardUsage.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
