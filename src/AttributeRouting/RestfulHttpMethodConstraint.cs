@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Routing;
 using AttributeRouting.Extensions;
@@ -22,7 +23,7 @@ namespace AttributeRouting
         {
             if (routeDirection == RouteDirection.UrlGeneration)
                 return true;
-
+            
             var httpMethod = httpContext.Request.GetHttpMethod();
 
             return AllowedMethods.Any(m => m.Equals(httpMethod, StringComparison.OrdinalIgnoreCase));

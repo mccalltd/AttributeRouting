@@ -36,4 +36,51 @@ namespace AttributeRouting.Specs.Subjects
             return Content("");
         }
     }
+
+    public class RoutePrecedenceAmongControllers3Controller : Controller
+    {
+        [GET("Controller3/Index")]
+        public ActionResult Index()
+        {
+            return Content("");
+        }
+    }
+
+    public class RoutePrecedenceAmongControllers1Controller : Controller
+    {
+        [GET("Controller1/Index")]
+        public ActionResult Index()
+        {
+            return Content("");
+        }
+    }
+
+    public class RoutePrecedenceAmongControllers2Controller : Controller
+    {
+        [GET("Controller2/Index")]
+        public ActionResult Index()
+        {
+            return Content("");
+        }
+    }
+
+    public abstract class RoutePrecedenceAmongDerivedControllersBaseController : Controller { }
+    
+    public class RoutePrecedenceAmongDerivedControllers1 : RoutePrecedenceAmongDerivedControllersBaseController
+    {
+        [GET("DerivedController1/Index")]
+        public ActionResult Index()
+        {
+            return Content("");
+        }
+    }
+    
+    public class RoutePrecedenceAmongDerivedControllers2 : RoutePrecedenceAmongDerivedControllersBaseController
+    {
+        [GET("DerivedController2/Index")]
+        public ActionResult Index()
+        {
+            return Content("");
+        }
+    }
 }

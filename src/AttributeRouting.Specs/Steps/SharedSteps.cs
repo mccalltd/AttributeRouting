@@ -11,8 +11,8 @@ namespace AttributeRouting.Specs.Steps
         [Given(@"I generate the routes defined in the subject controllers")]
         public void GivenIGenerateTheRoutesDefinedInTheSubjectControllers()
         {
-            if (RouteTable.Routes.Count == 0)
-                RouteTable.Routes.MapAttributeRoutes();
+            RouteTable.Routes.Clear();
+            RouteTable.Routes.MapAttributeRoutes();
         }
 
         [When(@"I fetch the routes for the (.*?) controller's (.*?) action")]

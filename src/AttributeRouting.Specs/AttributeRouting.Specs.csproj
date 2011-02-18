@@ -103,6 +103,7 @@
     <Compile Include="Steps\RouteConstraintSteps.cs" />
     <Compile Include="Steps\RouteDefaultsSteps.cs" />
     <Compile Include="ScenarioContextExtensions.cs" />
+    <Compile Include="Steps\RoutePrecedenceSteps.cs" />
     <Compile Include="Steps\SharedSteps.cs" />
     <Compile Include="Steps\StandardUsageSteps.cs" />
     <Compile Include="Subjects\RouteAreasControllers.cs" />

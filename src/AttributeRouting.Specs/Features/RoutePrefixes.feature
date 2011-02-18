@@ -1,4 +1,4 @@
-﻿Feature: Prefixing Routes
+﻿Feature: Route Prefixes
 
 Background: 
 	Given I generate the routes defined in the subject controllers

@@ -6,8 +6,6 @@ namespace AttributeRouting.Framework
 {
     public class RouteSpecification
     {
-        private string _areaUrl;
-
         public RouteSpecification()
         {
             ActionParameters = new ParameterInfo[0];
@@ -17,11 +15,7 @@ namespace AttributeRouting.Framework
 
         public string AreaName { get; set; }
 
-        public string AreaUrl
-        {
-            get { return _areaUrl ?? AreaName; }
-            set { _areaUrl = value; }
-        }
+        public string AreaUrl { get; set; }
 
         public string RoutePrefix { get; set; }
 

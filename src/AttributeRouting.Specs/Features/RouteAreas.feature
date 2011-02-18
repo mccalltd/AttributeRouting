@@ -1,4 +1,4 @@
-﻿Feature: Areas
+﻿Feature: Route Areas
 
 Background: 
 	Given I generate the routes defined in the subject controllers

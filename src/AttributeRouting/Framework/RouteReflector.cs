@@ -83,19 +83,19 @@ namespace AttributeRouting.Framework
         private static string GetAreaName(MethodInfo actionMethod)
         {
             var routeAreaAttribute = actionMethod.DeclaringType.GetCustomAttribute<RouteAreaAttribute>(true);
-            if (routeAreaAttribute != null)
-                return routeAreaAttribute.AreaName;
+            if (routeAreaAttribute == null)
+                return null;
 
-            return "";
+            return routeAreaAttribute.AreaName;
         }
 
         private static string GetAreaUrl(MethodInfo actionMethod)
         {
             var routeAreaAttribute = actionMethod.DeclaringType.GetCustomAttribute<RouteAreaAttribute>(true);
-            if (routeAreaAttribute != null)
-                return routeAreaAttribute.AreaUrl;
+            if (routeAreaAttribute == null)
+                return null;
 
-            return "";
+            return routeAreaAttribute.AreaUrl ?? routeAreaAttribute.AreaName;
         }
 
         private static string GetRoutePrefix(MethodInfo actionMethod, RouteConventionAttribute convention)

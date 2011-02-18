@@ -102,12 +102,58 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Route precedence among controllers using the configuration api")]
-        public virtual void RoutePrecedenceAmongControllersUsingTheConfigurationApi()
+        [NUnit.Framework.DescriptionAttribute("Route precedence among controllers added individually using the configuration api" +
+            "")]
+        public virtual void RoutePrecedenceAmongControllersAddedIndividuallyUsingTheConfigurationApi()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route precedence among controllers using the configuration api", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route precedence among controllers added individually using the configuration api" +
+                    "", ((string[])(null)));
 #line 19
 this.ScenarioSetup(scenarioInfo);
+#line 20
+ testRunner.Given("I have a new configuration object");
+#line 21
+   testRunner.And("I add the routes from the RoutePrecedenceAmongControllers1 controller");
+#line 22
+   testRunner.And("I add the routes from the RoutePrecedenceAmongControllers2 controller");
+#line 23
+   testRunner.And("I add the routes from the RoutePrecedenceAmongControllers3 controller");
+#line 24
+  testRunner.When("I generate the routes with this configuration");
+#line 25
+  testRunner.Then("the routes from the RoutePrecedenceAmongControllers1 controller precede those fro" +
+                    "m the RoutePrecedenceAmongControllers2 controller");
+#line 26
+   testRunner.And("the routes from the RoutePrecedenceAmongControllers2 controller precede those fro" +
+                    "m the RoutePrecedenceAmongControllers3 controller");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Route precedence among controllers added by base type using the configuration api" +
+            "")]
+        public virtual void RoutePrecedenceAmongControllersAddedByBaseTypeUsingTheConfigurationApi()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route precedence among controllers added by base type using the configuration api" +
+                    "", ((string[])(null)));
+#line 28
+this.ScenarioSetup(scenarioInfo);
+#line 29
+ testRunner.Given("I have a new configuration object");
+#line 30
+   testRunner.And("I add the routes from controllers derived from the RoutePrecedenceAmongDerivedCon" +
+                    "trollersBase controller");
+#line 31
+   testRunner.And("I add the routes from the RoutePrecedenceAmongControllers1 controller");
+#line 32
+  testRunner.When("I generate the routes with this configuration");
+#line 33
+  testRunner.Then("the routes from the RoutePrecedenceAmongDerivedControllers1 controller precede th" +
+                    "ose from the RoutePrecedenceAmongControllers1 controller");
+#line 34
+   testRunner.And("the routes from the RoutePrecedenceAmongDerivedControllers2 controller precede th" +
+                    "ose from the RoutePrecedenceAmongControllers1 controller");
 #line hidden
             testRunner.CollectScenarioErrors();
         }

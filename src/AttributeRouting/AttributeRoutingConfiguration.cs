@@ -69,7 +69,16 @@ namespace AttributeRouting
         /// <typeparam name="TController">The base controller type</typeparam>
         public void AddRoutesFromControllersOfType<TController>()
         {
-            var baseControllerType = typeof(TController);
+            AddRoutesFromControllersOfType(typeof(TController));
+        }
+
+        /// <summary>
+        /// Adds all the routes for all the controllers that derive from the specified controller
+        /// to the end of the route collection.
+        /// </summary>
+        /// <param name="baseControllerType">The base controller type</param>
+        public void AddRoutesFromControllersOfType(Type baseControllerType)
+        {
             var assembly = baseControllerType.Assembly;
 
             var controllerTypes = from controllerType in assembly.GetControllerTypes()
@@ -81,7 +90,7 @@ namespace AttributeRouting
         }
 
         /// <summary>
-        /// Adds all the routes for the specified controller to the end of the route collection.
+        /// Adds all the routes for the specified controller type to the end of the route collection.
         /// </summary>
         /// <typeparam name="TController">The controller type</typeparam>
         public void AddRoutesFromController<TController>()
@@ -90,7 +99,11 @@ namespace AttributeRouting
             AddRoutesFromController(typeof(TController));
         }
 
-        private void AddRoutesFromController(Type controllerType)
+        /// <summary>
+        /// Adds all the routes for the specified controller type to the end of the route collection.
+        /// </summary>
+        /// <param name="controllerType">The controller type</param>
+        public void AddRoutesFromController(Type controllerType)
         {
             AddScannedRoutes = false;
 
