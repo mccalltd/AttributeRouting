@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -49,8 +50,7 @@ namespace AttributeRouting.Specs.Steps
             var constraint = route.Constraints["httpMethod"] as RestfulHttpMethodConstraint;
 
             Assert.That(constraint, Is.Not.Null);
-            Assert.That(constraint.AllowedMethods.Count, Is.EqualTo(1));
-            Assert.That(constraint.AllowedMethods.First(), Is.EqualTo(method));
+            Assert.That(constraint.AllowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
         }
 
         [Then(@"the route for (.*?) is constrained to (.*?) requests")]
@@ -63,8 +63,7 @@ namespace AttributeRouting.Specs.Steps
             var constraint = route.Constraints["httpMethod"] as RestfulHttpMethodConstraint;
 
             Assert.That(constraint, Is.Not.Null);
-            Assert.That(constraint.AllowedMethods.Count, Is.EqualTo(1));
-            Assert.That(constraint.AllowedMethods.First(), Is.EqualTo(method));
+            Assert.That(constraint.AllowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
         }
     }
 }

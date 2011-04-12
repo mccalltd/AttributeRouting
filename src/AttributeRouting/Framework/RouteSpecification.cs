@@ -29,7 +29,7 @@ namespace AttributeRouting.Framework
 
         public string Url { get; set; }
 
-        public string HttpMethod { get; set; }
+        public string[] HttpMethods { get; set; }
 
         public ICollection<RouteDefaultAttribute> DefaultAttributes { get; set; }
 

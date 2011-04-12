@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -104,9 +105,7 @@ namespace AttributeRouting.Logging
                     foreach (var constraint in route.Constraints)
                     {
                         if (constraint.Value.GetType() == typeof(RestfulHttpMethodConstraint))
-                            item.HttpMethod =
-                                ((RestfulHttpMethodConstraint)constraint.Value).AllowedMethods.Aggregate(
-                                    (n1, n2) => n1 + ", " + n2);
+                            item.HttpMethod = String.Join(", ", ((RestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
                         else if (constraint.Value.GetType() == typeof(RegexRouteConstraint))
                             item.Constraints.Add(constraint.Key, ((RegexRouteConstraint)constraint.Value).Pattern);
                         else

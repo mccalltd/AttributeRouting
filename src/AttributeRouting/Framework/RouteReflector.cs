@@ -57,7 +57,7 @@ namespace AttributeRouting.Framework
                         ActionName = actionMethod.Name,
                         ActionParameters = actionMethod.GetParameters(),
                         Url = routeAttribute.Url,
-                        HttpMethod = routeAttribute.HttpMethod,
+                        HttpMethods = routeAttribute.HttpMethods,
                         DefaultAttributes = GetDefaultAttributes(actionMethod, routeName, convention),
                         ConstraintAttributes = GetConstraintAttributes(actionMethod, routeName, convention),
                         RouteName = routeName,

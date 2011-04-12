@@ -11,7 +11,7 @@ Scenario Outline: Generating routes using the RestfulRouteConvention
 	 And the route for <action> is constrained to <method> requests
 
 	Examples:
-		| action	| method	| url										|
+		| action	| method	| url									|
 		| Index		| GET		| RestfulRouteConvention				|
 		| New		| GET		| RestfulRouteConvention/New			|		
 		| Create	| POST		| RestfulRouteConvention				|		

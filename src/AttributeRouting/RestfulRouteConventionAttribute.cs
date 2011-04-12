@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AttributeRouting.Extensions;
+using AttributeRouting.Framework;
 
 namespace AttributeRouting
 {
@@ -28,12 +30,29 @@ namespace AttributeRouting
         {
             var convention = Conventions.SingleOrDefault(c => c.ActionName == actionMethod.Name);
             if (convention != null)
-                yield return new RouteAttribute(convention.Url, convention.HttpMethod);
+                yield return BuildRouteAttribute(convention);
         }
 
         public override string GetDefaultRoutePrefix(MethodInfo actionMethod)
         {
             return actionMethod.DeclaringType.GetControllerName();
+        }
+
+        private RouteAttribute BuildRouteAttribute(RestfulRouteConventionInfo convention)
+        {
+            switch (convention.HttpMethod)
+            {
+                case "GET":
+                    return new GETAttribute(convention.Url);
+                case "POST":
+                    return new POSTAttribute(convention.Url);
+                case "PUT":
+                    return new PUTAttribute(convention.Url);
+                case "DELETE":
+                    return new DELETEAttribute(convention.Url);
+                default:
+                    throw new AttributeRoutingException("Unknown HTTP method \"{0}\".".FormatWith(convention.HttpMethod));
+            }
         }
 
         private class RestfulRouteConventionInfo

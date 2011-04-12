@@ -9,6 +9,6 @@
         /// Specify a route for an action constrained to requests providing an httpMethod value of GET.
         /// </summary>
         /// <param name="url">The url that is associated with this action</param>
-        public GETAttribute(string url) : base(url, "GET") {}
+        public GETAttribute(string url) : base(url, "GET", "HEAD") {}
     }
 }

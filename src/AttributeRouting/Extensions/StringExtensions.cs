@@ -21,6 +21,14 @@ namespace AttributeRouting.Extensions
             return String.Format(s, args);
         }
 
+        public static string[] SplitAndTrim(this string s, string[] separator)
+        {
+            if (!s.HasValue())
+                return null;
+
+            return s.Split(separator, StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToArray();
+        }
+
         public static bool IsValidUrl(this string s, bool allowTokens = false)
         {
             var urlParts = s.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);

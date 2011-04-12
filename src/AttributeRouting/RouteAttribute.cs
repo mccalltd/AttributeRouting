@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -16,8 +17,8 @@ namespace AttributeRouting
         /// Specify the route information for an action.
         /// </summary>
         /// <param name="url">The url that is associated with this action</param>
-        /// <param name="httpMethod">The httpMethod against which to constrain the route</param>
-        public RouteAttribute(string url, string httpMethod)
+        /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
+        public RouteAttribute(string url, params string[] allowedMethods)
         {
             if (url == null) throw new ArgumentNullException("url");
             if (Regex.IsMatch(url, @"^\/|\/$") || !url.IsValidUrl(true))
@@ -25,12 +26,12 @@ namespace AttributeRouting
                     ("The url \"{0}\" is not valid. It cannot start or end with forward slashes " +
                      "or contain any other character not allowed in URLs.").FormatWith(url));
 
-            if (httpMethod == null) throw new ArgumentNullException("httpMethod");
-            if (!Regex.IsMatch(httpMethod, "GET|POST|PUT|DELETE"))
-                throw new ArgumentException("The httpMethod must be either GET, POST, PUT, or DELETE.", "httpMethod");
+            if (allowedMethods == null) throw new ArgumentNullException("allowedMethods");
+            if (allowedMethods.Any(m => !Regex.IsMatch(m, "HEAD|GET|POST|PUT|DELETE")))
+                throw new ArgumentException("The allowedMethods are restricted to either HEAD, GET, POST, PUT, or DELETE.", "allowedMethods");
 
             Url = url;
-            HttpMethod = httpMethod;
+            HttpMethods = allowedMethods;
             Order = int.MaxValue;
             Precedence = int.MaxValue;
         }
@@ -41,9 +42,9 @@ namespace AttributeRouting
         public string Url { get; private set; }
 
         /// <summary>
-        /// The HttpMethod this route is constrained against.
+        /// The HttpMethods this route is constrained against.
         /// </summary>
-        public string HttpMethod { get; private set; }
+        public string[] HttpMethods { get; private set; }
 
         /// <summary>
         /// The order of this route among all the routes defined against this action.
@@ -70,7 +71,7 @@ namespace AttributeRouting
             var httpMethod = (string)(controllerContext.RouteData.Values["httpMethod"] ??
                                       controllerContext.HttpContext.Request.GetHttpMethod());
 
-            return httpMethod.ValueEquals(HttpMethod);
+            return HttpMethods.Contains(httpMethod);
         }
     }
 }

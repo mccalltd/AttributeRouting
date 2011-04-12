@@ -112,7 +112,7 @@ namespace AttributeRouting.Framework
             var constraints = new RouteValueDictionary();
 
             // Default constraints
-            constraints.Add("httpMethod", new RestfulHttpMethodConstraint(routeSpec.HttpMethod));
+            constraints.Add("httpMethod", new RestfulHttpMethodConstraint(routeSpec.HttpMethods));
 
             // Attribute-based constraints
             foreach (var constraintAttribute in routeSpec.ConstraintAttributes.Where(c => !constraints.ContainsKey(c.Key)))
