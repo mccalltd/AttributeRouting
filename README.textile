@@ -4,6 +4,15 @@ h3. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 *Changelog*
 
+_v0.7.4119_
+
+* Added HEAD constraint to GET attribute so that all GET routes will respond to HEAD requests as well.
+* Fixed bug when testing whether a route starts with an area url applicable to the route. Previously it was comparing against the area name, which was recently made overridable, and part of this logic was not updated.
+* Fleshed out XML doc comments.
+* Fixed bug in ordering of routes for an action when using a RouteConvention.
+* Added T4 CodeTemplates for controllers and views to swap with the defaults provided in MVC projects.  
+* Fixed bug in applying global route constraints -- when more than one url parameter matches the specified regex, only the first one matched has the constraint applied. Corrected this so that each matched url parameter has the constraint applied.
+
 _v0.6.4033_
 
 * Added IsAbsoluteUrl property to the RouteAttributes, which prevents the RouteAreaAttribute and RoutePrefixAttribute from prefixing the URL for a route. This can be handy for legacy URL support.  
