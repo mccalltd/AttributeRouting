@@ -4,7 +4,7 @@ h3. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 *Changelog*
 
-_v0.7.4119_
+_v0.8_
 
 * Fixed bug in base route attribute that disallowed URLs like Somewhere/{*pathInfo}, barfing on the asterisk.
 
