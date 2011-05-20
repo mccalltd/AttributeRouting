@@ -12,9 +12,10 @@ Scenario Outline: Generating routes for an action method
 	 And the namespace is "AttributeRouting.Specs.Subjects"
 	
 	Examples:
-		| method	| action	| url			|
-		| GET		| Index		| Index			|
-		| HEAD		| Index		| Index			|
-		| POST		| Create	| Create		|
-		| PUT		| Update	| Update/{id}	|
-		| DELETE	| Destroy	| Destroy/{id}	|
+		| method | action    | url                   |
+		| GET    | Index     | Index                 |
+		| HEAD   | Index     | Index                 |
+		| POST   | Create    | Create                |
+		| PUT    | Update    | Update/{id}           |
+		| DELETE | Destroy   | Destroy/{id}          |
+		| GET    | Wildcards | Wildcards/{*pathInfo} |

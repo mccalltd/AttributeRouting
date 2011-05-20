@@ -27,5 +27,11 @@ namespace AttributeRouting.Specs.Subjects
         {
             return Content("");
         }
+
+        [GET("Wildcards/{*pathInfo}")]
+        public ActionResult Wildcards()
+        {
+            return Content("");
+        }
     }
 }
