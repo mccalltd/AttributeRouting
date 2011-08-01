@@ -93,15 +93,6 @@ namespace AttributeRouting.Framework
 
             var urlParameters = GetUrlParameterContents(routeSpec.Url);
 
-            // Attribute-based defaults
-            foreach (var defaultAttribute in routeSpec.DefaultAttributes)
-            {
-                if (defaults.ContainsKey(defaultAttribute.Key))
-                    continue;
-
-                defaults.Add(defaultAttribute.Key, defaultAttribute.Value);
-            }
-
             // Inspect the url for optional parameters, specified with a leading or trailing (or both) ?
             foreach (var parameter in urlParameters.Where(p => Regex.IsMatch(p, @"^\?|\?$")))
             {
@@ -123,6 +114,15 @@ namespace AttributeRouting.Framework
 
                 var defaultValue = parameter.Substring(indexOfEquals + 1, parameter.Length - indexOfEquals - 1);
                 defaults.Add(parameterName, defaultValue);
+            }
+
+            // Attribute-based defaults
+            foreach (var defaultAttribute in routeSpec.DefaultAttributes)
+            {
+                if (defaults.ContainsKey(defaultAttribute.Key))
+                    continue;
+
+                defaults.Add(defaultAttribute.Key, defaultAttribute.Value);
             }
 
             return defaults;
