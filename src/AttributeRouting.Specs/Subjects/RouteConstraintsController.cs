@@ -11,7 +11,7 @@ namespace AttributeRouting.Specs.Subjects
             return Content("");
         }
 
-        [GET(@"InlineConstraints/{number(\d+)}/{word(\w+)}")]
+        [GET(@"InlineConstraints/{number(\d+)}/{word(\w{2})}/{alphanum([A-Za-z0-9]*)}/{capture((gotcha))}")]
         public ActionResult InlineConstraints(long number, string word)
         {
             return Content("");

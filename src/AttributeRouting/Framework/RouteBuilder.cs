@@ -209,13 +209,21 @@ namespace AttributeRouting.Framework
 
         private static IEnumerable<string> GetUrlParameterNames(string url)
         {
-            return (from match in Regex.Matches(url, @"(?<={)\w*(?=})").Cast<Match>()
+            if (!url.HasValue())
+                return Enumerable.Empty<string>();
+
+            return (from urlPart in url.SplitAndTrim(new[] { "/" })
+                    from match in Regex.Matches(urlPart, @"(?<={).*(?=})").Cast<Match>()
                     select match.Captures[0].ToString()).ToList();
         }
 
         private static IEnumerable<string> GetUrlParameterContents(string url)
         {
-            return (from match in Regex.Matches(url, @"(?<={).*?(?=})").Cast<Match>()
+            if (!url.HasValue())
+                return Enumerable.Empty<string>();
+
+            return (from urlPart in url.SplitAndTrim(new[] { "/" })
+                    from match in Regex.Matches(urlPart, @"(?<={).*(?=})").Cast<Match>()
                     select match.Captures[0].ToString()).ToList();
         }
     }

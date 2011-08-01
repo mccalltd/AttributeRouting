@@ -21,10 +21,6 @@ namespace AttributeRouting
         public RouteAttribute(string url, params string[] allowedMethods)
         {
             if (url == null) throw new ArgumentNullException("url");
-            if (Regex.IsMatch(url, @"^\/|\/$") || !url.IsValidUrl(allowTokens: true))
-                throw new ArgumentException(
-                    ("The url \"{0}\" is not valid. It cannot start or end with forward slashes " +
-                     "or contain any other character not allowed in URLs.").FormatWith(url));
 
             if (allowedMethods.Any(m => !Regex.IsMatch(m, "HEAD|GET|POST|PUT|DELETE")))
                 throw new ArgumentException("The allowedMethods are restricted to either HEAD, GET, POST, PUT, or DELETE.", "allowedMethods");

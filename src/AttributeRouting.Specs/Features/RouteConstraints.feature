@@ -9,9 +9,11 @@ Scenario: Regex route constraints specified with an attribute
 
 Scenario: Regex route constraints specified inline
 	When I fetch the routes for the RouteConstraints controller's InlineConstraints action
-	Then the route url is "InlineConstraints/{number}/{word}"
+	Then the route url is "InlineConstraints/{number}/{word}/{alphanum}/{capture}"
 	Then the parameter "number" is constrained by the pattern "\d+"
-	Then the parameter "word" is constrained by the pattern "\w+"
+	Then the parameter "word" is constrained by the pattern "\w{2}"
+	Then the parameter "alphanum" is constrained by the pattern "[A-Za-z0-9]*"
+	Then the parameter "capture" is constrained by the pattern "(gotcha)"
 
 Scenario: Multiple routes with different constraints
 	When I fetch the routes for the RouteConstraints controller's MultipleRoutes action

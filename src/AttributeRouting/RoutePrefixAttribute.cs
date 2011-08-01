@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
-using AttributeRouting.Extensions;
 
 namespace AttributeRouting
 {
@@ -17,10 +15,6 @@ namespace AttributeRouting
         public RoutePrefixAttribute(string url)
         {
             if (url == null) throw new ArgumentNullException("url");
-            if (Regex.IsMatch(url, @"^\/|\/$") || !url.IsValidUrl(true))
-                throw new ArgumentException(
-                    ("The url \"{0}\" is not valid. It cannot start or end with forward slashes " +
-                     "or contain any other character not allowed in URLs.").FormatWith(url));
 
             Url = url;
         }

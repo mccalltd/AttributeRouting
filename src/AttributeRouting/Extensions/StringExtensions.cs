@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -33,7 +34,16 @@ namespace AttributeRouting.Extensions
         {
             var urlParts = s.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
 
-            var invalidUrlPattern = FormatWith(@"[#%&:<>/{0}]|\.\.|\.$|^ | $", allowTokens ? "" : @"\\\+\{\}?\*");
+            var invalidUrlPatterns = new List<string>
+            {
+                @"[#%&:<>/{0}]".FormatWith(allowTokens ? null : @"\\\+\{\}?\*"),
+                @"\.\.",
+                @"\.$",
+                @"^ ",
+                @" $"
+            };
+
+            var invalidUrlPattern = String.Join("|", invalidUrlPatterns);
 
             return !urlParts.Any(p => Regex.IsMatch(p, invalidUrlPattern));
         }
