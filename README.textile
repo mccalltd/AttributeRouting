@@ -4,6 +4,13 @@ h3. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 *Changelog*
 
+_v1.0_
+
+* Modified the base RouteAttribute to allow it to work without an http method constraint, so that an action can respond to any verb.
+* Added ability to specify optional parameter token (?) at either beginning or end of url param.
+* Added ability to specify route defaults inline with the url parameter.
+* Added ability to specify regex route constraints inline with the url parameter.
+
 _v0.8_
 
 * Fixed bug in base route attribute that disallowed URLs like Somewhere/{*pathInfo}, barfing on the asterisk.
