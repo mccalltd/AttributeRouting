@@ -88,8 +88,10 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I fetch the routes for the RouteConstraints controller\'s InlineConstraints action" +
                     "");
 #line 12
- testRunner.Then("the parameter \"number\" is constrained by the pattern \"\\d+\"");
+ testRunner.Then("the route url is \"InlineConstraints/{number}/{word}\"");
 #line 13
+ testRunner.Then("the parameter \"number\" is constrained by the pattern \"\\d+\"");
+#line 14
  testRunner.Then("the parameter \"word\" is constrained by the pattern \"\\w+\"");
 #line hidden
             testRunner.CollectScenarioErrors();
@@ -100,13 +102,13 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void MultipleRoutesWithDifferentConstraints()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple routes with different constraints", ((string[])(null)));
-#line 15
-this.ScenarioSetup(scenarioInfo);
 #line 16
- testRunner.When("I fetch the routes for the RouteConstraints controller\'s MultipleRoutes action");
+this.ScenarioSetup(scenarioInfo);
 #line 17
- testRunner.Then("the route named \"MultipleConstraints1\" has a constraint on \"p1\" of \"\\d+\"");
+ testRunner.When("I fetch the routes for the RouteConstraints controller\'s MultipleRoutes action");
 #line 18
+ testRunner.Then("the route named \"MultipleConstraints1\" has a constraint on \"p1\" of \"\\d+\"");
+#line 19
   testRunner.And("the route named \"MultipleConstraints2\" has a constraint on \"p1\" of \"\\d{4}\"");
 #line hidden
             testRunner.CollectScenarioErrors();

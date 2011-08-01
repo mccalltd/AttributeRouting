@@ -115,13 +115,13 @@ namespace AttributeRouting.Framework
                 defaults.Add(defaultAttribute.Key, defaultAttribute.Value);
             }
 
-            // Inspect the url for optional parameters, specified with a leading ?
-            foreach (var parameter in urlParameters.Where(p => p.StartsWith("?")))
+            // Inspect the url for optional parameters, specified with a leading or trailing (or both) ?
+            foreach (var parameter in urlParameters.Where(p => Regex.IsMatch(p, @"^\?|\?$")))
             {
                 if (defaults.ContainsKey(parameter))
                     continue;
 
-                var parameterName = parameter.TrimStart('?');
+                var parameterName = parameter.Trim('?');
                 defaults.Add(parameterName, UrlParameter.Optional);
             }
 
@@ -195,7 +195,15 @@ namespace AttributeRouting.Framework
 
         private static string DetokenizeUrl(string url)
         {
-            return Regex.Replace(url, @"\{\?", "{");
+            var patterns = new List<string>
+            {
+                @"(?<=\{)\?", // leading question mark (used to specify optional param)
+                @"\?(?=\})", // trailing question mark (used to specify optional param)
+                @"\(.*?\)(?=\})", // stuff inside parens (used to specify inline regex route constraint)
+                @"=.*?(?=\})", // equals and value (used to specify inline parameter default value)
+            };
+
+            return Regex.Replace(url, String.Join("|", patterns), "");
         }
 
         private static IEnumerable<string> GetUrlParameterNames(string url)

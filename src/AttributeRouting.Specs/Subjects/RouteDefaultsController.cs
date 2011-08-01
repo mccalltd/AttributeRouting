@@ -17,7 +17,7 @@ namespace AttributeRouting.Specs.Subjects
             return Content("");
         }
 
-        [GET("Optionals/{?p1}/{?p2}")]
+        [GET("Optionals/{p1?}/{?p2}/{?p3?}")]
         public ActionResult Optionals()
         {
             return Content("");

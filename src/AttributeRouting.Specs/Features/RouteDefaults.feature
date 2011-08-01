@@ -9,14 +9,16 @@ Scenario: Route default specified with an attribute
 
 Scenario: Route default specified inline
 	When I fetch the routes for the RouteDefaults controller's InlineDefaults action
+	Then the route url is "InlineDefaults/{hello}/{goodnight}"
 	Then the default for "hello" is "sun"
 	Then the default for "goodnight" is "moon"
 
 Scenario: Optional parameters specified with a url parameter token
 	When I fetch the routes for the RouteDefaults controller's Optionals action
-	Then the route url is "Optionals/{p1}/{p2}"
+	Then the route url is "Optionals/{p1}/{p2}/{p3}"
 	 And the parameter "p1" is optional
 	 And the parameter "p2" is optional
+	 And the parameter "p3" is optional
 
 Scenario: Multiple routes with different defaults
 	When I fetch the routes for the RouteDefaults controller's MultipleRoutes action
