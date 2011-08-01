@@ -114,6 +114,15 @@ namespace AttributeRouting.Framework
             // Default constraints
             constraints.Add("httpMethod", new RestfulHttpMethodConstraint(routeSpec.HttpMethods));
 
+            // Inline constraints
+            foreach (var parameter in GetUrlParameterContents(routeSpec.Url).Where(p => Regex.IsMatch(p, @"^.*\(.*\)$")))
+            {
+                var indexOfOpenParen = parameter.IndexOf('(');
+                var parameterName = parameter.Substring(0, indexOfOpenParen);
+                var regexPattern = parameter.Substring(indexOfOpenParen + 1, parameter.Length - indexOfOpenParen - 2);
+                constraints.Add(parameterName, new RegexRouteConstraint(regexPattern));
+            }
+
             // Attribute-based constraints
             foreach (var constraintAttribute in routeSpec.ConstraintAttributes.Where(c => !constraints.ContainsKey(c.Key)))
                 constraints.Add(constraintAttribute.Key, constraintAttribute.Constraint);

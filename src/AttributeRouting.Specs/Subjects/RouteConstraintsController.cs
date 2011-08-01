@@ -11,6 +11,12 @@ namespace AttributeRouting.Specs.Subjects
             return Content("");
         }
 
+        [GET(@"InlineConstraints/{number(\d+)}/{word(\w+)}")]
+        public ActionResult InlineConstraints(long number, string word)
+        {
+            return Content("");
+        }
+
         [GET("MultipleConstraints/1/{p1}", RouteName = "MultipleConstraints1")]
         [GET("MultipleConstraints/2/{p1}", RouteName = "MultipleConstraints2")]
         [RegexRouteConstraint("p1", @"\d+", ForRouteNamed = "MultipleConstraints1")]

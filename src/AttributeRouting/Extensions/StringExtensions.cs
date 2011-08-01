@@ -33,7 +33,7 @@ namespace AttributeRouting.Extensions
         {
             var urlParts = s.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
 
-            var invalidUrlPattern = FormatWith(@"[#%&\\:<>/\+{0}]|\.\.|\.$|^ | $", allowTokens ? "" : @"\{\}?\*");
+            var invalidUrlPattern = FormatWith(@"[#%&:<>/{0}]|\.\.|\.$|^ | $", allowTokens ? "" : @"\\\+\{\}?\*");
 
             return !urlParts.Any(p => Regex.IsMatch(p, invalidUrlPattern));
         }
