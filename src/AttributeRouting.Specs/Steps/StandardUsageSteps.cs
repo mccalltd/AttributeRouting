@@ -49,8 +49,15 @@ namespace AttributeRouting.Specs.Steps
 
             var constraint = route.Constraints["httpMethod"] as RestfulHttpMethodConstraint;
 
-            Assert.That(constraint, Is.Not.Null);
-            Assert.That(constraint.AllowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
+            if (method.HasValue())
+            {
+                Assert.That(constraint, Is.Not.Null);
+                Assert.That(constraint.AllowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
+            }
+            else
+            {
+                Assert.That(constraint, Is.Null);
+            }
         }
 
         [Then(@"the route for (.*?) is constrained to (.*?) requests")]

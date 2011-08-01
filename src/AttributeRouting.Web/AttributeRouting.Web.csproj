@@ -22,6 +22,7 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -82,6 +83,7 @@
     <Compile Include="Controllers\NestedController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RenderActionController.cs" />
     <Compile Include="Controllers\RestfulController.cs" />
     <Compile Include="Controllers\RestfulConventionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -98,6 +100,8 @@
     <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\RenderAction\Index.aspx" />
+    <Content Include="Views\RenderAction\Partial.ascx" />
     <Content Include="Views\RestfulConvention\Delete.aspx" />
     <Content Include="Views\RestfulConvention\Edit.aspx" />
     <Content Include="Views\RestfulConvention\Index.aspx" />

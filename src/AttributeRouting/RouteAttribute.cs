@@ -26,7 +26,6 @@ namespace AttributeRouting
                     ("The url \"{0}\" is not valid. It cannot start or end with forward slashes " +
                      "or contain any other character not allowed in URLs.").FormatWith(url));
 
-            if (allowedMethods == null) throw new ArgumentNullException("allowedMethods");
             if (allowedMethods.Any(m => !Regex.IsMatch(m, "HEAD|GET|POST|PUT|DELETE")))
                 throw new ArgumentException("The allowedMethods are restricted to either HEAD, GET, POST, PUT, or DELETE.", "allowedMethods");
 
@@ -68,6 +67,9 @@ namespace AttributeRouting
 
         public override bool IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
         {
+            if (!HttpMethods.Any())
+                return true;
+
             var httpMethod = (string)(controllerContext.RouteData.Values["httpMethod"] ??
                                       controllerContext.HttpContext.Request.GetHttpMethod());
 

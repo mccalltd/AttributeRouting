@@ -133,7 +133,8 @@ namespace AttributeRouting.Framework
             var constraints = new RouteValueDictionary();
 
             // Default constraints
-            constraints.Add("httpMethod", new RestfulHttpMethodConstraint(routeSpec.HttpMethods));
+            if (routeSpec.HttpMethods.Any())
+                constraints.Add("httpMethod", new RestfulHttpMethodConstraint(routeSpec.HttpMethods));
 
             // Inline constraints
             foreach (var parameter in GetUrlParameterContents(routeSpec.Url).Where(p => Regex.IsMatch(p, @"^.*\(.*\)$")))

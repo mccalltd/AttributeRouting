@@ -33,5 +33,11 @@ namespace AttributeRouting.Specs.Subjects
         {
             return Content("");
         }
+
+        [Route("AnyVerb")]
+        public ActionResult AnyVerb()
+        {
+            return Content("");
+        }
     }
 }

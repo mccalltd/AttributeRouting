@@ -16,17 +16,12 @@ namespace AttributeRouting.Web.Controllers
         }
 
         [POST("")]
-        //[HttpPost]
         public ActionResult Index(object model)
         {
             return View();
         }
 
-        [GET("Partial")]
-        [POST("Partial")]
-        //[HttpGet]
-        //[HttpPost]
-        [ChildActionOnly]
+        [Route("Partial")]
         public ActionResult Partial()
         {
             return View();

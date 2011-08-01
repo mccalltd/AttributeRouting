@@ -19,3 +19,4 @@ Scenario Outline: Generating routes for an action method
 		| PUT    | Update    | Update/{id}           |
 		| DELETE | Destroy   | Destroy/{id}          |
 		| GET    | Wildcards | Wildcards/{*pathInfo} |
+		|        | AnyVerb   | AnyVerb               |
