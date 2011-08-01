@@ -11,6 +11,12 @@ namespace AttributeRouting.Specs.Subjects
             return Content("");
         }
 
+        [GET("InlineDefaults/{hello=sun}/{goodnight=moon}")]
+        public ActionResult InlineDefaults()
+        {
+            return Content("");
+        }
+
         [GET("Optionals/{?p1}/{?p2}")]
         public ActionResult Optionals()
         {

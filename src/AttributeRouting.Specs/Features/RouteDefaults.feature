@@ -7,6 +7,11 @@ Scenario: Route default specified with an attribute
 	When I fetch the routes for the RouteDefaults controller's Index action
 	Then the default for "p1" is "variable"
 
+Scenario: Route default specified inline
+	When I fetch the routes for the RouteDefaults controller's InlineDefaults action
+	Then the default for "hello" is "sun"
+	Then the default for "goodnight" is "moon"
+
 Scenario: Optional parameters specified with a url parameter token
 	When I fetch the routes for the RouteDefaults controller's Optionals action
 	Then the route url is "Optionals/{p1}/{p2}"

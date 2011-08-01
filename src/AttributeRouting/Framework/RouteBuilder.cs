@@ -91,18 +91,39 @@ namespace AttributeRouting.Framework
                 { "action", routeSpec.ActionName }
             };
 
-            foreach (var defaultAttribute in routeSpec.DefaultAttributes.Where(d => !defaults.ContainsKey(d.Key)))
+            var urlParameters = GetUrlParameterContents(routeSpec.Url);
+
+            // Inline defaults
+            foreach (var parameter in urlParameters.Where(p => Regex.IsMatch(p, @"^.*=.*$")))
+            {
+                var indexOfEquals = parameter.IndexOf('=');
+                var parameterName = parameter.Substring(0, indexOfEquals);
+
+                if (defaults.ContainsKey(parameterName))
+                    continue;
+
+                var defaultValue = parameter.Substring(indexOfEquals + 1, parameter.Length - indexOfEquals - 1);
+                defaults.Add(parameterName, defaultValue);
+            }
+
+            // Attribute-based defaults
+            foreach (var defaultAttribute in routeSpec.DefaultAttributes)
+            {
+                if (defaults.ContainsKey(defaultAttribute.Key))
+                    continue;
+
                 defaults.Add(defaultAttribute.Key, defaultAttribute.Value);
+            }
 
             // Inspect the url for optional parameters, specified with a leading ?
-            var optionalParameterDefaults =
-                from parameter in GetUrlParameterContents(routeSpec.Url)
-                where parameter.StartsWith("?")
-                let parameterName = parameter.TrimStart('?')
-                select new RouteDefaultAttribute(parameterName, UrlParameter.Optional);
+            foreach (var parameter in urlParameters.Where(p => p.StartsWith("?")))
+            {
+                if (defaults.ContainsKey(parameter))
+                    continue;
 
-            foreach (var defautAttribute in optionalParameterDefaults.Where(d => !defaults.ContainsKey(d.Key)))
-                defaults.Add(defautAttribute.Key, defautAttribute.Value);
+                var parameterName = parameter.TrimStart('?');
+                defaults.Add(parameterName, UrlParameter.Optional);
+            }
 
             return defaults;
         }
@@ -119,13 +140,22 @@ namespace AttributeRouting.Framework
             {
                 var indexOfOpenParen = parameter.IndexOf('(');
                 var parameterName = parameter.Substring(0, indexOfOpenParen);
+
+                if (constraints.ContainsKey(parameterName))
+                    continue;
+
                 var regexPattern = parameter.Substring(indexOfOpenParen + 1, parameter.Length - indexOfOpenParen - 2);
                 constraints.Add(parameterName, new RegexRouteConstraint(regexPattern));
             }
 
             // Attribute-based constraints
-            foreach (var constraintAttribute in routeSpec.ConstraintAttributes.Where(c => !constraints.ContainsKey(c.Key)))
+            foreach (var constraintAttribute in routeSpec.ConstraintAttributes)
+            {
+                if (constraints.ContainsKey(constraintAttribute.Key))
+                    continue;
+
                 constraints.Add(constraintAttribute.Key, constraintAttribute.Constraint);
+            }
 
             var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec));
             var urlParameterNames = GetUrlParameterNames(detokenizedUrl);
@@ -134,9 +164,14 @@ namespace AttributeRouting.Framework
             foreach (var defaultConstraint in _configuration.DefaultRouteConstraints)
             {
                 var pattern = defaultConstraint.Key;
-                var matchedUrlParameterNames = urlParameterNames.Where(n => Regex.IsMatch(n, pattern));
-                foreach (var urlParameterName in matchedUrlParameterNames.Where(n => !constraints.ContainsKey(n)))
+                
+                foreach (var urlParameterName in urlParameterNames.Where(n => Regex.IsMatch(n, pattern)))
+                {
+                    if (constraints.ContainsKey(urlParameterName))
+                        continue;
+
                     constraints.Add(urlParameterName, defaultConstraint.Value);
+                }
             }
 
             return constraints;
