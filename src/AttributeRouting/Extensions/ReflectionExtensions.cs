@@ -17,10 +17,7 @@ namespace AttributeRouting.Extensions
 
         public static IEnumerable<MethodInfo> GetActionMethods(this Type type)
         {
-            const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-            return from method in type.GetMethods(bindingFlags)
-                   where typeof(ActionResult).IsAssignableFrom(method.ReturnType)
-                   select method;
+            return type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
         }
 
         public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this Type type, bool inherit)
