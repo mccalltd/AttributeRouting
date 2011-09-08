@@ -15,6 +15,10 @@ Scenario: Generating absolute routes when a route prefix is defined
 	When I fetch the routes for the RoutePrefixes controller's Absolute action
 	Then the route url is "PrefixAbsolute"
 
+Scenario: Generating prefixed routes when route url starts with the route prefix
+	When I fetch the routes for the RoutePrefixes controller's RouteBeginsWithRoutePrefix action
+	Then the route url is "Prefix/Prefixer"
+
 Scenario: Generating prefixed area routes
 	When I fetch the routes for the AreaRoutePrefixes controller's Index action
 	Then the route url is "Area/Prefix/Index"

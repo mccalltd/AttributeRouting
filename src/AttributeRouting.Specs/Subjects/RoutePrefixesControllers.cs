@@ -22,6 +22,12 @@ namespace AttributeRouting.Specs.Subjects
         {
             return Content("");
         }
+
+        [GET("Prefixer")]
+        public ActionResult RouteBeginsWithRoutePrefix()
+        {
+            return Content("");
+        }
     }
 
     [RouteArea("Area")]

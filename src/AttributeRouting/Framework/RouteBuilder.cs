@@ -73,11 +73,21 @@ namespace AttributeRouting.Framework
             // If this is not an absolute url, prefix with a route prefix or area name
             if (!routeSpec.IsAbsoluteUrl)
             {
-                if (routeSpec.RoutePrefix.HasValue() && !routeSpec.Url.StartsWith(routeSpec.RoutePrefix))
-                    urlBuilder.Insert(0, routeSpec.RoutePrefix + "/");
+                var delimitedRouteUrl = routeSpec.Url + "/";
+  
+                if (routeSpec.RoutePrefix.HasValue())
+                {
+                    var delimitedRoutePrefix = routeSpec.RoutePrefix + "/";
+                    if (!delimitedRouteUrl.StartsWith(delimitedRoutePrefix))
+                        urlBuilder.Insert(0, delimitedRoutePrefix);                    
+                }
 
-                if (routeSpec.AreaUrl.HasValue() && !routeSpec.Url.StartsWith(routeSpec.AreaUrl))
-                    urlBuilder.Insert(0, routeSpec.AreaUrl + "/");
+                if (routeSpec.AreaUrl.HasValue())
+                {
+                    var delimitedAreaUrl = routeSpec.AreaUrl + "/";
+                    if (!delimitedRouteUrl.StartsWith(delimitedAreaUrl))
+                        urlBuilder.Insert(0, delimitedAreaUrl);                    
+                }
             }
 
             return urlBuilder.ToString().Trim('/');

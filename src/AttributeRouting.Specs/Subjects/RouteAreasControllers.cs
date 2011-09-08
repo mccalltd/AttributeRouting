@@ -22,6 +22,12 @@ namespace AttributeRouting.Specs.Subjects
         {
             return Content("");
         }
+
+        [GET("Areas")]
+        public ActionResult RouteBeginsWithAreaName()
+        {
+            return Content("");
+        }
     }
 
     [RouteArea("Area", AreaUrl = "ExplicitArea")]
