@@ -4,6 +4,12 @@ h3. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 *Changelog*
 
+_v1.1_
+
+* Fixed bug that occured when building route urls that have areas or prefixes that start with the route url, even when it is only a partial match.
+* Fixed reflection logic for finding action methods. Used to restrict to public instance methods that returned type assignable to ActionMethod; now simply returns public instance methods, in line with the true definition of an action method in MVC.
+
+
 _v1.0_
 
 * Modified the base RouteAttribute to allow it to work without an http method constraint, so that an action can respond to any verb.
