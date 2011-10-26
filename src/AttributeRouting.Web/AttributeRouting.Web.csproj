@@ -80,6 +80,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DangerController.cs" />
     <Compile Include="Controllers\NestedController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -100,6 +101,7 @@
     <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\Danger\Index.aspx" />
     <Content Include="Views\RenderAction\Index.aspx" />
     <Content Include="Views\RenderAction\Partial.ascx" />
     <Content Include="Views\RestfulConvention\Delete.aspx" />
