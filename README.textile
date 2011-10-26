@@ -19,6 +19,11 @@ h3. Major Features
 
 h3. Changelog
 
+_v1.2_
+
+* Used System.Web.WebHelpers to sniff the form and querystring collections hanging off the request for an http method override without triggering request xss validation.
+* Marked configuration object's AddRemainingScannedRoutes method as obsolete beacause it is ... obsolete.
+
 _v1.1_
 
 * Fixed bug that occured when building route urls that have areas or prefixes that start with the route url, even when it is only a partial match.
