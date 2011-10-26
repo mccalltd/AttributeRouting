@@ -18,7 +18,6 @@ namespace AttributeRouting
         /// </summary>
         public AttributeRoutingConfiguration()
         {
-            AddScannedRoutes = true;
             UseLowercaseRoutes = false;
             DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
 
@@ -28,7 +27,6 @@ namespace AttributeRouting
 
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }
-        internal bool AddScannedRoutes { get; set; }
         internal IDictionary<string, IRouteConstraint> DefaultRouteConstraints { get; set; }
 
         /// <summary>
@@ -105,8 +103,6 @@ namespace AttributeRouting
         /// <param name="controllerType">The controller type</param>
         public void AddRoutesFromController(Type controllerType)
         {
-            AddScannedRoutes = false;
-
             if (!PromotedControllerTypes.Contains(controllerType))
                 PromotedControllerTypes.Add(controllerType);
         }
@@ -115,10 +111,8 @@ namespace AttributeRouting
         /// When using AddRoutesFromControllersOfType or AddRoutesFromController to set the precendence of the routes,
         /// you must explicitly specify that you want to include the remaining routes discoved while scanning assemblies.
         /// </summary>
-        public void AddTheRemainingScannedRoutes()
-        {
-            AddScannedRoutes = true;
-        }
+        [Obsolete("This is a vestigial workaround for an old assembly scanning issue.")]
+        public void AddTheRemainingScannedRoutes() { }
 
         /// <summary>
         /// Automatically applies the specified constaint against url parameters

@@ -23,16 +23,16 @@ namespace AttributeRouting.Framework
             foreach (var spec in controllerRouteSpecs)
                 yield return spec;
 
-            if (_configuration.AddScannedRoutes)
-            {
-                var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes()).ToList();
-                var remainingControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
+            if (!_configuration.Assemblies.Any())
+                yield break;
 
-                var remainingRouteSpecs = GenerateRouteSpecifications(remainingControllerTypes);
+            var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes()).ToList();
+            var remainingControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
 
-                foreach (var spec in remainingRouteSpecs)
-                    yield return spec;
-            }
+            var remainingRouteSpecs = GenerateRouteSpecifications(remainingControllerTypes);
+
+            foreach (var spec in remainingRouteSpecs)
+                yield return spec;
         }
 
         private IEnumerable<RouteSpecification> GenerateRouteSpecifications(IEnumerable<Type> controllerTypes)
