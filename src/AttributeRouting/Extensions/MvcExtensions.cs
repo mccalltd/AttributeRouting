@@ -14,10 +14,10 @@ namespace AttributeRouting.Extensions
 
         public static string GetHttpMethod(this HttpRequestBase request)
         {
-            return request.Headers["X-HTTP-Method-Override"] ??
-                   request.Unvalidated().Form["X-HTTP-Method-Override"] ??
-                   request.Unvalidated().QueryString["X-HTTP-Method-Override"] ??
-                   request.HttpMethod;
+            return request.SafeGet(r => r.Headers["X-HTTP-Method-Override"]) ??
+                   request.SafeGet(r => r.Unvalidated().Form["X-HTTP-Method-Override"]) ??
+                   request.SafeGet(r => r.Unvalidated().QueryString["X-HTTP-Method-Override"]) ??
+                   request.SafeGet(r => r.HttpMethod, "GET");
         }
     }
 }
