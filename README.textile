@@ -19,6 +19,12 @@ h3. Major Features
 
 h3. Changelog
 
+_v1.3_
+
+* Issue 18 - allowed route params case to be preserved while lowercasing the area, controller, and action.
+* Identify controllers that do not inherit from Controller
+* Add strongly typed way to specify allowed HTTP methods for RouteAttribute
+
 _v1.2.1_
 
 * Issue 24 - fixed null reference in GetHttpMethod extension when inspecting routes in unit tests (ie: mocked http contexts).
