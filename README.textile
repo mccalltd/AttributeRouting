@@ -19,6 +19,10 @@ h3. Major Features
 
 h3. Changelog
 
+_v1.3.1_
+
+* Fixed bug I introduced when trying to exclude route params from lowercase route generation. Will try again later.
+
 _v1.3_
 
 * Issue 18 - allowed route params case to be preserved while lowercasing the area, controller, and action.
