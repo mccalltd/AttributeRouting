@@ -36,13 +36,6 @@ namespace AttributeRouting
         public bool UseLowercaseRoutes { get; set; }
 
         /// <summary>
-        /// When true, the generated routes will honor the original case of any route parameters,
-        /// only lowercasing the area, controller, and action segments of a route.
-        /// The default is false.
-        /// </summary>
-        public bool PreserveCaseForRouteParameters { get; set; }
-
-        /// <summary>
         /// When true, the generated routes will have auto-generated route names in the form controller_action.
         /// The default is false.
         /// </summary>
