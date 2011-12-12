@@ -11,7 +11,7 @@ namespace AttributeRouting.Extensions
         public static IEnumerable<Type> GetControllerTypes(this Assembly assembly)
         {
             return from type in assembly.GetTypes()
-                   where !type.IsAbstract && typeof(Controller).IsAssignableFrom(type)
+                   where !type.IsAbstract && typeof(IController).IsAssignableFrom(type)
                    select type;
         }
 

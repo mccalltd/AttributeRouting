@@ -92,7 +92,7 @@ namespace AttributeRouting
         /// </summary>
         /// <typeparam name="TController">The controller type</typeparam>
         public void AddRoutesFromController<TController>()
-            where TController : Controller
+            where TController : IController
         {
             AddRoutesFromController(typeof(TController));
         }
