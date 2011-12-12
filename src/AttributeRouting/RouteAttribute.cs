@@ -32,6 +32,16 @@ namespace AttributeRouting
         }
 
         /// <summary>
+        /// Specify the route information for an action.
+        /// </summary>
+        /// <param name="url">The url that is associated with this action</param>
+        /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
+        public RouteAttribute(string url, HttpVerbs allowedMethods)
+            : this(url, allowedMethods.ToString().ToUpper().SplitAndTrim(new[] { "," }))
+        {
+        }
+
+        /// <summary>
         /// The url for this action.
         /// </summary>
         public string Url { get; private set; }
