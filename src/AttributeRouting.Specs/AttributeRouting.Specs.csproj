@@ -122,6 +122,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\LoggingSteps.cs" />
     <Compile Include="Tests\BugFixTests.cs" />
+    <Compile Include="Tests\When_generating_lowercase_routes.cs" />
+    <Compile Include="Tests\When_generating_lowercase_routes_preserving_original_case_for_route_parameters.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

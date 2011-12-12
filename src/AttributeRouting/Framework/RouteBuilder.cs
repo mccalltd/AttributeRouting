@@ -35,7 +35,8 @@ namespace AttributeRouting.Framework
                                       CreateRouteDefaults(routeSpec),
                                       CreateRouteConstraints(routeSpec),
                                       CreateRouteDataTokens(routeSpec),
-                                      _configuration.UseLowercaseRoutes);
+                                      _configuration.UseLowercaseRoutes,
+                                      _configuration.PreserveCaseForRouteParameters);
         }
 
         private string CreateRouteName(RouteSpecification routeSpec)
