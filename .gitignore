@@ -3,6 +3,7 @@ obj/
 _ReSharper.*
 *.ReSharper.user
 *.csproj.user
+*.user
 *.suo
 *.cache
 nuget/*.nupkg
