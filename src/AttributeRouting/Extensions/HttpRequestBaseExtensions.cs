@@ -6,7 +6,7 @@ namespace AttributeRouting.Extensions
 {
     internal static class HttpRequestBaseExtensions
     {
-        private static bool _isSystemWebWebPagesAvailable = true;
+        private static bool _isSystemWebWebPagesUnavailable;
 
         public static string GetFormValue(this HttpRequestBase request, string key)
         {
@@ -24,7 +24,7 @@ namespace AttributeRouting.Extensions
         /// </summary>
         private static NameValueCollection GetUnvalidatedCollectionOr(this HttpRequestBase request, string unvalidatedObjectPropertyName, NameValueCollection defaultCollection)
         {
-            if (!_isSystemWebWebPagesAvailable)
+            if (_isSystemWebWebPagesUnavailable)
                 return defaultCollection;
 
             try
@@ -40,7 +40,7 @@ namespace AttributeRouting.Extensions
             }
             catch
             {
-                _isSystemWebWebPagesAvailable = false;
+                _isSystemWebWebPagesUnavailable = true;
 
                 return defaultCollection;
             }
