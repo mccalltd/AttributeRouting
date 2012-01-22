@@ -6,52 +6,44 @@ namespace AttributeRouting.Extensions
 {
     internal static class HttpRequestBaseExtensions
     {
+        private static bool _isSystemWebWebPagesAvailable = true;
+
         public static string GetFormValue(this HttpRequestBase request, string key)
         {
-            NameValueCollection collection;
-
-            try
-            {
-                collection = GetUnvalidatedCollection(request, "Form");
-            }
-            catch
-            {
-                collection = request.Form;
-            }
-
-            return collection.SafeGet(c => c[key]);
+            return request.GetUnvalidatedCollectionOr("Form", request.Form)[key];
         }
 
         public static string GetQueryStringValue(this HttpRequestBase request, string key)
         {
-            NameValueCollection collection;
-
-            try
-            {
-                collection = GetUnvalidatedCollection(request, "QueryString");
-            }
-            catch
-            {
-                collection = request.QueryString;
-            }
-
-            return collection.SafeGet(c => c[key]);
+            return request.GetUnvalidatedCollectionOr("QueryString", request.QueryString)[key];
         }
 
         /// <summary>
         /// Loads the Form or QueryString collection from the unvalidated object in System.Web.Webpages, 
         /// if that assembly is available.
         /// </summary>
-        private static NameValueCollection GetUnvalidatedCollection(HttpRequestBase request, string propertyName)
+        private static NameValueCollection GetUnvalidatedCollectionOr(this HttpRequestBase request, string unvalidatedObjectPropertyName, NameValueCollection defaultCollection)
         {
-            var webPagesAssembly = Assembly.Load("System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35");
-            var validationType = webPagesAssembly.GetType("System.Web.Helpers.Validation");
-            var unvalidatedMethod = validationType.GetMethod("Unvalidated", new[] { request.GetType() });
-            var unvalidatedObject = unvalidatedMethod.Invoke(null, new[] { request });
-            var collectionProperty = unvalidatedObject.GetType().GetProperty(propertyName);
-            var collection = collectionProperty.GetValue(unvalidatedObject, null) as NameValueCollection;
+            if (!_isSystemWebWebPagesAvailable)
+                return defaultCollection;
 
-            return collection;
+            try
+            {
+                var webPagesAssembly = Assembly.Load("System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35");
+                var validationType = webPagesAssembly.GetType("System.Web.Helpers.Validation");
+                var unvalidatedMethod = validationType.GetMethod("Unvalidated", new[] { request.GetType() });
+                var unvalidatedObject = unvalidatedMethod.Invoke(null, new[] { request });
+                var collectionProperty = unvalidatedObject.GetType().GetProperty(unvalidatedObjectPropertyName);
+                var collection = collectionProperty.GetValue(unvalidatedObject, null) as NameValueCollection;
+
+                return collection;
+            }
+            catch
+            {
+                _isSystemWebWebPagesAvailable = false;
+
+                return defaultCollection;
+            }
         }
     }
 }
