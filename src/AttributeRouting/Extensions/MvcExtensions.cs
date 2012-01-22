@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Helpers;
 
 namespace AttributeRouting.Extensions
 {
@@ -15,8 +14,8 @@ namespace AttributeRouting.Extensions
         public static string GetHttpMethod(this HttpRequestBase request)
         {
             return request.SafeGet(r => r.Headers["X-HTTP-Method-Override"]) ??
-                   request.SafeGet(r => r.Unvalidated().Form["X-HTTP-Method-Override"]) ??
-                   request.SafeGet(r => r.Unvalidated().QueryString["X-HTTP-Method-Override"]) ??
+                   request.SafeGet(r => r.GetFormValue("X-HTTP-Method-Override")) ??
+                   request.SafeGet(r => r.GetQueryStringValue("X-HTTP-Method-Override")) ??
                    request.SafeGet(r => r.HttpMethod, "GET");
         }
     }

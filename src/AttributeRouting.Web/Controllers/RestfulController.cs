@@ -10,6 +10,12 @@ namespace AttributeRouting.Web.Controllers
             return View();
         }
 
+        [GET("Resources/{id}")]
+        public ActionResult Show(int id)
+        {
+            return View();
+        }
+
         [GET("Resources/New")]
         public ActionResult New()
         {
@@ -21,13 +27,6 @@ namespace AttributeRouting.Web.Controllers
         {
             Flash("Resource Created");
             return RedirectToAction("Show", new { id = 1 });
-        }
-
-        [GET("Resources/{id}")]
-        [RouteDefault("id", 1)]
-        public ActionResult Show(int id)
-        {
-            return View();
         }
 
         [GET("Resources/{id}/Edit")]
