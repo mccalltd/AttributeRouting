@@ -19,6 +19,10 @@ h3. Major Features
 
 h3. Changelog
 
+_v1.3.2_
+
+* Removed reference to System.Web.WebPages in AR. Now, when checking for form or query values for the http method override, AR is dynamically checking for System.Web.WebPages, and if found, will use the Unvalidated collection rather than request.form or request.querystring.
+
 _v1.3.1_
 
 * Fixed bug I introduced when trying to exclude route params from lowercase route generation. Will try again later.
