@@ -29,6 +29,8 @@ namespace AttributeRouting
         internal List<Type> PromotedControllerTypes { get; set; }
         internal IDictionary<string, IRouteConstraint> DefaultRouteConstraints { get; set; }
 
+        internal Func<IRouteHandler> routeHandlerFactory { get; set; }
+
         /// <summary>
         /// When true, the generated routes will produce lowercase outbound URLs.
         /// The default is false.
@@ -124,6 +126,11 @@ namespace AttributeRouting
         {
             if (!DefaultRouteConstraints.ContainsKey(keyRegex))
                 DefaultRouteConstraints.Add(keyRegex, constraint);
+        }
+
+        public void UseRouteHandler(Func<IRouteHandler> routeHandlerFactory)
+        {
+            this.routeHandlerFactory = routeHandlerFactory;
         }
     }
 }
