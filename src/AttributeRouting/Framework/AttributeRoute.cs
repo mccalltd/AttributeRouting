@@ -14,7 +14,12 @@ namespace AttributeRouting.Framework
 
         public AttributeRoute(string name, string url, RouteValueDictionary defaults, RouteValueDictionary constraints,
                               RouteValueDictionary dataTokens, bool useLowercaseRoutes)
-            : base(url, defaults, constraints, dataTokens, new MvcRouteHandler())
+            : this(null, url, defaults, constraints, dataTokens, useLowercaseRoutes, new MvcRouteHandler()) {}
+
+
+        public AttributeRoute(string name, string url, RouteValueDictionary defaults, RouteValueDictionary constraints,
+                                     RouteValueDictionary dataTokens, bool useLowercaseRoutes, IRouteHandler routeHandler)
+            : base(url, defaults, constraints, dataTokens, routeHandler)
         {
             Name = name;
             _useLowercaseRoutes = useLowercaseRoutes;
