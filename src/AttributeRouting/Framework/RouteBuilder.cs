@@ -30,23 +30,13 @@ namespace AttributeRouting.Framework
 
         public AttributeRoute Build(RouteSpecification routeSpec)
         {
-            IRouteHandler routeHandler;
-            if (_configuration.routeHandlerFactory != null)
-            {
-                routeHandler = _configuration.routeHandlerFactory.Invoke();
-            }
-            else
-            {
-                routeHandler = new MvcRouteHandler();
-            }
-                
             return new AttributeRoute(CreateRouteName(routeSpec),
                                       CreateRouteUrl(routeSpec),
                                       CreateRouteDefaults(routeSpec),
                                       CreateRouteConstraints(routeSpec),
                                       CreateRouteDataTokens(routeSpec),
                                       _configuration.UseLowercaseRoutes,
-                                      routeHandler);
+                                      _configuration.RouteHandlerFactory.Invoke());
         }
 
         private string CreateRouteName(RouteSpecification routeSpec)
