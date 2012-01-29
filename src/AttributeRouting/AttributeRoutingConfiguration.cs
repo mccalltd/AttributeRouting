@@ -20,6 +20,7 @@ namespace AttributeRouting
         {
             UseLowercaseRoutes = false;
             DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
+            RouteHandlerFactory = (() => new System.Web.Mvc.MvcRouteHandler());
 
             Assemblies = new List<Assembly>();
             PromotedControllerTypes = new List<Type>();
@@ -28,6 +29,8 @@ namespace AttributeRouting
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }
         internal IDictionary<string, IRouteConstraint> DefaultRouteConstraints { get; set; }
+
+        internal Func<IRouteHandler> RouteHandlerFactory { get; set; }
 
         /// <summary>
         /// When true, the generated routes will produce lowercase outbound URLs.
@@ -124,6 +127,26 @@ namespace AttributeRouting
         {
             if (!DefaultRouteConstraints.ContainsKey(keyRegex))
                 DefaultRouteConstraints.Add(keyRegex, constraint);
+        }
+
+        /// <summary>
+        /// Specifies a function that returns an alternate route handler.
+        /// By default, the route handler is the default MVC handler System.Web.Mvc.MvcRouteHandler()
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// routes.MapAttributeRoutes(config =>
+        /// {
+        ///    config.ScanAssembly(System.Reflection.Assembly.GetExecutingAssembly());
+        ///    config.UseRouteHandler(() => new MyOtherLibrary.Mvc.CustomRouteHandler());
+        ///    // default:  config.UseRouteHandler(() => new System.Web.Mvc.MvcRouteHandler());
+        /// });
+        /// </code>
+        /// </example>
+        /// <param name="routeHandlerFactory"></param>
+        public void UseRouteHandler(Func<IRouteHandler> routeHandlerFactory)
+        {
+            this.RouteHandlerFactory = routeHandlerFactory;
         }
     }
 }
