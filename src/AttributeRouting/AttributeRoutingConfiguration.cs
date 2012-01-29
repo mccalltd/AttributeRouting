@@ -18,18 +18,15 @@ namespace AttributeRouting
         /// </summary>
         public AttributeRoutingConfiguration()
         {
-            UseLowercaseRoutes = false;
-            DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
-            RouteHandlerFactory = (() => new System.Web.Mvc.MvcRouteHandler());
-
             Assemblies = new List<Assembly>();
             PromotedControllerTypes = new List<Type>();
+            DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
+            RouteHandlerFactory = () => new MvcRouteHandler();
         }
 
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }
         internal IDictionary<string, IRouteConstraint> DefaultRouteConstraints { get; set; }
-
         internal Func<IRouteHandler> RouteHandlerFactory { get; set; }
 
         /// <summary>
@@ -146,7 +143,7 @@ namespace AttributeRouting
         /// <param name="routeHandlerFactory"></param>
         public void UseRouteHandler(Func<IRouteHandler> routeHandlerFactory)
         {
-            this.RouteHandlerFactory = routeHandlerFactory;
+            RouteHandlerFactory = routeHandlerFactory;
         }
     }
 }
