@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Text.RegularExpressions;
 using System.Web.Routing;
 
 namespace AttributeRouting.Framework
@@ -28,9 +28,25 @@ namespace AttributeRouting.Framework
             var data = base.GetVirtualPath(requestContext, values);
 
             if (_useLowercaseRoutes && data != null)
-                data.VirtualPath = data.VirtualPath.ToLowerInvariant();
+                data.VirtualPath = GetLowercaseVirtualPath(data);
 
             return data;
+        }
+
+        private string GetLowercaseVirtualPath(VirtualPathData data)
+        {
+            var virtualPath = data.VirtualPath;
+
+            // NOTE: Do not lowercase the querystring vals
+            var match = Regex.Match(virtualPath, @"(?<path>[^\?]*)(?<query>\?.*)?");
+            if (match.Success)
+            {
+                return match.Groups["path"].Value.ToLowerInvariant()
+                       + match.Groups["query"].Value;
+            }
+
+            // Just covering my backside here in case the regex fails for some reason.
+            return virtualPath.ToLowerInvariant();
         }
     }
 }

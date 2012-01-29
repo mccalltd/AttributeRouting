@@ -121,6 +121,7 @@
     <Compile Include="Subjects\StandardUsageController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\LoggingSteps.cs" />
+    <Compile Include="Tests\AttributeRouteTests.cs" />
     <Compile Include="Tests\BugFixTests.cs" />
   </ItemGroup>
   <ItemGroup>
