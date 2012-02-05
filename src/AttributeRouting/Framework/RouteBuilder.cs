@@ -36,6 +36,7 @@ namespace AttributeRouting.Framework
                                       CreateRouteConstraints(routeSpec),
                                       CreateRouteDataTokens(routeSpec),
                                       _configuration.UseLowercaseRoutes,
+                                      _configuration.AppendTrailingSlash,
                                       _configuration.RouteHandlerFactory.Invoke());
         }
 
