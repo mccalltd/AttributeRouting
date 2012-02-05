@@ -6,6 +6,7 @@ namespace AttributeRouting.Framework
     public class AttributeRoute : Route
     {
         private readonly bool _useLowercaseRoutes;
+        private readonly bool _appendTrailingSlash;
 
         public AttributeRoute(
             string name, 
@@ -14,11 +15,13 @@ namespace AttributeRouting.Framework
             RouteValueDictionary constraints,
             RouteValueDictionary dataTokens, 
             bool useLowercaseRoutes, 
+            bool appendTrailingSlash, 
             IRouteHandler routeHandler)
             : base(url, defaults, constraints, dataTokens, routeHandler)
         {
             Name = name;
             _useLowercaseRoutes = useLowercaseRoutes;
+            _appendTrailingSlash = appendTrailingSlash;
         }
 
         public string Name { get; set; }
@@ -27,22 +30,28 @@ namespace AttributeRouting.Framework
         {
             var data = base.GetVirtualPath(requestContext, values);
 
-            if (_useLowercaseRoutes && data != null)
-                data.VirtualPath = GetLowercaseVirtualPath(data);
+            if (data != null) {
+                data.VirtualPath = GetFinalVirtualPath(data);
+            }
 
             return data;
         }
 
-        private string GetLowercaseVirtualPath(VirtualPathData data)
-        {
+        private string GetFinalVirtualPath(VirtualPathData data) {
             var virtualPath = data.VirtualPath;
 
             // NOTE: Do not lowercase the querystring vals
             var match = Regex.Match(virtualPath, @"(?<path>[^\?]*)(?<query>\?.*)?");
             if (match.Success)
             {
-                return match.Groups["path"].Value.ToLowerInvariant()
-                       + match.Groups["query"].Value;
+                string path = match.Groups["path"].Value;
+                if (_appendTrailingSlash && !path.EndsWith("/")) {
+                    path += "/";
+                }
+                if (_useLowercaseRoutes) {
+                    path = path.ToLowerInvariant();
+                }
+                return path + match.Groups["query"].Value;
             }
 
             // Just covering my backside here in case the regex fails for some reason.
