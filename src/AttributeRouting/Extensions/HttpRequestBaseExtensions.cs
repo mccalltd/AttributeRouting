@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Reflection;
 using System.Web;
+using System;
 
 namespace AttributeRouting.Extensions
 {
@@ -10,22 +11,22 @@ namespace AttributeRouting.Extensions
 
         public static string GetFormValue(this HttpRequestBase request, string key)
         {
-            return request.GetUnvalidatedCollectionOr("Form", request.Form)[key];
+            return request.GetUnvalidatedCollectionOr("Form", () => request.Form)[key];
         }
 
         public static string GetQueryStringValue(this HttpRequestBase request, string key)
         {
-            return request.GetUnvalidatedCollectionOr("QueryString", request.QueryString)[key];
+            return request.GetUnvalidatedCollectionOr("QueryString", () => request.QueryString)[key];
         }
 
         /// <summary>
         /// Loads the Form or QueryString collection from the unvalidated object in System.Web.Webpages, 
         /// if that assembly is available.
         /// </summary>
-        private static NameValueCollection GetUnvalidatedCollectionOr(this HttpRequestBase request, string unvalidatedObjectPropertyName, NameValueCollection defaultCollection)
+        private static NameValueCollection GetUnvalidatedCollectionOr(this HttpRequestBase request, string unvalidatedObjectPropertyName, Func<NameValueCollection> defaultCollection)
         {
             if (_isSystemWebWebPagesUnavailable)
-                return defaultCollection;
+                return defaultCollection.Invoke();
 
             try
             {
@@ -42,7 +43,7 @@ namespace AttributeRouting.Extensions
             {
                 _isSystemWebWebPagesUnavailable = true;
 
-                return defaultCollection;
+                return defaultCollection.Invoke();
             }
         }
     }
