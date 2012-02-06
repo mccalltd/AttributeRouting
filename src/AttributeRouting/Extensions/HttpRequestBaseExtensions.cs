@@ -10,22 +10,22 @@ namespace AttributeRouting.Extensions
 
         public static string GetFormValue(this HttpRequestBase request, string key)
         {
-            return request.GetUnvalidatedCollectionOr("Form", request.Form)[key];
+            return request.GetUnvalidatedCollectionValue("Form", key) ?? request.Form[key];
         }
 
         public static string GetQueryStringValue(this HttpRequestBase request, string key)
         {
-            return request.GetUnvalidatedCollectionOr("QueryString", request.QueryString)[key];
+            return request.GetUnvalidatedCollectionValue("QueryString", key) ?? request.QueryString[key];
         }
 
         /// <summary>
-        /// Loads the Form or QueryString collection from the unvalidated object in System.Web.Webpages, 
+        /// Loads the Form or QueryString collection value from the unvalidated object in System.Web.Webpages, 
         /// if that assembly is available.
         /// </summary>
-        private static NameValueCollection GetUnvalidatedCollectionOr(this HttpRequestBase request, string unvalidatedObjectPropertyName, NameValueCollection defaultCollection)
+        private static string GetUnvalidatedCollectionValue(this HttpRequestBase request, string unvalidatedObjectPropertyName, string key)
         {
             if (_isSystemWebWebPagesUnavailable)
-                return defaultCollection;
+                return null;
 
             try
             {
@@ -34,15 +34,15 @@ namespace AttributeRouting.Extensions
                 var unvalidatedMethod = validationType.GetMethod("Unvalidated", new[] { request.GetType() });
                 var unvalidatedObject = unvalidatedMethod.Invoke(null, new[] { request });
                 var collectionProperty = unvalidatedObject.GetType().GetProperty(unvalidatedObjectPropertyName);
-                var collection = collectionProperty.GetValue(unvalidatedObject, null) as NameValueCollection;
+                var collection = (NameValueCollection)collectionProperty.GetValue(unvalidatedObject, null);
 
-                return collection;
+                return collection[key];
             }
             catch
             {
                 _isSystemWebWebPagesUnavailable = true;
 
-                return defaultCollection;
+                return null;
             }
         }
     }

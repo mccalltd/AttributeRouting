@@ -9,13 +9,13 @@ namespace AttributeRouting.Framework
         private readonly bool _appendTrailingSlash;
 
         public AttributeRoute(
-            string name, 
-            string url, 
-            RouteValueDictionary defaults, 
+            string name,
+            string url,
+            RouteValueDictionary defaults,
             RouteValueDictionary constraints,
-            RouteValueDictionary dataTokens, 
-            bool useLowercaseRoutes, 
-            bool appendTrailingSlash, 
+            RouteValueDictionary dataTokens,
+            bool useLowercaseRoutes,
+            bool appendTrailingSlash,
             IRouteHandler routeHandler)
             : base(url, defaults, constraints, dataTokens, routeHandler)
         {
@@ -29,33 +29,32 @@ namespace AttributeRouting.Framework
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
             var data = base.GetVirtualPath(requestContext, values);
-
-            if (data != null) {
+            if (data != null)
                 data.VirtualPath = GetFinalVirtualPath(data);
-            }
 
             return data;
         }
 
-        private string GetFinalVirtualPath(VirtualPathData data) {
+        private string GetFinalVirtualPath(VirtualPathData data)
+        {
             var virtualPath = data.VirtualPath;
 
             // NOTE: Do not lowercase the querystring vals
             var match = Regex.Match(virtualPath, @"(?<path>[^\?]*)(?<query>\?.*)?");
-            if (match.Success)
-            {
-                string path = match.Groups["path"].Value;
-                if (_appendTrailingSlash && !path.EndsWith("/")) {
-                    path += "/";
-                }
-                if (_useLowercaseRoutes) {
-                    path = path.ToLowerInvariant();
-                }
-                return path + match.Groups["query"].Value;
-            }
 
             // Just covering my backside here in case the regex fails for some reason.
-            return virtualPath.ToLowerInvariant();
+            if (!match.Success)
+                return virtualPath.ToLowerInvariant();
+
+            var path = match.Groups["path"].Value;
+ 
+            if (_appendTrailingSlash && !path.EndsWith("/"))
+                path += "/";
+                
+            if (_useLowercaseRoutes)
+                path = path.ToLowerInvariant();
+                
+            return path + match.Groups["query"].Value;
         }
     }
 }
