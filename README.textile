@@ -19,6 +19,12 @@ h3. Major Features
 
 h3. Changelog
 
+_v1.4_
+
+* Fixed logic in getting values from form and querystring collections, so that no errors are thrown during "potentially dangerous requests" when System.Web.Helpers is available.
+* Added ability to append trailing slash to URL path of outgoing URLs.
+* Support custom route handler factory. 
+ 
 _v1.3.2_
 
 * Removed reference to System.Web.WebPages in AR. Now, when checking for form or query values for the http method override, AR is dynamically checking for System.Web.WebPages, and if found, will use the Unvalidated collection rather than request.form or request.querystring.
