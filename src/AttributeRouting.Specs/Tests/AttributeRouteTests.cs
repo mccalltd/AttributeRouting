@@ -22,9 +22,19 @@ namespace AttributeRouting.Specs.Tests
         }
 
         [Test]
+        public void GetVirtualPath_does_not_append_trailing_slash_to_urls_when_not_configured_to_do_so() {
+            var route = BuildAttributeRoute("Controller/Action", false, false);
+
+            var virtualPathData = route.GetVirtualPath(_requestContextMock.Object, new RouteValueDictionary());
+
+            Assert.That(virtualPathData, Is.Not.Null);
+            Assert.That(virtualPathData.VirtualPath, Is.EqualTo(route.Url));
+        }
+
+        [Test]
         public void GetVirtualPath_does_not_lowercase_urls_when_not_configured_to_do_so()
         {
-            var route = BuildAttributeRoute("Controller/Action", false);
+            var route = BuildAttributeRoute("Controller/Action", false, false);
 
             var virtualPathData = route.GetVirtualPath(_requestContextMock.Object, new RouteValueDictionary());
 
@@ -35,7 +45,7 @@ namespace AttributeRouting.Specs.Tests
         [Test]
         public void GetVirtualPath_returns_lowercase_paths_when_configured_to_do_so()
         {
-            var route = BuildAttributeRoute("Controller/Action", true);
+            var route = BuildAttributeRoute("Controller/Action", true, false);
 
             var routeValues = new RouteValueDictionary(new { query = "MixedCase" });
             var virtualPathData = route.GetVirtualPath(_requestContextMock.Object, routeValues);
@@ -45,7 +55,19 @@ namespace AttributeRouting.Specs.Tests
                         Is.EqualTo(route.Url.ToLowerInvariant() + "?query=MixedCase"));
         }
 
-        private AttributeRoute BuildAttributeRoute(string url, bool useLowercaseRoutes)
+        [Test]
+        public void GetVirtualPath_returns_paths_with_trailing_slash_when_configured_to_do_so() {
+            var route = BuildAttributeRoute("Controller/Action", false, true);
+
+            var routeValues = new RouteValueDictionary(new { query = "MixedCase" });
+            var virtualPathData = route.GetVirtualPath(_requestContextMock.Object, routeValues);
+
+            Assert.That(virtualPathData, Is.Not.Null);
+            Assert.That(virtualPathData.VirtualPath,
+                        Is.EqualTo(route.Url + "/?query=MixedCase"));
+        }
+
+        private AttributeRoute BuildAttributeRoute(string url, bool useLowercaseRoutes, bool appendTrailingSlash)
         {
             return new AttributeRoute(null,
                                       url,
@@ -53,6 +75,7 @@ namespace AttributeRouting.Specs.Tests
                                       new RouteValueDictionary(),
                                       new RouteValueDictionary(),
                                       useLowercaseRoutes,
+                                      appendTrailingSlash,
                                       new MvcRouteHandler());
         }
     }

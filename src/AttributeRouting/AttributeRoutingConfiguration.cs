@@ -36,6 +36,12 @@ namespace AttributeRouting
         public bool UseLowercaseRoutes { get; set; }
 
         /// <summary>
+        /// When true, the generated routes will have a trailing slash on the path of outbound URLs.
+        /// The default is false.
+        /// </summary>
+        public bool AppendTrailingSlash { get; set; }
+
+        /// <summary>
         /// When true, the generated routes will have auto-generated route names in the form controller_action.
         /// The default is false.
         /// </summary>
