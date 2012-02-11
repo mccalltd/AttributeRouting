@@ -123,6 +123,7 @@
     <Compile Include="Steps\LoggingSteps.cs" />
     <Compile Include="Tests\AttributeRouteTests.cs" />
     <Compile Include="Tests\BugFixTests.cs" />
+    <Compile Include="Tests\InMemoryTranslationProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

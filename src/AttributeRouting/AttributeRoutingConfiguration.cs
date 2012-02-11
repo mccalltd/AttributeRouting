@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Extensions;
+using AttributeRouting.Framework.Localization;
 
 namespace AttributeRouting
 {
@@ -28,6 +29,12 @@ namespace AttributeRouting
         internal List<Type> PromotedControllerTypes { get; set; }
         internal IDictionary<string, IRouteConstraint> DefaultRouteConstraints { get; set; }
         internal Func<IRouteHandler> RouteHandlerFactory { get; set; }
+
+        /// <summary>
+        /// Provider for translating components of routes.
+        /// Use <see cref="InMemoryTranslationProvider"/> for a default implementation.
+        /// </summary>
+        public ITranslationProvider TranslationProvider { get; set; }
 
         /// <summary>
         /// When true, the generated routes will produce lowercase outbound URLs.

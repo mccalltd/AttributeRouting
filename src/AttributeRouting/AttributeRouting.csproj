@@ -58,6 +58,10 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Framework\Localization\InMemoryTranslationBuilder.cs" />
+    <Compile Include="Framework\Localization\InMemoryTranslationProvider.cs" />
+    <Compile Include="Framework\Localization\ITranslationProvider.cs" />
+    <Compile Include="Framework\Localization\TranslationsCollection.cs" />
     <Compile Include="RestfulRouteConventionAttribute.cs" />
     <Compile Include="Framework\RouteBuilder.cs" />
     <Compile Include="Framework\AttributeRoutingException.cs" />
