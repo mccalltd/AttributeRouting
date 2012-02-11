@@ -6,10 +6,10 @@ namespace AttributeRouting.Framework.Localization
     {
         public InMemoryTranslationProvider()
         {
-            Translations = new TranslationsCollection();
+            Translations = new InMemoryTranslations();
         }
 
-        public TranslationsCollection Translations { get; private set; }
+        public InMemoryTranslations Translations { get; private set; }
 
         public InMemoryTranslationBuilder Configure()
         {

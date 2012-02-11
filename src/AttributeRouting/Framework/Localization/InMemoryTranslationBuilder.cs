@@ -4,9 +4,9 @@ namespace AttributeRouting.Framework.Localization
 {
     public class InMemoryTranslationBuilder
     {
-        private readonly TranslationsCollection _translations;
+        private readonly InMemoryTranslations _translations;
 
-        public InMemoryTranslationBuilder(TranslationsCollection translations)
+        public InMemoryTranslationBuilder(InMemoryTranslations translations)
         {
             _translations = translations;
         }
