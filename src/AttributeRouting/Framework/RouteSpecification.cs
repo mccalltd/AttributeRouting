@@ -17,7 +17,11 @@ namespace AttributeRouting.Framework
 
         public string AreaUrl { get; set; }
 
-        public string RoutePrefix { get; set; }
+        public string AreaUrlTranslationKey { get; set; }
+
+        public string RoutePrefixUrl { get; set; }
+
+        public string RoutePrefixUrlTranslationKey { get; set; }
 
         public Type ControllerType { get; set; }
 
@@ -27,7 +31,9 @@ namespace AttributeRouting.Framework
 
         public ParameterInfo[] ActionParameters { get; set; }
 
-        public string Url { get; set; }
+        public string RouteUrl { get; set; }
+
+        public string RouteUrlTranslationKey { get; set; }
 
         public string[] HttpMethods { get; set; }
 

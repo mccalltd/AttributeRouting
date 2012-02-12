@@ -17,19 +17,25 @@ namespace AttributeRouting.Framework.Localization
 
         public string GetAreaUrl(string cultureName, RouteSpecification routeSpec)
         {
-            var key = _keyGenerator.AreaUrl(routeSpec.AreaName);
+            var key = routeSpec.AreaUrlTranslationKey
+                      ?? _keyGenerator.AreaUrl(routeSpec.AreaName);
+
             return Translate(key, cultureName);
         }
 
         public string GetRoutePrefix(string cultureName, RouteSpecification routeSpec)
         {
-            var key = _keyGenerator.RoutePrefix(routeSpec.AreaName, routeSpec.ControllerName);
+            var key = routeSpec.RoutePrefixUrlTranslationKey
+                      ?? _keyGenerator.RoutePrefixUrl(routeSpec.AreaName, routeSpec.ControllerName);
+
             return Translate(key, cultureName);
         }
 
         public string GetRouteUrl(string cultureName, RouteSpecification routeSpec)
         {
-            var key = _keyGenerator.RouteUrl(routeSpec.AreaName, routeSpec.ControllerName, routeSpec.ActionName);
+            var key = routeSpec.RouteUrlTranslationKey
+                      ?? _keyGenerator.RouteUrl(routeSpec.AreaName, routeSpec.ControllerName, routeSpec.ActionName);
+
             return Translate(key, cultureName);
         }
     }

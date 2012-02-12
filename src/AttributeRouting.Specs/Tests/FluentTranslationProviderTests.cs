@@ -14,7 +14,7 @@ using NUnit.Framework;
 
 namespace AttributeRouting.Specs.Tests
 {
-    public class InMemoryTranslationProviderTests
+    public class FluentTranslationProviderTests
     {
         private RequestContext _requestContext;
 
@@ -59,13 +59,33 @@ namespace AttributeRouting.Specs.Tests
                     { "es", "es-Index" }
                 });
 
-            Assert.That(translations.Translate("Area_AreaUrl", "en"), Is.Null);
-            Assert.That(translations.Translate("Area_Translation_RoutePrefix", "en"), Is.Null);
-            Assert.That(translations.Translate("Area_Translation_Index_RouteUrl", "en"), Is.Null);
+            translations.Configure()
+                .ForKey("CustomAreaKey", new Dictionary<string, string>
+                {
+                    { "es", "es-CustomArea" }
+                })
+                .ForKey("CustomPrefixKey", new Dictionary<string, string>
+                {
+                    { "es", "es-CustomPrefix" }
+                })
+                .ForKey("CustomRouteKey", new Dictionary<string, string>
+                {
+                    { "es", "es-CustomIndex" }
+                });
 
-            Assert.That(translations.Translate("Area_AreaUrl", "es"), Is.EqualTo("es-Area"));
-            Assert.That(translations.Translate("Area_Translation_RoutePrefix", "es"), Is.EqualTo("es-Prefix"));
-            Assert.That(translations.Translate("Area_Translation_Index_RouteUrl", "es"), Is.EqualTo("es-Index"));
+            var keyGenerator = new TranslationKeyGenerator();
+
+            Assert.That(translations.Translate(keyGenerator.AreaUrl<TranslationController>(), "en"), Is.Null);
+            Assert.That(translations.Translate(keyGenerator.RoutePrefixUrl<TranslationController>(), "en"), Is.Null);
+            Assert.That(translations.Translate(keyGenerator.RouteUrl<TranslationController>(c => c.Index()), "en"), Is.Null);
+
+            Assert.That(translations.Translate(keyGenerator.AreaUrl<TranslationController>(), "es"), Is.EqualTo("es-Area"));
+            Assert.That(translations.Translate(keyGenerator.RoutePrefixUrl<TranslationController>(), "es"), Is.EqualTo("es-Prefix"));
+            Assert.That(translations.Translate(keyGenerator.RouteUrl<TranslationController>(c => c.Index()), "es"), Is.EqualTo("es-Index"));
+            
+            Assert.That(translations.Translate("CustomAreaKey", "es"), Is.EqualTo("es-CustomArea"));
+            Assert.That(translations.Translate("CustomPrefixKey", "es"), Is.EqualTo("es-CustomPrefix"));
+            Assert.That(translations.Translate("CustomRouteKey", "es"), Is.EqualTo("es-CustomIndex"));
             
             Assert.That(translations.CultureNames.Count(), Is.EqualTo(1));
             Assert.That(translations.CultureNames.First(), Is.EqualTo("es"));
@@ -78,6 +98,7 @@ namespace AttributeRouting.Specs.Tests
             RouteTable.Routes.MapAttributeRoutes(config =>
             {
                 config.AddRoutesFromController<TranslationController>();
+                config.AddRoutesFromController<TranslationWithCustomKeysController>();
                 config.TranslationProvider = translations;
             });
 
@@ -99,6 +120,11 @@ namespace AttributeRouting.Specs.Tests
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es");
             Assert.That(urlHelper.Action("Index", "Translation", new { area = "Area" }),
                         Is.EqualTo("/es-Area/es-Prefix/es-Index"));
+
+            // custom keys
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("es");
+            Assert.That(urlHelper.Action("Index", "TranslationWithCustomKeys", new { area = "Area" }),
+                        Is.EqualTo("/es-CustomArea/es-CustomPrefix/es-CustomIndex"));
         }
     }
 }

@@ -59,7 +59,7 @@ namespace AttributeRouting.Framework
 
         private static string CreateRouteUrl(RouteSpecification routeSpec)
         {
-            return CreateRouteUrl(routeSpec.Url, routeSpec.RoutePrefix, routeSpec.AreaUrl, routeSpec.IsAbsoluteUrl);
+            return CreateRouteUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec.IsAbsoluteUrl);
         }
 
         private static string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, bool isAbsoluteUrl)
@@ -112,7 +112,7 @@ namespace AttributeRouting.Framework
                 { "action", routeSpec.ActionName }
             };
 
-            var urlParameters = GetUrlParameterContents(routeSpec.Url);
+            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl);
 
             // Inspect the url for optional parameters, specified with a leading or trailing (or both) ?
             foreach (var parameter in urlParameters.Where(p => Regex.IsMatch(p, @"^\?|\?$")))
@@ -158,7 +158,7 @@ namespace AttributeRouting.Framework
                 constraints.Add("httpMethod", new RestfulHttpMethodConstraint(routeSpec.HttpMethods));
 
             // Inline constraints
-            foreach (var parameter in GetUrlParameterContents(routeSpec.Url).Where(p => Regex.IsMatch(p, @"^.*\(.*\)$")))
+            foreach (var parameter in GetUrlParameterContents(routeSpec.RouteUrl).Where(p => Regex.IsMatch(p, @"^.*\(.*\)$")))
             {
                 var indexOfOpenParen = parameter.IndexOf('(');
                 var parameterName = parameter.Substring(0, indexOfOpenParen);

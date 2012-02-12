@@ -122,9 +122,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\LoggingSteps.cs" />
     <Compile Include="Subjects\TranslationController.cs" />
+    <Compile Include="Subjects\TranslationWithCustomKeysController.cs" />
     <Compile Include="Tests\AttributeRouteTests.cs" />
     <Compile Include="Tests\BugFixTests.cs" />
-    <Compile Include="Tests\InMemoryTranslationProviderTests.cs" />
+    <Compile Include="Tests\FluentTranslationProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

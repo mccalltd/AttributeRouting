@@ -42,21 +42,26 @@ namespace AttributeRouting.Framework
             return (from controllerType in controllerTypes
                     let controllerIndex = controllerCount++
                     let convention = controllerType.GetCustomAttribute<RouteConventionAttribute>(false)
+                    let routeAreaAttribute = controllerType.GetCustomAttribute<RouteAreaAttribute>(true)
+                    let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
                     from actionMethod in controllerType.GetActionMethods()
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
-                    orderby controllerIndex , routeAttribute.Precedence
+                    orderby controllerIndex, routeAttribute.Precedence
                     // precedence is within a controller
                     let routeName = routeAttribute.RouteName
                     select new RouteSpecification
                     {
-                        AreaName = GetAreaName(actionMethod),
-                        AreaUrl = GetAreaUrl(actionMethod),
-                        RoutePrefix = GetRoutePrefix(actionMethod, convention),
+                        AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
+                        AreaUrl = routeAreaAttribute.SafeGet(a => a.AreaUrl ?? a.AreaName),
+                        AreaUrlTranslationKey = routeAreaAttribute.SafeGet(a => a.TranslationKey),
+                        RoutePrefixUrl = GetRoutePrefix(routePrefixAttribute, actionMethod, convention),
+                        RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
                         ControllerType = controllerType,
                         ControllerName = controllerType.GetControllerName(),
                         ActionName = actionMethod.Name,
                         ActionParameters = actionMethod.GetParameters(),
-                        Url = routeAttribute.Url,
+                        RouteUrl = routeAttribute.RouteUrl,
+                        RouteUrlTranslationKey = routeAttribute.TranslationKey,
                         HttpMethods = routeAttribute.HttpMethods,
                         DefaultAttributes = GetDefaultAttributes(actionMethod, routeName, convention),
                         ConstraintAttributes = GetConstraintAttributes(actionMethod, routeName, convention),
@@ -80,28 +85,9 @@ namespace AttributeRouting.Framework
             return attributes.OrderBy(a => a.Order);
         }
 
-        private static string GetAreaName(MethodInfo actionMethod)
-        {
-            var routeAreaAttribute = actionMethod.DeclaringType.GetCustomAttribute<RouteAreaAttribute>(true);
-            if (routeAreaAttribute == null)
-                return null;
-
-            return routeAreaAttribute.AreaName;
-        }
-
-        private static string GetAreaUrl(MethodInfo actionMethod)
-        {
-            var routeAreaAttribute = actionMethod.DeclaringType.GetCustomAttribute<RouteAreaAttribute>(true);
-            if (routeAreaAttribute == null)
-                return null;
-
-            return routeAreaAttribute.AreaUrl ?? routeAreaAttribute.AreaName;
-        }
-
-        private static string GetRoutePrefix(MethodInfo actionMethod, RouteConventionAttribute convention)
+        private static string GetRoutePrefix(RoutePrefixAttribute routePrefixAttribute, MethodInfo actionMethod, RouteConventionAttribute convention)
         {
             // Return an explicitly defined route prefix, if defined
-            var routePrefixAttribute = actionMethod.DeclaringType.GetCustomAttribute<RoutePrefixAttribute>(true);
             if (routePrefixAttribute != null)
                 return routePrefixAttribute.Url;
 
@@ -109,7 +95,7 @@ namespace AttributeRouting.Framework
             if (convention != null)
                 return convention.GetDefaultRoutePrefix(actionMethod);
 
-            return "";
+            return null;
         }
 
         private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName,
