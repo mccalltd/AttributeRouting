@@ -22,11 +22,6 @@ namespace AttributeRouting.Framework.Localization
             }
         }
 
-        public TranslationBuilder AddTranslations()
-        {
-            return new TranslationBuilder(Translations);
-        }
-
         public override string Translate(string key, string culture)
         {
             IDictionary<string, string> translationsByKey;
@@ -38,6 +33,11 @@ namespace AttributeRouting.Framework.Localization
                 return null;
 
             return translationByCulture;
+        }
+
+        public TranslationBuilder AddTranslations()
+        {
+            return new TranslationBuilder(Translations);
         }
     }
 }

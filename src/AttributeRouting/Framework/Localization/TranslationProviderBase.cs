@@ -15,7 +15,7 @@ namespace AttributeRouting.Framework.Localization
 
         public abstract string Translate(string key, string culture);
 
-        public string TranslateAreaUrl(string cultureName, RouteSpecification routeSpec)
+        internal string TranslateAreaUrl(string cultureName, RouteSpecification routeSpec)
         {
             var key = routeSpec.AreaUrlTranslationKey
                       ?? _keyGenerator.AreaUrl(routeSpec.AreaName);
@@ -23,7 +23,7 @@ namespace AttributeRouting.Framework.Localization
             return Translate(key, cultureName);
         }
 
-        public string TranslateRoutePrefix(string cultureName, RouteSpecification routeSpec)
+        internal string TranslateRoutePrefix(string cultureName, RouteSpecification routeSpec)
         {
             var key = routeSpec.RoutePrefixUrlTranslationKey
                       ?? _keyGenerator.RoutePrefixUrl(routeSpec.AreaName, routeSpec.ControllerName);
@@ -31,7 +31,7 @@ namespace AttributeRouting.Framework.Localization
             return Translate(key, cultureName);
         }
 
-        public string TranslateRouteUrl(string cultureName, RouteSpecification routeSpec)
+        internal string TranslateRouteUrl(string cultureName, RouteSpecification routeSpec)
         {
             var key = routeSpec.RouteUrlTranslationKey
                       ?? _keyGenerator.RouteUrl(routeSpec.AreaName, routeSpec.ControllerName, routeSpec.ActionName);

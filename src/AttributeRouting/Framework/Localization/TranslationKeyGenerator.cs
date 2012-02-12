@@ -42,7 +42,7 @@ namespace AttributeRouting.Framework.Localization
             var areaAttribute = controllerType.GetCustomAttribute<RouteAreaAttribute>(true);
 
             return RoutePrefixUrl(areaAttribute.SafeGet(a => a.AreaName),
-                               controllerType.GetControllerName());
+                                  controllerType.GetControllerName());
         }
 
         public string RouteUrl(string areaName, string controllerName, string actionName)
