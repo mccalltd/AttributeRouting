@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Extensions;
@@ -28,16 +29,18 @@ namespace AttributeRouting.Framework
             return routeSpecs.Select(Build);
         }
 
-        public AttributeRoute Build(RouteSpecification routeSpec)
+        private AttributeRoute Build(RouteSpecification routeSpec)
         {
-            return new AttributeRoute(CreateRouteName(routeSpec),
-                                      CreateRouteUrl(routeSpec),
-                                      CreateRouteDefaults(routeSpec),
-                                      CreateRouteConstraints(routeSpec),
-                                      CreateRouteDataTokens(routeSpec),
-                                      _configuration.UseLowercaseRoutes,
-                                      _configuration.AppendTrailingSlash,
-                                      _configuration.RouteHandlerFactory.Invoke());
+            return new AttributeRoute(
+                CreateRouteUrl(routeSpec),
+                CreateRouteDefaults(routeSpec),
+                CreateRouteConstraints(routeSpec),
+                CreateRouteDataTokens(routeSpec),
+                _configuration)
+            {
+                Name = CreateRouteName(routeSpec),
+                Translations = CreateRouteTranslations(routeSpec)
+            };
         }
 
         private string CreateRouteName(RouteSpecification routeSpec)
@@ -54,11 +57,17 @@ namespace AttributeRouting.Framework
             return null;
         }
 
-        private string CreateRouteUrl(RouteSpecification routeSpec)
+        private static string CreateRouteUrl(RouteSpecification routeSpec)
         {
-            var detokenizedUrl = DetokenizeUrl(routeSpec.Url);
-            var urlParameterNames = GetUrlParameterNames(detokenizedUrl);
+            return CreateRouteUrl(routeSpec.Url, routeSpec.RoutePrefix, routeSpec.AreaUrl, routeSpec.IsAbsoluteUrl);
+        }
 
+        private static string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, bool isAbsoluteUrl)
+        {
+            var detokenizedUrl = DetokenizeUrl(routeUrl);
+            
+            var urlParameterNames = GetUrlParameterContents(detokenizedUrl);
+        
             // {controller} and {action} tokens are not valid
             if (urlParameterNames.Any(n => n.ValueEquals("controller")))
                 throw new AttributeRoutingException("{controller} is not a valid url parameter.");
@@ -73,20 +82,20 @@ namespace AttributeRouting.Framework
             var urlBuilder = new StringBuilder(detokenizedUrl);
 
             // If this is not an absolute url, prefix with a route prefix or area name
-            if (!routeSpec.IsAbsoluteUrl)
+            if (!isAbsoluteUrl)
             {
-                var delimitedRouteUrl = routeSpec.Url + "/";
+                var delimitedRouteUrl = routeUrl + "/";
   
-                if (routeSpec.RoutePrefix.HasValue())
+                if (routePrefix.HasValue())
                 {
-                    var delimitedRoutePrefix = routeSpec.RoutePrefix + "/";
+                    var delimitedRoutePrefix = routePrefix + "/";
                     if (!delimitedRouteUrl.StartsWith(delimitedRoutePrefix))
                         urlBuilder.Insert(0, delimitedRoutePrefix);                    
                 }
 
-                if (routeSpec.AreaUrl.HasValue())
+                if (areaUrl.HasValue())
                 {
-                    var delimitedAreaUrl = routeSpec.AreaUrl + "/";
+                    var delimitedAreaUrl = areaUrl + "/";
                     if (!delimitedRouteUrl.StartsWith(delimitedAreaUrl))
                         urlBuilder.Insert(0, delimitedAreaUrl);                    
                 }
@@ -171,7 +180,7 @@ namespace AttributeRouting.Framework
             }
 
             var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec));
-            var urlParameterNames = GetUrlParameterNames(detokenizedUrl);
+            var urlParameterNames = GetUrlParameterContents(detokenizedUrl);
 
             // Convention-based constraints
             foreach (var defaultConstraint in _configuration.DefaultRouteConstraints)
@@ -219,20 +228,45 @@ namespace AttributeRouting.Framework
             return Regex.Replace(url, String.Join("|", patterns), "");
         }
 
-        private static IEnumerable<string> GetUrlParameterNames(string url)
+        private IEnumerable<AttributeRoute> CreateRouteTranslations(RouteSpecification routeSpec)
         {
-            if (!url.HasValue())
-                return Enumerable.Empty<string>();
+            // If no translation provider, then get out of here.
+            var translations = _configuration.TranslationProvider;
+            if (translations == null)
+                return null;
 
-            return (from urlPart in url.SplitAndTrim(new[] { "/" })
-                    from match in Regex.Matches(urlPart, @"(?<={).*(?=})").Cast<Match>()
-                    select match.Captures[0].ToString()).ToList();
+            var translatedRoutes = new List<AttributeRoute>();
+            foreach (var cultureName in translations.CultureNames)
+            {
+                // Only yield a translated route if some part of the route is translated
+                
+                var routeUrl = translations.GetRouteUrl(cultureName, routeSpec);
+                var routePrefix = translations.GetRoutePrefix(cultureName, routeSpec);
+                var areaUrl = translations.GetAreaUrl(cultureName, routeSpec);
+
+                if (routeUrl == null && routePrefix == null && areaUrl == null)
+                    continue;
+
+                var translatedRoute = new AttributeRoute(
+                    CreateRouteUrl(routeUrl, routePrefix, areaUrl, routeSpec.IsAbsoluteUrl),
+                    CreateRouteDefaults(routeSpec),
+                    CreateRouteConstraints(routeSpec),
+                    CreateRouteDataTokens(routeSpec),
+                    _configuration)
+                {
+                    CultureName = cultureName
+                };
+
+                translatedRoutes.Add(translatedRoute);
+            }
+
+            return translatedRoutes;
         }
 
-        private static IEnumerable<string> GetUrlParameterContents(string url)
+        private static List<string> GetUrlParameterContents(string url)
         {
             if (!url.HasValue())
-                return Enumerable.Empty<string>();
+                return new List<string>();
 
             return (from urlPart in url.SplitAndTrim(new[] { "/" })
                     from match in Regex.Matches(urlPart, @"(?<={).*(?=})").Cast<Match>()

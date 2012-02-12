@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace AttributeRouting.Framework.Localization
 {
-    public class InMemoryTranslationProvider : ITranslationProvider
+    public class InMemoryTranslationProvider : TranslationProviderBase
     {
         public InMemoryTranslationProvider()
         {
@@ -11,12 +12,22 @@ namespace AttributeRouting.Framework.Localization
 
         public InMemoryTranslations Translations { get; private set; }
 
+        public override IEnumerable<string> CultureNames
+        {
+            get
+            {
+                return (from key in Translations.Keys
+                        from cultureName in Translations[key].Keys
+                        select cultureName).Distinct();
+            }
+        }
+
         public InMemoryTranslationBuilder Configure()
         {
             return new InMemoryTranslationBuilder(Translations);
         }
 
-        public string Translate(string key, string culture)
+        public override string Translate(string key, string culture)
         {
             IDictionary<string, string> translationsByKey;
             if (!Translations.TryGetValue(key, out translationsByKey))

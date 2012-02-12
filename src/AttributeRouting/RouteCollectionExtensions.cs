@@ -30,8 +30,7 @@ namespace AttributeRouting
         /// <param name="configurationAction">
         /// The initialization action that builds the configuration object.
         /// </param>
-        public static void MapAttributeRoutes(this RouteCollection routes,
-                                              Action<AttributeRoutingConfiguration> configurationAction)
+        public static void MapAttributeRoutes(this RouteCollection routes, Action<AttributeRoutingConfiguration> configurationAction)
         {
             var configuration = new AttributeRoutingConfiguration();
             configurationAction.Invoke(configuration);
@@ -51,8 +50,7 @@ namespace AttributeRouting
             routes.MapAttributeRoutesInternal(configuration);
         }
 
-        private static void MapAttributeRoutesInternal(this RouteCollection routes,
-                                                       AttributeRoutingConfiguration configuration)
+        private static void MapAttributeRoutesInternal(this RouteCollection routes, AttributeRoutingConfiguration configuration)
         {
             var generatedRoutes = new RouteBuilder(configuration).BuildAllRoutes();
 

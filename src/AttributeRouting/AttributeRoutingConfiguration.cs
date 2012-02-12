@@ -34,7 +34,7 @@ namespace AttributeRouting
         /// Provider for translating components of routes.
         /// Use <see cref="InMemoryTranslationProvider"/> for a default implementation.
         /// </summary>
-        public ITranslationProvider TranslationProvider { get; set; }
+        public TranslationProviderBase TranslationProvider { get; set; }
 
         /// <summary>
         /// When true, the generated routes will produce lowercase outbound URLs.

@@ -69,14 +69,17 @@ namespace AttributeRouting.Specs.Tests
 
         private AttributeRoute BuildAttributeRoute(string url, bool useLowercaseRoutes, bool appendTrailingSlash)
         {
-            return new AttributeRoute(null,
-                                      url,
+            var configuration = new AttributeRoutingConfiguration
+            {
+                UseLowercaseRoutes = useLowercaseRoutes,
+                AppendTrailingSlash = appendTrailingSlash,
+            };
+
+            return new AttributeRoute(url,
                                       new RouteValueDictionary(),
                                       new RouteValueDictionary(),
                                       new RouteValueDictionary(),
-                                      useLowercaseRoutes,
-                                      appendTrailingSlash,
-                                      new MvcRouteHandler());
+                                      configuration);
         }
     }
 }

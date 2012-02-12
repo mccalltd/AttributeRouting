@@ -19,5 +19,6 @@ namespace AttributeRouting.Framework.Localization
 
             return this;
         }
+
     }
 }
