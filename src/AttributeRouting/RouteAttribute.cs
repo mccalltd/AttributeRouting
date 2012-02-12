@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using AttributeRouting.Extensions;
+using AttributeRouting.Helpers;
 
 namespace AttributeRouting
 {

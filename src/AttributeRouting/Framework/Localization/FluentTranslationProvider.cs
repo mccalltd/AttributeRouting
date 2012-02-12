@@ -3,14 +3,14 @@ using System.Linq;
 
 namespace AttributeRouting.Framework.Localization
 {
-    public class InMemoryTranslationProvider : TranslationProviderBase
+    public class FluentTranslationProvider : TranslationProviderBase
     {
-        public InMemoryTranslationProvider()
+        public FluentTranslationProvider()
         {
-            Translations = new InMemoryTranslations();
+            Translations = new TranslationsDictionary();
         }
 
-        public InMemoryTranslations Translations { get; private set; }
+        public TranslationsDictionary Translations { get; private set; }
 
         public override IEnumerable<string> CultureNames
         {
@@ -22,9 +22,9 @@ namespace AttributeRouting.Framework.Localization
             }
         }
 
-        public InMemoryTranslationBuilder Configure()
+        public TranslationBuilder Configure()
         {
-            return new InMemoryTranslationBuilder(Translations);
+            return new TranslationBuilder(Translations);
         }
 
         public override string Translate(string key, string culture)

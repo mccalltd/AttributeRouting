@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace AttributeRouting.Extensions
+namespace AttributeRouting.Helpers
 {
     internal static class ObjectExtensions
     {

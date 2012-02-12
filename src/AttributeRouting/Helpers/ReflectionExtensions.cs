@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 
-namespace AttributeRouting.Extensions
+namespace AttributeRouting.Helpers
 {
     internal static class ReflectionExtensions
     {

@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace AttributeRouting.Extensions
+namespace AttributeRouting.Helpers
 {
     internal static class MvcExtensions
     {

@@ -43,18 +43,18 @@ namespace AttributeRouting.Specs.Tests
              * TranslationProvider usage
              */
 
-            var translations = new InMemoryTranslationProvider();
+            var translations = new FluentTranslationProvider();
                 
-            translations.Configure()
-                .ByKey("Area_AreaUrl", new Dictionary<string, string>
+            translations.Configure().ForController<TranslationController>()
+                .AreaUrl(new Dictionary<string, string>
                 {
                     { "es", "es-Area" }
                 })
-                .ByKey("Area_Translation_RoutePrefix", new Dictionary<string, string>
+                .RoutePrefix(new Dictionary<string, string>
                 {
                     { "es", "es-Prefix" }
                 })
-                .ByKey("Area_Translation_Index_RouteUrl", new Dictionary<string, string>
+                .RouteUrl(c => c.Index(), new Dictionary<string, string>
                 {
                     { "es", "es-Index" }
                 });

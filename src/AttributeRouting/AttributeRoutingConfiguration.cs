@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
-using AttributeRouting.Extensions;
 using AttributeRouting.Framework.Localization;
+using AttributeRouting.Helpers;
 
 namespace AttributeRouting
 {
@@ -32,7 +32,7 @@ namespace AttributeRouting
 
         /// <summary>
         /// Provider for translating components of routes.
-        /// Use <see cref="InMemoryTranslationProvider"/> for a default implementation.
+        /// Use <see cref="FluentTranslationProvider"/> for a default implementation.
         /// </summary>
         public TranslationProviderBase TranslationProvider { get; set; }
 

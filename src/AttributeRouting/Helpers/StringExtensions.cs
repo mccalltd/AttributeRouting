@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace AttributeRouting.Extensions
+namespace AttributeRouting.Helpers
 {
     internal static class StringExtensions
     {
@@ -15,6 +15,11 @@ namespace AttributeRouting.Extensions
         public static bool HasValue(this string s)
         {
             return !String.IsNullOrWhiteSpace(s);
+        }
+
+        public static bool HasNoValue(this string s)
+        {
+            return String.IsNullOrWhiteSpace(s);
         }
 
         public static string FormatWith(this string s, params object[] args)

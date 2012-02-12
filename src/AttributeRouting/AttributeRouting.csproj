@@ -54,19 +54,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\HttpRequestBaseExtensions.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Extensions\ReflectionExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Framework\Localization\InMemoryTranslationBuilder.cs" />
-    <Compile Include="Framework\Localization\InMemoryTranslationProvider.cs" />
+    <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
+    <Compile Include="Helpers\ExpressionExtensions.cs" />
+    <Compile Include="Helpers\HttpRequestBaseExtensions.cs" />
+    <Compile Include="Helpers\ObjectExtensions.cs" />
+    <Compile Include="Helpers\ReflectionExtensions.cs" />
+    <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Framework\Localization\TranslationBuilder.cs" />
+    <Compile Include="Framework\Localization\FluentTranslationProvider.cs" />
+    <Compile Include="Framework\Localization\TranslationKeyGenerator.cs" />
     <Compile Include="Framework\Localization\TranslationProviderBase.cs" />
-    <Compile Include="Framework\Localization\InMemoryTranslations.cs" />
+    <Compile Include="Framework\Localization\TranslationsDictionary.cs" />
     <Compile Include="RestfulRouteConventionAttribute.cs" />
     <Compile Include="Framework\RouteBuilder.cs" />
     <Compile Include="Framework\AttributeRoutingException.cs" />
     <Compile Include="DELETEAttribute.cs" />
-    <Compile Include="Extensions\MvcExtensions.cs" />
+    <Compile Include="Helpers\MvcExtensions.cs" />
     <Compile Include="GETAttribute.cs" />
     <Compile Include="Logging\LogRoutesHandler.cs" />
     <Compile Include="RouteConventionAttribute.cs" />
