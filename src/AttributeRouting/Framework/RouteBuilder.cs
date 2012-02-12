@@ -26,21 +26,27 @@ namespace AttributeRouting.Framework
             var routeReflector = new RouteReflector(_configuration);
             var routeSpecs = routeReflector.GenerateRouteSpecifications();
 
-            return routeSpecs.Select(Build);
+            return routeSpecs.SelectMany(Build);
         }
 
-        private AttributeRoute Build(RouteSpecification routeSpec)
+        private IEnumerable<AttributeRoute> Build(RouteSpecification routeSpec)
         {
-            return new AttributeRoute(
-                CreateRouteUrl(routeSpec),
-                CreateRouteDefaults(routeSpec),
-                CreateRouteConstraints(routeSpec),
-                CreateRouteDataTokens(routeSpec),
-                _configuration)
+            var route = new AttributeRoute(CreateRouteUrl(routeSpec),
+                                           CreateRouteDefaults(routeSpec),
+                                           CreateRouteConstraints(routeSpec),
+                                           CreateRouteDataTokens(routeSpec),
+                                           _configuration)
             {
                 Name = CreateRouteName(routeSpec),
                 Translations = CreateRouteTranslations(routeSpec)
             };
+
+            // Yield the default route first
+            yield return route;
+
+            // Then yield the translations
+            foreach (var translation in route.Translations)
+                yield return translation;
         }
 
         private string CreateRouteName(RouteSpecification routeSpec)
@@ -238,11 +244,11 @@ namespace AttributeRouting.Framework
             var translatedRoutes = new List<AttributeRoute>();
             foreach (var cultureName in translations.CultureNames)
             {
-                // Only yield a translated route if some part of the route is translated
+                // Only create a translated route if some part of the route is translated
                 
-                var routeUrl = translations.GetRouteUrl(cultureName, routeSpec);
-                var routePrefix = translations.GetRoutePrefix(cultureName, routeSpec);
-                var areaUrl = translations.GetAreaUrl(cultureName, routeSpec);
+                var routeUrl = translations.TranslateRouteUrl(cultureName, routeSpec);
+                var routePrefix = translations.TranslateRoutePrefix(cultureName, routeSpec);
+                var areaUrl = translations.TranslateAreaUrl(cultureName, routeSpec);
 
                 if (routeUrl == null && routePrefix == null && areaUrl == null)
                     continue;

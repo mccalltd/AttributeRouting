@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
+using AttributeRouting.Logging;
 using AttributeRouting.Specs.Subjects;
 using Moq;
 using NUnit.Framework;
@@ -102,6 +103,11 @@ namespace AttributeRouting.Specs.Tests
                 config.TranslationProvider = translations;
             });
 
+            // Ensure that a route is added for each translation
+            Assert.That(RouteTable.Routes.Count, Is.EqualTo(4));
+
+            RouteTable.Routes.Cast<Route>().LogTo(Console.Out);
+
             /**
              * UrlHelper usage
              */
@@ -123,7 +129,7 @@ namespace AttributeRouting.Specs.Tests
 
             // custom keys
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es");
-            Assert.That(urlHelper.Action("Index", "TranslationWithCustomKeys", new { area = "Area" }),
+            Assert.That(urlHelper.Action("CustomIndex", "TranslationWithCustomKeys", new { area = "CustomArea" }),
                         Is.EqualTo("/es-CustomArea/es-CustomPrefix/es-CustomIndex"));
         }
     }

@@ -2,12 +2,12 @@ using System.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
 {
-    [RouteArea("Area", TranslationKey = "CustomAreaKey")]
-    [RoutePrefix("Prefix", TranslationKey = "CustomPrefixKey")]
+    [RouteArea("CustomArea", TranslationKey = "CustomAreaKey")]
+    [RoutePrefix("CustomPrefix", TranslationKey = "CustomPrefixKey")]
     public class TranslationWithCustomKeysController : Controller
     {
-        [GET("Index", TranslationKey = "CustomRouteKey")]
-        public ActionResult Index()
+        [GET("CustomIndex", TranslationKey = "CustomRouteKey")]
+        public ActionResult CustomIndex()
         {
             return Content("content");
         }
