@@ -260,8 +260,11 @@ namespace AttributeRouting.Framework
                     CreateRouteDataTokens(routeSpec),
                     _configuration)
                 {
-                    CultureName = cultureName
+                    CultureName = cultureName,
                 };
+
+                // Add the cultureName to the data tokens for reference purposes (might be used later on).
+                translatedRoute.DataTokens.Add("cultureName", cultureName);
 
                 translatedRoutes.Add(translatedRoute);
             }

@@ -22,7 +22,7 @@ namespace AttributeRouting.Framework.Localization
             }
         }
 
-        public TranslationBuilder Configure()
+        public TranslationBuilder AddTranslations()
         {
             return new TranslationBuilder(Translations);
         }

@@ -46,7 +46,7 @@ namespace AttributeRouting.Specs.Tests
 
             var translations = new FluentTranslationProvider();
                 
-            translations.Configure().ForController<TranslationController>()
+            translations.AddTranslations().ForController<TranslationController>()
                 .AreaUrl(new Dictionary<string, string>
                 {
                     { "es", "es-Area" }
@@ -60,7 +60,7 @@ namespace AttributeRouting.Specs.Tests
                     { "es", "es-Index" }
                 });
 
-            translations.Configure()
+            translations.AddTranslations()
                 .ForKey("CustomAreaKey", new Dictionary<string, string>
                 {
                     { "es", "es-CustomArea" }

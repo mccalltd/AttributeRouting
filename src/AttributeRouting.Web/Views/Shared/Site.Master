@@ -26,6 +26,7 @@
                     <li><%: Html.ActionLink("RESTful Resources", "Index", "Restful", new { area = "" }, null) %></li>
                     <li><%: Html.ActionLink("RESTful Convention", "Index", "RestfulConvention", new { area = "" }, null) %></li>
                     <li><%: Html.ActionLink("Admin Area", "Index", "Home", new { area = "Admin" }, null) %></li>
+                    <li><%: Html.ActionLink("Localization", "Index", "Localization", new { area = "Localization" }, null) %></li>
                 </ul>
             
             </div>

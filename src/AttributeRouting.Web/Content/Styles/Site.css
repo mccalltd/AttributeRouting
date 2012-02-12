@@ -120,6 +120,7 @@ page width. Or, you can specify an exact pixel width. */
 
 #main
 {
+    clear: both;
     font-size: 1.1em;
     padding: 30px 30px 15px 30px;
     background-color: #fafafa;
@@ -141,6 +142,7 @@ page width. Or, you can specify an exact pixel width. */
 ----------------------------------------------------------*/
 ul#menu
 {
+    float: right;
     border-bottom: 1px #5C87B2 solid;
     padding: 0 0 2px;
     position: relative;
