@@ -12,8 +12,10 @@ namespace AttributeRouting.Specs.Tests.Localization
             var keyGenerator = new TranslationKeyGenerator();
 
             Assert.That(keyGenerator.AreaUrl<TranslationController>(), Is.EqualTo("Area_AreaUrl"));
+           
             Assert.That(keyGenerator.RoutePrefixUrl<TranslationController>(),
                         Is.EqualTo("Area_Translation_RoutePrefixUrl"));
+            
             Assert.That(keyGenerator.RouteUrl<TranslationController>(c => c.Index()),
                         Is.EqualTo("Area_Translation_Index_RouteUrl"));
         }

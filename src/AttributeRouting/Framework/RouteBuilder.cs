@@ -44,8 +44,11 @@ namespace AttributeRouting.Framework
             yield return route;
 
             // Then yield the translations
-            foreach (var translation in route.Translations)
-                yield return translation;
+            if (route.Translations != null)
+            {
+                foreach (var translation in route.Translations)
+                    yield return translation;                
+            }
         }
 
         private string CreateRouteName(RouteSpecification routeSpec)
@@ -238,9 +241,8 @@ namespace AttributeRouting.Framework
             // If no translation provider, then get out of here.
             var translations = _configuration.TranslationProvider;
             if (translations == null)
-                return null;
+                yield break;
 
-            var translatedRoutes = new List<AttributeRoute>();
             foreach (var cultureName in translations.CultureNames)
             {
                 // Only create a translated route if some part of the route is translated
@@ -265,10 +267,8 @@ namespace AttributeRouting.Framework
                 // Add the cultureName to the data tokens for reference purposes (might be used later on).
                 translatedRoute.DataTokens.Add("cultureName", cultureName);
 
-                translatedRoutes.Add(translatedRoute);
+                yield return translatedRoute;
             }
-
-            return translatedRoutes;
         }
 
         private static List<string> GetUrlParameterContents(string url)
