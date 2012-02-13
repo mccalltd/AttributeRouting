@@ -67,6 +67,16 @@ namespace AttributeRouting.Specs.Tests
                         Is.EqualTo(route.Url + "/?query=MixedCase"));
         }
 
+        [Test]
+        public void GetVirtualPath_does_not_append_trailing_slahs_to_root_urls_when_configured_for_trailing_slashes() {
+            var route = BuildAttributeRoute("", false, true);
+
+            var virtualPathData = route.GetVirtualPath(_requestContextMock.Object, new RouteValueDictionary());
+
+            Assert.That(virtualPathData, Is.Not.Null);
+            Assert.That(virtualPathData.VirtualPath, Is.EqualTo(""));
+        }
+
         private AttributeRoute BuildAttributeRoute(string url, bool useLowercaseRoutes, bool appendTrailingSlash)
         {
             var configuration = new AttributeRoutingConfiguration

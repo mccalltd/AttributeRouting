@@ -123,7 +123,7 @@ namespace AttributeRouting.Framework
             string path, query;
             GetPathAndQuery(virtualPath, out path, out query);
 
-            if (!path.EndsWith("/"))
+            if (path.HasValue() && !path.EndsWith("/"))
                 path += "/";
 
             return path + query;
