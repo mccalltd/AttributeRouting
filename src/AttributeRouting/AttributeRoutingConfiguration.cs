@@ -23,9 +23,15 @@ namespace AttributeRouting
             PromotedControllerTypes = new List<Type>();
             DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
             RouteHandlerFactory = () => new MvcRouteHandler();
-            SubdomainMatchPattern = @"^(([\w\-]+)\.)?[\w\-]+\.[\w\-]+$";
-            DefaultSubdomain = "www";
             AreaSubdomainOverrides = new Dictionary<string, string>();
+            DefaultSubdomain = "www";
+            SubdomainParser = host =>
+            {
+                var sections = host.Split('.');
+                return sections.Length < 3
+                           ? null
+                           : String.Join(".", sections.Take(sections.Length - 2));
+            };
         }
 
         internal List<Assembly> Assemblies { get; set; }
@@ -59,16 +65,14 @@ namespace AttributeRouting
         public bool AutoGenerateRouteNames { get; set; }
 
         /// <summary>
-        /// Customize the pattern used to match subdomain names when using areas with subdomains.
-        /// The default is "^(([\w\-]+)\.)?[\w\-]+\.[\w\-]+$",
-        /// which matches hostnames in the form sub.domain.com and captures the value "sub" for the subdomain.
+        /// Given the requested hostname, this delegate parses the subdomain.
+        /// The default yields everything before the domain name;
+        /// eg: www.example.com yields www, and example.com yields null.
         /// </summary>
-        public string SubdomainMatchPattern { get; set; }
+        public Func<string, string> SubdomainParser { get; set; }
 
         /// <summary>
         /// Specify the default subdomain for this application.
-        /// This is used when matching dynamic subdomains, 
-        /// in order to differentiate a dynamic subdomain from the default subdomain of the site.
         /// The default is www.
         /// </summary>
         public string DefaultSubdomain { get; set; }

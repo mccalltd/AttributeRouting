@@ -45,15 +45,11 @@ namespace AttributeRouting.Specs.Tests.Localization
 
             Assert.That(translations.Translate(keyGenerator.AreaUrl<TranslationController>(), "en"), Is.Null);
             Assert.That(translations.Translate(keyGenerator.RoutePrefixUrl<TranslationController>(), "en"), Is.Null);
-            Assert.That(translations.Translate(keyGenerator.RouteUrl<TranslationController>(c => c.Index()), "en"),
-                        Is.Null);
+            Assert.That(translations.Translate(keyGenerator.RouteUrl<TranslationController>(c => c.Index()), "en"), Is.Null);
 
-            Assert.That(translations.Translate(keyGenerator.AreaUrl<TranslationController>(), "es"),
-                        Is.EqualTo("es-Area"));
-            Assert.That(translations.Translate(keyGenerator.RoutePrefixUrl<TranslationController>(), "es"),
-                        Is.EqualTo("es-Prefix"));
-            Assert.That(translations.Translate(keyGenerator.RouteUrl<TranslationController>(c => c.Index()), "es"),
-                        Is.EqualTo("es-Index"));
+            Assert.That(translations.Translate(keyGenerator.AreaUrl<TranslationController>(), "es"), Is.EqualTo("es-Area"));
+            Assert.That(translations.Translate(keyGenerator.RoutePrefixUrl<TranslationController>(), "es"), Is.EqualTo("es-Prefix"));
+            Assert.That(translations.Translate(keyGenerator.RouteUrl<TranslationController>(c => c.Index()), "es"), Is.EqualTo("es-Index"));
 
             Assert.That(translations.Translate("CustomAreaKey", "es"), Is.EqualTo("es-CustomArea"));
             Assert.That(translations.Translate("CustomPrefixKey", "es"), Is.EqualTo("es-CustomPrefix"));

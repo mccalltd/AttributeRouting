@@ -13,7 +13,7 @@ namespace AttributeRouting.Specs.Tests
             // re: issue #25
 
             RouteTable.Routes.Clear();
-            RouteTable.Routes.MapAttributeRoutes();
+            RouteTable.Routes.MapAttributeRoutes(config => config.AddRoutesFromController<StandardUsageController>());
 
             "~/Index".ShouldMapTo<StandardUsageController>(x => x.Index());
         }

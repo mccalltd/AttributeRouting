@@ -256,15 +256,18 @@ namespace AttributeRouting.Framework
             {
                 // Only create a translated route if some part of the route is translated
                 
-                var routeUrl = translations.TranslateRouteUrl(cultureName, routeSpec);
-                var routePrefix = translations.TranslateRoutePrefix(cultureName, routeSpec);
-                var areaUrl = translations.TranslateAreaUrl(cultureName, routeSpec);
+                var translateRouteUrl = translations.TranslateRouteUrl(cultureName, routeSpec);
+                var translateRoutePrefix = translations.TranslateRoutePrefix(cultureName, routeSpec);
+                var translateAreaUrl = translations.TranslateAreaUrl(cultureName, routeSpec);
 
-                if (routeUrl == null && routePrefix == null && areaUrl == null)
+                if (translateRouteUrl == null && translateRoutePrefix == null && translateAreaUrl == null)
                     continue;
 
                 var translatedRoute = new AttributeRoute(
-                    CreateRouteUrl(routeUrl, routePrefix, areaUrl, routeSpec.IsAbsoluteUrl),
+                    CreateRouteUrl(translateRouteUrl ?? routeSpec.RouteUrl,
+                                   translateRoutePrefix ?? routeSpec.RoutePrefixUrl,
+                                   translateAreaUrl ?? routeSpec.AreaUrl,
+                                   routeSpec.IsAbsoluteUrl),
                     CreateRouteDefaults(routeSpec),
                     CreateRouteConstraints(routeSpec),
                     CreateRouteDataTokens(routeSpec),

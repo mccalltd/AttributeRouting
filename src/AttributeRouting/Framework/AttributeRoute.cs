@@ -61,24 +61,13 @@ namespace AttributeRouting.Framework
                 return base.GetRouteData(httpContext);
 
             // Get the subdomain from the requested hostname.
-            var subdomain = _configuration.DefaultSubdomain;
-            var url = httpContext.Request.Url;
-            if (url.SafeGet(u => u.HostNameType) == UriHostNameType.Dns)
-            {
-                var host = httpContext.Request.Headers["host"];
+            var subdomain = _configuration.SubdomainParser(httpContext.Request.Headers["host"]);
 
-                var match = Regex.Match(host, _configuration.SubdomainMatchPattern, RegexOptions.IgnoreCase);
-                if (match.Success)
-                    subdomain = match.Groups.Cast<Group>().Last().Value;
-            }
-
-            // If this route is mapped to the requested host's subdomain, 
-            // or if the route is not mapped to a subdomain and the request is to the default subdomain,
-            // then return the route data for this request.
-            if ((Subdomain ?? _configuration.DefaultSubdomain).ValueEquals(subdomain))
+            // Handle the request if this route is mapped to the requested host's subdomain
+            if ((Subdomain ?? _configuration.DefaultSubdomain).ValueEquals(subdomain)) 
                 return base.GetRouteData(httpContext);
 
-            // Otherwise, return null, which will prevent this route from being matched for the request.
+            // Otherwise, this route does not match the request.
             return null;
         }
 

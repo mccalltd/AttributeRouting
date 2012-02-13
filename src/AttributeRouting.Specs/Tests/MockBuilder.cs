@@ -8,15 +8,13 @@ namespace AttributeRouting.Specs.Tests
 {
     public static class MockBuilder
     {
-        public static Mock<HttpContextBase> BuildMockHttpContext(Uri url = null, Action<Mock<HttpRequestBase>> requestMockConfig = null)
+        public static Mock<HttpContextBase> BuildMockHttpContext(Action<Mock<HttpRequestBase>> requestMockConfig = null)
         {
-            url = url ?? new Uri("http://localhost/", UriKind.Absolute);
-
             var requestMock = new Mock<HttpRequestBase>(MockBehavior.Strict);
             requestMock.SetupGet(x => x.AppRelativeCurrentExecutionFilePath).Returns("~/");
             requestMock.SetupGet(x => x.PathInfo).Returns("");
             requestMock.SetupGet(x => x.ApplicationPath).Returns("/");
-            requestMock.SetupGet(x => x.Url).Returns(url);
+            requestMock.SetupGet(x => x.Url).Returns(new Uri("http://localhost/", UriKind.Absolute));
             requestMock.SetupGet(x => x.ServerVariables).Returns(new NameValueCollection());
             requestMock.SetupGet(x => x.Headers).Returns(new NameValueCollection());
             requestMock.SetupGet(x => x.Form).Returns(new NameValueCollection());
