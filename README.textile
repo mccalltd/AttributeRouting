@@ -19,6 +19,11 @@ h3. Major Features
 
 h3. Changelog
 
+_v1.5_
+
+* Added localization support via TranslationProvider configuration option.
+* Added support for mapping areas to static subdomains.
+
 _v1.4_
 
 * Fixed logic in getting values from form and querystring collections, so that no errors are thrown during "potentially dangerous requests" when System.Web.Helpers is available.
