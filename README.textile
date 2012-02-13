@@ -2,21 +2,6 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 *If you encounter any issues using this library, please log them in the "issue tracker":https://github.com/mccalltd/AttributeRouting/issues. Thanks.*
 
-h3. Major Features
-
-* Decorate your actions with GET, POST, PUT, DELETE, and verb agnostic attributes.
-* Map multiple routes to a single action, ordering them with an Order property.
-* Specify route defaults and constraints inline and also using attributes.
-* Specify optional params inline with a token before or after the parameter name.
-* Specify the route name for supporting named routes.
-* Define MVC areas on a controller or base controller.
-* Group or nest your routes together using route prefixes applied to a controller or base controller.
-* Support legacy urls.
-* Set the precedence of routes among the routes defined for an action, within a controller, and among controllers and base controllers.
-* Generate lowercase outbound urls automatically.
-* Define your own custom route conventions and apply them on a controller to generate the routes for actions within the controller without boilerplate attributes (think RESTful style).
-* Debug your routes using a supplied HttpHandler.
-
 h3. Changelog
 
 _v1.5_
