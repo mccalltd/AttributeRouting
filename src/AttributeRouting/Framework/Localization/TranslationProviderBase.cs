@@ -2,18 +2,29 @@ using System.Collections.Generic;
 
 namespace AttributeRouting.Framework.Localization
 {
+    /// <summary>
+    /// Provider for generating translations of route components.
+    /// </summary>
     public abstract class TranslationProviderBase
     {
-        private TranslationKeyGenerator _keyGenerator;
+        private readonly TranslationKeyGenerator _keyGenerator;
 
         protected TranslationProviderBase()
         {
             _keyGenerator = new TranslationKeyGenerator();
         }
 
+        /// <summary>
+        /// List of culture names that have translations available via this provider.
+        /// </summary>
         public abstract IEnumerable<string> CultureNames { get; }
 
-        public abstract string Translate(string key, string culture);
+        /// <summary>
+        /// Translates the route component specified by the given key for the current culture.
+        /// </summary>
+        /// <param name="key">The key of the route component to translate; see <see cref="TranslationKeyGenerator"/></param>
+        /// <param name="cultureName">The culture name for the translation</param>
+        public abstract string Translate(string key, string cultureName);
 
         internal string TranslateAreaUrl(string cultureName, RouteSpecification routeSpec)
         {
