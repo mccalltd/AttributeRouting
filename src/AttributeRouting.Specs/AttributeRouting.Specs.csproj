@@ -112,6 +112,7 @@
     <Compile Include="Steps\RoutePrecedenceSteps.cs" />
     <Compile Include="Steps\SharedSteps.cs" />
     <Compile Include="Steps\StandardUsageSteps.cs" />
+    <Compile Include="Subjects\BugFixesController.cs" />
     <Compile Include="Subjects\RouteAreasControllers.cs" />
     <Compile Include="Subjects\RoutePrefixesControllers.cs" />
     <Compile Include="Subjects\RouteConstraintsController.cs" />

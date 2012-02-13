@@ -1,4 +1,7 @@
-﻿using System.Web.Routing;
+﻿using System;
+using System.Linq;
+using System.Web.Routing;
+using AttributeRouting.Logging;
 using AttributeRouting.Specs.Subjects;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
@@ -15,7 +18,24 @@ namespace AttributeRouting.Specs.Tests
             RouteTable.Routes.Clear();
             RouteTable.Routes.MapAttributeRoutes(config => config.AddRoutesFromController<StandardUsageController>());
 
-            "~/Index".ShouldMapTo<StandardUsageController>(x => x.Index());
+            "~/Index"
+                .ShouldMapTo<StandardUsageController>(
+                    x => x.Index());
+        }
+
+        [Test]
+        public void Ensure_that_routes_with_optional_url_params_are_correctly_matched()
+        {
+            // re: issue #43
+
+            RouteTable.Routes.Clear();
+            RouteTable.Routes.MapAttributeRoutes(config => config.AddRoutesFromController<BugFixesController>());
+
+            RouteTable.Routes.Cast<Route>().LogTo(Console.Out);
+
+            "~/BugFixes/Gallery/_CenterImage"
+                .ShouldMapTo<BugFixesController>(
+                    x => x.Issue43_OptionalParamsAreMucky(null, null, null, null));
         }
     }
 }
