@@ -4,6 +4,10 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_v1.5.4426_
+
+* Made modification to configuration of route translation providers. Used to be config.TranslationProvider = ..., now it is config.AddTranslationProvider(). This allows adding multiple providers. THIS IS A BREAKING CHANGE. Please see the wiki page regarding [[Localization]].
+
 _v1.5_
 
 * Added localization support via TranslationProvider configuration option.
