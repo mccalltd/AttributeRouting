@@ -121,6 +121,7 @@
     <Compile Include="Subjects\StandardUsageController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\LoggingSteps.cs" />
+    <Compile Include="Subjects\SubdomainControllers.cs" />
     <Compile Include="Subjects\TranslationController.cs" />
     <Compile Include="Subjects\TranslationWithCustomKeysController.cs" />
     <Compile Include="Tests\AttributeRouteTests.cs" />
@@ -130,6 +131,9 @@
     <Compile Include="Tests\Localization\RouteBuilderTests.cs" />
     <Compile Include="Tests\Localization\TranslationKeyGeneratorTests.cs" />
     <Compile Include="Tests\Localization\UrlHelperTests.cs" />
+    <Compile Include="Tests\Subdomains\AttributeRouteTests.cs" />
+    <Compile Include="Tests\Subdomains\RouteBuilderTests.cs" />
+    <Compile Include="Tests\Subdomains\RouteReflectorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

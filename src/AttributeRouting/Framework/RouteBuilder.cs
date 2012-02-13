@@ -23,9 +23,17 @@ namespace AttributeRouting.Framework
         public IEnumerable<AttributeRoute> BuildAllRoutes()
         {
             var routeReflector = new RouteReflector(_configuration);
-            var routeSpecs = routeReflector.GenerateRouteSpecifications();
+            var routeSpecs = routeReflector.GenerateRouteSpecifications().ToList();
+            var mappedSubdomains = routeSpecs.Where(s => s.Subdomain.HasValue()).Select(s => s.Subdomain).Distinct().ToList();
 
-            return routeSpecs.SelectMany(Build);
+            foreach (var routeSpec in routeSpecs)
+            {
+                foreach (var route in Build(routeSpec))
+                {
+                    route.MappedSubdomains = mappedSubdomains;
+                    yield return route;                    
+                }
+            }
         }
 
         private IEnumerable<AttributeRoute> Build(RouteSpecification routeSpec)
@@ -37,7 +45,8 @@ namespace AttributeRouting.Framework
                                            _configuration)
             {
                 Name = CreateRouteName(routeSpec),
-                Translations = CreateRouteTranslations(routeSpec)
+                Translations = CreateRouteTranslations(routeSpec),
+                Subdomain = routeSpec.Subdomain
             };
 
             // Yield the default route first

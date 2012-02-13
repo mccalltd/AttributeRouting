@@ -52,7 +52,7 @@ namespace AttributeRouting.Specs.Tests.Localization
                 config.TranslationProvider = translations;
             });
 
-            var requestContext = MockBuilder.BuildMockRequestContext();
+            var requestContext = MockBuilder.BuildRequestContext();
 
             // Default culture
             var urlHelper = new UrlHelper(requestContext, RouteTable.Routes);

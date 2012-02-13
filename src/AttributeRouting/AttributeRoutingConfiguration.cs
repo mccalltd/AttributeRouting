@@ -23,12 +23,16 @@ namespace AttributeRouting
             PromotedControllerTypes = new List<Type>();
             DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
             RouteHandlerFactory = () => new MvcRouteHandler();
+            SubdomainMatchPattern = @"^(([\w\-]+)\.)?[\w\-]+\.[\w\-]+$";
+            DefaultSubdomain = "www";
+            AreaSubdomainOverrides = new Dictionary<string, string>();
         }
 
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }
         internal IDictionary<string, IRouteConstraint> DefaultRouteConstraints { get; set; }
         internal Func<IRouteHandler> RouteHandlerFactory { get; set; }
+        internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
 
         /// <summary>
         /// Provider for translating components of routes.
@@ -53,6 +57,21 @@ namespace AttributeRouting
         /// The default is false.
         /// </summary>
         public bool AutoGenerateRouteNames { get; set; }
+
+        /// <summary>
+        /// Customize the pattern used to match subdomain names when using areas with subdomains.
+        /// The default is "^(([\w\-]+)\.)?[\w\-]+\.[\w\-]+$",
+        /// which matches hostnames in the form sub.domain.com and captures the value "sub" for the subdomain.
+        /// </summary>
+        public string SubdomainMatchPattern { get; set; }
+
+        /// <summary>
+        /// Specify the default subdomain for this application.
+        /// This is used when matching dynamic subdomains, 
+        /// in order to differentiate a dynamic subdomain from the default subdomain of the site.
+        /// The default is www.
+        /// </summary>
+        public string DefaultSubdomain { get; set; }
 
         /// <summary>
         /// Scans the assembly of the specified controller for routes to register.
@@ -157,6 +176,15 @@ namespace AttributeRouting
         public void UseRouteHandler(Func<IRouteHandler> routeHandlerFactory)
         {
             RouteHandlerFactory = routeHandlerFactory;
+        }
+
+        /// <summary>
+        /// Returns a utility for configuring areas when initializing AttributeRouting framework.
+        /// </summary>
+        /// <param name="name">The name of the area to configure</param>
+        public AreaConfiguration MapArea(string name)
+        {
+            return new AreaConfiguration(name, this);
         }
     }
 }

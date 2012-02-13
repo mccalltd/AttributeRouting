@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AreaConfiguration.cs" />
     <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\HttpRequestBaseExtensions.cs" />

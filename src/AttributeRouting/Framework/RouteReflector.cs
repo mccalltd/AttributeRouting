@@ -52,8 +52,9 @@ namespace AttributeRouting.Framework
                     select new RouteSpecification
                     {
                         AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
-                        AreaUrl = routeAreaAttribute.SafeGet(a => a.AreaUrl ?? a.AreaName),
+                        AreaUrl = GetAreaUrl(routeAreaAttribute),
                         AreaUrlTranslationKey = routeAreaAttribute.SafeGet(a => a.TranslationKey),
+                        Subdomain = GetAreaSubdomain(routeAreaAttribute),
                         RoutePrefixUrl = GetRoutePrefix(routePrefixAttribute, actionMethod, convention),
                         RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
                         ControllerType = controllerType,
@@ -83,6 +84,37 @@ namespace AttributeRouting.Framework
             attributes.AddRange(actionMethod.GetCustomAttributes<RouteAttribute>(false));
 
             return attributes.OrderBy(a => a.Order);
+        }
+
+        private static string GetAreaUrl(RouteAreaAttribute routeAreaAttribute)
+        {
+            if (routeAreaAttribute == null)
+                return null;
+
+            // If a subdomain is specified for the area, then assume the area url is blank;
+            // eg: admin.badass.com.
+            // However, our fearless coder can decide to explicitly specify an area url if desired;
+            // eg: internal.badass.com/admin.
+            if (routeAreaAttribute.Subdomain.HasValue() && routeAreaAttribute.AreaUrl.HasNoValue())
+                return null;
+
+            return routeAreaAttribute.AreaUrl ?? routeAreaAttribute.AreaName;
+        }
+
+        private string GetAreaSubdomain(RouteAreaAttribute routeAreaAttribute)
+        {
+            if (routeAreaAttribute == null)
+                return null;
+
+            // Check for a subdomain ovveride specified via configuration object.
+            var subdomainOverride = (from o in _configuration.AreaSubdomainOverrides
+                                     where o.Key == routeAreaAttribute.AreaName
+                                     select o.Value).FirstOrDefault();
+
+            if (subdomainOverride != null)
+                return subdomainOverride;
+
+            return routeAreaAttribute.Subdomain;
         }
 
         private static string GetRoutePrefix(RoutePrefixAttribute routePrefixAttribute, MethodInfo actionMethod, RouteConventionAttribute convention)

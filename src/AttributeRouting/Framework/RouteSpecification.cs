@@ -44,5 +44,7 @@ namespace AttributeRouting.Framework
         public string RouteName { get; set; }
 
         public bool IsAbsoluteUrl { get; set; }
+
+        public string Subdomain { get; set; }
     }
 }

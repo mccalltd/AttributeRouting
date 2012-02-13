@@ -33,5 +33,10 @@ namespace AttributeRouting
         /// Key used by translation provider to lookup the translation for the <see cref="AreaUrl"/>.
         /// </summary>
         public string TranslationKey { get; set; }
+
+        /// <summary>
+        /// The subdomain that this area is mapped to. By default, areas apply to all subdomains.
+        /// </summary>
+        public string Subdomain { get; set; }
     }
 }
