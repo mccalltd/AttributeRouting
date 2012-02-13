@@ -8,11 +8,29 @@ namespace AttributeRouting.Specs.Tests.Localization
     public class FluentTranslationProviderTests
     {
         [Test]
-        public void FluentTranslationProvider_returns_translation_for_given_keys()
+        public void It_can_add_tranlsations_for_actions_with_defaulted_params()
         {
-            var translations = new FluentTranslationProvider();
+            var provider = new FluentTranslationProvider();
 
-            translations.AddTranslations().ForController<TranslationController>()
+            provider.AddTranslations().ForController<TranslateActionsController>()
+                .RouteUrl(c => c.Index(1), new Dictionary<string, string>
+                {
+                    { "es", "hola" }
+                });
+
+            var keyGenerator = new TranslationKeyGenerator();
+            var translationKey = keyGenerator.RouteUrl<TranslateActionsController>(c => c.Index(1));
+            var translation = provider.GetTranslation(translationKey, "es");
+
+            Assert.That(translation, Is.EqualTo("hola"));
+        }
+
+        [Test]
+        public void It_returns_translation_for_given_keys()
+        {
+            var provider = new FluentTranslationProvider();
+
+            provider.AddTranslations().ForController<TranslationController>()
                 .AreaUrl(new Dictionary<string, string>
                 {
                     { "es", "es-Area" }
@@ -26,7 +44,7 @@ namespace AttributeRouting.Specs.Tests.Localization
                     { "es", "es-Index" }
                 });
 
-            translations.AddTranslations()
+            provider.AddTranslations()
                 .ForKey("CustomAreaKey", new Dictionary<string, string>
                 {
                     { "es", "es-CustomArea" }
@@ -42,17 +60,17 @@ namespace AttributeRouting.Specs.Tests.Localization
 
             var keyGenerator = new TranslationKeyGenerator();
 
-            Assert.That(translations.GetTranslation(keyGenerator.AreaUrl<TranslationController>(), "en"), Is.Null);
-            Assert.That(translations.GetTranslation(keyGenerator.RoutePrefixUrl<TranslationController>(), "en"), Is.Null);
-            Assert.That(translations.GetTranslation(keyGenerator.RouteUrl<TranslationController>(c => c.Index()), "en"), Is.Null);
+            Assert.That(provider.GetTranslation(keyGenerator.AreaUrl<TranslationController>(), "en"), Is.Null);
+            Assert.That(provider.GetTranslation(keyGenerator.RoutePrefixUrl<TranslationController>(), "en"), Is.Null);
+            Assert.That(provider.GetTranslation(keyGenerator.RouteUrl<TranslationController>(c => c.Index()), "en"), Is.Null);
 
-            Assert.That(translations.GetTranslation(keyGenerator.AreaUrl<TranslationController>(), "es"), Is.EqualTo("es-Area"));
-            Assert.That(translations.GetTranslation(keyGenerator.RoutePrefixUrl<TranslationController>(), "es"), Is.EqualTo("es-Prefix"));
-            Assert.That(translations.GetTranslation(keyGenerator.RouteUrl<TranslationController>(c => c.Index()), "es"), Is.EqualTo("es-Index"));
+            Assert.That(provider.GetTranslation(keyGenerator.AreaUrl<TranslationController>(), "es"), Is.EqualTo("es-Area"));
+            Assert.That(provider.GetTranslation(keyGenerator.RoutePrefixUrl<TranslationController>(), "es"), Is.EqualTo("es-Prefix"));
+            Assert.That(provider.GetTranslation(keyGenerator.RouteUrl<TranslationController>(c => c.Index()), "es"), Is.EqualTo("es-Index"));
 
-            Assert.That(translations.GetTranslation("CustomAreaKey", "es"), Is.EqualTo("es-CustomArea"));
-            Assert.That(translations.GetTranslation("CustomPrefixKey", "es"), Is.EqualTo("es-CustomPrefix"));
-            Assert.That(translations.GetTranslation("CustomRouteKey", "es"), Is.EqualTo("es-CustomIndex"));
+            Assert.That(provider.GetTranslation("CustomAreaKey", "es"), Is.EqualTo("es-CustomArea"));
+            Assert.That(provider.GetTranslation("CustomPrefixKey", "es"), Is.EqualTo("es-CustomPrefix"));
+            Assert.That(provider.GetTranslation("CustomRouteKey", "es"), Is.EqualTo("es-CustomIndex"));
         }
     }
 }

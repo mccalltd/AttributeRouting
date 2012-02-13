@@ -7,7 +7,7 @@ namespace AttributeRouting.Specs.Tests.Localization
     public class TranslationKeyGeneratorTests
     {
         [Test]
-        public void TranslationKeyGenerator_returns_correct_keys_for_route_components()
+        public void It_returns_correct_keys_for_route_components()
         {
             var keyGenerator = new TranslationKeyGenerator();
 

@@ -12,7 +12,7 @@ namespace AttributeRouting.Specs.Tests.Localization
     public class UrlHelperTests
     {
         [Test]
-        public void UrlHelper_returns_translated_routes()
+        public void It_returns_translated_routes()
         {
             var translations = new FluentTranslationProvider();
 
