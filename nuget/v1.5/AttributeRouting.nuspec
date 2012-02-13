@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AttributeRouting</id>
+    <version>1.5</version>
+    <authors>Tim McCall</authors>
+    <owners>Tim McCall</owners>
+    <projectUrl>https://github.com/mccalltd/AttributeRouting/wiki/_pages</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>AttributeRouting lets you to specify routes using attributes on your MVC controllers and actions.</description>
+    <language>en-US</language>
+    <tags>attribute, routing, route, asp.net, mvc</tags>
+    <dependencies>
+      <dependency id="WebActivator" version="1.0.0.0" />
+    </dependencies>
+  </metadata>
+</package>
