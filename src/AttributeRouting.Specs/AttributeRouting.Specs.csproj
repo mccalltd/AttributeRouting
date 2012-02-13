@@ -125,7 +125,11 @@
     <Compile Include="Subjects\TranslationWithCustomKeysController.cs" />
     <Compile Include="Tests\AttributeRouteTests.cs" />
     <Compile Include="Tests\BugFixTests.cs" />
-    <Compile Include="Tests\FluentTranslationProviderTests.cs" />
+    <Compile Include="Tests\Localization\FluentTranslationProviderTests.cs" />
+    <Compile Include="Tests\MockBuilder.cs" />
+    <Compile Include="Tests\Localization\RouteBuilderTests.cs" />
+    <Compile Include="Tests\Localization\TranslationKeyGeneratorTests.cs" />
+    <Compile Include="Tests\Localization\UrlHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -169,6 +173,7 @@
       <Name>AttributeRouting</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
