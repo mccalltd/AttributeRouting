@@ -40,7 +40,7 @@ namespace AttributeRouting.Framework.Localization
         /// Add translations for the route prefix url specified via the <see cref="RoutePrefixAttribute"/> applied to this controller.
         /// </summary>
         /// <param name="cultureTranslationPairs">Dictionary using cultureName as a key and a translation as the value</param>
-        public ControllerTranslationBuilder<TController> RoutePrefix(Dictionary<string, string> cultureTranslationPairs)
+        public ControllerTranslationBuilder<TController> RoutePrefixUrl(Dictionary<string, string> cultureTranslationPairs)
         {
             var key = _keyGenerator.RoutePrefixUrl<TController>();
             _builder.ForKey(key, cultureTranslationPairs);

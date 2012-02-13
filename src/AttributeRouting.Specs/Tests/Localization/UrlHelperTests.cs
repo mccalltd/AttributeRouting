@@ -21,7 +21,7 @@ namespace AttributeRouting.Specs.Tests.Localization
                 {
                     { "es", "es-Area" }
                 })
-                .RoutePrefix(new Dictionary<string, string>
+                .RoutePrefixUrl(new Dictionary<string, string>
                 {
                     { "es", "es-Prefix" }
                 })

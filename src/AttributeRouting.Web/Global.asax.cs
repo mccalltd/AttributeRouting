@@ -47,7 +47,7 @@ namespace AttributeRouting.Web
                     { "es", "es-AreaUrl" },
                     { "fr", "fr-AreaUrl" },
                 })
-                .RoutePrefix(new Dictionary<string, string>
+                .RoutePrefixUrl(new Dictionary<string, string>
                 {
                     { "es", "es-RoutePrefixUrl" },
                     { "fr", "fr-RoutePrefixUrl" },
