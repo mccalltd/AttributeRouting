@@ -24,6 +24,7 @@ namespace AttributeRouting
             DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
             RouteHandlerFactory = () => new MvcRouteHandler();
             AreaSubdomainOverrides = new Dictionary<string, string>();
+            TranslationProviders = new List<TranslationProviderBase>();
             DefaultSubdomain = "www";
             SubdomainParser = host =>
             {
@@ -39,12 +40,7 @@ namespace AttributeRouting
         internal IDictionary<string, IRouteConstraint> DefaultRouteConstraints { get; set; }
         internal Func<IRouteHandler> RouteHandlerFactory { get; set; }
         internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
-
-        /// <summary>
-        /// Provider for translating components of routes.
-        /// Use <see cref="FluentTranslationProvider"/> for a default implementation.
-        /// </summary>
-        public TranslationProviderBase TranslationProvider { get; set; }
+        internal List<TranslationProviderBase> TranslationProviders { get; set; }
 
         /// <summary>
         /// When true, the generated routes will produce lowercase outbound URLs.
@@ -189,6 +185,24 @@ namespace AttributeRouting
         public AreaConfiguration MapArea(string name)
         {
             return new AreaConfiguration(name, this);
+        }
+
+        /// <summary>
+        /// Add a provider for translating components of routes.
+        /// </summary>
+        public void AddTranslationProvider<TTranslationProvider>()
+            where TTranslationProvider : TranslationProviderBase, new()
+        {
+            TranslationProviders.Add(new TTranslationProvider());
+        }
+
+        /// <summary>
+        /// Add a provider for translating components of routes.
+        /// Use <see cref="FluentTranslationProvider"/> for a default implementation.
+        /// </summary>
+        public void AddTranslationProvider(TranslationProviderBase provider)
+        {
+            TranslationProviders.Add(provider);
         }
     }
 }

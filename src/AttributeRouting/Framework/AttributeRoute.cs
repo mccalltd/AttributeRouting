@@ -77,7 +77,7 @@ namespace AttributeRouting.Framework
             if (virtualPathData == null)
                 return null;
 
-            if (_configuration.TranslationProvider != null)
+            if (_configuration.TranslationProviders.Any())
                 virtualPathData = GetTranslatedVirtualPath(virtualPathData, requestContext, values);
 
             var virtualPath = virtualPathData.VirtualPath;

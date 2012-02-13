@@ -248,33 +248,44 @@ namespace AttributeRouting.Framework
         private IEnumerable<AttributeRoute> CreateRouteTranslations(RouteSpecification routeSpec)
         {
             // If no translation provider, then get out of here.
-            var translations = _configuration.TranslationProvider;
-            if (translations == null)
+            if (!_configuration.TranslationProviders.Any())
                 yield break;
 
-            foreach (var cultureName in translations.CultureNames)
-            {
-                // Only create a translated route if some part of the route is translated
-                
-                var translateRouteUrl = translations.TranslateRouteUrl(cultureName, routeSpec);
-                var translateRoutePrefix = translations.TranslateRoutePrefix(cultureName, routeSpec);
-                var translateAreaUrl = translations.TranslateAreaUrl(cultureName, routeSpec);
+            // Merge all the culture names from the various providers.
+            var cultureNames = (from provider in _configuration.TranslationProviders
+                                from cultureName in provider.CultureNames
+                                select cultureName).Distinct().ToList();
 
-                if (translateRouteUrl == null && translateRoutePrefix == null && translateAreaUrl == null)
+            // Built the route translations, 
+            // choosing the first available translated route component from among the providers
+            foreach (var cultureName in cultureNames)
+            {
+                string translatedRouteUrl = null,
+                       translatedRoutePrefix = null,
+                       translatedAreaUrl = null;
+
+                foreach (var provider in _configuration.TranslationProviders)
+                {
+                    translatedRouteUrl = translatedRouteUrl ?? provider.TranslateRouteUrl(cultureName, routeSpec);
+                    translatedRoutePrefix = translatedRoutePrefix ?? provider.TranslateRoutePrefix(cultureName, routeSpec);
+                    translatedAreaUrl = translatedAreaUrl ?? provider.TranslateAreaUrl(cultureName, routeSpec);
+                }
+
+                if (translatedRouteUrl == null && translatedRoutePrefix == null && translatedAreaUrl == null)
                     continue;
 
-                var translatedRoute = new AttributeRoute(
-                    CreateRouteUrl(translateRouteUrl ?? routeSpec.RouteUrl,
-                                   translateRoutePrefix ?? routeSpec.RoutePrefixUrl,
-                                   translateAreaUrl ?? routeSpec.AreaUrl,
-                                   routeSpec.IsAbsoluteUrl),
-                    CreateRouteDefaults(routeSpec),
-                    CreateRouteConstraints(routeSpec),
-                    CreateRouteDataTokens(routeSpec),
-                    _configuration)
-                {
-                    CultureName = cultureName,
-                };
+                var translatedRoute =
+                    new AttributeRoute(CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
+                                                      translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
+                                                      translatedAreaUrl ?? routeSpec.AreaUrl,
+                                                      routeSpec.IsAbsoluteUrl),
+                                       CreateRouteDefaults(routeSpec),
+                                       CreateRouteConstraints(routeSpec),
+                                       CreateRouteDataTokens(routeSpec),
+                                       _configuration)
+                    {
+                        CultureName = cultureName,
+                    };
 
                 // Add the cultureName to the data tokens for reference purposes (might be used later on).
                 translatedRoute.DataTokens.Add("cultureName", cultureName);

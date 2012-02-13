@@ -33,7 +33,7 @@ namespace AttributeRouting.Framework.Localization
             }
         }
 
-        public override string Translate(string key, string cultureName)
+        public override string GetTranslation(string key, string cultureName)
         {
             IDictionary<string, string> translationsByKey;
             if (!Translations.TryGetValue(key, out translationsByKey))

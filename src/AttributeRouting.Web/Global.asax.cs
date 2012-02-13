@@ -62,7 +62,7 @@ namespace AttributeRouting.Web
             {
                 config.ScanAssemblyOf<ControllerBase>();
                 config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
-                config.TranslationProvider = translationProvider;
+                config.AddTranslationProvider(translationProvider);
             });
 
             routes.MapRoute("CatchAll",

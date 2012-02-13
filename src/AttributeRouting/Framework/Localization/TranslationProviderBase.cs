@@ -20,18 +20,18 @@ namespace AttributeRouting.Framework.Localization
         public abstract IEnumerable<string> CultureNames { get; }
 
         /// <summary>
-        /// Translates the route component specified by the given key for the current culture.
+        /// Gets the translation for the given route component key and culture.
         /// </summary>
         /// <param name="key">The key of the route component to translate; see <see cref="TranslationKeyGenerator"/></param>
         /// <param name="cultureName">The culture name for the translation</param>
-        public abstract string Translate(string key, string cultureName);
+        public abstract string GetTranslation(string key, string cultureName);
 
         internal string TranslateAreaUrl(string cultureName, RouteSpecification routeSpec)
         {
             var key = routeSpec.AreaUrlTranslationKey
                       ?? _keyGenerator.AreaUrl(routeSpec.AreaName);
 
-            return Translate(key, cultureName);
+            return GetTranslation(key, cultureName);
         }
 
         internal string TranslateRoutePrefix(string cultureName, RouteSpecification routeSpec)
@@ -39,7 +39,7 @@ namespace AttributeRouting.Framework.Localization
             var key = routeSpec.RoutePrefixUrlTranslationKey
                       ?? _keyGenerator.RoutePrefixUrl(routeSpec.AreaName, routeSpec.ControllerName);
 
-            return Translate(key, cultureName);
+            return GetTranslation(key, cultureName);
         }
 
         internal string TranslateRouteUrl(string cultureName, RouteSpecification routeSpec)
@@ -47,7 +47,7 @@ namespace AttributeRouting.Framework.Localization
             var key = routeSpec.RouteUrlTranslationKey
                       ?? _keyGenerator.RouteUrl(routeSpec.AreaName, routeSpec.ControllerName, routeSpec.ActionName);
 
-            return Translate(key, cultureName);
+            return GetTranslation(key, cultureName);
         }
     }
 }

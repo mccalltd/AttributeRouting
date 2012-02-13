@@ -49,7 +49,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             {
                 config.AddRoutesFromController<TranslationController>();
                 config.AddRoutesFromController<TranslationWithCustomKeysController>();
-                config.TranslationProvider = translations;
+                config.AddTranslationProvider(translations);
             });
 
             var requestContext = MockBuilder.BuildRequestContext();
