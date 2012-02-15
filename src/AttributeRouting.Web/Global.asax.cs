@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
@@ -15,25 +13,11 @@ namespace AttributeRouting.Web
 
     public class MvcApplication : System.Web.HttpApplication
     {
-        public MvcApplication()
-        {
-            BeginRequest += OnBeginRequest;
-        }
-
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
             RegisterRoutes(RouteTable.Routes);
-        }
-
-        protected void OnBeginRequest(object sender, System.EventArgs e)
-        {
-            if (Request.UserLanguages != null && Request.UserLanguages.Any())
-            {
-                var cultureInfo = new CultureInfo(Request.UserLanguages[0]);
-                Thread.CurrentThread.CurrentUICulture = cultureInfo;
-            }
         }
 
         public static void RegisterRoutes(RouteCollection routes)
@@ -44,8 +28,8 @@ namespace AttributeRouting.Web
             translationProvider.AddTranslations().ForController<LocalizationController>()
                 .AreaUrl(new Dictionary<string, string>
                 {
-                    { "es", "es-AreaUrl" },
-                    { "fr", "fr-AreaUrl" },
+                    { "es", "{culture}/es-AreaUrl" },
+                    { "fr", "{culture}/fr-AreaUrl" },
                 })
                 .RoutePrefixUrl(new Dictionary<string, string>
                 {
@@ -63,6 +47,7 @@ namespace AttributeRouting.Web
                 config.ScanAssemblyOf<ControllerBase>();
                 config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
                 config.AddTranslationProvider(translationProvider);
+                config.UseRouteHandler(() => new CultureAwareRouteHandler());
             });
 
             routes.MapRoute("CatchAll",

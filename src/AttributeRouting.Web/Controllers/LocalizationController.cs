@@ -2,7 +2,7 @@
 
 namespace AttributeRouting.Web.Controllers
 {
-    [RouteArea("Localization")]
+    [RouteArea("Localization", AreaUrl = "{culture}/Localization")]
     [RoutePrefix("Prefix")]
     public class LocalizationController : Controller
     {

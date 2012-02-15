@@ -89,6 +89,7 @@
     <Compile Include="Controllers\RenderActionController.cs" />
     <Compile Include="Controllers\RestfulController.cs" />
     <Compile Include="Controllers\RestfulConventionController.cs" />
+    <Compile Include="CultureAwareRouteHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
