@@ -12,9 +12,9 @@ namespace AttributeRouting.Web
 
         protected override System.Web.IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
-            // Detect the current culture.
-            var cultureRouteData = requestContext.RouteData.Values[CultureRouteParamName];
-            var currentCultureName = (string)cultureRouteData;
+            // Detect the current culture from route data first 
+            // (will be in here if url {culture} is part of the route).
+            var currentCultureName = (string)requestContext.RouteData.Values[CultureRouteParamName];
             if (currentCultureName == null)
             {
                 // Fallback to detecting the user language.
@@ -30,8 +30,7 @@ namespace AttributeRouting.Web
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
                 // Add the culture to route data
-                requestContext.RouteData.Values[CultureRouteParamName] 
-                    = currentCultureName;
+                requestContext.RouteData.Values[CultureRouteParamName] = currentCultureName;
             }
 
             return base.GetHttpHandler(requestContext);
