@@ -74,12 +74,12 @@ namespace AttributeRouting.Framework
             return null;
         }
 
-        private static string CreateRouteUrl(RouteSpecification routeSpec)
+        private string CreateRouteUrl(RouteSpecification routeSpec)
         {
             return CreateRouteUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec.IsAbsoluteUrl);
         }
 
-        private static string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, bool isAbsoluteUrl)
+        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, bool isAbsoluteUrl)
         {
             var detokenizedUrl = DetokenizeUrl(routeUrl);
             
@@ -116,6 +116,24 @@ namespace AttributeRouting.Framework
                     if (!delimitedRouteUrl.StartsWith(delimitedAreaUrl))
                         urlBuilder.Insert(0, delimitedAreaUrl);                    
                 }
+            }
+
+            // If we are lowercasing routes, then lowercase everything but the route params
+            if (_configuration.UseLowercaseRoutes)
+            {
+                for (var i = 0; i < urlBuilder.Length; i++)
+                {
+                    var c = urlBuilder[i];
+                    if (Char.IsUpper(c))
+                    {
+                        urlBuilder[i] = Char.ToLower(c);
+                    }
+                    else if (c == '{')
+                    {
+                        while (urlBuilder[i] != '}' && i < urlBuilder.Length)
+                            i++;
+                    }
+                }       
             }
 
             return urlBuilder.ToString().Trim('/');

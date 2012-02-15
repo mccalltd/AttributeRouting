@@ -48,6 +48,7 @@ namespace AttributeRouting.Web
                 config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
                 config.AddTranslationProvider(translationProvider);
                 config.UseRouteHandler(() => new CultureAwareRouteHandler());
+                config.UseLowercaseRoutes = true;
             });
 
             routes.MapRoute("CatchAll",

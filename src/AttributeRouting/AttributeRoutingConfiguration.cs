@@ -43,10 +43,16 @@ namespace AttributeRouting
         internal List<TranslationProviderBase> TranslationProviders { get; set; }
 
         /// <summary>
-        /// When true, the generated routes will produce lowercase outbound URLs.
+        /// When true, the generated routes will produce lowercase URLs.
         /// The default is false.
         /// </summary>
         public bool UseLowercaseRoutes { get; set; }
+
+        /// <summary>
+        /// When true, the generated routes will not lowercase URL parameter values.
+        /// The default is false.
+        /// </summary>
+        public bool PreserveCaseForUrlParameters { get; set; }
 
         /// <summary>
         /// When true, the generated routes will have a trailing slash on the path of outbound URLs.

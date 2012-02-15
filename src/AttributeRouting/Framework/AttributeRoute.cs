@@ -82,7 +82,9 @@ namespace AttributeRouting.Framework
 
             var virtualPath = virtualPathData.VirtualPath;
 
-            if (_configuration.UseLowercaseRoutes)
+            // NOTE: The initial lowercasing of all BUT url params occurs in RouteBuilder.CreateRouteUrl().
+            // This is just a final lowercasing of the final, parameter-replaced url.
+            if (_configuration.UseLowercaseRoutes && !_configuration.PreserveCaseForUrlParameters)
                 virtualPath = TransformVirtualPathToLowercase(virtualPath);
 
             if (_configuration.AppendTrailingSlash)

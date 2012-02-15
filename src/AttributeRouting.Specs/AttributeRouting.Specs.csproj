@@ -113,6 +113,7 @@
     <Compile Include="Steps\SharedSteps.cs" />
     <Compile Include="Steps\StandardUsageSteps.cs" />
     <Compile Include="Subjects\BugFixesController.cs" />
+    <Compile Include="Subjects\LowercaseUrlController.cs" />
     <Compile Include="Subjects\RouteAreasControllers.cs" />
     <Compile Include="Subjects\RoutePrefixesControllers.cs" />
     <Compile Include="Subjects\RouteConstraintsController.cs" />
@@ -124,9 +125,11 @@
     <Compile Include="Steps\LoggingSteps.cs" />
     <Compile Include="Subjects\SubdomainControllers.cs" />
     <Compile Include="Subjects\LocalizationControllers.cs" />
-    <Compile Include="Tests\AttributeRouteTests.cs" />
+    <Compile Include="Tests\TrailingSlashes\AttributeRouteTests.cs" />
     <Compile Include="Tests\BugFixTests.cs" />
     <Compile Include="Tests\Localization\FluentTranslationProviderTests.cs" />
+    <Compile Include="Tests\LowercaseUrls\AttributeRouteTests.cs" />
+    <Compile Include="Tests\LowercaseUrls\RouteBuilderTests.cs" />
     <Compile Include="Tests\MockBuilder.cs" />
     <Compile Include="Tests\Localization\RouteBuilderTests.cs" />
     <Compile Include="Tests\Localization\TranslationKeyGeneratorTests.cs" />
