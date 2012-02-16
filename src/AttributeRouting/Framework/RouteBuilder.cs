@@ -152,10 +152,11 @@ namespace AttributeRouting.Framework
             // Inspect the url for optional parameters, specified with a leading or trailing (or both) ?
             foreach (var parameter in urlParameters.Where(p => Regex.IsMatch(p, @"^\?|\?$")))
             {
-                if (defaults.ContainsKey(parameter))
+                var parameterName = parameter.Trim('?');
+
+                if (defaults.ContainsKey(parameterName))
                     continue;
 
-                var parameterName = parameter.Trim('?');
                 defaults.Add(parameterName, UrlParameter.Optional);
             }
 
