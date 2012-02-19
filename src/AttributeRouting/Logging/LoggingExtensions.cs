@@ -26,7 +26,7 @@ namespace AttributeRouting.Logging
             writer.WriteLine("URL: {0}", route.Url);
 
             if (route is AttributeRoute)
-                writer.WriteLine("NAME: {0}", ((AttributeRoute)route).Name);
+                writer.WriteLine("NAME: {0}", ((AttributeRoute)route).RouteName);
 
             if (route.Defaults != null && route.Defaults.Count > 0)
             {

@@ -54,7 +54,7 @@ namespace AttributeRouting
         {
             var generatedRoutes = new RouteBuilder(configuration).BuildAllRoutes();
 
-            generatedRoutes.ToList().ForEach(r => routes.Add(r.Name, r));
+            generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, r));
         }
     }
 }

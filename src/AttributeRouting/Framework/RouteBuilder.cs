@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AttributeRouting.Framework.Localization;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
@@ -44,7 +45,7 @@ namespace AttributeRouting.Framework
                                            CreateRouteDataTokens(routeSpec),
                                            _configuration)
             {
-                Name = CreateRouteName(routeSpec),
+                RouteName = CreateRouteName(routeSpec),
                 Translations = CreateRouteTranslations(routeSpec),
                 Subdomain = routeSpec.Subdomain
             };
@@ -53,10 +54,15 @@ namespace AttributeRouting.Framework
             yield return route;
 
             // Then yield the translations
-            if (route.Translations != null)
+            if (route.Translations == null)
+                yield break;
+
+            foreach (var translation in route.Translations)
             {
-                foreach (var translation in route.Translations)
-                    yield return translation;                
+                // Backreference the default route.
+                translation.DefaultRoute = route;
+
+                yield return translation;
             }
         }
 
@@ -185,7 +191,7 @@ namespace AttributeRouting.Framework
             return defaults;
         }
 
-        private RouteValueDictionary CreateRouteConstraints(RouteSpecification routeSpec)
+        private RouteValueDictionary CreateRouteConstraints(RouteSpecification routeSpec, bool isTranslation = false)
         {
             var constraints = new RouteValueDictionary();
 
@@ -271,9 +277,7 @@ namespace AttributeRouting.Framework
                 yield break;
 
             // Merge all the culture names from the various providers.
-            var cultureNames = (from provider in _configuration.TranslationProviders
-                                from cultureName in provider.CultureNames
-                                select cultureName).Distinct().ToList();
+            var cultureNames = _configuration.GetTranslationProviderCultureNames();
 
             // Built the route translations, 
             // choosing the first available translated route component from among the providers
@@ -299,14 +303,13 @@ namespace AttributeRouting.Framework
                                                       translatedAreaUrl ?? routeSpec.AreaUrl,
                                                       routeSpec.IsAbsoluteUrl),
                                        CreateRouteDefaults(routeSpec),
-                                       CreateRouteConstraints(routeSpec),
+                                       CreateRouteConstraints(routeSpec, true),
                                        CreateRouteDataTokens(routeSpec),
                                        _configuration)
                     {
                         CultureName = cultureName,
                     };
 
-                // Add the cultureName to the data tokens for reference purposes (might be used later on).
                 translatedRoute.DataTokens.Add("cultureName", cultureName);
 
                 yield return translatedRoute;

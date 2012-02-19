@@ -9,6 +9,9 @@ namespace AttributeRouting.Helpers
     {
         public static bool ValueEquals(this string s, string other)
         {
+            if (s == null)
+                return other == null;
+
             return s.Equals(other, StringComparison.OrdinalIgnoreCase);
         }
 

@@ -23,7 +23,7 @@ namespace AttributeRouting.Specs
 
         public static AttributeRoute RequireRouteNamed(this IEnumerable<AttributeRoute> routes, string name)
         {
-            var route = routes.FirstOrDefault(r => r.Name == name);
+            var route = routes.FirstOrDefault(r => r.RouteName == name);
             if (route == null)
                 throw new ApplicationException("There is no route named \"" + name + "\"");
 

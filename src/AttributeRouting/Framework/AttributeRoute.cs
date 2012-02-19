@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web;
 using System.Web.Routing;
 using AttributeRouting.Helpers;
 
@@ -30,9 +31,14 @@ namespace AttributeRouting.Framework
         }
 
         /// <summary>
+        /// The route that a translated applies to.
+        /// </summary>
+        internal AttributeRoute DefaultRoute { get; set; }
+
+        /// <summary>
         /// The name of this route, for supporting named routes.
         /// </summary>
-        public string Name { get; internal set; }
+        public string RouteName { get; internal set; }
 
         /// <summary>
         /// The translations available for this route.
@@ -54,21 +60,75 @@ namespace AttributeRouting.Framework
         /// </summary>
         public string Subdomain { get; set; }
 
-        public override RouteData GetRouteData(System.Web.HttpContextBase httpContext)
+        public override RouteData GetRouteData(HttpContextBase httpContext)
         {
-            // If no subdomains are mapped with AR, then just resort to default behavior.
+            if (!IsSubdomainMatched(httpContext))
+                return null;
+
+            if (!IsCultureNameMatched())
+                return null;
+
+            return base.GetRouteData(httpContext);
+        }
+
+        private bool IsSubdomainMatched(HttpContextBase httpContext)
+        {
+            // If no subdomains are mapped with AR, then yes.
             if (!MappedSubdomains.Any())
-                return base.GetRouteData(httpContext);
+                return true;
 
             // Get the subdomain from the requested hostname.
             var subdomain = _configuration.SubdomainParser(httpContext.Request.Headers["host"]);
 
-            // Handle the request if this route is mapped to the requested host's subdomain
-            if ((Subdomain ?? _configuration.DefaultSubdomain).ValueEquals(subdomain)) 
-                return base.GetRouteData(httpContext);
+            // Match if this route is mapped to the requested host's subdomain
+            if ((Subdomain ?? _configuration.DefaultSubdomain).ValueEquals(subdomain))
+                return true;
 
             // Otherwise, this route does not match the request.
-            return null;
+            return false;            
+        }
+
+        private bool IsCultureNameMatched()
+        {
+            if (!_configuration.ConstrainTranslatedRoutesByCurrentUICulture)
+                return true;
+
+            // If no translations are available, then obviously the answer is yes.
+            if (!_configuration.TranslationProviders.Any())
+                return true;
+
+            var currentUICultureName = Thread.CurrentThread.CurrentUICulture.Name;
+            var currentUINeutralCultureName = currentUICultureName.Split('-').First();
+
+            // If this is a translated route:
+            if (DefaultRoute != null)
+            {
+                // Match if the current UI culture matches the culture name of this route.
+                if (currentUICultureName.ValueEquals(CultureName))
+                    return true;
+
+                // Match if the culture name is neutral and no translation exists for the specific culture.
+                if (CultureName.Split('-').Length == 1 &&
+                    !DefaultRoute.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName)))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                // If this is a default route:
+
+                // Match if this route has no translations.
+                if (!Translations.Any())
+                    return true;
+
+                // Match if this route has no translations for the neutral current UI culture.
+                if (!Translations.Any(t => t.CultureName == currentUINeutralCultureName))
+                    return true;                
+            }
+
+            // Otherwise, don't match.
+            return false;
         }
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)

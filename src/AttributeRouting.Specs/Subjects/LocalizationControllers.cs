@@ -24,8 +24,10 @@ namespace AttributeRouting.Specs.Subjects
         }
     }
 
+    [RoutePrefix("Translate/Actions")]
     public class TranslateActionsController : Controller
     {
+        [GET("Index")]
         public ActionResult Index(int id = 1)
         {
             return Content("content");

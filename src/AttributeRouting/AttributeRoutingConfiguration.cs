@@ -80,6 +80,12 @@ namespace AttributeRouting
         public string DefaultSubdomain { get; set; }
 
         /// <summary>
+        /// Constrains translated routes by the thread's current UI culture.
+        /// The default is false.
+        /// </summary>
+        public bool ConstrainTranslatedRoutesByCurrentUICulture { get; set; }
+
+        /// <summary>
         /// Scans the assembly of the specified controller for routes to register.
         /// </summary>
         /// <typeparam name="TController">The controller type used to specify the assembly</typeparam>
@@ -209,6 +215,13 @@ namespace AttributeRouting
         public void AddTranslationProvider(TranslationProviderBase provider)
         {
             TranslationProviders.Add(provider);
+        }
+
+        internal IEnumerable<string> GetTranslationProviderCultureNames()
+        {
+            return (from provider in TranslationProviders
+                    from cultureName in provider.CultureNames
+                    select cultureName).Distinct().ToList();
         }
     }
 }
