@@ -4,6 +4,11 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_v1.6_
+
+* Can now choose to preserve the case for url parameters
+* Added logic and config option to constrain routes by the culture name of the current thread. The route is considered when: 1) no translations exist for the route; 2) it is translated for the current UI culture; 3) it is translated for the neutral culture when no translation exists for the specific culture. This constraint logic follow the logic used when choosing the translation to use when generating outbound routes.
+
 _v1.5.4426_
 
 * Made modification to configuration of route translation providers. Used to be config.TranslationProvider = ..., now it is config.AddTranslationProvider(). This allows adding multiple providers. THIS IS A BREAKING CHANGE. Please see the wiki page regarding [[Localization]].
