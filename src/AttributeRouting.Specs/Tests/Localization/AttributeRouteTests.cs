@@ -119,6 +119,22 @@ namespace AttributeRouting.Specs.Tests.Localization
         }
 
         [Test]
+        public void It_does_not_match_translated_route_for_neutral_culture_when_current_culture_is_neutral_from_another_language()
+        {
+            var route = MapRoutesAndFetchFirst(r => r.CultureName == "es");
+            
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("pt-BR");
+
+            var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
+            {
+                r.SetupGet(x => x.PathInfo).Returns("Translate/Actions/hola");
+            });
+            
+            var routeData = route.GetRouteData(httpContextMock.Object);
+            Assert.That(routeData, Is.Null);
+        }
+
+        [Test]
         public void It_does_not_match_translated_route_for_neutral_culture_when_translation_is_available_for_specific_culture()
         {
             var route = MapRoutesAndFetchFirst(r => r.CultureName == "es");

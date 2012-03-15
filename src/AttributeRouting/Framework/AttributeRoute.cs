@@ -108,8 +108,9 @@ namespace AttributeRouting.Framework
                     return true;
 
                 // Match if the culture name is neutral and no translation exists for the specific culture.
-                if (CultureName.Split('-').Length == 1 &&
-                    !DefaultRoute.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName)))
+                if (CultureName.Split('-').Length == 1 
+                    && currentUINeutralCultureName == CultureName
+                    && !DefaultRoute.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName)))
                 {
                     return true;
                 }

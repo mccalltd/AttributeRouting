@@ -2,6 +2,16 @@
 
 namespace AttributeRouting.Specs.Subjects
 {
+    [RouteArea("Cms", AreaUrl = "{culture}/Cms")]
+    public class CulturePrefixController : Controller
+    {
+        [GET("Index")]
+        public ActionResult Index()
+        {
+            return Content("content");
+        }
+    }
+
     [RouteArea("Area")]
     [RoutePrefix("Prefix")]
     public class TranslationController : Controller
