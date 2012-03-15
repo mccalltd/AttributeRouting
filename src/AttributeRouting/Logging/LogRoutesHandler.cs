@@ -104,6 +104,9 @@ namespace AttributeRouting.Logging
                 {
                     foreach (var constraint in route.Constraints)
                     {
+                        if (constraint.Value == null)
+                            continue;
+
                         if (constraint.Value.GetType() == typeof(RestfulHttpMethodConstraint))
                             item.HttpMethod = String.Join(", ", ((RestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
                         else if (constraint.Value.GetType() == typeof(RegexRouteConstraint))

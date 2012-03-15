@@ -191,7 +191,7 @@ namespace AttributeRouting.Framework
             return defaults;
         }
 
-        private RouteValueDictionary CreateRouteConstraints(RouteSpecification routeSpec, bool isTranslation = false)
+        private RouteValueDictionary CreateRouteConstraints(RouteSpecification routeSpec)
         {
             var constraints = new RouteValueDictionary();
 
@@ -303,7 +303,7 @@ namespace AttributeRouting.Framework
                                                       translatedAreaUrl ?? routeSpec.AreaUrl,
                                                       routeSpec.IsAbsoluteUrl),
                                        CreateRouteDefaults(routeSpec),
-                                       CreateRouteConstraints(routeSpec, true),
+                                       CreateRouteConstraints(routeSpec),
                                        CreateRouteDataTokens(routeSpec),
                                        _configuration)
                     {
