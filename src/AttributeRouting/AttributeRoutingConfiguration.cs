@@ -19,6 +19,7 @@ namespace AttributeRouting
         /// </summary>
         public AttributeRoutingConfiguration()
         {
+            InheritActionsFromBaseController = false;
             Assemblies = new List<Assembly>();
             PromotedControllerTypes = new List<Type>();
             DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
@@ -80,8 +81,15 @@ namespace AttributeRouting
         public string DefaultSubdomain { get; set; }
 
         /// <summary>
+        /// When true, the generated routes will include actions defined on base controllers.
+        /// The default is false
+        /// </summary>
+        public bool InheritActionsFromBaseController { get; set; }
+
+        /// <summary>
         /// Constrains translated routes by the thread's current UI culture.
         /// The default is false.
+        /// Note: Base Controllers should be declared as abstract to avoid routes being generated for them
         /// </summary>
         public bool ConstrainTranslatedRoutesByCurrentUICulture { get; set; }
 
