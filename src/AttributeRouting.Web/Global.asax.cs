@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
@@ -49,6 +48,7 @@ namespace AttributeRouting.Web
                 config.AddTranslationProvider(translationProvider);
                 config.UseRouteHandler(() => new CultureAwareRouteHandler());
                 config.UseLowercaseRoutes = true;
+                config.InheritActionsFromBaseController = true;
             });
 
             routes.MapRoute("CatchAll",
