@@ -19,7 +19,7 @@ namespace AttributeRouting.Framework
 
         public IEnumerable<RouteSpecification> GenerateRouteSpecifications()
         {
-            var controllerRouteSpecs = GenerateRouteSpecifications(_configuration.PromotedControllerTypes);
+            var controllerRouteSpecs = GenerateRouteSpecifications(_configuration.PromotedControllerTypes, _configuration.InheritActionsFromBaseController);
             foreach (var spec in controllerRouteSpecs)
                 yield return spec;
 
@@ -29,13 +29,13 @@ namespace AttributeRouting.Framework
             var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes()).ToList();
             var remainingControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
 
-            var remainingRouteSpecs = GenerateRouteSpecifications(remainingControllerTypes);
+            var remainingRouteSpecs = GenerateRouteSpecifications(remainingControllerTypes, _configuration.InheritActionsFromBaseController);
 
             foreach (var spec in remainingRouteSpecs)
                 yield return spec;
         }
 
-        private IEnumerable<RouteSpecification> GenerateRouteSpecifications(IEnumerable<Type> controllerTypes)
+        private IEnumerable<RouteSpecification> GenerateRouteSpecifications(IEnumerable<Type> controllerTypes, bool inheritActionsFromBaseController)
         {
             var controllerCount = 0;
 
@@ -44,7 +44,7 @@ namespace AttributeRouting.Framework
                     let convention = controllerType.GetCustomAttribute<RouteConventionAttribute>(false)
                     let routeAreaAttribute = controllerType.GetCustomAttribute<RouteAreaAttribute>(true)
                     let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
-                    from actionMethod in controllerType.GetActionMethods()
+                    from actionMethod in controllerType.GetActionMethods(inheritActionsFromBaseController)
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
                     orderby controllerIndex, routeAttribute.Precedence
                     // precedence is within a controller
