@@ -15,9 +15,14 @@ namespace AttributeRouting.Helpers
                    select type;
         }
 
-        public static IEnumerable<MethodInfo> GetActionMethods(this Type type)
+        public static IEnumerable<MethodInfo> GetActionMethods(this Type type, bool inheritActionsFromBaseController)
         {
-            return type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            var flags = BindingFlags.Public | BindingFlags.Instance;
+
+            if (!inheritActionsFromBaseController)
+                flags |= BindingFlags.DeclaredOnly;
+
+            return type.GetMethods(flags);
         }
 
         public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this Type type, bool inherit)

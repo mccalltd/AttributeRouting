@@ -1,9 +1,10 @@
-﻿using AttributeRouting.Web.Controllers;
+﻿
+using AttributeRouting.Web.Controllers;
 
 namespace AttributeRouting.Web.Areas.Admin.Controllers
 {
     [RouteArea("Admin")]
-    public class AdminControllerBase : ControllerBase
+    public abstract class AdminControllerBase : ControllerBase
     {
     }
 }
