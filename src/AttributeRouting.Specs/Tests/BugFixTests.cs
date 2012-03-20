@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
-using System.Web;
-using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Logging;
@@ -59,34 +56,19 @@ namespace AttributeRouting.Specs.Tests
                 config.AddRoutesFromController<CulturePrefixController>();
                 config.AddTranslationProvider(translations);
                 config.ConstrainTranslatedRoutesByCurrentUICulture = true;
-                //config.UseRouteHandler(() => new Issue53RouteHandler());
+                config.CurrentUICultureResolver = (httpContext, routeData) =>
+                {
+                    return (string)routeData.Values["culture"]
+                           ?? Thread.CurrentThread.CurrentUICulture.Name;
+                };
             });
 
             RouteTable.Routes.Cast<Route>().LogTo(Console.Out);
 
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
-
-            "~/en/cms/index".ShouldMapTo<CulturePrefixController>(x => x.Index());
-        }
-
-        private class Issue53RouteHandler : MvcRouteHandler
-        {
-            private const String _culture = "culture";
-            protected override IHttpHandler GetHttpHandler(RequestContext context)
-            {
-                String culture = (String)context.RouteData.Values[_culture];
-                if (culture == null)
-                {
-                    culture = "pt";
-                }
-                if (culture != null)
-                {
-                    Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
-                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
-                    context.RouteData.Values[_culture] = culture;
-                }
-                return base.GetHttpHandler(context);
-            } 
+            "~/en/cms/home".ShouldMapTo<CulturePrefixController>(x => x.Index());
+            Assert.That("~/en/cms/inicio".Route(), Is.Null);
+            Assert.That("~/pt/cms/home".Route(), Is.Null);
+            "~/pt/cms/inicio".ShouldMapTo<CulturePrefixController>(x => x.Index());
         }
     }
 }

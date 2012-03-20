@@ -15,7 +15,7 @@ namespace AttributeRouting.Framework
     public class AttributeRoute : Route
     {
         private readonly AttributeRoutingConfiguration _configuration;
-
+        
         /// <summary>
         /// Route supporting the AttributeRouting framework.
         /// </summary>
@@ -62,13 +62,17 @@ namespace AttributeRouting.Framework
 
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
+            var routeData = base.GetRouteData(httpContext);
+            if (routeData == null)
+                return null;
+
             if (!IsSubdomainMatched(httpContext))
                 return null;
 
-            if (!IsCultureNameMatched())
+            if (!IsCultureNameMatched(httpContext, routeData))
                 return null;
 
-            return base.GetRouteData(httpContext);
+            return routeData;
         }
 
         private bool IsSubdomainMatched(HttpContextBase httpContext)
@@ -88,7 +92,7 @@ namespace AttributeRouting.Framework
             return false;            
         }
 
-        private bool IsCultureNameMatched()
+        private bool IsCultureNameMatched(HttpContextBase httpContext, RouteData routeData)
         {
             if (!_configuration.ConstrainTranslatedRoutesByCurrentUICulture)
                 return true;
@@ -97,7 +101,7 @@ namespace AttributeRouting.Framework
             if (!_configuration.TranslationProviders.Any())
                 return true;
 
-            var currentUICultureName = Thread.CurrentThread.CurrentUICulture.Name;
+            var currentUICultureName = _configuration.CurrentUICultureResolver(httpContext, routeData);
             var currentUINeutralCultureName = currentUICultureName.Split('-').First();
 
             // If this is a translated route:

@@ -5,7 +5,7 @@ namespace AttributeRouting.Specs.Subjects
     [RouteArea("Cms", AreaUrl = "{culture}/Cms")]
     public class CulturePrefixController : Controller
     {
-        [GET("Index")]
+        [GET("Home")]
         public ActionResult Index()
         {
             return Content("content");

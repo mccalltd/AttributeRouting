@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
@@ -23,8 +25,11 @@ namespace AttributeRouting
             PromotedControllerTypes = new List<Type>();
             DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
             RouteHandlerFactory = () => new MvcRouteHandler();
-            AreaSubdomainOverrides = new Dictionary<string, string>();
+
             TranslationProviders = new List<TranslationProviderBase>();
+            CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
+
+            AreaSubdomainOverrides = new Dictionary<string, string>();
             DefaultSubdomain = "www";
             SubdomainParser = host =>
             {
@@ -84,6 +89,13 @@ namespace AttributeRouting
         /// The default is false.
         /// </summary>
         public bool ConstrainTranslatedRoutesByCurrentUICulture { get; set; }
+
+        /// <summary>
+        /// this delegate returns the current UI culture name.
+        /// This value is used when constraining inbound routes by culture <see cref="ConstrainTranslatedRoutesByCurrentUICulture"/>.
+        /// The default delegate returns the CurrentUICulture name of the current thread.
+        /// </summary>
+        public Func<HttpContextBase, RouteData, string> CurrentUICultureResolver { get; set; }
 
         /// <summary>
         /// Scans the assembly of the specified controller for routes to register.
