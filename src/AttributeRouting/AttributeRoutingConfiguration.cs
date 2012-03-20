@@ -82,14 +82,14 @@ namespace AttributeRouting
 
         /// <summary>
         /// When true, the generated routes will include actions defined on base controllers.
-        /// The default is false
+        /// The default is false.
+        /// Note: Base Controllers should be declared as abstract to avoid routes being generated for them
         /// </summary>
         public bool InheritActionsFromBaseController { get; set; }
 
         /// <summary>
         /// Constrains translated routes by the thread's current UI culture.
         /// The default is false.
-        /// Note: Base Controllers should be declared as abstract to avoid routes being generated for them
         /// </summary>
         public bool ConstrainTranslatedRoutesByCurrentUICulture { get; set; }
 
