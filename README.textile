@@ -4,6 +4,12 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_v1.7_
+
+* #53 - added config setting for resolving the current UI culture name when constraining inbound requests.
+* #56 - Added Configuration to inherit actions defined on a base controller
+* #54 - fixed null ref exception when hitting routes.axd
+
 _v1.6_
 
 * Can now choose to preserve the case for url parameters
