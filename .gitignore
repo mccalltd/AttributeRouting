@@ -8,3 +8,4 @@ _ReSharper.*
 *.cache
 nuget/*.nupkg
 App_Data/
+packages*/
