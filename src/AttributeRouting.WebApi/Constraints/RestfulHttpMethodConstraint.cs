@@ -5,37 +5,24 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Common;
 using System.Web.Http.Routing;
+using AttributeRouting.Constraints;
 
 namespace AttributeRouting.WebApi
 {
     /// <summary>
     /// Constrains a route by the specified allowed HTTP methods.
     /// </summary>
-    public class RestfulHttpMethodConstraint : HttpMethodConstraint, IRestfulHttpMethodConstraint
+    public class RestfulHttpMethodConstraint : RestfulHttpMethodConstraintBase, IHttpRouteConstraint
     {
         /// <summary>
         /// Constrain a route by the specified allowed HTTP methods.
         /// </summary>
         public RestfulHttpMethodConstraint(params HttpMethod[] allowedMethods)
-            : base(allowedMethods) { }
+            : base(allowedMethods.Select(method => method.Method).ToArray()) { }
 
-        ICollection<string> IRestfulHttpMethodConstraint.AllowedMethods
+        public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
         {
-            get
-            {
-                return new ReadOnlyCollection<string>(
-                    base.AllowedMethods.Select(method => method.Method).ToList());
-            }
-        }
-
-        protected override bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
-        {
-            if (routeDirection == HttpRouteDirection.UriGeneration)
-                return true;
-
-            var httpMethod = request.Method;
-
-            return AllowedMethods.Any(m => m == httpMethod);
+            return IsMatch(routeDirection == HttpRouteDirection.UriGeneration, request.Method.Method);
         }
     }
 }

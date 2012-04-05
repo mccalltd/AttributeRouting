@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace AttributeRouting {
+namespace AttributeRouting.Constraints {
     public interface IRouteConstraint<out TConstraint> {
         /// <summary>
         /// The name of the route to apply this default against.

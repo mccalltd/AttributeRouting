@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AttributeRouting {
+namespace AttributeRouting.Constraints {
     public interface IRestfulHttpMethodConstraint {
         ICollection<string> AllowedMethods { get; }
     }

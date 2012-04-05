@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Reflection;
+using AttributeRouting.Constraints;
 
 namespace AttributeRouting {
     public interface IRouteConvention<out TConstraint> {

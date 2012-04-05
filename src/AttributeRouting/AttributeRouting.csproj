@@ -54,7 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaConfiguration.cs" />
+    <Compile Include="Constraints\IRegexRouteConstraint.cs" />
+    <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />
+    <Compile Include="Constraints\IRouteConstraint.cs" />
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
+    <Compile Include="Constraints\RestfulHttpMethodConstraintBase.cs" />
     <Compile Include="Framework\AttributeRouteContainerBase.cs" />
     <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\IConstraintFactory.cs" />
@@ -70,12 +74,9 @@
     <Compile Include="Framework\Localization\TranslationKeyGenerator.cs" />
     <Compile Include="Framework\Localization\TranslationProviderBase.cs" />
     <Compile Include="Framework\Localization\TranslationsDictionary.cs" />
-    <Compile Include="IRegexRouteConstraint.cs" />
-    <Compile Include="IRestfulHttpMethodConstraint.cs" />
     <Compile Include="IRouteAttribute.cs" />
     <Compile Include="Framework\RouteBuilder.cs" />
     <Compile Include="Framework\AttributeRoutingException.cs" />
-    <Compile Include="IRouteConstraint.cs" />
     <Compile Include="IRouteConvention.cs" />
     <Compile Include="Logging\LogRoutesHandler.cs" />
     <Compile Include="RoutePrefixAttribute.cs" />
