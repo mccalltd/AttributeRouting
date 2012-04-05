@@ -8,20 +8,20 @@ using AttributeRouting.Http.SelfHost.Framework.Factories;
 namespace AttributeRouting.Http.SelfHost
 {
     /// <summary>
-    /// Extensions to the MVC RouteCollection.
+    /// Extensions to the HttpRouteCollection
     /// </summary>
-    public static class RouteCollectionExtensions
+    public static class HttpRouteCollectionExtensions
     {
         /// <summary>
         /// Scans the calling assembly for all routes defined with AttributeRouting attributes,
         /// using the default conventions.
         /// </summary>
-        public static void MapAttributeRoutes(this HttpRouteCollection routes)
+        public static void MapHttpAttributeRoutes(this HttpRouteCollection routes)
         {
             var configuration = new HttpAttributeRoutingConfiguration();
             configuration.ScanAssembly(Assembly.GetCallingAssembly());
 
-            routes.MapAttributeRoutesInternal(configuration);
+            routes.MapHttpAttributeRoutesInternal(configuration);
         }
 
         /// <summary>
@@ -32,12 +32,12 @@ namespace AttributeRouting.Http.SelfHost
         /// <param name="configurationAction">
         /// The initialization action that builds the configuration object.
         /// </param>
-        public static void MapAttributeRoutes(this HttpRouteCollection routes, Action<HttpAttributeRoutingConfiguration> configurationAction)
+        public static void MapHttpAttributeRoutes(this HttpRouteCollection routes, Action<HttpAttributeRoutingConfiguration> configurationAction)
         {
             var configuration = new HttpAttributeRoutingConfiguration();
             configurationAction.Invoke(configuration);
 
-            routes.MapAttributeRoutesInternal(configuration);
+            routes.MapHttpAttributeRoutesInternal(configuration);
         }
 
         /// <summary>
@@ -47,12 +47,12 @@ namespace AttributeRouting.Http.SelfHost
         /// <param name="configuration">
         /// The configuration object.
         /// </param>
-        public static void MapAttributeRoutes(this HttpRouteCollection routes, HttpAttributeRoutingConfiguration configuration)
+        public static void MapHttpAttributeRoutes(this HttpRouteCollection routes, HttpAttributeRoutingConfiguration configuration)
         {
-            routes.MapAttributeRoutesInternal(configuration);
+            routes.MapHttpAttributeRoutesInternal(configuration);
         }
 
-        private static void MapAttributeRoutesInternal(this HttpRouteCollection routes, HttpAttributeRoutingConfiguration configuration)
+        private static void MapHttpAttributeRoutesInternal(this HttpRouteCollection routes, HttpAttributeRoutingConfiguration configuration)
         {
             var generatedRoutes = new RouteBuilder(
                 configuration, new AttributeRouteFactory(), new ConstraintFactory(), new RouteParameterFactory()).BuildAllRoutes();

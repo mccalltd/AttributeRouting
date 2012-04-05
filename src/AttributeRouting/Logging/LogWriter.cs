@@ -26,59 +26,37 @@ namespace AttributeRouting.Logging
         }
 
         /// <summary>
-        /// 
+        /// Logs an AttributeRouteInfo object to a TextWriter
         /// </summary>
         /// <param name="writer"></param>
-        /// <param name="url"></param>
-        /// <param name="defaults"></param>
-        /// <param name="constraints"></param>
-        /// <param name="dataTokens"></param>
         /// <param name="name"></param>
-        public static void LogRoute(TextWriter writer, string url, string name,
-            IDictionary<string, object> defaults, 
-            IDictionary<string, object> constraints,
-            IDictionary<string, object> dataTokens)
+        /// <param name="routeInfo"> </param>
+        public static void LogRoute(TextWriter writer, string name, AttributeRouteInfo routeInfo)
         {
-            writer.WriteLine("URL: {0}", url);
+            writer.WriteLine("URL: {0}", routeInfo.Url);
 
             if (name != null)
                 writer.WriteLine("NAME: {0}", name);
 
-            if (defaults != null && defaults.Count > 0)
+            if (routeInfo.Defaults != null && routeInfo.Defaults.Count > 0)
             {
                 writer.WriteLine("DEFAULTS:");
-                foreach (var key in defaults.Keys)
-                    writer.WriteLine("- {0} = {1}", key, defaults[key]);
+                foreach (var @default in routeInfo.Defaults)
+                    writer.WriteLine("- {0} = {1}", @default.Key, @default.Value);
             }
 
-            if (constraints != null && constraints.Count > 0)
+            if (routeInfo.Constraints != null && routeInfo.Constraints.Count > 0)
             {
                 writer.WriteLine("CONSTRAINTS:");
-                foreach (var key in constraints.Keys)
-                {
-                    object value;
-                    if (constraints[key].GetType() == typeof(IHttpMethodConstraint))
-                        value = ((IHttpMethodConstraint)constraints[key]).AllowedMethods.First();
-                    else if (constraints[key].GetType() == typeof(IRegexRouteConstraint))
-                        value = ((IRegexRouteConstraint)constraints[key]).Pattern;
-                    else
-                        value = constraints[key];
-
-                    writer.WriteLine("- {0} = {1}", key, value);
-                }
+                foreach (var constraint in routeInfo.Constraints)                
+                    writer.WriteLine("- {0} = {1}", constraint.Key, constraint.Value);                
             }
 
-            if (dataTokens != null && dataTokens.Count > 0)
+            if (routeInfo.DataTokens != null && routeInfo.DataTokens.Count > 0)
             {
                 writer.WriteLine("DATA TOKENS:");
-                foreach (var key in dataTokens.Keys)
-                {
-                    if (key.ValueEquals("namespaces"))
-                        writer.WriteLine("- {0} = {1}", key,
-                                         ((string[])dataTokens[key]).Aggregate((n1, n2) => n1 + ", " + n2));
-                    else
-                        writer.WriteLine("- {0} = {1}", key, dataTokens[key]);
-                }
+                foreach (var t in routeInfo.DataTokens)                
+                    writer.WriteLine("- {0} = {1}", t.Key, t.Value);                
             }
 
             writer.WriteLine(" ");

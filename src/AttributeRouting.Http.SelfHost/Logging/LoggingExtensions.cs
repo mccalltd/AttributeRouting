@@ -22,7 +22,7 @@ namespace AttributeRouting.Http.SelfHost.Logging
             string name = route is IAttributeRouteContainer 
                 ? ((IAttributeRouteContainer)route).RouteName : null;
 
-            LogWriter.LogRoute(writer, route.RouteTemplate, name, route.Defaults, route.Constraints, route.DataTokens);
+            LogWriter.LogRoute(writer, route.RouteTemplate, AttributeRouteInfo.GetRouteInfo(route.RouteTemplate, route.Defaults, route.Constraints, route.DataTokens));
         }
     }
 }

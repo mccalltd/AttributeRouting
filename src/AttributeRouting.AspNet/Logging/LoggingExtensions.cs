@@ -22,7 +22,7 @@ namespace AttributeRouting.AspNet.Logging
             string name = route is IAttributeRouteContainer 
                 ? ((IAttributeRouteContainer)route).RouteName : null;
 
-            LogWriter.LogRoute(writer, route.Url, name, route.Defaults, route.Constraints, route.DataTokens);
+            LogWriter.LogRoute(writer, name, AttributeRouteInfo.GetRouteInfo(route.Url, route.Defaults, route.Constraints, route.DataTokens));
         }
     }
 }

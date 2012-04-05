@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 
-namespace AttributeRouting.Http.WebHost
+namespace AttributeRouting.Http
 {
     public class PUTAttribute : HttpRouteAttribute {
         public PUTAttribute(string routeUrl) 

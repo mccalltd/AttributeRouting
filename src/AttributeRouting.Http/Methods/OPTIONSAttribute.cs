@@ -6,11 +6,11 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 
-namespace AttributeRouting.Http.WebHost
+namespace AttributeRouting.Http
 {
-    public class TRACEAttribute : HttpRouteAttribute {
-        public TRACEAttribute(string routeUrl)
-            : base(routeUrl, "TRACE")
+    public class OPTIONSAttribute : HttpRouteAttribute {
+        public OPTIONSAttribute(string routeUrl)
+            : base(routeUrl, "OPTIONS")
         {
             
         }

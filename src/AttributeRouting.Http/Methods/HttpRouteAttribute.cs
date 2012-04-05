@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace AttributeRouting.Http.WebHost
+namespace AttributeRouting.Http
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class HttpRouteAttribute : Attribute, IRouteAttribute {

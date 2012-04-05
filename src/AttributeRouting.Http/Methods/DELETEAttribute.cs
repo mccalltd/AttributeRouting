@@ -6,11 +6,10 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 
-namespace AttributeRouting.Http.WebHost
-{
-    public class OPTIONSAttribute : HttpRouteAttribute {
-        public OPTIONSAttribute(string routeUrl)
-            : base(routeUrl, "OPTIONS")
+namespace AttributeRouting.Http {
+    public class DELETEAttribute : HttpRouteAttribute {
+        public DELETEAttribute(string routeUrl)
+            : base(routeUrl, "DELETE")
         {
             
         }

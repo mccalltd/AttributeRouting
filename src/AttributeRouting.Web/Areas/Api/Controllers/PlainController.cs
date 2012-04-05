@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using AttributeRouting.Http;
 using AttributeRouting.Http.WebHost;
 
 namespace AttributeRouting.Web.Areas.Api.Controllers
