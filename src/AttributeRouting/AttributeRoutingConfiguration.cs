@@ -104,10 +104,10 @@ namespace AttributeRouting
         /// <summary>
         /// Scans the assembly of the specified controller for routes to register.
         /// </summary>
-        /// <typeparam name="TController">The controller type used to specify the assembly</typeparam>
-        public void ScanAssemblyOf<TController>()
+        /// <typeparam name="T">The type of the controller used to specify the assembly</typeparam>
+        public void ScanAssemblyOf<T>() where T:TController
         {
-            ScanAssembly(typeof(TController).Assembly);
+            ScanAssembly(typeof(T).Assembly);
         }
 
         /// <summary>

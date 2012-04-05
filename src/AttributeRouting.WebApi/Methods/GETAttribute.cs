@@ -5,7 +5,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 
-namespace AttributeRouting.WebApi {
+namespace AttributeRouting.Http.WebHost
+{
     public class GETAttribute : HttpRouteAttribute {
         public GETAttribute(string routeUrl) 
             : base(routeUrl, "GET", "HEAD") { }

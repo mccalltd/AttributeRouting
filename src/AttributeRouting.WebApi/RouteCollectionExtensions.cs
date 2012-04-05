@@ -3,11 +3,10 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Routing;
 using AttributeRouting.AspNet.Framework.Factories;
-using AttributeRouting.WebApi.Framework;
-using AttributeRouting.WebApi.Framework.Factories;
+using AttributeRouting.Http.WebHost.Framework;
+using AttributeRouting.Http.WebHost.Framework.Factories;
 
-
-namespace AttributeRouting.WebApi
+namespace AttributeRouting.Http.WebHost
 {
     /// <summary>
     /// Extensions to the MVC RouteCollection.

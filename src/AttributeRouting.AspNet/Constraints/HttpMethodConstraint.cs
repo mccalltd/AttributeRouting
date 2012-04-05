@@ -8,12 +8,12 @@ namespace AttributeRouting.AspNet.Constraints
     /// <summary>
     /// Constrains a route by the specified allowed HTTP methods.
     /// </summary>
-    public class RestfulHttpMethodConstraint : RestfulHttpMethodConstraintBase, IRouteConstraint
+    public class HttpMethodConstraint : HttpMethodConstraintBase, IRouteConstraint
     {
         /// <summary>
         /// Constrain a route by the specified allowed HTTP methods.
         /// </summary>
-        public RestfulHttpMethodConstraint(params string[] allowedMethods)
+        public HttpMethodConstraint(params string[] allowedMethods)
             : base(allowedMethods) { }
 
         public bool Match(HttpContextBase httpContext, Route route, string parameterName,

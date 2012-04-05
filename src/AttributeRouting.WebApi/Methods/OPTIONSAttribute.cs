@@ -6,7 +6,8 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 
-namespace AttributeRouting.WebApi {
+namespace AttributeRouting.Http.WebHost
+{
     public class OPTIONSAttribute : HttpRouteAttribute {
         public OPTIONSAttribute(string routeUrl)
             : base(routeUrl, "OPTIONS")

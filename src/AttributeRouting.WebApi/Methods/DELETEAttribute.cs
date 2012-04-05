@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 
-namespace AttributeRouting.WebApi {
+namespace AttributeRouting.Http.WebHost {
     public class DELETEAttribute : HttpRouteAttribute {
         public DELETEAttribute(string routeUrl)
             : base(routeUrl, "DELETE")

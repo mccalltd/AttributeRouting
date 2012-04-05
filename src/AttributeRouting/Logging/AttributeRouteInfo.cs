@@ -42,9 +42,9 @@ namespace AttributeRouting.Logging
                     if (constraint.Value == null)
                         continue;
 
-                    if (constraint.Value.GetType() == typeof(IRestfulHttpMethodConstraint))
-                        item.HttpMethod = String.Join(", ", ((IRestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
-                    else if (constraint.Value.GetType() == typeof(IRegexRouteConstraint))
+                    if (constraint.Value is IHttpMethodConstraint)
+                        item.HttpMethod = String.Join(", ", ((IHttpMethodConstraint)constraint.Value).AllowedMethods);
+                    else if (constraint.Value is IRegexRouteConstraint)
                         item.Constraints.Add(constraint.Key, ((IRegexRouteConstraint)constraint.Value).Pattern);
                     else
                         item.Constraints.Add(constraint.Key, constraint.Value.ToString());

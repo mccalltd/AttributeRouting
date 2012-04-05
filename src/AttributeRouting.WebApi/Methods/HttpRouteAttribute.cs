@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace AttributeRouting.WebApi {
+namespace AttributeRouting.Http.WebHost
+{
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class HttpRouteAttribute : Attribute, IRouteAttribute {
         public HttpRouteAttribute(string routeUrl, params string[] allowedMethods) {

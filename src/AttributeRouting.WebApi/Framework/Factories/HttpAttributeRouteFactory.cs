@@ -2,13 +2,12 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using System.Web.Http.Routing;
 using System.Web.Routing;
 using AttributeRouting.AspNet.Framework;
 using AttributeRouting.AspNet.Framework.Factories;
 using AttributeRouting.Framework;
 
-namespace AttributeRouting.WebApi.Framework.Factories
+namespace AttributeRouting.Http.WebHost.Framework.Factories
 {
     internal class HttpAttributeRouteFactory : AttributeRouteFactory<IHttpController, RouteParameter>
     {

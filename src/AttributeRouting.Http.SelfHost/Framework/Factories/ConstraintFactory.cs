@@ -4,6 +4,7 @@ using System.Web.Http.Common;
 using System.Web.Http.Routing;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Http.SelfHost.Constraints;
+using HttpMethodConstraint = AttributeRouting.Http.SelfHost.Constraints.HttpMethodConstraint;
 
 namespace AttributeRouting.Http.SelfHost.Framework.Factories {
     public class ConstraintFactory : IConstraintFactory<IHttpRouteConstraint> {
@@ -12,7 +13,7 @@ namespace AttributeRouting.Http.SelfHost.Framework.Factories {
         }
 
         public IHttpRouteConstraint CreateRestfulHttpMethodConstraint(string[] httpMethods) {
-            return new RestfulHttpMethodConstraint(httpMethods.Select(HttpMethodHelper.GetHttpMethod).ToArray());
+            return new HttpMethodConstraint(httpMethods.Select(HttpMethodHelper.GetHttpMethod).ToArray());
         }
     }
 }

@@ -9,12 +9,12 @@ namespace AttributeRouting.Http.SelfHost.Constraints
     /// <summary>
     /// Constrains a route by the specified allowed HTTP methods.
     /// </summary>
-    public class RestfulHttpMethodConstraint : RestfulHttpMethodConstraintBase, IHttpRouteConstraint
+    public class HttpMethodConstraint : HttpMethodConstraintBase, IHttpRouteConstraint
     {
         /// <summary>
         /// Constrain a route by the specified allowed HTTP methods.
         /// </summary>
-        public RestfulHttpMethodConstraint(params HttpMethod[] allowedMethods)
+        public HttpMethodConstraint(params HttpMethod[] allowedMethods)
             : base(allowedMethods.Select(method => method.Method).ToArray()) { }
 
         public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)

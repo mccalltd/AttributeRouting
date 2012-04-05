@@ -5,12 +5,12 @@ using System.Text;
 
 namespace AttributeRouting.Constraints
 {
-    public abstract class RestfulHttpMethodConstraintBase : IRestfulHttpMethodConstraint
+    public abstract class HttpMethodConstraintBase : IHttpMethodConstraint
     {
         /// <summary>
         /// Constrain a route by the specified allowed HTTP methods.
         /// </summary>
-        protected RestfulHttpMethodConstraintBase(params string[] allowedMethods)
+        protected HttpMethodConstraintBase(params string[] allowedMethods)
         {
             AllowedMethods = new List<string>(allowedMethods);
         }

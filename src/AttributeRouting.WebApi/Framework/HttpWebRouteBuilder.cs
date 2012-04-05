@@ -1,12 +1,11 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Controllers;
-using System.Web.Http.Routing;
 using AttributeRouting.AspNet.Framework;
 using AttributeRouting.AspNet.Framework.Factories;
 using AttributeRouting.Framework.Factories;
-using AttributeRouting.WebApi.Framework.Factories;
+using AttributeRouting.Http.WebHost.Framework.Factories;
 
-namespace AttributeRouting.WebApi.Framework
+namespace AttributeRouting.Http.WebHost.Framework
 {
     internal class HttpWebRouteBuilder : RouteBuilder<IHttpController, RouteParameter>
     {

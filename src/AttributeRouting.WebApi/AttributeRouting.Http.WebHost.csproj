@@ -8,8 +8,8 @@
     <ProjectGuid>{A018FEC5-45F8-44FB-BB6C-33697B418434}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AttributeRouting.WebApi</RootNamespace>
-    <AssemblyName>AttributeRouting.WebApi</AssemblyName>
+    <RootNamespace>AttributeRouting.Http.WebHost</RootNamespace>
+    <AssemblyName>AttributeRouting.Http.WebHost</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\src\</SolutionDir>
@@ -66,7 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeRoutingConfiguration.cs" />
-    <Compile Include="Conventions\RestfulRouteConventionAttribute.cs" />
+    <Compile Include="Conventions\HttpRouteConventionAttribute.cs" />
     <Compile Include="Conventions\RouteConventionAttribute.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\AttributeRouteContainer.cs" />

@@ -2,10 +2,11 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.AspNet.Constraints;
+using AttributeRouting.Http.WebHost;
 using AttributeRouting.Mvc;
 using AttributeRouting.Mvc.Framework.Localization;
+using AttributeRouting.Web.Areas.Api.Controllers;
 using AttributeRouting.Web.Controllers;
-using AttributeRouting.WebApi;
 using ControllerBase = AttributeRouting.Web.Controllers.ControllerBase;
 
 namespace AttributeRouting.Web
@@ -45,7 +46,14 @@ namespace AttributeRouting.Web
                 });
 
             // Web API (WebHost)
-            routes.MapHttpAttributeRoutes();
+            routes.MapHttpAttributeRoutes(config =>
+            {
+                config.ScanAssemblyOf<PlainController>();
+                config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
+                config.AddTranslationProvider(translationProvider);                
+                config.UseLowercaseRoutes = true;
+                config.InheritActionsFromBaseController = true;
+            });
 
             routes.MapAttributeRoutes(config =>
             {

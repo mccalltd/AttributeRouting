@@ -57,8 +57,8 @@ namespace AttributeRouting.Logging
                 foreach (var key in constraints.Keys)
                 {
                     object value;
-                    if (constraints[key].GetType() == typeof(IRestfulHttpMethodConstraint))
-                        value = ((IRestfulHttpMethodConstraint)constraints[key]).AllowedMethods.First();
+                    if (constraints[key].GetType() == typeof(IHttpMethodConstraint))
+                        value = ((IHttpMethodConstraint)constraints[key]).AllowedMethods.First();
                     else if (constraints[key].GetType() == typeof(IRegexRouteConstraint))
                         value = ((IRegexRouteConstraint)constraints[key]).Pattern;
                     else

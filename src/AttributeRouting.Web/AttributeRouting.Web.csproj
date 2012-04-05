@@ -111,6 +111,8 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\BaseApiController.cs" />
+    <Compile Include="Areas\Api\Controllers\ConventionController.cs" />
     <Compile Include="Areas\Api\Controllers\PlainController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DangerController.cs" />

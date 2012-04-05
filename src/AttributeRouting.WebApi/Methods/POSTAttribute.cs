@@ -6,7 +6,8 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 
-namespace AttributeRouting.WebApi {
+namespace AttributeRouting.Http.WebHost
+{
     public class POSTAttribute : HttpRouteAttribute {
         public POSTAttribute(string routeUrl)
             : base(routeUrl, "POST")

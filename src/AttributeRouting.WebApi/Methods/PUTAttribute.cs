@@ -5,7 +5,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 
-namespace AttributeRouting.WebApi {
+namespace AttributeRouting.Http.WebHost
+{
     public class PUTAttribute : HttpRouteAttribute {
         public PUTAttribute(string routeUrl) 
             : base(routeUrl, "PUT") { }

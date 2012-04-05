@@ -5,7 +5,7 @@ using AttributeRouting.AspNet;
 using AttributeRouting.AspNet.Framework;
 using AttributeRouting.Framework;
 
-namespace AttributeRouting.WebApi.Framework
+namespace AttributeRouting.Http.WebHost.Framework
 {
     public class AttributeRoute : AttributeRoute<IHttpController, RouteParameter>
     {

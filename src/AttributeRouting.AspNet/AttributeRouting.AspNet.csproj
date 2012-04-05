@@ -50,7 +50,7 @@
     <Compile Include="Constraints\RegexRouteConstraintAttribute.cs" />
     <Compile Include="Constraints\RouteConstraintAttribute.cs" />
     <Compile Include="Constraints\RegexRouteConstraint.cs" />
-    <Compile Include="Constraints\RestfulHttpMethodConstraint.cs" />
+    <Compile Include="Constraints\HttpMethodConstraint.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\ConstraintFactory.cs" />
     <Compile Include="Framework\Localization\FluentTranslationProvider.cs" />

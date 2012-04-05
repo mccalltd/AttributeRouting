@@ -48,7 +48,7 @@ namespace AttributeRouting.Specs.Steps
 
             Assert.That(route, Is.Not.Null);
 
-            var constraint = route.Constraints["httpMethod"] as RestfulHttpMethodConstraint;
+            var constraint = route.Constraints["httpMethod"] as HttpMethodConstraint;
 
             if (method.HasValue())
             {
@@ -68,7 +68,7 @@ namespace AttributeRouting.Specs.Steps
 
             Assert.That(route, Is.Not.Null);
 
-            var constraint = route.Constraints["httpMethod"] as RestfulHttpMethodConstraint;
+            var constraint = route.Constraints["httpMethod"] as HttpMethodConstraint;
 
             Assert.That(constraint, Is.Not.Null);
             Assert.That(constraint.AllowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);

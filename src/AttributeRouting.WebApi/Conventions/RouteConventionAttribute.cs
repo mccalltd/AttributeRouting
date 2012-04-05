@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Web.Http.Routing;
+using System.Web.Routing;
 using AttributeRouting.Constraints;
 
-namespace AttributeRouting.WebApi
+namespace AttributeRouting.Http.WebHost
 {
     /// <summary>
     /// Base class implementors can use to define a custom controller-level route convention.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public abstract class RouteConventionAttribute : Attribute, IRouteConvention<IHttpRouteConstraint>
+    public abstract class RouteConventionAttribute : Attribute, IRouteConvention<IRouteConstraint>
     {
         /// <summary>
         /// Gets the RouteAttributes to be applied to the given action method.
@@ -44,7 +45,7 @@ namespace AttributeRouting.WebApi
         /// </summary>
         /// <param name="actionMethod"></param>
         /// <returns></returns>
-        public virtual IEnumerable<IRouteConstraint<IHttpRouteConstraint>> GetRouteConstraintAtributes(MethodInfo actionMethod)
+        public virtual IEnumerable<IRouteConstraint<IRouteConstraint>> GetRouteConstraintAtributes(MethodInfo actionMethod)
         {
             yield break;
         }

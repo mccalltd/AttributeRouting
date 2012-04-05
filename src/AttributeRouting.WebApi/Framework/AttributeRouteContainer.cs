@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Routing;
@@ -7,7 +6,7 @@ using AttributeRouting.AspNet;
 using AttributeRouting.AspNet.Framework;
 using AttributeRouting.Framework;
 
-namespace AttributeRouting.WebApi.Framework
+namespace AttributeRouting.Http.WebHost.Framework
 {
     public class AttributeRouteContainer : AttributeRouteContainerBase<AttributeRoute<IHttpController, RouteParameter>>
     {

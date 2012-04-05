@@ -69,7 +69,7 @@
     <Compile Include="AttributeRoutingConfiguration.cs" />
     <Compile Include="Constraints\RegexRouteConstraint.cs" />
     <Compile Include="Constraints\RegexRouteConstraintAttribute.cs" />
-    <Compile Include="Constraints\RestfulHttpMethodConstraint.cs" />
+    <Compile Include="Constraints\HttpMethodConstraint.cs" />
     <Compile Include="Constraints\RouteConstraintAttribute.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\AttributeRouteContainer.cs" />
