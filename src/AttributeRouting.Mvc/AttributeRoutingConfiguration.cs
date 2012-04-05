@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Mvc.Framework;
 
 namespace AttributeRouting.Mvc {
-    public class AttributeRoutingConfiguration : AttributeRoutingConfiguration<IRouteConstraint, IController, AttributeRoute, UrlParameter> {
+    public class AttributeRoutingConfiguration : AttributeRoutingConfiguration<IRouteConstraint, IController, AttributeRoute, UrlParameter, HttpContextBase, RouteData> {
 
         public AttributeRoutingConfiguration()
         {

@@ -61,7 +61,7 @@ namespace AttributeRouting.WebApi.Framework {
             return false;
         }
 
-        private bool IsCultureNameMatched(HttpRequestMessage request, HttpRouteData routeData) {
+        private bool IsCultureNameMatched(HttpRequestMessage request, IHttpRouteData routeData) {
             if (!_configuration.ConstrainTranslatedRoutesByCurrentUICulture)
                 return true;
 
@@ -118,10 +118,7 @@ namespace AttributeRouting.WebApi.Framework {
             if (_configuration.AppendTrailingSlash)
                 virtualPath = AppendTrailingSlashToVirtualPath(virtualPath);
 
-            // TODO: ???
-            virtualPathData.VirtualPath = virtualPath;
-
-            return virtualPathData;
+            return new HttpVirtualPathData(virtualPathData.Route, virtualPath);
         }
 
         private IHttpVirtualPathData GetTranslatedVirtualPath(IHttpVirtualPathData virtualPathData, HttpControllerContext requestContext, IDictionary<string, object> values) {

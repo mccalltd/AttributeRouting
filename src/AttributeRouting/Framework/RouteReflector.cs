@@ -6,11 +6,11 @@ using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
 {
-    public class RouteReflector<TConstraint, TController, TRoute, TRouteParameter>
+    public class RouteReflector<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
     {
-        private readonly AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter> _configuration;
+        private readonly AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> _configuration;
 
-        public RouteReflector(AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter> configuration)
+        public RouteReflector(AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 

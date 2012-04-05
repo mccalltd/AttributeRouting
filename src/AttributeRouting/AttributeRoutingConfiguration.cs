@@ -14,7 +14,7 @@ namespace AttributeRouting
     /// <summary>
     /// Configuration options to use when mapping AttributeRoutes.
     /// </summary>
-    public class AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter>
+    public class AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
     {
         /// <summary>
         /// Creates and initializes a new configuration object.
@@ -102,7 +102,7 @@ namespace AttributeRouting
         /// This value is used when constraining inbound routes by culture <see cref="ConstrainTranslatedRoutesByCurrentUICulture"/>.
         /// The default delegate returns the CurrentUICulture name of the current thread.
         /// </summary>
-        public Func<HttpContextBase, RouteData, string> CurrentUICultureResolver { get; set; }
+        public Func<TRequestContext, TRouteData, string> CurrentUICultureResolver { get; set; }
 
         /// <summary>
         /// Scans the assembly of the specified controller for routes to register.
@@ -183,9 +183,9 @@ namespace AttributeRouting
         /// Returns a utility for configuring areas when initializing AttributeRouting framework.
         /// </summary>
         /// <param name="name">The name of the area to configure</param>
-        public AreaConfiguration<TConstraint, TController, TRoute, TRouteParameter> MapArea(string name)
+        public AreaConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> MapArea(string name)
         {
-            return new AreaConfiguration<TConstraint, TController, TRoute, TRouteParameter>(name, this);
+            return new AreaConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(name, this);
         }
 
         /// <summary>

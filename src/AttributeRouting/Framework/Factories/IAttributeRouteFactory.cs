@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 
 namespace AttributeRouting.Framework.Factories {
-    public interface IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter> {
+    public interface IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
+    {
 
         /// <summary>
         /// Create a new attribute route that wraps an underlying framework route
@@ -16,6 +17,6 @@ namespace AttributeRouting.Framework.Factories {
             IDictionary<string, object> defaults,
             IDictionary<string, object> constraints,
             IDictionary<string, object> dataTokens,
-            AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter> configuration);
+            AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration);
     }
 }

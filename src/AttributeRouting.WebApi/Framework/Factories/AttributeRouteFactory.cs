@@ -1,12 +1,13 @@
 using System.Collections.Generic;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Framework.Factories;
 
-namespace AttributeRouting.Mvc.Framework.Factories {
-    public class AttributeRouteFactory : IAttributeRouteFactory<IRouteConstraint, IController, AttributeRoute, UrlParameter, HttpContextBase, RouteData> {
+namespace AttributeRouting.WebApi.Framework.Factories {
+    public class AttributeRouteFactory : IAttributeRouteFactory<IHttpRouteConstraint, IHttpController, AttributeRoute, RouteParameter, HttpRequestMessage, IHttpRouteData> {
         /// <summary>
         /// Create a new attribute route that wraps an underlying framework route
         /// </summary>
@@ -21,9 +22,9 @@ namespace AttributeRouting.Mvc.Framework.Factories {
             IDictionary<string, object> defaults, 
             IDictionary<string, object> constraints, 
             IDictionary<string, object> dataTokens,
-            AttributeRoutingConfiguration<IRouteConstraint, IController, AttributeRoute, UrlParameter, HttpContextBase, RouteData> configuration)
+            AttributeRoutingConfiguration<IHttpRouteConstraint, IHttpController, AttributeRoute, RouteParameter, HttpRequestMessage, IHttpRouteData> configuration)
         {
-                return new AttributeRouteContainer(url, new RouteValueDictionary(defaults), new RouteValueDictionary(constraints), new RouteValueDictionary(dataTokens), configuration as AttributeRoutingConfiguration);
+            return new AttributeRouteContainer(url, new HttpRouteValueDictionary(defaults), new HttpRouteValueDictionary(constraints), new HttpRouteValueDictionary(dataTokens), configuration as AttributeRoutingConfiguration);
         }
     }
 }

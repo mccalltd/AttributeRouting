@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -8,7 +9,8 @@ using System.Web.Http.Routing;
 using AttributeRouting.WebApi.Framework;
 
 namespace AttributeRouting.WebApi {
-    public class AttributeRoutingConfiguration : AttributeRoutingConfiguration<IHttpRouteConstraint, IHttpController, AttributeRoute, RouteParameter> {
+    public class AttributeRoutingConfiguration : AttributeRoutingConfiguration<IHttpRouteConstraint, IHttpController, AttributeRoute, RouteParameter, HttpRequestMessage, IHttpRouteData>
+    {
 
         public AttributeRoutingConfiguration()
         {

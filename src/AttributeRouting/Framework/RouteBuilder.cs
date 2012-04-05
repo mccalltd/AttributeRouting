@@ -8,15 +8,16 @@ using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
 {
-    public class RouteBuilder<TConstraint, TController, TRoute, TRouteParameter> {
+    public class RouteBuilder<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
+    {
 
-        private readonly AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter> _configuration;
-        private readonly IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter> _routeFactory;
+        private readonly AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> _configuration;
+        private readonly IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> _routeFactory;
         private readonly IConstraintFactory<TConstraint> _constraintFactory;
         private readonly IParameterFactory<TRouteParameter> _parameterFactory;
 
-        public RouteBuilder(AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter> configuration,
-            IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter> routeFactory, IConstraintFactory<TConstraint> constraintFactory, IParameterFactory<TRouteParameter> parameterFactory)
+        public RouteBuilder(AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration,
+            IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> routeFactory, IConstraintFactory<TConstraint> constraintFactory, IParameterFactory<TRouteParameter> parameterFactory)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
@@ -28,7 +29,7 @@ namespace AttributeRouting.Framework
 
         public IEnumerable<AttributeRouteContainerBase<TRoute>> BuildAllRoutes()
         {
-            var routeReflector = new RouteReflector<TConstraint, TController, TRoute, TRouteParameter>(_configuration);
+            var routeReflector = new RouteReflector<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(_configuration);
             var routeSpecs = routeReflector.GenerateRouteSpecifications().ToList();
             var mappedSubdomains = routeSpecs.Where(s => s.Subdomain.HasValue()).Select(s => s.Subdomain).Distinct().ToList();
 
