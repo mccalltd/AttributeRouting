@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
-using AttributeRouting.Framework;
-using AttributeRouting.Framework.Localization;
-using AttributeRouting.Logging;
 using AttributeRouting.Mvc;
 using AttributeRouting.Mvc.Framework;
 using AttributeRouting.Mvc.Framework.Localization;
+using AttributeRouting.Mvc.Logging;
 using AttributeRouting.Specs.Subjects;
 using NUnit.Framework;
 

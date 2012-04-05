@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logging\AttributeRouteInfo.cs" />
+    <Compile Include="Logging\LoggingExtensions.cs" />
+    <Compile Include="Logging\LogRoutesHandler.cs" />
     <Compile Include="Methods\DELETEAttribute.cs" />
     <Compile Include="Methods\GETAttribute.cs" />
     <Compile Include="Methods\POSTAttribute.cs" />
@@ -76,6 +79,9 @@
       <Project>{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}</Project>
       <Name>AttributeRouting</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Logging\LogRoutes.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

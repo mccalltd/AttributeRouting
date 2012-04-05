@@ -9,8 +9,9 @@ using System.Web.Routing;
 using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
+using AttributeRouting.Logging;
 
-namespace AttributeRouting.Logging
+namespace AttributeRouting.Mvc.Logging
 {
     public class LogRoutesHandler : IHttpHandler
     {
@@ -87,67 +88,12 @@ namespace AttributeRouting.Logging
             builder.Append("</td>");
         }
 
-        private static IEnumerable<RouteInfo> GetRouteInfo()
+        private static IEnumerable<AttributeRouteInfo> GetRouteInfo()
         {
-            var items = new List<RouteInfo>();
-
-            foreach (var route in RouteTable.Routes.Cast<Route>())
-            {
-                var item = new RouteInfo { Url = route.Url };
-
-                if (route.Defaults != null)
-                {
-                    foreach (var @default in route.Defaults)
-                        item.Defaults.Add(@default.Key, @default.Value.ToString());
-                }
-
-                if (route.Constraints != null)
-                {
-                    foreach (var constraint in route.Constraints)
-                    {
-                        if (constraint.Value == null)
-                            continue;
-
-                        if (constraint.Value.GetType() == typeof(IRestfulHttpMethodConstraint))
-                            item.HttpMethod = String.Join(", ", ((IRestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
-                        else if (constraint.Value.GetType() == typeof(IRegexRouteConstraint))
-                            item.Constraints.Add(constraint.Key, ((IRegexRouteConstraint)constraint.Value).Pattern);
-                        else
-                            item.Constraints.Add(constraint.Key, constraint.Value.ToString());
-                    }
-                }
-
-                if (route.DataTokens != null)
-                {
-                    foreach (var token in route.DataTokens)
-                    {
-                        if (token.Key.ValueEquals("namespaces"))
-                            item.DataTokens.Add(token.Key, ((string[])token.Value).Aggregate((n1, n2) => n1 + ", " + n2));
-                        else
-                            item.DataTokens.Add(token.Key, token.Value.ToString());
-                    }
-                }
-
-                items.Add(item);
-            }
-
-            return items;
-        }
-
-        private class RouteInfo
-        {
-            public RouteInfo()
-            {
-                Defaults = new Dictionary<string, string>();
-                Constraints = new Dictionary<string, string>();
-                DataTokens = new Dictionary<string, string>();
-            }
-
-            public string Url { get; set; }
-            public string HttpMethod { get; set; }
-            public IDictionary<string, string> Defaults { get; set; }
-            public IDictionary<string, string> Constraints { get; set; }
-            public IDictionary<string, string> DataTokens { get; set; }
+            return
+                RouteTable.Routes.Cast<Route>().Select(
+                    route =>
+                    AttributeRouteInfo.GetRouteInfo(route.Url, route.Defaults, route.Constraints, route.DataTokens));
         }
     }
 }

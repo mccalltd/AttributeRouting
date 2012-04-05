@@ -74,6 +74,8 @@
     <Compile Include="Framework\Factories\UrlParameterFactory.cs" />
     <Compile Include="Framework\RouteBuilder.cs" />
     <Compile Include="Framework\RouteReflector.cs" />
+    <Compile Include="Logging\LoggingExtensions.cs" />
+    <Compile Include="Logging\RoutesController.cs" />
     <Compile Include="Methods\TRACEAttribute.cs" />
     <Compile Include="Methods\OPTIONSAttribute.cs" />
     <Compile Include="Methods\DELETEAttribute.cs" />

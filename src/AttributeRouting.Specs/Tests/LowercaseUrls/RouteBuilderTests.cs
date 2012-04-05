@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Routing;
-using AttributeRouting.Framework;
-using AttributeRouting.Logging;
 using AttributeRouting.Mvc;
 using AttributeRouting.Mvc.Framework;
+using AttributeRouting.Mvc.Logging;
 using AttributeRouting.Specs.Subjects;
 using NUnit.Framework;
 
