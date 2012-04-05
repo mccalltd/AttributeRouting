@@ -7,11 +7,12 @@ namespace AttributeRouting.Mvc
     /// <summary>
     /// Applies a regex constraint against the associated url parameter.
     /// </summary>
-    public class RegexRouteConstraint : RegexRouteConstraintBase, IRouteConstraint
+    public class RegexRouteConstraint : IRegexRouteConstraint, IRouteConstraint
     {
-        public RegexRouteConstraint(string pattern) : base(pattern) {}
-
-        public RegexRouteConstraint(string pattern, RegexOptions options) : base(pattern, options) {}
+        public RegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None) {
+            Pattern = pattern;
+            Options = options;
+        }
 
         public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values,
                           RouteDirection routeDirection)
@@ -24,5 +25,15 @@ namespace AttributeRouting.Mvc
 
             return Regex.IsMatch(valueAsString, Pattern, Options);
         }
+
+        /// <summary>
+        ///  The regex pattern used to constrain the url parameter.
+        ///  </summary>
+        public string Pattern { get; private set; }
+
+        /// <summary>
+        ///  The RegexOptions used when testing the url parameter value
+        ///  </summary>
+        public RegexOptions Options { get; set; }
     }
 }

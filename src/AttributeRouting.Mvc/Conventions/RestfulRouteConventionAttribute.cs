@@ -10,7 +10,7 @@ namespace AttributeRouting.Mvc
     /// Automatically generates RESTful-style routes for controller actions matching 
     /// Index, New, Create, Show, Edit, Update, Delete, and Destroy.
     /// </summary>
-    public class RestfulRouteConventionAttribute : MvcRouteConventionAttribute
+    public class RestfulRouteConventionAttribute : RouteConventionAttribute
     {
         // Setup conventions
         private static readonly List<RestfulRouteConventionInfo> Conventions = new List<RestfulRouteConventionInfo>

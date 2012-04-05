@@ -149,15 +149,15 @@ namespace AttributeRouting.Framework
             return defaultAttributes.ToList();
         }
 
-        private static ICollection<IAttributeRouteConstraint<TConstraint>> GetConstraintAttributes(MethodInfo actionMethod,
+        private static ICollection<IRouteConstraint<TConstraint>> GetConstraintAttributes(MethodInfo actionMethod,
                                                                                      string routeName,
                                                                                      IRouteConvention<TConstraint> convention)
         {
-            var constraintAttributes = new List<IAttributeRouteConstraint<TConstraint>>();
+            var constraintAttributes = new List<IRouteConstraint<TConstraint>>();
 
             // Yield explicitly defined constraint attributes first
             constraintAttributes.AddRange(
-                from constraintAttribute in actionMethod.GetCustomAttributes<IAttributeRouteConstraint<TConstraint>>(false)
+                from constraintAttribute in actionMethod.GetCustomAttributes<IRouteConstraint<TConstraint>>(false)
                 where !constraintAttribute.ForRouteNamed.HasValue() ||
                       constraintAttribute.ForRouteNamed == routeName
                 select constraintAttribute);

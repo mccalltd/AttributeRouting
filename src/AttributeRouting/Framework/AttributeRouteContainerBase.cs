@@ -1,11 +1,7 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AttributeRouting.Framework;
 
-namespace AttributeRouting {
-    public abstract class AttributeRouteBase<TRoute> : IAttributeRoute {
+namespace AttributeRouting.Framework {
+    public abstract class AttributeRouteContainerBase<TRoute> : IAttributeRouteContainer {
 
         /// <summary>
         /// Underlying system route this wraps
@@ -15,7 +11,7 @@ namespace AttributeRouting {
         /// <summary>
         /// The route that a translated applies to.
         /// </summary>
-        public AttributeRouteBase<TRoute> DefaultRoute { get; set; }
+        public AttributeRouteContainerBase<TRoute> DefaultRouteContainer { get; set; }
 
         /// <summary>
         /// The name of this route, for supporting named routes.
@@ -25,7 +21,7 @@ namespace AttributeRouting {
         /// <summary>
         /// The translations available for this route.
         /// </summary>
-        public IEnumerable<AttributeRouteBase<TRoute>> Translations { get; set; }
+        public IEnumerable<AttributeRouteContainerBase<TRoute>> Translations { get; set; }
 
         /// <summary>
         /// The culture name associated with this route.

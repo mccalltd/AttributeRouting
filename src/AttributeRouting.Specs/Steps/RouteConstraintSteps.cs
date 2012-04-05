@@ -23,7 +23,7 @@ namespace AttributeRouting.Specs.Steps
         [Then(@"the route named ""(.*)"" has a constraint on ""(.*)"" of ""(.*)""")]
         public void ThenTheRouteNamedHasAConstraintOnOf(string routeName, string key, string value)
         {
-            var route = ScenarioContext.Current.GetFetchedRoutes().Cast<MvcRoute>().SingleOrDefault(r => r.Container.RouteName == routeName);
+            var route = ScenarioContext.Current.GetFetchedRoutes().Cast<AttributeRoute>().SingleOrDefault(r => r.Container.RouteName == routeName);
 
             Assert.That(route, Is.Not.Null);
 

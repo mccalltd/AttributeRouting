@@ -9,7 +9,7 @@ namespace AttributeRouting.Mvc
     /// Base class implementors can use to define a custom controller-level route convention.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public abstract class MvcRouteConventionAttribute : Attribute, IRouteConvention<IRouteConstraint>
+    public abstract class RouteConventionAttribute : Attribute, IRouteConvention<IRouteConstraint>
     {
         /// <summary>
         /// Gets the RouteAttributes to be applied to the given action method.
@@ -43,7 +43,7 @@ namespace AttributeRouting.Mvc
         /// </summary>
         /// <param name="actionMethod"></param>
         /// <returns></returns>
-        public virtual IEnumerable<IAttributeRouteConstraint<IRouteConstraint>> GetRouteConstraintAtributes(MethodInfo actionMethod)
+        public virtual IEnumerable<IRouteConstraint<IRouteConstraint>> GetRouteConstraintAtributes(MethodInfo actionMethod)
         {
             yield break;
         }

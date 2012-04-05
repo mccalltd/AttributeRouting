@@ -58,7 +58,7 @@ namespace AttributeRouting.Specs.Tests.TrailingSlashes
             Assert.That(virtualPathData.VirtualPath, Is.EqualTo(""));
         }
 
-        private MvcRoute BuildAttributeRoute(string url, bool useLowercaseRoutes, bool appendTrailingSlash)
+        private AttributeRoute BuildAttributeRoute(string url, bool useLowercaseRoutes, bool appendTrailingSlash)
         {
             var configuration = new AttributeRoutingConfiguration
             {
@@ -66,7 +66,7 @@ namespace AttributeRouting.Specs.Tests.TrailingSlashes
                 AppendTrailingSlash = appendTrailingSlash,
             };
 
-            return new AttributeRoute(url,
+            return new AttributeRouteContainer(url,
                                       new RouteValueDictionary(),
                                       new RouteValueDictionary(),
                                       new RouteValueDictionary(),

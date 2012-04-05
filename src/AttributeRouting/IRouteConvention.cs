@@ -29,6 +29,6 @@ namespace AttributeRouting {
         /// </summary>
         /// <param name="actionMethod"></param>
         /// <returns></returns>
-        IEnumerable<IAttributeRouteConstraint<TConstraint>> GetRouteConstraintAtributes(MethodInfo actionMethod);
+        IEnumerable<IRouteConstraint<TConstraint>> GetRouteConstraintAtributes(MethodInfo actionMethod);
     }
 }

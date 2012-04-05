@@ -1,58 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web;
-using System.Web.Routing;
+using System.Web.Http.Controllers;
+using System.Web.Http.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
-namespace AttributeRouting.Mvc.Framework {
-    public class MvcRoute : Route {
-
-        private AttributeRoutingConfiguration _configuration;
+namespace AttributeRouting.WebApi.Framework {
+    public class AttributeRoute : HttpRoute {
+        private readonly AttributeRoutingConfiguration _configuration;
 
         /// <summary>
         /// Route supporting the AttributeRouting framework.
         /// </summary>
-        public MvcRoute(string url, 
-            RouteValueDictionary defaults,
-            RouteValueDictionary constraints,
-            RouteValueDictionary dataTokens, 
+        public AttributeRoute(string url, 
+            HttpRouteValueDictionary defaults,
+            HttpRouteValueDictionary constraints,
+            HttpRouteValueDictionary dataTokens, 
             AttributeRoutingConfiguration configuration,
-            IRouteHandler routeHandler,
-            AttributeRouteBase<MvcRoute> wrapper)
-            : base(url, defaults, constraints, dataTokens, routeHandler) {
+            AttributeRouteContainerBase<AttributeRoute> wrapper)
+            : base(url, defaults, constraints, dataTokens) {
 
             _configuration = configuration;
             Container = wrapper;
         }
 
-        public AttributeRouteBase<MvcRoute> Container { get; private set; }
+        public AttributeRouteContainerBase<AttributeRoute> Container { get; private set; }
 
-        public override RouteData GetRouteData(HttpContextBase httpContext) {
-            var routeData = base.GetRouteData(httpContext);
+        public override IHttpRouteData GetRouteData(string virtualPathRoot, HttpRequestMessage request) {
+            var routeData = base.GetRouteData(virtualPathRoot, request);
             if (routeData == null)
                 return null;
 
-            if (!IsSubdomainMatched(httpContext))
+            if (!IsSubdomainMatched(request))
                 return null;
 
-            if (!IsCultureNameMatched(httpContext, routeData))
+            if (!IsCultureNameMatched(request, routeData))
                 return null;
 
             return routeData;
         }
 
-        private bool IsSubdomainMatched(HttpContextBase httpContext) {
+        private bool IsSubdomainMatched(HttpRequestMessage request) {
             // If no subdomains are mapped with AR, then yes.
             if (!Container.MappedSubdomains.Any())
                 return true;
 
             // Get the subdomain from the requested hostname.
-            var subdomain = _configuration.SubdomainParser(httpContext.Request.Headers["host"]);
+            var subdomain = _configuration.SubdomainParser(request.Headers.Host);
 
             // Match if this route is mapped to the requested host's subdomain
             if ((Container.Subdomain ?? _configuration.DefaultSubdomain).ValueEquals(subdomain))
@@ -62,7 +61,7 @@ namespace AttributeRouting.Mvc.Framework {
             return false;
         }
 
-        private bool IsCultureNameMatched(HttpContextBase httpContext, RouteData routeData) {
+        private bool IsCultureNameMatched(HttpRequestMessage request, HttpRouteData routeData) {
             if (!_configuration.ConstrainTranslatedRoutesByCurrentUICulture)
                 return true;
 
@@ -70,11 +69,11 @@ namespace AttributeRouting.Mvc.Framework {
             if (!_configuration.TranslationProviders.Any())
                 return true;
 
-            var currentUICultureName = _configuration.CurrentUICultureResolver(httpContext, routeData);
+            var currentUICultureName = _configuration.CurrentUICultureResolver(request, routeData);
             var currentUINeutralCultureName = currentUICultureName.Split('-').First();
 
             // If this is a translated route:
-            if (Container.DefaultRoute != null) {
+            if (Container.DefaultRouteContainer != null) {
                 // Match if the current UI culture matches the culture name of this route.
                 if (currentUICultureName.ValueEquals(Container.CultureName))
                     return true;
@@ -82,7 +81,7 @@ namespace AttributeRouting.Mvc.Framework {
                 // Match if the culture name is neutral and no translation exists for the specific culture.
                 if (Container.CultureName.Split('-').Length == 1
                     && currentUINeutralCultureName == Container.CultureName
-                    && !Container.DefaultRoute.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName))) {
+                    && !Container.DefaultRouteContainer.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName))) {
                     return true;
                 }
             } else {
@@ -101,13 +100,13 @@ namespace AttributeRouting.Mvc.Framework {
             return false;
         }
 
-        public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
-            var virtualPathData = base.GetVirtualPath(requestContext, values);
+        public override IHttpVirtualPathData GetVirtualPath(HttpControllerContext controllerContext, IDictionary<string, object> values) {
+            var virtualPathData = base.GetVirtualPath(controllerContext, values);
             if (virtualPathData == null)
                 return null;
 
             if (_configuration.TranslationProviders.Any())
-                virtualPathData = GetTranslatedVirtualPath(virtualPathData, requestContext, values);
+                virtualPathData = GetTranslatedVirtualPath(virtualPathData, controllerContext, values);
 
             var virtualPath = virtualPathData.VirtualPath;
 
@@ -119,12 +118,13 @@ namespace AttributeRouting.Mvc.Framework {
             if (_configuration.AppendTrailingSlash)
                 virtualPath = AppendTrailingSlashToVirtualPath(virtualPath);
 
+            // TODO: ???
             virtualPathData.VirtualPath = virtualPath;
 
             return virtualPathData;
         }
 
-        private VirtualPathData GetTranslatedVirtualPath(VirtualPathData virtualPathData, RequestContext requestContext, RouteValueDictionary values) {
+        private IHttpVirtualPathData GetTranslatedVirtualPath(IHttpVirtualPathData virtualPathData, HttpControllerContext requestContext, IDictionary<string, object> values) {
             if (Container.Translations == null || !Container.Translations.Any())
                 return virtualPathData;
 

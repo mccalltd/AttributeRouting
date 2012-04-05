@@ -1,7 +1,7 @@
 using System.Web.Mvc;
-using AttributeRouting.Framework;
+using AttributeRouting.Framework.Factories;
 
-namespace AttributeRouting.Mvc.Framework {
+namespace AttributeRouting.Mvc.Framework.Factories {
     internal class UrlParameterFactory : IParameterFactory<UrlParameter> {
         /// <summary>
         /// Optional parameter

@@ -7,7 +7,7 @@ using System.Web.Routing;
 using AttributeRouting.Framework;
 
 namespace AttributeRouting.Mvc.Framework {
-    public class RouteReflector : RouteReflector<IRouteConstraint, IController, MvcRoute, UrlParameter> {
+    public class RouteReflector : RouteReflector<IRouteConstraint, IController, AttributeRoute, UrlParameter> {
         public RouteReflector(AttributeRoutingConfiguration configuration) : base(configuration) {}
     }
 }

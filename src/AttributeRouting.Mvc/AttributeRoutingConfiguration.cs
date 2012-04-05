@@ -7,7 +7,7 @@ using System.Web.Routing;
 using AttributeRouting.Mvc.Framework;
 
 namespace AttributeRouting.Mvc {
-    public class AttributeRoutingConfiguration : AttributeRoutingConfiguration<IRouteConstraint, IController, MvcRoute, UrlParameter> {
+    public class AttributeRoutingConfiguration : AttributeRoutingConfiguration<IRouteConstraint, IController, AttributeRoute, UrlParameter> {
 
         public AttributeRoutingConfiguration()
         {

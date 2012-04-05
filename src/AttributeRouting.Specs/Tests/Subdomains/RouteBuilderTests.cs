@@ -17,7 +17,7 @@ namespace AttributeRouting.Specs.Tests.Subdomains
             routes.Clear();
             routes.MapAttributeRoutes(c => c.AddRoutesFromController<SubdomainController>());
 
-            var route = routes.Single() as MvcRoute;
+            var route = routes.Single() as AttributeRoute;
             Assert.That(route, Is.Not.Null);
             Assert.That(route.Container.Subdomain == "users");
             Assert.That(route.Container.MappedSubdomains.Count, Is.EqualTo(1));

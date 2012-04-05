@@ -17,7 +17,7 @@ namespace AttributeRouting.Specs.Steps
         [When(@"I log the routes")]
         public void WhenILogTheRoutes()
         {
-            RouteTable.Routes.Cast<MvcRoute>().LogTo(Console.Out);
+            RouteTable.Routes.Cast<AttributeRoute>().LogTo(Console.Out);
         }
 
         [Then(@"ta-da!")]

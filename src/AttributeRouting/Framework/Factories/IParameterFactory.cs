@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace AttributeRouting.Framework {
+namespace AttributeRouting.Framework.Factories {
 
     /// <summary>
     /// Factory methods for getting RouteParameters or UrlParameters

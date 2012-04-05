@@ -22,7 +22,7 @@ namespace AttributeRouting.Specs.Tests.LowercaseUrls
                 c.PreserveCaseForUrlParameters = true;
             });
 
-            var route = routes.Cast<MvcRoute>().FirstOrDefault();
+            var route = routes.Cast<AttributeRoute>().FirstOrDefault();
 
             Assert.That(route, Is.Not.Null);
 
@@ -50,7 +50,7 @@ namespace AttributeRouting.Specs.Tests.LowercaseUrls
                 c.PreserveCaseForUrlParameters = false;
             });
 
-            var route = routes.Cast<MvcRoute>().FirstOrDefault();
+            var route = routes.Cast<AttributeRoute>().FirstOrDefault();
 
             Assert.That(route, Is.Not.Null);
 

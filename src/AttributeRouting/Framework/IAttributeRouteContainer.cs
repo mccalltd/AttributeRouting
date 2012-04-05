@@ -6,7 +6,7 @@ namespace AttributeRouting.Framework {
     /// Generic interface for AttributeRoutes (logging, etc.) that doesn't
     /// require a Route type
     /// </summary>
-    public interface IAttributeRoute {
+    public interface IAttributeRouteContainer {
         /// <summary>
         /// The name of this route, for supporting named routes.
         /// </summary>

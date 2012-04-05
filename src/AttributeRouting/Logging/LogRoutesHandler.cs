@@ -109,8 +109,8 @@ namespace AttributeRouting.Logging
 
                         if (constraint.Value.GetType() == typeof(IRestfulHttpMethodConstraint))
                             item.HttpMethod = String.Join(", ", ((IRestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
-                        else if (constraint.Value.GetType() == typeof(RegexRouteConstraintBase))
-                            item.Constraints.Add(constraint.Key, ((RegexRouteConstraintBase)constraint.Value).Pattern);
+                        else if (constraint.Value.GetType() == typeof(IRegexRouteConstraint))
+                            item.Constraints.Add(constraint.Key, ((IRegexRouteConstraint)constraint.Value).Pattern);
                         else
                             item.Constraints.Add(constraint.Key, constraint.Value.ToString());
                     }

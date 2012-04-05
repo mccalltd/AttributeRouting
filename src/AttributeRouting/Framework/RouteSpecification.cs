@@ -10,7 +10,7 @@ namespace AttributeRouting.Framework
         {
             ActionParameters = new ParameterInfo[0];
             DefaultAttributes = new List<RouteDefaultAttribute>();
-            ConstraintAttributes = new List<IAttributeRouteConstraint<TConstraint>>();
+            ConstraintAttributes = new List<IRouteConstraint<TConstraint>>();
         }
 
         public string AreaName { get; set; }
@@ -39,7 +39,7 @@ namespace AttributeRouting.Framework
 
         public ICollection<RouteDefaultAttribute> DefaultAttributes { get; set; }
 
-        public ICollection<IAttributeRouteConstraint<TConstraint>> ConstraintAttributes { get; set; }
+        public ICollection<IRouteConstraint<TConstraint>> ConstraintAttributes { get; set; }
 
         public string RouteName { get; set; }
 

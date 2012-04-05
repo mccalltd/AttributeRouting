@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
 using System.Web.Routing;
-using AttributeRouting.Framework;
+using AttributeRouting.Framework.Factories;
 
-namespace AttributeRouting.Mvc.Framework {
+namespace AttributeRouting.Mvc.Framework.Factories {
     internal class ConstraintFactory : IConstraintFactory<IRouteConstraint> {
         public IRouteConstraint CreateRegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None) {
             return new RegexRouteConstraint(pattern, options);

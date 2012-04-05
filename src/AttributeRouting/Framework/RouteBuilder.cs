@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using AttributeRouting.Framework.Factories;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
@@ -25,7 +26,7 @@ namespace AttributeRouting.Framework
             _parameterFactory = parameterFactory;
         }
 
-        public IEnumerable<AttributeRouteBase<TRoute>> BuildAllRoutes()
+        public IEnumerable<AttributeRouteContainerBase<TRoute>> BuildAllRoutes()
         {
             var routeReflector = new RouteReflector<TConstraint, TController, TRoute, TRouteParameter>(_configuration);
             var routeSpecs = routeReflector.GenerateRouteSpecifications().ToList();
@@ -41,7 +42,7 @@ namespace AttributeRouting.Framework
             }
         }
 
-        private IEnumerable<AttributeRouteBase<TRoute>> Build(RouteSpecification<TConstraint> routeSpec) {
+        private IEnumerable<AttributeRouteContainerBase<TRoute>> Build(RouteSpecification<TConstraint> routeSpec) {
             var route = _routeFactory.CreateAttributeRoute(CreateRouteUrl(routeSpec),
                                                            CreateRouteDefaults(routeSpec),
                                                            CreateRouteConstraints(routeSpec),
@@ -63,7 +64,7 @@ namespace AttributeRouting.Framework
             foreach (var translation in route.Translations)
             {
                 // Backreference the default route.
-                translation.DefaultRoute = route;
+                translation.DefaultRouteContainer = route;
 
                 yield return translation;
             }
@@ -273,7 +274,7 @@ namespace AttributeRouting.Framework
             return Regex.Replace(url, String.Join("|", patterns), "");
         }
 
-        private IEnumerable<AttributeRouteBase<TRoute>> CreateRouteTranslations(RouteSpecification<TConstraint> routeSpec)
+        private IEnumerable<AttributeRouteContainerBase<TRoute>> CreateRouteTranslations(RouteSpecification<TConstraint> routeSpec)
         {
             // If no translation provider, then get out of here.
             if (!_configuration.TranslationProviders.Any())

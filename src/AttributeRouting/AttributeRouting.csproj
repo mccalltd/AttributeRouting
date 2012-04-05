@@ -55,11 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaConfiguration.cs" />
-    <Compile Include="AttributeRouteBase.cs" />
-    <Compile Include="Framework\IAttributeRoute.cs" />
-    <Compile Include="Framework\IAttributeRouteFactory.cs" />
-    <Compile Include="Framework\IConstraintFactory.cs" />
-    <Compile Include="Framework\IParameterFactory.cs" />
+    <Compile Include="Framework\AttributeRouteContainerBase.cs" />
+    <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
+    <Compile Include="Framework\Factories\IConstraintFactory.cs" />
+    <Compile Include="Framework\Factories\IParameterFactory.cs" />
+    <Compile Include="Framework\IAttributeRouteContainer.cs" />
     <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\ObjectExtensions.cs" />
@@ -70,12 +70,12 @@
     <Compile Include="Framework\Localization\TranslationKeyGenerator.cs" />
     <Compile Include="Framework\Localization\TranslationProviderBase.cs" />
     <Compile Include="Framework\Localization\TranslationsDictionary.cs" />
-    <Compile Include="RegexRouteConstraintBase.cs" />
+    <Compile Include="IRegexRouteConstraint.cs" />
     <Compile Include="IRestfulHttpMethodConstraint.cs" />
     <Compile Include="IRouteAttribute.cs" />
     <Compile Include="Framework\RouteBuilder.cs" />
     <Compile Include="Framework\AttributeRoutingException.cs" />
-    <Compile Include="IAttributeRouteConstraint.cs" />
+    <Compile Include="IRouteConstraint.cs" />
     <Compile Include="IRouteConvention.cs" />
     <Compile Include="Logging\LogRoutesHandler.cs" />
     <Compile Include="RoutePrefixAttribute.cs" />

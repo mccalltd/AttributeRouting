@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace AttributeRouting {
+    /// <summary>
+    /// Main interface for AttributeRouting route attributes (GET, POST, PUT, etc)
+    /// </summary>
     public interface IRouteAttribute {
 
         /// <summary>

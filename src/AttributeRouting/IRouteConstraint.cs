@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace AttributeRouting {
-    public interface IAttributeRouteConstraint<out TConstraint> {
+    public interface IRouteConstraint<out TConstraint> {
         /// <summary>
         /// The name of the route to apply this default against.
         /// </summary>

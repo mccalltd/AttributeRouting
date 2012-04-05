@@ -1,9 +1,6 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace AttributeRouting.Framework {
+namespace AttributeRouting.Framework.Factories {
     public interface IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter> {
 
         /// <summary>
@@ -15,7 +12,7 @@ namespace AttributeRouting.Framework {
         /// <param name="dataTokens"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        AttributeRouteBase<TRoute> CreateAttributeRoute(string url,
+        AttributeRouteContainerBase<TRoute> CreateAttributeRoute(string url,
             IDictionary<string, object> defaults,
             IDictionary<string, object> constraints,
             IDictionary<string, object> dataTokens,
