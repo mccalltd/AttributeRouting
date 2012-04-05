@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using AttributeRouting.Framework;
+using AttributeRouting.Mvc.Framework;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -21,7 +22,7 @@ namespace AttributeRouting.Specs.Steps
         [Then(@"the route named ""(.*)"" has a default for ""(.*)"" of ""?(.*?)""?")]
         public void ThenTheRouteNamedHasADefaultForOf(string routeName, string key, string value)
         {
-            var route = ScenarioContext.Current.GetFetchedRoutes().Cast<AttributeRoute>().SingleOrDefault(r => r.RouteName == routeName);
+            var route = ScenarioContext.Current.GetFetchedRoutes().Cast<MvcRoute>().SingleOrDefault(r => r.Container.RouteName == routeName);
 
             Assert.That(route, Is.Not.Null);
 

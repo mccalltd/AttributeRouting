@@ -8,20 +8,13 @@ namespace AttributeRouting.Framework {
     /// <summary>
     /// Factory methods for getting RouteParameters or UrlParameters
     /// </summary>
-    public interface IParameterFactory {
+    public interface IParameterFactory<out TRouteParameter> {
 
         /// <summary>
         /// Optional parameter
         /// </summary>
-        /// <typeparam name="TParameter"></typeparam>
+        /// <typeparam name="TRouteParameter"></typeparam>
         /// <returns></returns>
-        TParameter Optional<TParameter>();
-
-        /// <summary>
-        /// Create a new parameter
-        /// </summary>
-        /// <typeparam name="TParameter"></typeparam>
-        /// <returns></returns>
-        TParameter Create<TParameter>();
+        TRouteParameter Optional();
     }
 }

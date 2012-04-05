@@ -5,6 +5,8 @@ using System.Threading;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Logging;
+using AttributeRouting.Mvc;
+using AttributeRouting.Mvc.Framework.Localization;
 using AttributeRouting.Specs.Subjects;
 using MvcContrib.TestHelper;
 using NUnit.Framework;

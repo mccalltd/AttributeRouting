@@ -47,10 +47,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DELETEAttribute.cs" />
+    <Compile Include="Framework\AttributeRouteFactory.cs" />
+    <Compile Include="Framework\ConstraintFactory.cs" />
     <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
+    <Compile Include="Framework\Localization\FluentTranslationProvider.cs" />
     <Compile Include="Framework\Localization\TranslationBuilder.cs" />
-    <Compile Include="Framework\Localization\TranslationKeyGenerator.cs" />
-    <Compile Include="Framework\MvcAttributeRoute.cs" />
+    <Compile Include="Framework\AttributeRoute.cs" />
+    <Compile Include="Framework\MvcRoute.cs" />
+    <Compile Include="Framework\RouteBuilder.cs" />
+    <Compile Include="Framework\RouteReflector.cs" />
+    <Compile Include="Framework\UrlParameterFactory.cs" />
     <Compile Include="GETAttribute.cs" />
     <Compile Include="Helpers\HttpRequestBaseExtensions.cs" />
     <Compile Include="Helpers\MvcExtensions.cs" />

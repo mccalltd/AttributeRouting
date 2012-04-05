@@ -1,6 +1,9 @@
 ﻿using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework;
+using AttributeRouting.Mvc;
+using AttributeRouting.Mvc.Framework;
 using Moq;
 using NUnit.Framework;
 
@@ -55,7 +58,7 @@ namespace AttributeRouting.Specs.Tests.TrailingSlashes
             Assert.That(virtualPathData.VirtualPath, Is.EqualTo(""));
         }
 
-        private AttributeRoute BuildAttributeRoute(string url, bool useLowercaseRoutes, bool appendTrailingSlash)
+        private MvcRoute BuildAttributeRoute(string url, bool useLowercaseRoutes, bool appendTrailingSlash)
         {
             var configuration = new AttributeRoutingConfiguration
             {
@@ -67,7 +70,7 @@ namespace AttributeRouting.Specs.Tests.TrailingSlashes
                                       new RouteValueDictionary(),
                                       new RouteValueDictionary(),
                                       new RouteValueDictionary(),
-                                      configuration);
+                                      configuration).Route;
         }
     }
 }

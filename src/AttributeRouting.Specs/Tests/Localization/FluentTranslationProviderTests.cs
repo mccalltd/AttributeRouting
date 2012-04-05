@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AttributeRouting.Framework.Localization;
+using AttributeRouting.Mvc.Framework.Localization;
 using AttributeRouting.Specs.Subjects;
 using NUnit.Framework;
 

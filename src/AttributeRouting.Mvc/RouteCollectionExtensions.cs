@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Web.Routing;
-using AttributeRouting.Framework;
+using AttributeRouting.Mvc.Framework;
 
 namespace AttributeRouting.Mvc
 {
@@ -52,9 +52,10 @@ namespace AttributeRouting.Mvc
 
         private static void MapAttributeRoutesInternal(this RouteCollection routes, AttributeRoutingConfiguration configuration)
         {
-            var generatedRoutes = new RouteBuilder(configuration).BuildAllRoutes();
+            var generatedRoutes = new RouteBuilder(
+                configuration, new AttributeRouteFactory(), new ConstraintFactory(), new UrlParameterFactory()).BuildAllRoutes();
 
-            generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, r));
+            generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, r.Route));
         }
     }
 }

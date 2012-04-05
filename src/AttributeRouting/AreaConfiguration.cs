@@ -6,15 +6,15 @@ namespace AttributeRouting
     /// <summary>
     /// Helper for configuring areas when initializing AttributeRouting framework.
     /// </summary>
-    public class AreaConfiguration<TConstraint, TController>
+    public class AreaConfiguration<TConstraint, TController, TRoute, TRouteParameter>
     {
         private readonly string _name;
-        private readonly AttributeRoutingConfiguration<TConstraint, TController> _configuration;
+        private readonly AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter> _configuration;
 
         /// <summary>
         /// Helper for configuring areas when initializing AttributeRouting framework.
         /// </summary>
-        public AreaConfiguration(string name, AttributeRoutingConfiguration<TConstraint, TController> configuration)
+        public AreaConfiguration(string name, AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter> configuration)
         {
             _name = name;
             _configuration = configuration;

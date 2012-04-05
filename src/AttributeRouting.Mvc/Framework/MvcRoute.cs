@@ -10,58 +10,27 @@ using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Mvc.Framework {
-    /// <summary>
-    /// Route supporting the AttributeRouting framework.
-    /// </summary>
-    public class MvcAttributeRoute : Route, IAttributeRoute {
-        private readonly MvcAttributeRoutingConfiguration _configuration;
+    public class MvcRoute : Route {
+
+        private AttributeRoutingConfiguration _configuration;
 
         /// <summary>
         /// Route supporting the AttributeRouting framework.
         /// </summary>
-        public MvcAttributeRoute(
-            string url,
+        public MvcRoute(string url, 
             RouteValueDictionary defaults,
             RouteValueDictionary constraints,
-            RouteValueDictionary dataTokens,
-            MvcAttributeRoutingConfiguration configuration)
-            : base(url, defaults, constraints, dataTokens, configuration.RouteHandlerFactory()) {
-            _configuration = configuration;            
+            RouteValueDictionary dataTokens, 
+            AttributeRoutingConfiguration configuration,
+            IRouteHandler routeHandler,
+            AttributeRouteBase<MvcRoute> wrapper)
+            : base(url, defaults, constraints, dataTokens, routeHandler) {
+
+            _configuration = configuration;
+            Container = wrapper;
         }
 
-        /// <summary>
-        /// The route that a translated applies to.
-        /// </summary>
-        public IAttributeRoute DefaultRoute { get; set; }
-
-        /// <summary>
-        /// The name of this route, for supporting named routes.
-        /// </summary>
-        public string RouteName { get; set; }
-
-        /// <summary>
-        /// The translations available for this route.
-        /// </summary>
-        public IEnumerable<IAttributeRoute> Translations { get; set; }
-
-        /// <summary>
-        /// The culture name associated with this route.
-        /// </summary>
-        public string CultureName { get; set; }
-
-        /// <summary>
-        /// List of all the subdomains mapped via AttributeRouting.
-        /// </summary>
-        public List<string> MappedSubdomains { get; set; }
-
-        /// <summary>
-        /// The subdomain this route is to be applied against.
-        /// </summary>
-        public string Subdomain { get; set; }
-
-        public IDictionary<string, object> DataTokens {
-            get { return base.DataTokens; }
-        }
+        public AttributeRouteBase<MvcRoute> Container { get; private set; }
 
         public override RouteData GetRouteData(HttpContextBase httpContext) {
             var routeData = base.GetRouteData(httpContext);
@@ -79,14 +48,14 @@ namespace AttributeRouting.Mvc.Framework {
 
         private bool IsSubdomainMatched(HttpContextBase httpContext) {
             // If no subdomains are mapped with AR, then yes.
-            if (!MappedSubdomains.Any())
+            if (!Container.MappedSubdomains.Any())
                 return true;
 
             // Get the subdomain from the requested hostname.
             var subdomain = _configuration.SubdomainParser(httpContext.Request.Headers["host"]);
 
             // Match if this route is mapped to the requested host's subdomain
-            if ((Subdomain ?? _configuration.DefaultSubdomain).ValueEquals(subdomain))
+            if ((Container.Subdomain ?? _configuration.DefaultSubdomain).ValueEquals(subdomain))
                 return true;
 
             // Otherwise, this route does not match the request.
@@ -105,26 +74,26 @@ namespace AttributeRouting.Mvc.Framework {
             var currentUINeutralCultureName = currentUICultureName.Split('-').First();
 
             // If this is a translated route:
-            if (DefaultRoute != null) {
+            if (Container.DefaultRoute != null) {
                 // Match if the current UI culture matches the culture name of this route.
-                if (currentUICultureName.ValueEquals(CultureName))
+                if (currentUICultureName.ValueEquals(Container.CultureName))
                     return true;
 
                 // Match if the culture name is neutral and no translation exists for the specific culture.
-                if (CultureName.Split('-').Length == 1
-                    && currentUINeutralCultureName == CultureName
-                    && !DefaultRoute.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName))) {
+                if (Container.CultureName.Split('-').Length == 1
+                    && currentUINeutralCultureName == Container.CultureName
+                    && !Container.DefaultRoute.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName))) {
                     return true;
                 }
             } else {
                 // If this is a default route:
 
                 // Match if this route has no translations.
-                if (!Translations.Any())
+                if (!Container.Translations.Any())
                     return true;
 
                 // Match if this route has no translations for the neutral current UI culture.
-                if (!Translations.Any(t => t.CultureName == currentUINeutralCultureName))
+                if (!Container.Translations.Any(t => t.CultureName == currentUINeutralCultureName))
                     return true;
             }
 
@@ -156,19 +125,19 @@ namespace AttributeRouting.Mvc.Framework {
         }
 
         private VirtualPathData GetTranslatedVirtualPath(VirtualPathData virtualPathData, RequestContext requestContext, RouteValueDictionary values) {
-            if (Translations == null || !Translations.Any())
+            if (Container.Translations == null || !Container.Translations.Any())
                 return virtualPathData;
 
             var currentCultureName = Thread.CurrentThread.CurrentUICulture.Name;
 
             // Try and get the language-culture translation, then fall back to language translation
-            var translation = Translations.FirstOrDefault(t => t.CultureName == currentCultureName)
-                              ?? Translations.FirstOrDefault(t => currentCultureName.StartsWith(t.CultureName));
+            var translation = Container.Translations.FirstOrDefault(t => t.CultureName == currentCultureName)
+                              ?? Container.Translations.FirstOrDefault(t => currentCultureName.StartsWith(t.CultureName));
 
             if (translation == null)
                 return virtualPathData;
 
-            return translation.GetVirtualPath(requestContext, values);
+            return translation.Route.GetVirtualPath(requestContext, values);
         }
 
         private static string TransformVirtualPathToLowercase(string virtualPath) {

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AttributeRouting.Mvc.Framework;
 
 namespace AttributeRouting.Mvc {
-    public class MvcAttributeRoutingConfiguration : AttributeRoutingConfiguration {
+    public class AttributeRoutingConfiguration : AttributeRoutingConfiguration<IRouteConstraint, IController, MvcRoute, UrlParameter> {
 
-        public MvcAttributeRoutingConfiguration()
-            : base(new MvcControllerAssemblyScanner())
+        public AttributeRoutingConfiguration()
         {
             RouteHandlerFactory = () => new MvcRouteHandler();
         }

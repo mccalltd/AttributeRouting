@@ -2,6 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web.Routing;
+using AttributeRouting.Mvc;
 using AttributeRouting.Specs.Subjects;
 using NUnit.Framework;
 

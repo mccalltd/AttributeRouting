@@ -142,6 +142,10 @@
     <Folder Include="Areas\Admin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AttributeRouting.Mvc\AttributeRouting.Mvc.csproj">
+      <Project>{C91C065B-A821-4890-9F31-F9E245D804D1}</Project>
+      <Name>AttributeRouting.Mvc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">
       <Project>{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}</Project>
       <Name>AttributeRouting</Name>

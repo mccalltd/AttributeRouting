@@ -1,22 +1,16 @@
 using System.Collections.Generic;
 
 namespace AttributeRouting.Framework {
+
+    /// <summary>
+    /// Generic interface for AttributeRoutes (logging, etc.) that doesn't
+    /// require a Route type
+    /// </summary>
     public interface IAttributeRoute {
-
-        /// <summary>
-        /// Default route
-        /// </summary>
-        IAttributeRoute DefaultRoute { get; set; }
-
         /// <summary>
         /// The name of this route, for supporting named routes.
         /// </summary>
         string RouteName { get; set; }
-
-        /// <summary>
-        /// The translations available for this route.
-        /// </summary>
-        IEnumerable<IAttributeRoute> Translations { get; set; }
 
         /// <summary>
         /// The culture name associated with this route.
@@ -33,8 +27,9 @@ namespace AttributeRouting.Framework {
         /// </summary>
         string Subdomain { get; set; }
 
-        string Url { get; set; }
-
-        IDictionary<string, object> DataTokens { get; } 
+        /// <summary>
+        /// DataTokens dictionary
+        /// </summary>
+        IDictionary<string, object> DataTokens { get; set; }
     }
 }

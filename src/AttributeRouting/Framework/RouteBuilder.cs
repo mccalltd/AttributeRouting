@@ -7,14 +7,15 @@ using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
 {
-    public class RouteBuilder<TConstraint, TController, TRouteParameter>
-    {
-        private readonly AttributeRoutingConfiguration<TConstraint, TController> _configuration;
-        private readonly IAttributeRouteFactory _routeFactory;
-        private readonly IConstraintFactory _constraintFactory;
-        private readonly IParameterFactory _parameterFactory;
+    public class RouteBuilder<TConstraint, TController, TRoute, TRouteParameter> {
 
-        public RouteBuilder(AttributeRoutingConfiguration<TConstraint, TController> configuration, IAttributeRouteFactory routeFactory, IConstraintFactory constraintFactory, IParameterFactory parameterFactory)
+        private readonly AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter> _configuration;
+        private readonly IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter> _routeFactory;
+        private readonly IConstraintFactory<TConstraint> _constraintFactory;
+        private readonly IParameterFactory<TRouteParameter> _parameterFactory;
+
+        public RouteBuilder(AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter> configuration,
+            IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter> routeFactory, IConstraintFactory<TConstraint> constraintFactory, IParameterFactory<TRouteParameter> parameterFactory)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
@@ -24,9 +25,9 @@ namespace AttributeRouting.Framework
             _parameterFactory = parameterFactory;
         }
 
-        public IEnumerable<IAttributeRoute> BuildAllRoutes()
+        public IEnumerable<AttributeRouteBase<TRoute>> BuildAllRoutes()
         {
-            var routeReflector = new RouteReflector<TConstraint, TController>(_configuration);
+            var routeReflector = new RouteReflector<TConstraint, TController, TRoute, TRouteParameter>(_configuration);
             var routeSpecs = routeReflector.GenerateRouteSpecifications().ToList();
             var mappedSubdomains = routeSpecs.Where(s => s.Subdomain.HasValue()).Select(s => s.Subdomain).Distinct().ToList();
 
@@ -40,7 +41,7 @@ namespace AttributeRouting.Framework
             }
         }
 
-        private IEnumerable<IAttributeRoute> Build(RouteSpecification<TConstraint> routeSpec) {
+        private IEnumerable<AttributeRouteBase<TRoute>> Build(RouteSpecification<TConstraint> routeSpec) {
             var route = _routeFactory.CreateAttributeRoute(CreateRouteUrl(routeSpec),
                                                            CreateRouteDefaults(routeSpec),
                                                            CreateRouteConstraints(routeSpec),
@@ -165,7 +166,7 @@ namespace AttributeRouting.Framework
                 if (defaults.ContainsKey(parameterName))
                     continue;
 
-                defaults.Add(parameterName, _parameterFactory.Optional<TRouteParameter>());
+                defaults.Add(parameterName, _parameterFactory.Optional());
             }
 
             // Inline defaults
@@ -193,13 +194,13 @@ namespace AttributeRouting.Framework
             return defaults;
         }
 
-        private IDictionary<string, TConstraint> CreateRouteConstraints(RouteSpecification<TConstraint> routeSpec)
+        private IDictionary<string, object> CreateRouteConstraints(RouteSpecification<TConstraint> routeSpec)
         {
-            var constraints = new Dictionary<string, TConstraint>();
+            var constraints = new Dictionary<string, object>();
 
             // Default constraints
             if (routeSpec.HttpMethods.Any())
-                constraints.Add("httpMethod", _constraintFactory.CreateRestfulHttpMethodConstraint<TConstraint>(routeSpec.HttpMethods));
+                constraints.Add("httpMethod", _constraintFactory.CreateRestfulHttpMethodConstraint(routeSpec.HttpMethods));
 
             // Inline constraints
             foreach (var parameter in GetUrlParameterContents(routeSpec.RouteUrl).Where(p => Regex.IsMatch(p, @"^.*\(.*\)$")))
@@ -211,7 +212,7 @@ namespace AttributeRouting.Framework
                     continue;
 
                 var regexPattern = parameter.Substring(indexOfOpenParen + 1, parameter.Length - indexOfOpenParen - 2);
-                constraints.Add(parameterName, _constraintFactory.CreateRegexRouteConstraint<TConstraint>(regexPattern));
+                constraints.Add(parameterName, _constraintFactory.CreateRegexRouteConstraint(regexPattern));
             }
 
             // Attribute-based constraints
@@ -272,7 +273,7 @@ namespace AttributeRouting.Framework
             return Regex.Replace(url, String.Join("|", patterns), "");
         }
 
-        private IEnumerable<IAttributeRoute> CreateRouteTranslations(RouteSpecification<TConstraint> routeSpec)
+        private IEnumerable<AttributeRouteBase<TRoute>> CreateRouteTranslations(RouteSpecification<TConstraint> routeSpec)
         {
             // If no translation provider, then get out of here.
             if (!_configuration.TranslationProviders.Any())

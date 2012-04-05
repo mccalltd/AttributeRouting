@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 
 namespace AttributeRouting.Framework {
-    public interface IAttributeRouteFactory {
+    public interface IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter> {
 
         /// <summary>
-        /// Create a new <see cref="IAttributeRoute"/>
+        /// Create a new attribute route that wraps an underlying framework route
         /// </summary>
         /// <param name="url"></param>
         /// <param name="defaults"></param>
@@ -15,10 +15,10 @@ namespace AttributeRouting.Framework {
         /// <param name="dataTokens"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        IAttributeRoute CreateAttributeRoute<TConstraint, TController>(string url,
+        AttributeRouteBase<TRoute> CreateAttributeRoute(string url,
             IDictionary<string, object> defaults,
-            IDictionary<string, TConstraint> constraints,
+            IDictionary<string, object> constraints,
             IDictionary<string, object> dataTokens,
-            AttributeRoutingConfiguration<TConstraint, TController> configuration);
+            AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter> configuration);
     }
 }

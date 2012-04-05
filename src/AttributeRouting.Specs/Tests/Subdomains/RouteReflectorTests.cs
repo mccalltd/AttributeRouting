@@ -1,5 +1,7 @@
 using System.Linq;
 using AttributeRouting.Framework;
+using AttributeRouting.Mvc;
+using AttributeRouting.Mvc.Framework;
 using AttributeRouting.Specs.Subjects;
 using NUnit.Framework;
 

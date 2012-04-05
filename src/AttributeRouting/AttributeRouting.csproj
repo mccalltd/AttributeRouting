@@ -55,10 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaConfiguration.cs" />
-    <Compile Include="Framework\IAttributeRouteFactory.cs" />
+    <Compile Include="AttributeRouteBase.cs" />
     <Compile Include="Framework\IAttributeRoute.cs" />
+    <Compile Include="Framework\IAttributeRouteFactory.cs" />
     <Compile Include="Framework\IConstraintFactory.cs" />
     <Compile Include="Framework\IParameterFactory.cs" />
+    <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\ObjectExtensions.cs" />
     <Compile Include="Helpers\ReflectionExtensions.cs" />
