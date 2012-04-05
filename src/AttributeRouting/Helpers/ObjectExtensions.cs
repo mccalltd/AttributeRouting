@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace AttributeRouting.Helpers
 {
-    internal static class ObjectExtensions
+    public static class ObjectExtensions
     {
         public static TResult SafeGet<T, TResult>(this T obj, Expression<Func<T, TResult>> memberExpression)
         {

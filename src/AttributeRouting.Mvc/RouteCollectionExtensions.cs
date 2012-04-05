@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Web.Routing;
 using AttributeRouting.Framework;
 
-namespace AttributeRouting
+namespace AttributeRouting.Mvc
 {
     /// <summary>
     /// Extensions to the MVC RouteCollection.

@@ -1,17 +1,16 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
-namespace AttributeRouting
+namespace AttributeRouting.Mvc
 {
     /// <summary>
     /// Automatically generates RESTful-style routes for controller actions matching 
     /// Index, New, Create, Show, Edit, Update, Delete, and Destroy.
     /// </summary>
-    public class RestfulRouteConventionAttribute : RouteConventionAttribute
+    public class RestfulRouteConventionAttribute : MvcRouteConventionAttribute
     {
         // Setup conventions
         private static readonly List<RestfulRouteConventionInfo> Conventions = new List<RestfulRouteConventionInfo>
@@ -26,7 +25,7 @@ namespace AttributeRouting
             new RestfulRouteConventionInfo("Destroy", "DELETE", "{id}")
         };
 
-        public override IEnumerable<RouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
+        public override IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
         {
             var convention = Conventions.SingleOrDefault(c => c.ActionName == actionMethod.Name);
             if (convention != null)
@@ -38,7 +37,7 @@ namespace AttributeRouting
             return actionMethod.DeclaringType.GetControllerName();
         }
 
-        private RouteAttribute BuildRouteAttribute(RestfulRouteConventionInfo convention)
+        private IRouteAttribute BuildRouteAttribute(RestfulRouteConventionInfo convention)
         {
             switch (convention.HttpMethod)
             {
@@ -51,7 +50,7 @@ namespace AttributeRouting
                 case "DELETE":
                     return new DELETEAttribute(convention.Url);
                 default:
-                    throw new AttributeRoutingException("Unknown HTTP method \"{0}\".".FormatWith(convention.HttpMethod));
+                    throw new AttributeRoutingException(StringExtensions.FormatWith("Unknown HTTP method \"{0}\".", convention.HttpMethod));
             }
         }
 

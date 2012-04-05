@@ -1,19 +1,19 @@
-﻿using System;
+using System;
 using System.Web.Routing;
 
-namespace AttributeRouting
+namespace AttributeRouting.Mvc
 {
     /// <summary>
     /// Defines a constraint for a url parameter defined in a RouteAttribute applied to this action.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public abstract class RouteConstraintAttribute : Attribute
+    public abstract class MvcAttributeRouteConstraint : Attribute, IAttributeRouteConstraint<IRouteConstraint>
     {
         /// <summary>
         /// Specify a constraint for a url parameter defined in a RouteAttribute applied to this action.
         /// </summary>
         /// <param name="key">The key of the url parameter</param>
-        protected RouteConstraintAttribute(string key)
+        protected MvcAttributeRouteConstraint(string key)
         {
             if (key == null) throw new ArgumentNullException("key");
 

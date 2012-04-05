@@ -1,12 +1,12 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using System.Web.Routing;
 
-namespace AttributeRouting
+namespace AttributeRouting.Mvc
 {
     /// <summary>
     /// Constrains a url parameter by a regex pattern.
     /// </summary>
-    public class RegexRouteConstraintAttribute : RouteConstraintAttribute
+    public class RegexRouteConstraintAttribute : MvcAttributeRouteConstraint
     {
         /// <summary>
         /// Specify a regex constraint for a url parameter defined in a RouteAttribute applied to this action.

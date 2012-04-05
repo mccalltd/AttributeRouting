@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace AttributeRouting.Helpers
 {
-    internal static class StringExtensions
+    public static class StringExtensions
     {
         public static bool ValueEquals(this string s, string other)
         {

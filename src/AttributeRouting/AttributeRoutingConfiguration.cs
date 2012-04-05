@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Web;
-using System.Web.Mvc;
 using System.Web.Routing;
+using AttributeRouting.Framework;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Helpers;
 
@@ -14,7 +14,7 @@ namespace AttributeRouting
     /// <summary>
     /// Configuration options to use when mapping AttributeRoutes.
     /// </summary>
-    public class AttributeRoutingConfiguration
+    public class AttributeRoutingConfiguration<TConstraint, TController>
     {
         /// <summary>
         /// Creates and initializes a new configuration object.
@@ -24,10 +24,9 @@ namespace AttributeRouting
             InheritActionsFromBaseController = false;
             Assemblies = new List<Assembly>();
             PromotedControllerTypes = new List<Type>();
-            DefaultRouteConstraints = new Dictionary<string, IRouteConstraint>();
-            RouteHandlerFactory = () => new MvcRouteHandler();
+            DefaultRouteConstraints = new Dictionary<string, TConstraint>();            
 
-            TranslationProviders = new List<TranslationProviderBase>();
+            TranslationProviders = new List<TranslationProviderBase<TConstraint>>();
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
 
             AreaSubdomainOverrides = new Dictionary<string, string>();
@@ -43,10 +42,10 @@ namespace AttributeRouting
 
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }
-        internal IDictionary<string, IRouteConstraint> DefaultRouteConstraints { get; set; }
-        internal Func<IRouteHandler> RouteHandlerFactory { get; set; }
+        internal IDictionary<string, TConstraint> DefaultRouteConstraints { get; set; }
+        
         internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
-        internal List<TranslationProviderBase> TranslationProviders { get; set; }
+        public List<TranslationProviderBase<TConstraint>> TranslationProviders { get; set; }
 
         /// <summary>
         /// When true, the generated routes will produce lowercase URLs.
@@ -143,23 +142,13 @@ namespace AttributeRouting
         {
             var assembly = baseControllerType.Assembly;
 
-            var controllerTypes = from controllerType in assembly.GetControllerTypes()
+            var controllerTypes = from controllerType in assembly.GetControllerTypes<TController>()
                                   where baseControllerType.IsAssignableFrom(controllerType)
                                   select controllerType;
 
             foreach (var controllerType in controllerTypes)
                 AddRoutesFromController(controllerType);
-        }
-
-        /// <summary>
-        /// Adds all the routes for the specified controller type to the end of the route collection.
-        /// </summary>
-        /// <typeparam name="TController">The controller type</typeparam>
-        public void AddRoutesFromController<TController>()
-            where TController : IController
-        {
-            AddRoutesFromController(typeof(TController));
-        }
+        }        
 
         /// <summary>
         /// Adds all the routes for the specified controller type to the end of the route collection.
@@ -184,46 +173,26 @@ namespace AttributeRouting
         /// </summary>
         /// <param name="keyRegex">The regex used to match url parameter names</param>
         /// <param name="constraint">The constraint to apply to matched parameters</param>
-        public void AddDefaultRouteConstraint(string keyRegex, IRouteConstraint constraint)
+        public void AddDefaultRouteConstraint(string keyRegex, TConstraint constraint)
         {
             if (!DefaultRouteConstraints.ContainsKey(keyRegex))
                 DefaultRouteConstraints.Add(keyRegex, constraint);
         }
 
         /// <summary>
-        /// Specifies a function that returns an alternate route handler.
-        /// By default, the route handler is the default MVC handler System.Web.Mvc.MvcRouteHandler()
-        /// </summary>
-        /// <example>
-        /// <code>
-        /// routes.MapAttributeRoutes(config =>
-        /// {
-        ///    config.ScanAssembly(System.Reflection.Assembly.GetExecutingAssembly());
-        ///    config.UseRouteHandler(() => new MyOtherLibrary.Mvc.CustomRouteHandler());
-        ///    // default:  config.UseRouteHandler(() => new System.Web.Mvc.MvcRouteHandler());
-        /// });
-        /// </code>
-        /// </example>
-        /// <param name="routeHandlerFactory"></param>
-        public void UseRouteHandler(Func<IRouteHandler> routeHandlerFactory)
-        {
-            RouteHandlerFactory = routeHandlerFactory;
-        }
-
-        /// <summary>
         /// Returns a utility for configuring areas when initializing AttributeRouting framework.
         /// </summary>
         /// <param name="name">The name of the area to configure</param>
-        public AreaConfiguration MapArea(string name)
+        public AreaConfiguration<TConstraint, TController> MapArea(string name)
         {
-            return new AreaConfiguration(name, this);
+            return new AreaConfiguration<TConstraint, TController>(name, this);
         }
 
         /// <summary>
         /// Add a provider for translating components of routes.
         /// </summary>
         public void AddTranslationProvider<TTranslationProvider>()
-            where TTranslationProvider : TranslationProviderBase, new()
+            where TTranslationProvider : TranslationProviderBase<TConstraint>, new()
         {
             TranslationProviders.Add(new TTranslationProvider());
         }
@@ -232,7 +201,7 @@ namespace AttributeRouting
         /// Add a provider for translating components of routes.
         /// Use <see cref="FluentTranslationProvider"/> for a default implementation.
         /// </summary>
-        public void AddTranslationProvider(TranslationProviderBase provider)
+        public void AddTranslationProvider(TranslationProviderBase<TConstraint> provider)
         {
             TranslationProviders.Add(provider);
         }

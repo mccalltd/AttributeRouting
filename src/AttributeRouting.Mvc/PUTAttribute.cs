@@ -1,4 +1,4 @@
-namespace AttributeRouting
+namespace AttributeRouting.Mvc
 {
     /// <summary>
     /// Defines a route for an action constrained to requests providing an httpMethod value of PUT.

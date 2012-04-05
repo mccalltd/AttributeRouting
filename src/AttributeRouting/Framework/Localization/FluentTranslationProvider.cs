@@ -7,7 +7,7 @@ namespace AttributeRouting.Framework.Localization
     /// Default implementation of <see cref="TranslationProviderBase"/>
     /// allowing the addition of translations for route components in a fluent style.
     /// </summary>
-    public class FluentTranslationProvider : TranslationProviderBase
+    public class FluentTranslationProvider<TConstraint> : TranslationProviderBase<TConstraint>
     {
         /// <summary>
         /// Default implementation of <see cref="TranslationProviderBase"/>

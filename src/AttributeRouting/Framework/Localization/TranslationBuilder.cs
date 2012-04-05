@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Web.Mvc;
 
 namespace AttributeRouting.Framework.Localization
 {
@@ -30,17 +29,6 @@ namespace AttributeRouting.Framework.Localization
                 _translations.Add(key, cultureTranslationPairs);
 
             return this;
-        }
-
-        /// <summary>
-        /// Returns a <see cref="ControllerTranslationBuilder{TController}"/>
-        /// for adding translations of route components in a strongly typed manner.
-        /// </summary>
-        /// <typeparam name="TController">The type of the controller for which to add translations</typeparam>
-        public ControllerTranslationBuilder<TController> ForController<TController>()
-            where TController : IController
-        {
-            return new ControllerTranslationBuilder<TController>(this);
         }
     }
 }

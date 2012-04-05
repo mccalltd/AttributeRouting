@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace AttributeRouting.Helpers
 {
-    internal class ExpressionHelper
+    public class ExpressionHelper
     {
         public static MethodInfo GetMethodInfo<TType, TMethod>(Expression<Func<TType, TMethod>> expression)
         {

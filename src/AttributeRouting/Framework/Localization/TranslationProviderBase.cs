@@ -5,7 +5,7 @@ namespace AttributeRouting.Framework.Localization
     /// <summary>
     /// Provider for generating translations of route components.
     /// </summary>
-    public abstract class TranslationProviderBase
+    public abstract class TranslationProviderBase<TConstraint>
     {
         private readonly TranslationKeyGenerator _keyGenerator;
 
@@ -26,7 +26,7 @@ namespace AttributeRouting.Framework.Localization
         /// <param name="cultureName">The culture name for the translation</param>
         public abstract string GetTranslation(string key, string cultureName);
 
-        internal string TranslateAreaUrl(string cultureName, RouteSpecification routeSpec)
+        internal string TranslateAreaUrl(string cultureName, RouteSpecification<TConstraint> routeSpec)
         {
             var key = routeSpec.AreaUrlTranslationKey
                       ?? _keyGenerator.AreaUrl(routeSpec.AreaName);
@@ -34,7 +34,7 @@ namespace AttributeRouting.Framework.Localization
             return GetTranslation(key, cultureName);
         }
 
-        internal string TranslateRoutePrefix(string cultureName, RouteSpecification routeSpec)
+        internal string TranslateRoutePrefix(string cultureName, RouteSpecification<TConstraint> routeSpec)
         {
             var key = routeSpec.RoutePrefixUrlTranslationKey
                       ?? _keyGenerator.RoutePrefixUrl(routeSpec.AreaName, routeSpec.ControllerName);
@@ -42,7 +42,7 @@ namespace AttributeRouting.Framework.Localization
             return GetTranslation(key, cultureName);
         }
 
-        internal string TranslateRouteUrl(string cultureName, RouteSpecification routeSpec)
+        internal string TranslateRouteUrl(string cultureName, RouteSpecification<TConstraint> routeSpec)
         {
             var key = routeSpec.RouteUrlTranslationKey
                       ?? _keyGenerator.RouteUrl(routeSpec.AreaName, routeSpec.ControllerName, routeSpec.ActionName);

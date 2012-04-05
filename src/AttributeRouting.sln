@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{38404E
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.WebApi", "AttributeRouting.WebApi\AttributeRouting.WebApi.csproj", "{A018FEC5-45F8-44FB-BB6C-33697B418434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Mvc", "AttributeRouting.Mvc\AttributeRouting.Mvc.csproj", "{C91C065B-A821-4890-9F31-F9E245D804D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,14 @@ Global
 		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A018FEC5-45F8-44FB-BB6C-33697B418434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A018FEC5-45F8-44FB-BB6C-33697B418434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A018FEC5-45F8-44FB-BB6C-33697B418434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A018FEC5-45F8-44FB-BB6C-33697B418434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C91C065B-A821-4890-9F31-F9E245D804D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C91C065B-A821-4890-9F31-F9E245D804D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C91C065B-A821-4890-9F31-F9E245D804D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C91C065B-A821-4890-9F31-F9E245D804D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

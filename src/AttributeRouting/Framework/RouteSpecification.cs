@@ -4,13 +4,13 @@ using System.Reflection;
 
 namespace AttributeRouting.Framework
 {
-    public class RouteSpecification
+    public class RouteSpecification<TConstraint>
     {
         public RouteSpecification()
         {
             ActionParameters = new ParameterInfo[0];
             DefaultAttributes = new List<RouteDefaultAttribute>();
-            ConstraintAttributes = new List<RouteConstraintAttribute>();
+            ConstraintAttributes = new List<IAttributeRouteConstraint<TConstraint>>();
         }
 
         public string AreaName { get; set; }
@@ -39,7 +39,7 @@ namespace AttributeRouting.Framework
 
         public ICollection<RouteDefaultAttribute> DefaultAttributes { get; set; }
 
-        public ICollection<RouteConstraintAttribute> ConstraintAttributes { get; set; }
+        public ICollection<IAttributeRouteConstraint<TConstraint>> ConstraintAttributes { get; set; }
 
         public string RouteName { get; set; }
 

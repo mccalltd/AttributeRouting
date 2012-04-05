@@ -3,27 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
-using System.Web.Routing;
-using AttributeRouting.Framework.Localization;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
 {
-    public class RouteBuilder
+    public class RouteBuilder<TConstraint, TController, TRouteParameter>
     {
-        private readonly AttributeRoutingConfiguration _configuration;
+        private readonly AttributeRoutingConfiguration<TConstraint, TController> _configuration;
+        private readonly IAttributeRouteFactory _routeFactory;
+        private readonly IConstraintFactory _constraintFactory;
+        private readonly IParameterFactory _parameterFactory;
 
-        public RouteBuilder(AttributeRoutingConfiguration configuration)
+        public RouteBuilder(AttributeRoutingConfiguration<TConstraint, TController> configuration, IAttributeRouteFactory routeFactory, IConstraintFactory constraintFactory, IParameterFactory parameterFactory)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
             _configuration = configuration;
+            _routeFactory = routeFactory;
+            _constraintFactory = constraintFactory;
+            _parameterFactory = parameterFactory;
         }
 
-        public IEnumerable<AttributeRoute> BuildAllRoutes()
+        public IEnumerable<IAttributeRoute> BuildAllRoutes()
         {
-            var routeReflector = new RouteReflector(_configuration);
+            var routeReflector = new RouteReflector<TConstraint, TController>(_configuration);
             var routeSpecs = routeReflector.GenerateRouteSpecifications().ToList();
             var mappedSubdomains = routeSpecs.Where(s => s.Subdomain.HasValue()).Select(s => s.Subdomain).Distinct().ToList();
 
@@ -37,18 +40,17 @@ namespace AttributeRouting.Framework
             }
         }
 
-        private IEnumerable<AttributeRoute> Build(RouteSpecification routeSpec)
-        {
-            var route = new AttributeRoute(CreateRouteUrl(routeSpec),
-                                           CreateRouteDefaults(routeSpec),
-                                           CreateRouteConstraints(routeSpec),
-                                           CreateRouteDataTokens(routeSpec),
-                                           _configuration)
-            {
-                RouteName = CreateRouteName(routeSpec),
-                Translations = CreateRouteTranslations(routeSpec),
-                Subdomain = routeSpec.Subdomain
-            };
+        private IEnumerable<IAttributeRoute> Build(RouteSpecification<TConstraint> routeSpec) {
+            var route = _routeFactory.CreateAttributeRoute(CreateRouteUrl(routeSpec),
+                                                           CreateRouteDefaults(routeSpec),
+                                                           CreateRouteConstraints(routeSpec),
+                                                           CreateRouteDataTokens(routeSpec),
+                                                           _configuration);
+
+            route.RouteName = CreateRouteName(routeSpec);
+            route.Translations = CreateRouteTranslations(routeSpec);
+            route.Subdomain = routeSpec.Subdomain;
+            
 
             // Yield the default route first
             yield return route;
@@ -66,7 +68,7 @@ namespace AttributeRouting.Framework
             }
         }
 
-        private string CreateRouteName(RouteSpecification routeSpec)
+        private string CreateRouteName(RouteSpecification<TConstraint> routeSpec)
         {
             if (routeSpec.RouteName.HasValue())
                 return routeSpec.RouteName;
@@ -80,7 +82,7 @@ namespace AttributeRouting.Framework
             return null;
         }
 
-        private string CreateRouteUrl(RouteSpecification routeSpec)
+        private string CreateRouteUrl(RouteSpecification<TConstraint> routeSpec)
         {
             return CreateRouteUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec.IsAbsoluteUrl);
         }
@@ -145,9 +147,9 @@ namespace AttributeRouting.Framework
             return urlBuilder.ToString().Trim('/');
         }
 
-        private RouteValueDictionary CreateRouteDefaults(RouteSpecification routeSpec)
+        private IDictionary<string, object> CreateRouteDefaults(RouteSpecification<TConstraint> routeSpec)
         {
-            var defaults = new RouteValueDictionary
+            var defaults = new Dictionary<string, object>
             {
                 { "controller", routeSpec.ControllerName },
                 { "action", routeSpec.ActionName }
@@ -163,7 +165,7 @@ namespace AttributeRouting.Framework
                 if (defaults.ContainsKey(parameterName))
                     continue;
 
-                defaults.Add(parameterName, UrlParameter.Optional);
+                defaults.Add(parameterName, _parameterFactory.Optional<TRouteParameter>());
             }
 
             // Inline defaults
@@ -191,13 +193,13 @@ namespace AttributeRouting.Framework
             return defaults;
         }
 
-        private RouteValueDictionary CreateRouteConstraints(RouteSpecification routeSpec)
+        private IDictionary<string, TConstraint> CreateRouteConstraints(RouteSpecification<TConstraint> routeSpec)
         {
-            var constraints = new RouteValueDictionary();
+            var constraints = new Dictionary<string, TConstraint>();
 
             // Default constraints
             if (routeSpec.HttpMethods.Any())
-                constraints.Add("httpMethod", new RestfulHttpMethodConstraint(routeSpec.HttpMethods));
+                constraints.Add("httpMethod", _constraintFactory.CreateRestfulHttpMethodConstraint<TConstraint>(routeSpec.HttpMethods));
 
             // Inline constraints
             foreach (var parameter in GetUrlParameterContents(routeSpec.RouteUrl).Where(p => Regex.IsMatch(p, @"^.*\(.*\)$")))
@@ -209,7 +211,7 @@ namespace AttributeRouting.Framework
                     continue;
 
                 var regexPattern = parameter.Substring(indexOfOpenParen + 1, parameter.Length - indexOfOpenParen - 2);
-                constraints.Add(parameterName, new RegexRouteConstraint(regexPattern));
+                constraints.Add(parameterName, _constraintFactory.CreateRegexRouteConstraint<TConstraint>(regexPattern));
             }
 
             // Attribute-based constraints
@@ -241,9 +243,9 @@ namespace AttributeRouting.Framework
             return constraints;
         }
 
-        private RouteValueDictionary CreateRouteDataTokens(RouteSpecification routeSpec)
+        private IDictionary<string, object> CreateRouteDataTokens(RouteSpecification<TConstraint> routeSpec)
         {
-            var dataTokens = new RouteValueDictionary
+            var dataTokens = new Dictionary<string, object>()
             {
                 { "namespaces", new[] { routeSpec.ControllerType.Namespace } }
             };
@@ -270,7 +272,7 @@ namespace AttributeRouting.Framework
             return Regex.Replace(url, String.Join("|", patterns), "");
         }
 
-        private IEnumerable<AttributeRoute> CreateRouteTranslations(RouteSpecification routeSpec)
+        private IEnumerable<IAttributeRoute> CreateRouteTranslations(RouteSpecification<TConstraint> routeSpec)
         {
             // If no translation provider, then get out of here.
             if (!_configuration.TranslationProviders.Any())
@@ -298,17 +300,16 @@ namespace AttributeRouting.Framework
                     continue;
 
                 var translatedRoute =
-                    new AttributeRoute(CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
-                                                      translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
-                                                      translatedAreaUrl ?? routeSpec.AreaUrl,
-                                                      routeSpec.IsAbsoluteUrl),
-                                       CreateRouteDefaults(routeSpec),
-                                       CreateRouteConstraints(routeSpec),
-                                       CreateRouteDataTokens(routeSpec),
-                                       _configuration)
-                    {
-                        CultureName = cultureName,
-                    };
+                    _routeFactory.CreateAttributeRoute(CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
+                                                                      translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
+                                                                      translatedAreaUrl ?? routeSpec.AreaUrl,
+                                                                      routeSpec.IsAbsoluteUrl),
+                                                       CreateRouteDefaults(routeSpec),
+                                                       CreateRouteConstraints(routeSpec),
+                                                       CreateRouteDataTokens(routeSpec),
+                                                       _configuration);
+
+                translatedRoute.CultureName = cultureName;
 
                 translatedRoute.DataTokens.Add("cultureName", cultureName);
 

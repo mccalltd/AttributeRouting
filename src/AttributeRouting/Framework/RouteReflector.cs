@@ -6,18 +6,18 @@ using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
 {
-    public class RouteReflector
+    public class RouteReflector<TConstraint, TController>
     {
-        private readonly AttributeRoutingConfiguration _configuration;
+        private readonly AttributeRoutingConfiguration<TConstraint, TController> _configuration;
 
-        public RouteReflector(AttributeRoutingConfiguration configuration)
+        public RouteReflector(AttributeRoutingConfiguration<TConstraint, TController> configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
             _configuration = configuration;
         }
 
-        public IEnumerable<RouteSpecification> GenerateRouteSpecifications()
+        public IEnumerable<RouteSpecification<TConstraint>> GenerateRouteSpecifications()
         {
             var controllerRouteSpecs = GenerateRouteSpecifications(_configuration.PromotedControllerTypes, _configuration.InheritActionsFromBaseController);
             foreach (var spec in controllerRouteSpecs)
@@ -26,7 +26,7 @@ namespace AttributeRouting.Framework
             if (!_configuration.Assemblies.Any())
                 yield break;
 
-            var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes()).ToList();
+            var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes<TController>()).ToList();
             var remainingControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
 
             var remainingRouteSpecs = GenerateRouteSpecifications(remainingControllerTypes, _configuration.InheritActionsFromBaseController);
@@ -35,13 +35,13 @@ namespace AttributeRouting.Framework
                 yield return spec;
         }
 
-        private IEnumerable<RouteSpecification> GenerateRouteSpecifications(IEnumerable<Type> controllerTypes, bool inheritActionsFromBaseController)
+        private IEnumerable<RouteSpecification<TConstraint>> GenerateRouteSpecifications(IEnumerable<Type> controllerTypes, bool inheritActionsFromBaseController)
         {
             var controllerCount = 0;
 
             return (from controllerType in controllerTypes
                     let controllerIndex = controllerCount++
-                    let convention = controllerType.GetCustomAttribute<RouteConventionAttribute>(false)
+                    let convention = controllerType.GetCustomAttribute<IRouteConvention<TConstraint>>(false)
                     let routeAreaAttribute = controllerType.GetCustomAttribute<RouteAreaAttribute>(true)
                     let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
                     from actionMethod in controllerType.GetActionMethods(inheritActionsFromBaseController)
@@ -49,7 +49,7 @@ namespace AttributeRouting.Framework
                     orderby controllerIndex, routeAttribute.Precedence
                     // precedence is within a controller
                     let routeName = routeAttribute.RouteName
-                    select new RouteSpecification
+                    select new RouteSpecification<TConstraint>
                     {
                         AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
                         AreaUrl = GetAreaUrl(routeAreaAttribute),
@@ -71,17 +71,17 @@ namespace AttributeRouting.Framework
                     }).ToList();
         }
 
-        private static IEnumerable<RouteAttribute> GetRouteAttributes(MethodInfo actionMethod,
-                                                                      RouteConventionAttribute convention)
+        private static IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod,
+                                                                      IRouteConvention<TConstraint> convention)
         {
-            var attributes = new List<RouteAttribute>();
+            var attributes = new List<IRouteAttribute>();
 
             // Add convention-based attributes
             if (convention != null)
                 attributes.AddRange(convention.GetRouteAttributes(actionMethod));
 
             // Add explicitly-defined attributes
-            attributes.AddRange(actionMethod.GetCustomAttributes<RouteAttribute>(false));
+            attributes.AddRange(actionMethod.GetCustomAttributes<IRouteAttribute>(false));
 
             return attributes.OrderBy(a => a.Order);
         }
@@ -117,7 +117,7 @@ namespace AttributeRouting.Framework
             return routeAreaAttribute.Subdomain;
         }
 
-        private static string GetRoutePrefix(RoutePrefixAttribute routePrefixAttribute, MethodInfo actionMethod, RouteConventionAttribute convention)
+        private static string GetRoutePrefix(RoutePrefixAttribute routePrefixAttribute, MethodInfo actionMethod, IRouteConvention<TConstraint> convention)
         {
             // Return an explicitly defined route prefix, if defined
             if (routePrefixAttribute != null)
@@ -131,7 +131,7 @@ namespace AttributeRouting.Framework
         }
 
         private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName,
-                                                                               RouteConventionAttribute convention)
+                                                                               IRouteConvention<TConstraint> convention)
         {
             var defaultAttributes = new List<RouteDefaultAttribute>();
 
@@ -149,15 +149,15 @@ namespace AttributeRouting.Framework
             return defaultAttributes.ToList();
         }
 
-        private static ICollection<RouteConstraintAttribute> GetConstraintAttributes(MethodInfo actionMethod,
+        private static ICollection<IAttributeRouteConstraint<TConstraint>> GetConstraintAttributes(MethodInfo actionMethod,
                                                                                      string routeName,
-                                                                                     RouteConventionAttribute convention)
+                                                                                     IRouteConvention<TConstraint> convention)
         {
-            var constraintAttributes = new List<RouteConstraintAttribute>();
+            var constraintAttributes = new List<IAttributeRouteConstraint<TConstraint>>();
 
             // Yield explicitly defined constraint attributes first
             constraintAttributes.AddRange(
-                from constraintAttribute in actionMethod.GetCustomAttributes<RouteConstraintAttribute>(false)
+                from constraintAttribute in actionMethod.GetCustomAttributes<IAttributeRouteConstraint<TConstraint>>(false)
                 where !constraintAttribute.ForRouteNamed.HasValue() ||
                       constraintAttribute.ForRouteNamed == routeName
                 select constraintAttribute);

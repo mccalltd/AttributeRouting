@@ -25,8 +25,8 @@ namespace AttributeRouting.Logging
         {
             writer.WriteLine("URL: {0}", route.Url);
 
-            if (route is AttributeRoute)
-                writer.WriteLine("NAME: {0}", ((AttributeRoute)route).RouteName);
+            if (route is IAttributeRoute)
+                writer.WriteLine("NAME: {0}", ((IAttributeRoute)route).RouteName);
 
             if (route.Defaults != null && route.Defaults.Count > 0)
             {
@@ -41,10 +41,10 @@ namespace AttributeRouting.Logging
                 foreach (var key in route.Constraints.Keys)
                 {
                     object value;
-                    if (route.Constraints[key].GetType() == typeof(RestfulHttpMethodConstraint))
-                        value = ((RestfulHttpMethodConstraint)route.Constraints[key]).AllowedMethods.First();
-                    else if (route.Constraints[key].GetType() == typeof(RegexRouteConstraint))
-                        value = ((RegexRouteConstraint)route.Constraints[key]).Pattern;
+                    if (route.Constraints[key].GetType() == typeof(IRestfulHttpMethodConstraint))
+                        value = ((IRestfulHttpMethodConstraint)route.Constraints[key]).AllowedMethods.First();
+                    else if (route.Constraints[key].GetType() == typeof(RegexRouteConstraintBase))
+                        value = ((RegexRouteConstraintBase)route.Constraints[key]).Pattern;
                     else
                         value = route.Constraints[key];
 
