@@ -179,8 +179,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AttributeRouting.Mvc\AttributeRouting.Mvc.csproj">
+    <ProjectReference Include="..\AttributeRouting.AspNet\AttributeRouting.AspNet.csproj">
       <Project>{C91C065B-A821-4890-9F31-F9E245D804D1}</Project>
+      <Name>AttributeRouting.AspNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AttributeRouting.Mvc\AttributeRouting.Mvc.csproj">
+      <Project>{4604C450-EBF8-4A7F-BD3A-A24655C41FA4}</Project>
       <Name>AttributeRouting.Mvc</Name>
     </ProjectReference>
     <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">

@@ -13,11 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{38404E
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.WebApi", "AttributeRouting.WebApi\AttributeRouting.WebApi.csproj", "{A018FEC5-45F8-44FB-BB6C-33697B418434}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Http.WebHost", "AttributeRouting.WebApi\AttributeRouting.Http.WebHost.csproj", "{A018FEC5-45F8-44FB-BB6C-33697B418434}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Mvc", "AttributeRouting.Mvc\AttributeRouting.Mvc.csproj", "{C91C065B-A821-4890-9F31-F9E245D804D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.AspNet", "AttributeRouting.AspNet\AttributeRouting.AspNet.csproj", "{C91C065B-A821-4890-9F31-F9E245D804D1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{840281A8-8870-417F-9B24-ED0E866608A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Mvc", "AttributeRouting.Mvc\AttributeRouting.Mvc.csproj", "{4604C450-EBF8-4A7F-BD3A-A24655C41FA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Http.SelfHost", "AttributeRouting.Http.SelfHost\AttributeRouting.Http.SelfHost.csproj", "{246F7AEC-9429-4FBB-8747-92A3F025C711}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,13 +49,21 @@ Global
 		{C91C065B-A821-4890-9F31-F9E245D804D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C91C065B-A821-4890-9F31-F9E245D804D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C91C065B-A821-4890-9F31-F9E245D804D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4604C450-EBF8-4A7F-BD3A-A24655C41FA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4604C450-EBF8-4A7F-BD3A-A24655C41FA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4604C450-EBF8-4A7F-BD3A-A24655C41FA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4604C450-EBF8-4A7F-BD3A-A24655C41FA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{246F7AEC-9429-4FBB-8747-92A3F025C711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{246F7AEC-9429-4FBB-8747-92A3F025C711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{246F7AEC-9429-4FBB-8747-92A3F025C711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{246F7AEC-9429-4FBB-8747-92A3F025C711}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E832A82B-2302-4113-83E3-261446E22C87} = {840281A8-8870-417F-9B24-ED0E866608A2}
 		{486087C6-E95B-4FE2-8263-7B6B2DF81888} = {840281A8-8870-417F-9B24-ED0E866608A2}
+		{E832A82B-2302-4113-83E3-261446E22C87} = {840281A8-8870-417F-9B24-ED0E866608A2}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

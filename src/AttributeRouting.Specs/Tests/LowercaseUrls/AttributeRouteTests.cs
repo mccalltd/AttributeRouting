@@ -1,5 +1,7 @@
 using System.Linq;
 using System.Web.Routing;
+using AttributeRouting.AspNet;
+using AttributeRouting.AspNet.Framework;
 using AttributeRouting.Framework;
 using AttributeRouting.Mvc;
 using AttributeRouting.Mvc.Framework;

@@ -3,6 +3,8 @@ using System.Globalization;
 using System.Threading;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AttributeRouting.AspNet;
+using AttributeRouting.AspNet.Framework.Localization;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Mvc;
 using AttributeRouting.Mvc.Framework.Localization;

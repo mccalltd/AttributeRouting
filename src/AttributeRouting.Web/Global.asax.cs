@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
-using AttributeRouting.Framework.Localization;
+using AttributeRouting.AspNet.Constraints;
 using AttributeRouting.Mvc;
 using AttributeRouting.Mvc.Framework.Localization;
 using AttributeRouting.Web.Controllers;
+using AttributeRouting.WebApi;
 using ControllerBase = AttributeRouting.Web.Controllers.ControllerBase;
 
 namespace AttributeRouting.Web
@@ -42,6 +43,9 @@ namespace AttributeRouting.Web
                     { "es", "es-RouteUrl" },
                     { "fr", "fr-RouteUrl" },
                 });
+
+            // Web API (WebHost)
+            routes.MapHttpAttributeRoutes();
 
             routes.MapAttributeRoutes(config =>
             {

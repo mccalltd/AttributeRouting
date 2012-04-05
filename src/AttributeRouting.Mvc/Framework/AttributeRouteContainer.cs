@@ -2,42 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
+using AttributeRouting.AspNet;
+using AttributeRouting.AspNet.Framework;
 using AttributeRouting.Framework;
-using AttributeRouting.Helpers;
 
-namespace AttributeRouting.Mvc.Framework {
-    /// <summary>
-    /// Route supporting the AttributeRouting framework.
-    /// </summary>
-    public class AttributeRouteContainer : AttributeRouteContainerBase<AttributeRoute> {
-        private readonly AttributeRoutingConfiguration _configuration;
+namespace AttributeRouting.Mvc.Framework
+{
+    public class AttributeRouteContainer : AttributeRouteContainerBase<AttributeRoute<IController, UrlParameter>>
+    {
         private readonly AttributeRoute _route;
 
-        /// <summary>
-        /// Route supporting the AttributeRouting framework.
-        /// </summary>
-        public AttributeRouteContainer(
-            string url,
-            RouteValueDictionary defaults,
-            RouteValueDictionary constraints,
-            RouteValueDictionary dataTokens,
-            AttributeRoutingConfiguration configuration) {
-            _configuration = configuration;
-            _route = new AttributeRoute(url, defaults, constraints, dataTokens, configuration, configuration.RouteHandlerFactory(), this);
+        public AttributeRouteContainer(string url, 
+            RouteValueDictionary defaults, 
+            RouteValueDictionary constraints, 
+            RouteValueDictionary dataTokens, 
+            AspNetAttributeRoutingConfiguration<IController, UrlParameter> configuration)
+        {
+            _route = new AttributeRoute(url, defaults, constraints, dataTokens, configuration, this);
         }
 
-        public override AttributeRoute Route {
+        public override AttributeRoute<IController, UrlParameter> Route
+        {
             get { return _route; }
         }
 
         /// <summary>
         /// DataTokens dictionary
         /// </summary>
-        public override IDictionary<string, object> DataTokens {
+        public override IDictionary<string, object> DataTokens
+        {
             get { return Route.DataTokens; }
             set { Route.DataTokens = new RouteValueDictionary(value); }
         }

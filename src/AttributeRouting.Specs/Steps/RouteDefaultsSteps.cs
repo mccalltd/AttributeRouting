@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using AttributeRouting.AspNet.Framework;
 using AttributeRouting.Framework;
 using AttributeRouting.Mvc.Framework;
 using NUnit.Framework;

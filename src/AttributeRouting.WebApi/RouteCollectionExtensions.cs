@@ -1,10 +1,11 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Web.Http;
-using AttributeRouting.Mvc.Framework.Factories;
+using System.Web.Routing;
+using AttributeRouting.AspNet.Framework.Factories;
 using AttributeRouting.WebApi.Framework;
 using AttributeRouting.WebApi.Framework.Factories;
+
 
 namespace AttributeRouting.WebApi
 {
@@ -17,9 +18,9 @@ namespace AttributeRouting.WebApi
         /// Scans the calling assembly for all routes defined with AttributeRouting attributes,
         /// using the default conventions.
         /// </summary>
-        public static void MapAttributeRoutes(this HttpRouteCollection routes)
+        public static void MapHttpAttributeRoutes(this RouteCollection routes)
         {
-            var configuration = new AttributeRoutingConfiguration();
+            var configuration = new HttpAttributeRoutingConfiguration();
             configuration.ScanAssembly(Assembly.GetCallingAssembly());
 
             routes.MapAttributeRoutesInternal(configuration);
@@ -29,13 +30,12 @@ namespace AttributeRouting.WebApi
         /// Scans the specified assemblies for all routes defined with AttributeRouting attributes,
         /// and applies configuration options against the routes found.
         /// </summary>
-        /// <param name="routes"></param>
         /// <param name="configurationAction">
         /// The initialization action that builds the configuration object.
         /// </param>
-        public static void MapAttributeRoutes(this HttpRouteCollection routes, Action<AttributeRoutingConfiguration> configurationAction)
+        public static void MapHttpAttributeRoutes(this RouteCollection routes, Action<HttpAttributeRoutingConfiguration> configurationAction)
         {
-            var configuration = new AttributeRoutingConfiguration();
+            var configuration = new HttpAttributeRoutingConfiguration();
             configurationAction.Invoke(configuration);
 
             routes.MapAttributeRoutesInternal(configuration);
@@ -48,15 +48,15 @@ namespace AttributeRouting.WebApi
         /// <param name="configuration">
         /// The configuration object.
         /// </param>
-        public static void MapAttributeRoutes(this HttpRouteCollection routes, AttributeRoutingConfiguration configuration)
+        public static void MapHttpAttributeRoutes(this RouteCollection routes, HttpAttributeRoutingConfiguration configuration)
         {
             routes.MapAttributeRoutesInternal(configuration);
         }
 
-        private static void MapAttributeRoutesInternal(this HttpRouteCollection routes, AttributeRoutingConfiguration configuration)
+        private static void MapAttributeRoutesInternal(this RouteCollection routes, HttpAttributeRoutingConfiguration configuration)
         {
-            var generatedRoutes = new RouteBuilder(
-                configuration, new AttributeRouteFactory(), new ConstraintFactory(), new UrlParameterFactory()).BuildAllRoutes();
+            var generatedRoutes = new HttpWebRouteBuilder(
+                configuration, new HttpAttributeRouteFactory(), new ConstraintFactory(), new RouteParameterFactory()).BuildAllRoutes();
 
             generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, r.Route));
         }

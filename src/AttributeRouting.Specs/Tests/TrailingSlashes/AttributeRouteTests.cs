@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AttributeRouting.AspNet.Framework;
 using AttributeRouting.Framework;
 using AttributeRouting.Mvc;
 using AttributeRouting.Mvc.Framework;
@@ -70,7 +71,7 @@ namespace AttributeRouting.Specs.Tests.TrailingSlashes
                                       new RouteValueDictionary(),
                                       new RouteValueDictionary(),
                                       new RouteValueDictionary(),
-                                      configuration).Route;
+                                      configuration).Route as AttributeRoute;
         }
     }
 }
