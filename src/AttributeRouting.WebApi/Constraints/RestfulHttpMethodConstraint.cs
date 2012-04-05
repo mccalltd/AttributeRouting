@@ -11,16 +11,31 @@ namespace AttributeRouting.WebApi
     /// <summary>
     /// Constrains a route by the specified allowed HTTP methods.
     /// </summary>
-    public class RestfulHttpMethodConstraint : HttpMethodConstraint, IRestfulHttpMethodConstraint {
+    public class RestfulHttpMethodConstraint : HttpMethodConstraint, IRestfulHttpMethodConstraint
+    {
         /// <summary>
         /// Constrain a route by the specified allowed HTTP methods.
         /// </summary>
         public RestfulHttpMethodConstraint(params HttpMethod[] allowedMethods)
-            : base(allowedMethods) {}
+            : base(allowedMethods) { }
 
         ICollection<string> IRestfulHttpMethodConstraint.AllowedMethods
         {
-            get { return new ReadOnlyCollection<string>(base.AllowedMethods.Select(method => method.Method).ToList()); }
+            get
+            {
+                return new ReadOnlyCollection<string>(
+                    base.AllowedMethods.Select(method => method.Method).ToList());
+            }
+        }
+
+        protected override bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
+        {
+            if (routeDirection == HttpRouteDirection.UriGeneration)
+                return true;
+
+            var httpMethod = request.Method;
+
+            return AllowedMethods.Any(m => m == httpMethod);
         }
     }
 }
