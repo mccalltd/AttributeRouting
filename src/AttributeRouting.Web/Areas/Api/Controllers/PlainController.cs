@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Web.Http;
+using AttributeRouting.AspNet.Constraints;
 using AttributeRouting.Http;
-using AttributeRouting.Http.WebHost;
 
 namespace AttributeRouting.Web.Areas.Api.Controllers
 {
@@ -24,6 +23,8 @@ namespace AttributeRouting.Web.Areas.Api.Controllers
 
         // POST /api/plain
         [POST("")]
+        [POST("alt1")]
+        [RegexRouteConstraint("value", "somePattern")]
         public void Post(string value)
         {
         }

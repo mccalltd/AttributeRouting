@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{38404E
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Http.WebHost", "AttributeRouting.WebApi\AttributeRouting.Http.WebHost.csproj", "{A018FEC5-45F8-44FB-BB6C-33697B418434}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Http.WebHost", "AttributeRouting.Http.WebHost\AttributeRouting.Http.WebHost.csproj", "{A018FEC5-45F8-44FB-BB6C-33697B418434}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.AspNet", "AttributeRouting.AspNet\AttributeRouting.AspNet.csproj", "{C91C065B-A821-4890-9F31-F9E245D804D1}"
 EndProject

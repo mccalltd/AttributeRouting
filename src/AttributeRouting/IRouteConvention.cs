@@ -3,7 +3,12 @@ using System.Reflection;
 using AttributeRouting.Constraints;
 
 namespace AttributeRouting {
-    public interface IRouteConvention<out TConstraint> {
+
+    /// <summary>
+    /// An AttributeRouting route convention
+    /// </summary>
+    public interface IRouteConvention
+    {
         /// <summary>
         /// Gets the RouteAttributes to be applied to the given action method.
         /// </summary>
@@ -24,12 +29,19 @@ namespace AttributeRouting {
         /// <param name="actionMethod"></param>
         /// <returns></returns>
         IEnumerable<RouteDefaultAttribute> GetRouteDefaultAttributes(MethodInfo actionMethod);
+    }
+
+    /// <summary>
+    /// A route convention with constraints
+    /// </summary>
+    /// <typeparam name="TConstraint"></typeparam>
+    public interface IRouteConvention<out TConstraint> : IRouteConvention {      
 
         /// <summary>
         /// Gets the route constraints to be applied against the given action method.
         /// </summary>
         /// <param name="actionMethod"></param>
         /// <returns></returns>
-        IEnumerable<IRouteConstraint<TConstraint>> GetRouteConstraintAtributes(MethodInfo actionMethod);
+        IEnumerable<IRouteConstraint<TConstraint>> GetRouteConstraintAttributes(MethodInfo actionMethod);
     }
 }

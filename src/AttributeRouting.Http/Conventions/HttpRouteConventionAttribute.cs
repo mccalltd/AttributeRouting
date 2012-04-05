@@ -1,22 +1,19 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Text;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
-namespace AttributeRouting.Http.SelfHost
+namespace AttributeRouting.Http
 {
     /// <summary>
-    /// Automatically generates the default WebAPI-style routes for controller actions matching 
-    /// GetAll/Get, GetBy, Delete, Post
+    /// Sets up the default Web API route convention
+    /// See: http://www.asp.net/web-api/overview/web-api-routing-and-actions/routing-in-aspnet-web-api
     /// </summary>
-    /// <remarks>
-    /// For details on how the convention works, 
-    /// see: http://www.asp.net/web-api/overview/web-api-routing-and-actions/routing-in-aspnet-web-api
-    /// </remarks>
-    public class HttpRouteConventionAttribute : RouteConventionAttribute
+    public class HttpRouteConventionAttribute : HttpConventionAttribute
     {
         // Setup conventions
         private static readonly List<HttpRouteConventionInfo> Conventions = new List<HttpRouteConventionInfo>
@@ -35,7 +32,7 @@ namespace AttributeRouting.Http.SelfHost
 
         public override IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
         {
-            foreach(var c in Conventions)
+            foreach (var c in Conventions)
             {
                 if (actionMethod.Name.StartsWith(c.HttpMethod.Method, StringComparison.OrdinalIgnoreCase))
                 {
@@ -66,7 +63,7 @@ namespace AttributeRouting.Http.SelfHost
         }
 
         private IRouteAttribute BuildRouteAttribute(HttpRouteConventionInfo convention)
-        {            
+        {
             switch (convention.HttpMethod.Method)
             {
                 case "GET":

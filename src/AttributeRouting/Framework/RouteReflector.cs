@@ -42,7 +42,7 @@ namespace AttributeRouting.Framework
 
             return (from controllerType in controllerTypes
                     let controllerIndex = controllerCount++
-                    let convention = controllerType.GetCustomAttribute<IRouteConvention<TConstraint>>(false)
+                    let convention = controllerType.GetCustomAttribute<IRouteConvention>(false)
                     let routeAreaAttribute = controllerType.GetCustomAttribute<RouteAreaAttribute>(true)
                     let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
                     from actionMethod in controllerType.GetActionMethods(inheritActionsFromBaseController)
@@ -73,7 +73,7 @@ namespace AttributeRouting.Framework
         }
 
         private static IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod,
-                                                                      IRouteConvention<TConstraint> convention)
+                                                                      IRouteConvention convention)
         {
             var attributes = new List<IRouteAttribute>();
 
@@ -118,7 +118,7 @@ namespace AttributeRouting.Framework
             return routeAreaAttribute.Subdomain;
         }
 
-        private static string GetRoutePrefix(RoutePrefixAttribute routePrefixAttribute, MethodInfo actionMethod, IRouteConvention<TConstraint> convention)
+        private static string GetRoutePrefix(RoutePrefixAttribute routePrefixAttribute, MethodInfo actionMethod, IRouteConvention convention)
         {
             // Return an explicitly defined route prefix, if defined
             if (routePrefixAttribute != null)
@@ -132,7 +132,7 @@ namespace AttributeRouting.Framework
         }
 
         private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName,
-                                                                               IRouteConvention<TConstraint> convention)
+                                                                               IRouteConvention convention)
         {
             var defaultAttributes = new List<RouteDefaultAttribute>();
 
@@ -152,7 +152,7 @@ namespace AttributeRouting.Framework
 
         private static ICollection<IRouteConstraint<TConstraint>> GetConstraintAttributes(MethodInfo actionMethod,
                                                                                      string routeName,
-                                                                                     IRouteConvention<TConstraint> convention)
+                                                                                     IRouteConvention convention)
         {
             var constraintAttributes = new List<IRouteConstraint<TConstraint>>();
 
@@ -163,9 +163,12 @@ namespace AttributeRouting.Framework
                       constraintAttribute.ForRouteNamed == routeName
                 select constraintAttribute);
 
+            // Does this convention have constraints?
+            var conventionConstraint = convention as IRouteConvention<TConstraint>;
+
             // Yield convention-based constraints next
-            if (convention != null)
-                constraintAttributes.AddRange(convention.GetRouteConstraintAtributes(actionMethod));
+            if (conventionConstraint != null)
+                constraintAttributes.AddRange(conventionConstraint.GetRouteConstraintAttributes(actionMethod));
 
             return constraintAttributes.ToList();
         }

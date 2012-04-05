@@ -1,16 +1,15 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using System.Web.Http.Routing;
-using AttributeRouting.Constraints;
+using System.Text;
 
-namespace AttributeRouting.Http.SelfHost
+namespace AttributeRouting.Http
 {
     /// <summary>
-    /// Base class implementors can use to define a custom controller-level route convention.
+    /// Base class for HttpConventionAttributes
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public abstract class RouteConventionAttribute : Attribute, IRouteConvention<IHttpRouteConstraint>
+    public abstract class HttpConventionAttribute : Attribute, IRouteConvention
     {
         /// <summary>
         /// Gets the RouteAttributes to be applied to the given action method.
@@ -35,16 +34,6 @@ namespace AttributeRouting.Http.SelfHost
         /// <param name="actionMethod"></param>
         /// <returns></returns>
         public virtual IEnumerable<RouteDefaultAttribute> GetRouteDefaultAttributes(MethodInfo actionMethod)
-        {
-            yield break;
-        }
-
-        /// <summary>
-        /// Gets the route constraints to be applied against the given action method.
-        /// </summary>
-        /// <param name="actionMethod"></param>
-        /// <returns></returns>
-        public virtual IEnumerable<IRouteConstraint<IHttpRouteConstraint>> GetRouteConstraintAtributes(MethodInfo actionMethod)
         {
             yield break;
         }

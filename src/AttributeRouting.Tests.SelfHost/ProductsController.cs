@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using AttributeRouting.Http.SelfHost;
+using AttributeRouting.Http;
 
 namespace AttributeRouting.Tests.SelfHost
 {

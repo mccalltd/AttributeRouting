@@ -44,7 +44,7 @@ namespace AttributeRouting.Mvc
         /// </summary>
         /// <param name="actionMethod"></param>
         /// <returns></returns>
-        public virtual IEnumerable<IRouteConstraint<IRouteConstraint>> GetRouteConstraintAtributes(MethodInfo actionMethod)
+        public virtual IEnumerable<IRouteConstraint<IRouteConstraint>> GetRouteConstraintAttributes(MethodInfo actionMethod)
         {
             yield break;
         }

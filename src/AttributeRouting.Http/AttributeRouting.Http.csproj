@@ -66,6 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conventions\HttpConventionAttribute.cs" />
+    <Compile Include="Conventions\HttpRouteConventionAttribute.cs" />
     <Compile Include="Methods\DELETEAttribute.cs" />
     <Compile Include="Methods\GETAttribute.cs" />
     <Compile Include="Methods\HttpRouteAttribute.cs" />

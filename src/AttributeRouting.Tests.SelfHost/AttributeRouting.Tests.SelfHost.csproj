@@ -88,6 +88,10 @@
       <Project>{246F7AEC-9429-4FBB-8747-92A3F025C711}</Project>
       <Name>AttributeRouting.Http.SelfHost</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AttributeRouting.Http\AttributeRouting.Http.csproj">
+      <Project>{CCDE9AD7-3822-4B0B-AA19-DF6698A85D3D}</Project>
+      <Name>AttributeRouting.Http</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">
       <Project>{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}</Project>
       <Name>AttributeRouting</Name>
