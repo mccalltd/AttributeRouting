@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Web.Http.Routing;
 using System.Web.Http.SelfHost;
-using AttributeRouting.Http.SelfHost;
-using AttributeRouting.Http.SelfHost.Logging;
+using AttributeRouting.Web.Http.SelfHost;
+using AttributeRouting.Web.Http.SelfHost.Logging;
 
 namespace AttributeRouting.Tests.SelfHost
 {

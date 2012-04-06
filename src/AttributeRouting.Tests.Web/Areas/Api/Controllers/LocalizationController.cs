@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using AttributeRouting.Http;
+using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Tests.Web.Areas.Api.Controllers
 {
