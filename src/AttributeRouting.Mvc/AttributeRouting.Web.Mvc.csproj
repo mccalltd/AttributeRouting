@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AttributeRoutingConfiguration.cs" />
     <Compile Include="DELETEAttribute.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />

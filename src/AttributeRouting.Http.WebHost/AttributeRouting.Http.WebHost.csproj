@@ -65,6 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="HttpAttributeRoutingConfiguration.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\AttributeRouteContainer.cs" />

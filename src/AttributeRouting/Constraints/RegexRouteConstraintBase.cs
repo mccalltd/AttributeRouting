@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace AttributeRouting.Constraints
 {
     /// <summary>
-    /// A regular expression to constrain the route against
+    /// A regular expression to constrain the route against. This is the base class containing shared logic.
     /// </summary>
     public abstract class RegexRouteConstraintBase : IRegexRouteConstraint
     {
