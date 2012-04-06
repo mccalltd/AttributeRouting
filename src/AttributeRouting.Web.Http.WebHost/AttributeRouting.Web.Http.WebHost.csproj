@@ -68,6 +68,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="HttpAreaConfiguration.cs" />
     <Compile Include="HttpAttributeRoutingConfiguration.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\AttributeRouteContainer.cs" />
