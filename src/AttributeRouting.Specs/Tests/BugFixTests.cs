@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web.Routing;
-using AttributeRouting.AspNet;
-using AttributeRouting.AspNet.Framework.Localization;
-using AttributeRouting.AspNet.Logging;
-using AttributeRouting.Mvc;
-using AttributeRouting.Mvc.Framework.Localization;
 using AttributeRouting.Specs.Subjects;
+using AttributeRouting.Web.Logging;
+using AttributeRouting.Web.Mvc;
+using AttributeRouting.Web.Mvc.Framework.Localization;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
 

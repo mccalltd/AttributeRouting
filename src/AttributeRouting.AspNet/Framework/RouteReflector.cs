@@ -2,7 +2,7 @@
 using System.Web.Routing;
 using AttributeRouting.Framework;
 
-namespace AttributeRouting.AspNet.Framework {
+namespace AttributeRouting.Web.Framework {
     internal class RouteReflector<TController, TParameter> 
         : RouteReflector<IRouteConstraint, TController, AttributeRoute<TController, TParameter>, TParameter, HttpContextBase, RouteData>
     {

@@ -4,7 +4,7 @@ using AttributeRouting.Http;
 
 namespace AttributeRouting.Tests.SelfHost
 {
-    [HttpRouteConvention]
+    [DefaultHttpRouteConvention]
     public class ProductsController : ApiController
     {
         public IEnumerable<Product> GetAllProducts()

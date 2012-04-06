@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting", "Attribu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Specs", "AttributeRouting.Specs\AttributeRouting.Specs.csproj", "{E832A82B-2302-4113-83E3-261446E22C87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web", "AttributeRouting.Web\AttributeRouting.Web.csproj", "{486087C6-E95B-4FE2-8263-7B6B2DF81888}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Tests.Web", "AttributeRouting.Tests.Web\AttributeRouting.Tests.Web.csproj", "{486087C6-E95B-4FE2-8263-7B6B2DF81888}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{38404E6F-56AC-458E-B0A6-3620FEA10A5C}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,11 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{38404E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Http.WebHost", "AttributeRouting.Http.WebHost\AttributeRouting.Http.WebHost.csproj", "{A018FEC5-45F8-44FB-BB6C-33697B418434}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.AspNet", "AttributeRouting.AspNet\AttributeRouting.AspNet.csproj", "{C91C065B-A821-4890-9F31-F9E245D804D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web", "AttributeRouting.AspNet\AttributeRouting.Web.csproj", "{C91C065B-A821-4890-9F31-F9E245D804D1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{840281A8-8870-417F-9B24-ED0E866608A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Mvc", "AttributeRouting.Mvc\AttributeRouting.Mvc.csproj", "{4604C450-EBF8-4A7F-BD3A-A24655C41FA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web.Mvc", "AttributeRouting.Mvc\AttributeRouting.Web.Mvc.csproj", "{4604C450-EBF8-4A7F-BD3A-A24655C41FA4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Http.SelfHost", "AttributeRouting.Http.SelfHost\AttributeRouting.Http.SelfHost.csproj", "{246F7AEC-9429-4FBB-8747-92A3F025C711}"
 EndProject

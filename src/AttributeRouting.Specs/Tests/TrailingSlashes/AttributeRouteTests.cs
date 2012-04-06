@@ -1,10 +1,9 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using AttributeRouting.AspNet.Framework;
 using AttributeRouting.Framework;
-using AttributeRouting.Mvc;
-using AttributeRouting.Mvc.Framework;
+using AttributeRouting.Web.Mvc;
+using AttributeRouting.Web.Mvc.Framework;
 using Moq;
 using NUnit.Framework;
 

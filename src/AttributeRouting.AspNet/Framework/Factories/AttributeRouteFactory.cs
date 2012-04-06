@@ -4,7 +4,7 @@ using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Framework.Factories;
 
-namespace AttributeRouting.AspNet.Framework.Factories {
+namespace AttributeRouting.Web.Framework.Factories {
     public abstract class AttributeRouteFactory<TController, TParameter> : IAttributeRouteFactory<IRouteConstraint, TController, AttributeRoute<TController, TParameter>, TParameter, HttpContextBase, RouteData>
     {
         /// <summary>

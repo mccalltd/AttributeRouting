@@ -2,14 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
-using AttributeRouting.AspNet;
-using AttributeRouting.AspNet.Framework;
-using AttributeRouting.AspNet.Framework.Localization;
-using AttributeRouting.AspNet.Logging;
-using AttributeRouting.Mvc;
-using AttributeRouting.Mvc.Framework;
-using AttributeRouting.Mvc.Framework.Localization;
 using AttributeRouting.Specs.Subjects;
+using AttributeRouting.Web.Logging;
+using AttributeRouting.Web.Mvc;
+using AttributeRouting.Web.Mvc.Framework;
+using AttributeRouting.Web.Mvc.Framework.Localization;
 using NUnit.Framework;
 
 namespace AttributeRouting.Specs.Tests.Localization

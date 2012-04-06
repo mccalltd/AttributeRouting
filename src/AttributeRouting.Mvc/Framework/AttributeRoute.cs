@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
-using AttributeRouting.AspNet;
-using AttributeRouting.AspNet.Framework;
 using AttributeRouting.Framework;
+using AttributeRouting.Web.Framework;
 
-namespace AttributeRouting.Mvc.Framework
+namespace AttributeRouting.Web.Mvc.Framework
 {
     public class AttributeRoute : AttributeRoute<IController, UrlParameter>
     {

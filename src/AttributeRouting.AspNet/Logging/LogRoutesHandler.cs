@@ -9,7 +9,7 @@ using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 using AttributeRouting.Logging;
 
-namespace AttributeRouting.AspNet.Logging
+namespace AttributeRouting.Web.Logging
 {
     public class LogRoutesHandler : IHttpHandler
     {

@@ -1,10 +1,9 @@
 using System.Text.RegularExpressions;
 using System.Web.Routing;
-using AttributeRouting.AspNet.Constraints;
 using AttributeRouting.Framework.Factories;
-using HttpMethodConstraint = AttributeRouting.AspNet.Constraints.HttpMethodConstraint;
+using HttpMethodConstraint = AttributeRouting.Web.HttpMethodConstraint;
 
-namespace AttributeRouting.AspNet.Framework.Factories {
+namespace AttributeRouting.Web.Framework.Factories {
     public class ConstraintFactory : IConstraintFactory<IRouteConstraint> {
         public IRouteConstraint CreateRegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None) {
             return new RegexRouteConstraint(pattern, options);

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Routing;
-using AttributeRouting.AspNet;
-using AttributeRouting.Mvc;
+using AttributeRouting.Web.Mvc;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 

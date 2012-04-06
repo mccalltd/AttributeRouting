@@ -2,11 +2,11 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Web.Routing;
-using AttributeRouting.AspNet.Framework.Factories;
-using AttributeRouting.Mvc.Framework;
-using AttributeRouting.Mvc.Framework.Factories;
+using AttributeRouting.Web.Framework.Factories;
+using AttributeRouting.Web.Mvc.Framework;
+using AttributeRouting.Web.Mvc.Framework.Factories;
 
-namespace AttributeRouting.Mvc
+namespace AttributeRouting.Web.Mvc
 {
     /// <summary>
     /// Extensions to the MVC RouteCollection.

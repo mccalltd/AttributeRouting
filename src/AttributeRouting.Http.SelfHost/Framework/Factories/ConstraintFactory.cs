@@ -3,8 +3,7 @@ using System.Text.RegularExpressions;
 using System.Web.Http.Common;
 using System.Web.Http.Routing;
 using AttributeRouting.Framework.Factories;
-using AttributeRouting.Http.SelfHost.Constraints;
-using HttpMethodConstraint = AttributeRouting.Http.SelfHost.Constraints.HttpMethodConstraint;
+using HttpMethodConstraint = AttributeRouting.Http.SelfHost.HttpMethodConstraint;
 
 namespace AttributeRouting.Http.SelfHost.Framework.Factories {
     public class ConstraintFactory : IConstraintFactory<IHttpRouteConstraint> {

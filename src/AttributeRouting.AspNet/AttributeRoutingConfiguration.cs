@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.Routing;
-using AttributeRouting.AspNet.Framework;
+using AttributeRouting.Web.Framework;
 
-namespace AttributeRouting.AspNet {
+namespace AttributeRouting.Web {
     public class AspNetAttributeRoutingConfiguration<TController, TParameter>
         : AttributeRoutingConfiguration<IRouteConstraint, TController, AttributeRoute<TController, TParameter>, TParameter, HttpContextBase, RouteData>
     {

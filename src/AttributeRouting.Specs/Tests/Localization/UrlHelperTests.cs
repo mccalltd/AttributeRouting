@@ -3,12 +3,10 @@ using System.Globalization;
 using System.Threading;
 using System.Web.Mvc;
 using System.Web.Routing;
-using AttributeRouting.AspNet;
-using AttributeRouting.AspNet.Framework.Localization;
 using AttributeRouting.Framework.Localization;
-using AttributeRouting.Mvc;
-using AttributeRouting.Mvc.Framework.Localization;
 using AttributeRouting.Specs.Subjects;
+using AttributeRouting.Web.Mvc;
+using AttributeRouting.Web.Mvc.Framework.Localization;
 using NUnit.Framework;
 
 namespace AttributeRouting.Specs.Tests.Localization

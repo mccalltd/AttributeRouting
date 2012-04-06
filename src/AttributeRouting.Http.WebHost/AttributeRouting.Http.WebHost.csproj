@@ -78,9 +78,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AttributeRouting.AspNet\AttributeRouting.AspNet.csproj">
+    <ProjectReference Include="..\AttributeRouting.AspNet\AttributeRouting.Web.csproj">
       <Project>{C91C065B-A821-4890-9F31-F9E245D804D1}</Project>
-      <Name>AttributeRouting.AspNet</Name>
+      <Name>AttributeRouting.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\AttributeRouting.Http\AttributeRouting.Http.csproj">
       <Project>{CCDE9AD7-3822-4B0B-AA19-DF6698A85D3D}</Project>

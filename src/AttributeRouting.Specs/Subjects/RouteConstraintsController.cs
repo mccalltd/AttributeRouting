@@ -1,6 +1,6 @@
 using System.Web.Mvc;
-using AttributeRouting.AspNet.Constraints;
-using AttributeRouting.Mvc;
+using AttributeRouting.Web;
+using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
 {

@@ -5,7 +5,7 @@ using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Logging;
 
-namespace AttributeRouting.AspNet.Logging
+namespace AttributeRouting.Web.Logging
 {
     public static class LoggingExtensions
     {

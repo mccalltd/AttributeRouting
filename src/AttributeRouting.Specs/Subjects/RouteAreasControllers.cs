@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using AttributeRouting.Mvc;
+using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
 {

@@ -3,7 +3,7 @@ using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Framework.Factories;
 
-namespace AttributeRouting.AspNet.Framework {
+namespace AttributeRouting.Web.Framework {
     public abstract class RouteBuilder<TController, TParameter> : RouteBuilder<IRouteConstraint, TController, AttributeRoute<TController, TParameter>, TParameter, HttpContextBase, RouteData>
     {
         protected RouteBuilder(

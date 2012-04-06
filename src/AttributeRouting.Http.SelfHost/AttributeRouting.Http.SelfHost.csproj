@@ -67,10 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HttpAttributeRoutingConfiguration.cs" />
-    <Compile Include="Constraints\RegexRouteConstraint.cs" />
-    <Compile Include="Constraints\RegexRouteConstraintAttribute.cs" />
-    <Compile Include="Constraints\HttpMethodConstraint.cs" />
-    <Compile Include="Constraints\RouteConstraintAttribute.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\AttributeRouteContainer.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
@@ -78,9 +74,13 @@
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
     <Compile Include="Framework\RouteBuilder.cs" />
     <Compile Include="Framework\RouteReflector.cs" />
+    <Compile Include="HttpMethodConstraint.cs" />
     <Compile Include="Logging\LoggingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HttpRouteCollectionExtensions.cs" />
+    <Compile Include="RegexRouteConstraint.cs" />
+    <Compile Include="RegexRouteConstraintAttribute.cs" />
+    <Compile Include="RouteConstraintAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Framework\Localization\" />

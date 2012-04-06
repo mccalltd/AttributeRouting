@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using AttributeRouting.AspNet.Framework;
-using AttributeRouting.AspNet.Framework.Factories;
 using AttributeRouting.Framework;
+using AttributeRouting.Web.Framework;
+using AttributeRouting.Web.Framework.Factories;
 
-namespace AttributeRouting.Mvc.Framework.Factories {
+namespace AttributeRouting.Web.Mvc.Framework.Factories {
     internal class MvcAttributeRouteFactory : AttributeRouteFactory<IController, UrlParameter>
     {
         public override AttributeRouteContainerBase<AttributeRoute<IController, UrlParameter>> CreateAttributeRoute(

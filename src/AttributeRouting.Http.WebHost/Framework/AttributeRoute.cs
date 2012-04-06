@@ -1,9 +1,9 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Routing;
-using AttributeRouting.AspNet;
-using AttributeRouting.AspNet.Framework;
 using AttributeRouting.Framework;
+using AttributeRouting.Web;
+using AttributeRouting.Web.Framework;
 
 namespace AttributeRouting.Http.WebHost.Framework
 {

@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Web;
 using AttributeRouting.Helpers;
 
-namespace AttributeRouting.AspNet.Helpers
+namespace AttributeRouting.Web.Helpers
 {
     public static class HttpRequestBaseExtensions
     {

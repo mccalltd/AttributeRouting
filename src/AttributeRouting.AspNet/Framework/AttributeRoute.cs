@@ -6,7 +6,7 @@ using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
-namespace AttributeRouting.AspNet.Framework {
+namespace AttributeRouting.Web.Framework {
     public class AttributeRoute<TController, TParameter> : Route
     {
 
