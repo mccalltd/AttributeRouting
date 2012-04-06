@@ -29,19 +29,12 @@ namespace AttributeRouting {
         /// <param name="actionMethod"></param>
         /// <returns></returns>
         IEnumerable<RouteDefaultAttribute> GetRouteDefaultAttributes(MethodInfo actionMethod);
-    }
-
-    /// <summary>
-    /// A route convention with constraints
-    /// </summary>
-    /// <typeparam name="TConstraint"></typeparam>
-    public interface IRouteConvention<out TConstraint> : IRouteConvention {      
 
         /// <summary>
         /// Gets the route constraints to be applied against the given action method.
         /// </summary>
         /// <param name="actionMethod"></param>
         /// <returns></returns>
-        IEnumerable<IRouteConstraint<TConstraint>> GetRouteConstraintAttributes(MethodInfo actionMethod);
+        IEnumerable<IAttributeRouteConstraint> GetRouteConstraintAttributes(MethodInfo actionMethod);
     }
 }

@@ -66,7 +66,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\Localization\FluentTranslationProvider.cs" />
     <Compile Include="HttpAttributeRoutingConfiguration.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\AttributeRouteContainer.cs" />

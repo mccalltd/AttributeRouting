@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Specs.Subjects;
-using AttributeRouting.Web.Framework.Localization;
 using NUnit.Framework;
 
 namespace AttributeRouting.Specs.Tests.Localization

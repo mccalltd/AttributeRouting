@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Specs.Subjects;
-using AttributeRouting.Web.Framework.Localization;
 using AttributeRouting.Web.Mvc;
 using NUnit.Framework;
 

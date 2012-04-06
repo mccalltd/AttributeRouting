@@ -23,7 +23,7 @@ namespace AttributeRouting
             PromotedControllerTypes = new List<Type>();
             DefaultRouteConstraints = new Dictionary<string, TConstraint>();            
 
-            TranslationProviders = new List<TranslationProviderBase<TConstraint>>();
+            TranslationProviders = new List<TranslationProviderBase>();
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
 
             AreaSubdomainOverrides = new Dictionary<string, string>();
@@ -42,7 +42,7 @@ namespace AttributeRouting
         internal IDictionary<string, TConstraint> DefaultRouteConstraints { get; set; }
         
         internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
-        public List<TranslationProviderBase<TConstraint>> TranslationProviders { get; set; }
+        public List<TranslationProviderBase> TranslationProviders { get; set; }
 
         /// <summary>
         /// When true, the generated routes will produce lowercase URLs.
@@ -200,7 +200,7 @@ namespace AttributeRouting
         /// Add a provider for translating components of routes.
         /// </summary>
         public void AddTranslationProvider<TTranslationProvider>()
-            where TTranslationProvider : TranslationProviderBase<TConstraint>, new()
+            where TTranslationProvider : TranslationProviderBase, new()
         {
             TranslationProviders.Add(new TTranslationProvider());
         }
@@ -209,7 +209,7 @@ namespace AttributeRouting
         /// Add a provider for translating components of routes.
         /// Use <see cref="FluentTranslationProvider"/> for a default implementation.
         /// </summary>
-        public void AddTranslationProvider(TranslationProviderBase<TConstraint> provider)
+        public void AddTranslationProvider(TranslationProviderBase provider)
         {
             TranslationProviders.Add(provider);
         }

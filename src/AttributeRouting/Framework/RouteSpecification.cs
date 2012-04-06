@@ -5,13 +5,13 @@ using AttributeRouting.Constraints;
 
 namespace AttributeRouting.Framework
 {
-    public class RouteSpecification<TConstraint>
+    public class RouteSpecification
     {
         public RouteSpecification()
         {
             ActionParameters = new ParameterInfo[0];
             DefaultAttributes = new List<RouteDefaultAttribute>();
-            ConstraintAttributes = new List<IRouteConstraint<TConstraint>>();
+            ConstraintAttributes = new List<IAttributeRouteConstraint>();
         }
 
         public string AreaName { get; set; }
@@ -40,7 +40,7 @@ namespace AttributeRouting.Framework
 
         public ICollection<RouteDefaultAttribute> DefaultAttributes { get; set; }
 
-        public ICollection<IRouteConstraint<TConstraint>> ConstraintAttributes { get; set; }
+        public ICollection<IAttributeRouteConstraint> ConstraintAttributes { get; set; }
 
         public string RouteName { get; set; }
 

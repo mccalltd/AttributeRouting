@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using AttributeRouting.Constraints;
 
 namespace AttributeRouting.Http
 {
@@ -32,6 +33,11 @@ namespace AttributeRouting.Http
         /// <param name="actionMethod"></param>
         /// <returns></returns>
         public virtual IEnumerable<RouteDefaultAttribute> GetRouteDefaultAttributes(MethodInfo actionMethod)
+        {
+            yield break;
+        }
+
+        public virtual IEnumerable<IAttributeRouteConstraint> GetRouteConstraintAttributes(MethodInfo actionMethod)
         {
             yield break;
         }

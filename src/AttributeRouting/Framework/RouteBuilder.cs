@@ -43,7 +43,7 @@ namespace AttributeRouting.Framework
             }
         }
 
-        private IEnumerable<AttributeRouteContainerBase<TRoute>> Build(RouteSpecification<TConstraint> routeSpec) {
+        private IEnumerable<AttributeRouteContainerBase<TRoute>> Build(RouteSpecification routeSpec) {
             var route = _routeFactory.CreateAttributeRoute(CreateRouteUrl(routeSpec),
                                                            CreateRouteDefaults(routeSpec),
                                                            CreateRouteConstraints(routeSpec),
@@ -71,7 +71,7 @@ namespace AttributeRouting.Framework
             }
         }
 
-        private string CreateRouteName(RouteSpecification<TConstraint> routeSpec)
+        private string CreateRouteName(RouteSpecification routeSpec)
         {
             if (routeSpec.RouteName.HasValue())
                 return routeSpec.RouteName;
@@ -85,7 +85,7 @@ namespace AttributeRouting.Framework
             return null;
         }
 
-        private string CreateRouteUrl(RouteSpecification<TConstraint> routeSpec)
+        private string CreateRouteUrl(RouteSpecification routeSpec)
         {
             return CreateRouteUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec.IsAbsoluteUrl);
         }
@@ -150,7 +150,7 @@ namespace AttributeRouting.Framework
             return urlBuilder.ToString().Trim('/');
         }
 
-        private IDictionary<string, object> CreateRouteDefaults(RouteSpecification<TConstraint> routeSpec)
+        private IDictionary<string, object> CreateRouteDefaults(RouteSpecification routeSpec)
         {
             var defaults = new Dictionary<string, object>
             {
@@ -196,7 +196,7 @@ namespace AttributeRouting.Framework
             return defaults;
         }
 
-        private IDictionary<string, object> CreateRouteConstraints(RouteSpecification<TConstraint> routeSpec)
+        private IDictionary<string, object> CreateRouteConstraints(RouteSpecification routeSpec)
         {
             var constraints = new Dictionary<string, object>();
 
@@ -246,7 +246,7 @@ namespace AttributeRouting.Framework
             return constraints;
         }
 
-        private IDictionary<string, object> CreateRouteDataTokens(RouteSpecification<TConstraint> routeSpec)
+        private IDictionary<string, object> CreateRouteDataTokens(RouteSpecification routeSpec)
         {
             var dataTokens = new Dictionary<string, object>()
             {
@@ -275,7 +275,7 @@ namespace AttributeRouting.Framework
             return Regex.Replace(url, String.Join("|", patterns), "");
         }
 
-        private IEnumerable<AttributeRouteContainerBase<TRoute>> CreateRouteTranslations(RouteSpecification<TConstraint> routeSpec)
+        private IEnumerable<AttributeRouteContainerBase<TRoute>> CreateRouteTranslations(RouteSpecification routeSpec)
         {
             // If no translation provider, then get out of here.
             if (!_configuration.TranslationProviders.Any())

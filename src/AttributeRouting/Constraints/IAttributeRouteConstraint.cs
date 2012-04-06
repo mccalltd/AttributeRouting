@@ -1,5 +1,5 @@
 namespace AttributeRouting.Constraints {
-    public interface IRouteConstraint<out TConstraint> {
+    public interface IAttributeRouteConstraint {
         /// <summary>
         /// The name of the route to apply this default against.
         /// </summary>
@@ -13,6 +13,6 @@ namespace AttributeRouting.Constraints {
         /// <summary>
         /// The TConstraint to apply against url parameters with the specified key.
         /// </summary>
-        TConstraint Constraint { get; }
+        object Constraint { get; }
     }
 }

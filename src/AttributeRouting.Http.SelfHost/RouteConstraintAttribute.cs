@@ -8,7 +8,7 @@ namespace AttributeRouting.Http.SelfHost
     /// Defines a constraint for a url parameter defined in a RouteAttribute applied to this action.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public abstract class RouteConstraintAttribute : Attribute, IRouteConstraint<IHttpRouteConstraint>
+    public abstract class RouteConstraintAttribute : Attribute, IAttributeRouteConstraint
     {
         /// <summary>
         /// Specify a constraint for a url parameter defined in a RouteAttribute applied to this action.
@@ -35,5 +35,10 @@ namespace AttributeRouting.Http.SelfHost
         /// The IRouteConstraint to apply against url parameters with the specified key.
         /// </summary>
         public abstract IHttpRouteConstraint Constraint { get; }
+
+        object IAttributeRouteConstraint.Constraint
+        {
+            get { return Constraint; }
+        }
     }
 }

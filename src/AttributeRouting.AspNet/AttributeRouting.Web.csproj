@@ -50,7 +50,6 @@
     <Compile Include="Logging\LogRoutesHandler.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\ConstraintFactory.cs" />
-    <Compile Include="Framework\Localization\FluentTranslationProvider.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\RouteBuilder.cs" />
     <Compile Include="Framework\RouteReflector.cs" />
