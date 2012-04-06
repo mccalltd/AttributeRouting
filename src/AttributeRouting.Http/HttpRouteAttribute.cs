@@ -1,9 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Routing;
 
 namespace AttributeRouting.Http
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public class HttpRouteAttribute : Attribute, IRouteAttribute {
+    public class HttpRouteAttribute : Attribute, IRouteAttribute
+    {
         public HttpRouteAttribute(string routeUrl, params string[] allowedMethods) {
             if (routeUrl == null) throw new ArgumentNullException("routeUrl");            
 

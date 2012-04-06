@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
+using System.Web.Http;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
@@ -30,6 +31,20 @@ namespace AttributeRouting.Http
 
         public override IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
         {
+            // Logic from ApiControllerActionSelector
+
+            if (actionMethod.IsSpecialName)
+            {
+                // not a normal method, e.g. a constructor or an event
+                yield break;
+            }
+
+            if (actionMethod.GetBaseDefinition().DeclaringType.IsAssignableFrom(typeof(ApiController)))
+            {
+                // is a method on Object, IHttpController, ApiController
+                yield break;
+            }
+
             foreach (var c in Conventions)
             {
                 if (actionMethod.Name.StartsWith(c.HttpMethod.Method, StringComparison.OrdinalIgnoreCase))
