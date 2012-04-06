@@ -2,6 +2,6 @@
 using AttributeRouting.Framework.Localization;
 
 namespace AttributeRouting.Web.Framework.Localization {
-    public class FluentTranslationProvider<TController> : FluentTranslationProvider<IRouteConstraint, TController> {
+    public class FluentTranslationProvider : FluentTranslationProvider<IRouteConstraint> {
     }
 }

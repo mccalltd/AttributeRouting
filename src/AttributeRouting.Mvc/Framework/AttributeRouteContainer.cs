@@ -14,7 +14,7 @@ namespace AttributeRouting.Web.Mvc.Framework
             RouteValueDictionary defaults, 
             RouteValueDictionary constraints, 
             RouteValueDictionary dataTokens, 
-            AspNetAttributeRoutingConfiguration<IController, UrlParameter> configuration)
+            WebAttributeRoutingConfiguration<IController, UrlParameter> configuration)
         {
             _route = new AttributeRoute(url, defaults, constraints, dataTokens, configuration, this);
         }

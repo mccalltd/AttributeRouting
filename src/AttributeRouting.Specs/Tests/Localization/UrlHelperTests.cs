@@ -5,8 +5,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Specs.Subjects;
+using AttributeRouting.Web.Framework.Localization;
 using AttributeRouting.Web.Mvc;
-using AttributeRouting.Web.Mvc.Framework.Localization;
 using NUnit.Framework;
 
 namespace AttributeRouting.Specs.Tests.Localization

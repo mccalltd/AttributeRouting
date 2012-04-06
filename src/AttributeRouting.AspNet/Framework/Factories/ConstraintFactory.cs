@@ -1,7 +1,6 @@
 using System.Text.RegularExpressions;
 using System.Web.Routing;
 using AttributeRouting.Framework.Factories;
-using HttpMethodConstraint = AttributeRouting.Web.HttpMethodConstraint;
 
 namespace AttributeRouting.Web.Framework.Factories {
     public class ConstraintFactory : IConstraintFactory<IRouteConstraint> {
@@ -10,7 +9,7 @@ namespace AttributeRouting.Web.Framework.Factories {
         }
 
         public IRouteConstraint CreateRestfulHttpMethodConstraint(string[] httpMethods) {
-            return new HttpMethodConstraint(httpMethods);
+            return new RestfulHttpMethodConstraint(httpMethods);
         }
     }
 }

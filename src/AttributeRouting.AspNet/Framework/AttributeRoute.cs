@@ -10,7 +10,7 @@ namespace AttributeRouting.Web.Framework {
     public class AttributeRoute<TController, TParameter> : Route
     {
 
-        private readonly AspNetAttributeRoutingConfiguration<TController, TParameter> _configuration;
+        private readonly WebAttributeRoutingConfiguration<TController, TParameter> _configuration;
 
         /// <summary>
         /// Route supporting the AttributeRouting framework.
@@ -19,7 +19,7 @@ namespace AttributeRouting.Web.Framework {
             RouteValueDictionary defaults,
             RouteValueDictionary constraints,
             RouteValueDictionary dataTokens,
-            AspNetAttributeRoutingConfiguration<TController, TParameter> configuration,
+            WebAttributeRoutingConfiguration<TController, TParameter> configuration,
             AttributeRouteContainerBase<AttributeRoute<TController, TParameter>> wrapper)
             : base(url, defaults, constraints, dataTokens, configuration.RouteHandlerFactory()) {
 

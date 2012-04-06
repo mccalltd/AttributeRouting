@@ -2,7 +2,7 @@
 
 namespace AttributeRouting.Web.Mvc
 {
-    public class AttributeRoutingConfiguration : AspNetAttributeRoutingConfiguration<IController, UrlParameter>
+    public class AttributeRoutingConfiguration : WebAttributeRoutingConfiguration<IController, UrlParameter>
     {
         public AttributeRoutingConfiguration()
             : base(() => new MvcRouteHandler())

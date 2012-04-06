@@ -38,6 +38,6 @@ namespace AttributeRouting.Framework.Localization
         /// <typeparam name="TController">The type of the controller for which to add translations</typeparam>
         public ControllerTranslationBuilder<TController> ForController<TController>() {
             return new ControllerTranslationBuilder<TController>(this);
-        }
+        }       
     }
 }

@@ -42,8 +42,8 @@ namespace AttributeRouting.Logging
                     if (constraint.Value == null)
                         continue;
 
-                    if (constraint.Value is IHttpMethodConstraint)
-                        item.HttpMethod = String.Join(", ", ((IHttpMethodConstraint)constraint.Value).AllowedMethods);
+                    if (constraint.Value is IRestfulHttpMethodConstraint)
+                        item.HttpMethod = String.Join(", ", ((IRestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
                     else if (constraint.Value is IRegexRouteConstraint)
                         item.Constraints.Add(constraint.Key, ((IRegexRouteConstraint)constraint.Value).Pattern);
                     else

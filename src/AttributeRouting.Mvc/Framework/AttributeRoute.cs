@@ -11,7 +11,7 @@ namespace AttributeRouting.Web.Mvc.Framework
             RouteValueDictionary defaults, 
             RouteValueDictionary constraints, 
             RouteValueDictionary dataTokens, 
-            AspNetAttributeRoutingConfiguration<IController, UrlParameter> configuration,
+            WebAttributeRoutingConfiguration<IController, UrlParameter> configuration,
             AttributeRouteContainerBase<AttributeRoute<IController, UrlParameter>> wrapper)
             : base(url, defaults, constraints, dataTokens, configuration, wrapper)
         {

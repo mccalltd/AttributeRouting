@@ -13,7 +13,7 @@ namespace AttributeRouting.Http.WebHost.Framework
             RouteValueDictionary defaults, 
             RouteValueDictionary constraints, 
             RouteValueDictionary dataTokens,
-            AspNetAttributeRoutingConfiguration<IHttpController, RouteParameter> configuration,
+            WebAttributeRoutingConfiguration<IHttpController, RouteParameter> configuration,
             AttributeRouteContainerBase<AttributeRoute<IHttpController, RouteParameter>> wrapper)
             : base(url, defaults, constraints, dataTokens, configuration, wrapper)
         {

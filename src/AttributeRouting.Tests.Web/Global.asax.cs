@@ -5,8 +5,8 @@ using AttributeRouting.Http.WebHost;
 using AttributeRouting.Tests.Web.Areas.Api.Controllers;
 using AttributeRouting.Tests.Web.Controllers;
 using AttributeRouting.Web;
+using AttributeRouting.Web.Framework.Localization;
 using AttributeRouting.Web.Mvc;
-using AttributeRouting.Web.Mvc.Framework.Localization;
 using ControllerBase = AttributeRouting.Tests.Web.Controllers.ControllerBase;
 
 namespace AttributeRouting.Tests.Web
@@ -28,28 +28,45 @@ namespace AttributeRouting.Tests.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             var translationProvider = new FluentTranslationProvider();
-            translationProvider.AddTranslations().ForController<LocalizationController>()
-                .AreaUrl(new Dictionary<string, string>
-                {
-                    { "es", "{culture}/es-AreaUrl" },
-                    { "fr", "{culture}/fr-AreaUrl" },
-                })
-                .RoutePrefixUrl(new Dictionary<string, string>
-                {
-                    { "es", "es-RoutePrefixUrl" },
-                    { "fr", "fr-RoutePrefixUrl" },
-                })
-                .RouteUrl(c => c.Index(), new Dictionary<string, string>
-                {
-                    { "es", "es-RouteUrl" },
-                    { "fr", "fr-RouteUrl" },
-                });
+            var routePrefixDict = new Dictionary<string, string>
+                                      {
+                                          {"es", "es-RoutePrefixUrl"},
+                                          {"fr", "fr-RoutePrefixUrl"},
+                                      };
+            var indexRouteUrlDict = new Dictionary<string, string>
+                                        {
+                                            {"es", "es-RouteUrl"},
+                                            {"fr", "fr-RouteUrl"},
+                                        };
+
+            // MVC localized controller
+            translationProvider.AddTranslations()
+                .ForController<Controllers.LocalizationController>()
+                    .AreaUrl(new Dictionary<string, string>
+                    {
+                        {"es", "{culture}/es-AreaUrl"},
+                        {"fr", "{culture}/fr-AreaUrl"},
+                    })
+                    .RoutePrefixUrl(routePrefixDict)
+                    .RouteUrl(c => c.Index(), indexRouteUrlDict);
+
+            // Web API localized controller
+            translationProvider.AddTranslations()
+                .ForController<Areas.Api.Controllers.LocalizationController>()
+                    .AreaUrl(new Dictionary<string, string>
+                    {
+                        {"es", "api/{culture}/es-AreaUrl"},
+                        {"fr", "api/{culture}/fr-AreaUrl"},
+                    })
+                    .RoutePrefixUrl(routePrefixDict)
+                    .RouteUrl(c => c.GetLocalized(), indexRouteUrlDict);
 
             // Web API (WebHost)
             routes.MapHttpAttributeRoutes(config =>
             {
                 config.ScanAssemblyOf<PlainController>();
                 config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
+                config.UseRouteHandler(() => new HttpCultureAwareRoutingHandler());
                 config.AddTranslationProvider(translationProvider);                
                 config.UseLowercaseRoutes = true;
                 config.InheritActionsFromBaseController = true;

@@ -54,10 +54,9 @@
   <ItemGroup>
     <Compile Include="AreaConfiguration.cs" />
     <Compile Include="Constraints\IRegexRouteConstraint.cs" />
-    <Compile Include="Constraints\IHttpMethodConstraint.cs" />
+    <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />
     <Compile Include="Constraints\IRouteConstraint.cs" />
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
-    <Compile Include="Constraints\HttpMethodConstraintBase.cs" />
     <Compile Include="Framework\AttributeRouteContainerBase.cs" />
     <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\IConstraintFactory.cs" />

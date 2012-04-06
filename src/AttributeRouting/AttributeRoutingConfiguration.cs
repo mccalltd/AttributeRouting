@@ -157,6 +157,17 @@ namespace AttributeRouting
                 PromotedControllerTypes.Add(controllerType);
         }
 
+
+        /// <summary>
+        /// Adds all the routes for the specified controller type to the end of the route collection.
+        /// </summary>
+        /// <typeparam name="T"> </typeparam>
+        public void AddRoutesFromController<T>()
+            where T:TController
+        {
+            AddRoutesFromController(typeof(T));
+        }
+
         /// <summary>
         /// When using AddRoutesFromControllersOfType or AddRoutesFromController to set the precendence of the routes,
         /// you must explicitly specify that you want to include the remaining routes discoved while scanning assemblies.

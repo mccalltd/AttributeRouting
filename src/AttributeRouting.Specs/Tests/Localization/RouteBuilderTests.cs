@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
 using AttributeRouting.Specs.Subjects;
+using AttributeRouting.Web.Framework.Localization;
 using AttributeRouting.Web.Logging;
 using AttributeRouting.Web.Mvc;
 using AttributeRouting.Web.Mvc.Framework;
-using AttributeRouting.Web.Mvc.Framework.Localization;
 using NUnit.Framework;
 
 namespace AttributeRouting.Specs.Tests.Localization

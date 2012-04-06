@@ -4,10 +4,10 @@ using System.Web.Routing;
 using AttributeRouting.Web.Framework;
 
 namespace AttributeRouting.Web {
-    public class AspNetAttributeRoutingConfiguration<TController, TParameter>
+    public class WebAttributeRoutingConfiguration<TController, TParameter>
         : AttributeRoutingConfiguration<IRouteConstraint, TController, AttributeRoute<TController, TParameter>, TParameter, HttpContextBase, RouteData>
     {
-        public AspNetAttributeRoutingConfiguration(Func<IRouteHandler> handlerFactory)
+        public WebAttributeRoutingConfiguration(Func<IRouteHandler> handlerFactory)
         {
             RouteHandlerFactory = handlerFactory;
         }
@@ -16,7 +16,7 @@ namespace AttributeRouting.Web {
 
         /// <summary>
         /// Specifies a function that returns an alternate route handler.
-        /// By default, the route handler is the default MVC handler System.Web.Mvc.MvcRouteHandler()
+        /// By default, the route handler is the default handler for the namespace type (Mvc, Http).
         /// </summary>
         /// <example>
         /// <code>
@@ -26,19 +26,18 @@ namespace AttributeRouting.Web {
         ///    config.UseRouteHandler(() => new MyOtherLibrary.Mvc.CustomRouteHandler());
         ///    // default:  config.UseRouteHandler(() => new System.Web.Mvc.MvcRouteHandler());
         /// });
+        /// 
+        /// routes.MapHttpAttributeRoutes(config =>
+        /// {
+        ///    config.ScanAssembly(System.Reflection.Assembly.GetExecutingAssembly());
+        ///    config.UseRouteHandler(() => new MyOtherLibrary.WebApi.CustomRouteHandler());
+        ///    // default:  config.UseRouteHandler(() => System.Web.Http.WebHost.HttpControllerRouteHandler.Instance());
+        /// });        
         /// </code>
         /// </example>
         /// <param name="routeHandlerFactory"></param>
         public void UseRouteHandler(Func<IRouteHandler> routeHandlerFactory) {
             RouteHandlerFactory = routeHandlerFactory;
-        }
-
-        /// <summary>
-        /// Adds all the routes for the specified controller type to the end of the route collection.
-        /// </summary>
-        /// <typeparam name="TSomeController"> </typeparam>
-        public void AddRoutesFromController<TSomeController>() {
-            AddRoutesFromController(typeof(TSomeController));
         }
     }
 }

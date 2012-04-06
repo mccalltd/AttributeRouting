@@ -4,7 +4,7 @@ using System.Web.Http.WebHost;
 using AttributeRouting.Web;
 
 namespace AttributeRouting.Http.WebHost {
-    public class HttpAttributeRoutingConfiguration : AspNetAttributeRoutingConfiguration<IHttpController, RouteParameter>
+    public class HttpAttributeRoutingConfiguration : WebAttributeRoutingConfiguration<IHttpController, RouteParameter>
     {
         public HttpAttributeRoutingConfiguration()
             : base(() => HttpControllerRouteHandler.Instance)

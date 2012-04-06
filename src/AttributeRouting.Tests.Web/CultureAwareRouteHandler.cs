@@ -1,16 +1,17 @@
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Web.Http.WebHost;
 using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace AttributeRouting.Tests.Web
 {
-    public class CultureAwareRouteHandler : MvcRouteHandler
+    public class CultureAwareHandler
     {
         private const string CultureRouteParamName = "culture";
 
-        protected override System.Web.IHttpHandler GetHttpHandler(RequestContext requestContext)
+        public static void CheckRequestContext(RequestContext requestContext)
         {
             // Detect the current culture from route data first 
             // (will be in here if url {culture} is part of the route).
@@ -32,6 +33,25 @@ namespace AttributeRouting.Tests.Web
                 // Add the culture to route data
                 requestContext.RouteData.Values[CultureRouteParamName] = currentCultureName;
             }
+
+            
+        }
+    }
+    public class CultureAwareRouteHandler : MvcRouteHandler
+    {
+        protected override System.Web.IHttpHandler GetHttpHandler(RequestContext requestContext)
+        {
+            CultureAwareHandler.CheckRequestContext(requestContext);
+
+            return base.GetHttpHandler(requestContext);
+        }
+    }
+
+    public class HttpCultureAwareRoutingHandler : HttpControllerRouteHandler
+    {
+        protected override System.Web.IHttpHandler GetHttpHandler(RequestContext requestContext)
+        {
+            CultureAwareHandler.CheckRequestContext(requestContext);
 
             return base.GetHttpHandler(requestContext);
         }
