@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\Localization\FluentTranslationProvider.cs" />
     <Compile Include="HttpAttributeRoutingConfiguration.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\AttributeRouteContainer.cs" />
@@ -82,9 +83,7 @@
     <Compile Include="RegexRouteConstraintAttribute.cs" />
     <Compile Include="RouteConstraintAttribute.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework\Localization\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
