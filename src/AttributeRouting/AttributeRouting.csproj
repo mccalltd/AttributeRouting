@@ -80,6 +80,7 @@
     <Compile Include="IRouteConvention.cs" />
     <Compile Include="Logging\AttributeRouteInfo.cs" />
     <Compile Include="Logging\LogWriter.cs" />
+    <Compile Include="RouteConstraintAttributeBase.cs" />
     <Compile Include="RoutePrefixAttribute.cs" />
     <Compile Include="RouteAreaAttribute.cs" />
     <Compile Include="RouteDefaultAttribute.cs" />

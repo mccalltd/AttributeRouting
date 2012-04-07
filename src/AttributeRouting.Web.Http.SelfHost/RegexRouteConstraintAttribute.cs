@@ -1,12 +1,11 @@
 using System.Text.RegularExpressions;
-using System.Web.Http.Routing;
 
 namespace AttributeRouting.Web.Http.SelfHost
 {
     /// <summary>
     /// Constrains a url parameter by a regex pattern.
     /// </summary>
-    public class RegexRouteConstraintAttribute : RouteConstraintAttribute
+    public class RegexRouteConstraintAttribute : RouteConstraintAttributeBase
     {
         /// <summary>
         /// Specify a regex constraint for a url parameter defined in a RouteAttribute applied to this action.
@@ -39,7 +38,7 @@ namespace AttributeRouting.Web.Http.SelfHost
         /// </summary>
         public RegexOptions Options { get; set; }
 
-        public override IHttpRouteConstraint Constraint
+        public override object Constraint
         {
             get { return new RegexRouteConstraint(Pattern, Options); }
         }
