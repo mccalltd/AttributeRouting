@@ -10,7 +10,7 @@ namespace AttributeRouting.Web.Http.SelfHost {
     public class HttpAttributeRoutingConfiguration : AttributeRoutingConfiguration<IHttpRouteConstraint, IHttpController, AttributeRoute, RouteParameter, HttpRequestMessage, IHttpRouteData>
     {
         private readonly IAttributeRouteFactory _attributeFactory;
-        private readonly IConstraintFactory<IHttpRouteConstraint> _constraintFactory;
+        private readonly IConstraintFactory _constraintFactory;
         private readonly IParameterFactory<RouteParameter> _parameterFactory;
 
         public HttpAttributeRoutingConfiguration() {
@@ -29,7 +29,7 @@ namespace AttributeRouting.Web.Http.SelfHost {
         /// <summary>
         /// Constraint factory
         /// </summary>
-        public override IConstraintFactory<IHttpRouteConstraint> ConstraintFactory {
+        public override IConstraintFactory ConstraintFactory {
             get { return _constraintFactory; }
         }
 
@@ -38,6 +38,16 @@ namespace AttributeRouting.Web.Http.SelfHost {
         /// </summary>
         public override IParameterFactory<RouteParameter> ParameterFactory {
             get { return _parameterFactory; }
+        }
+
+        /// <summary>
+        /// Automatically applies the specified constaint against url parameters
+        /// with names that match the given regular expression.
+        /// </summary>
+        /// <param name="keyRegex">The regex used to match url parameter names</param>
+        /// <param name="constraint">The constraint to apply to matched parameters</param>
+        public void AddDefaultRouteConstraint(string keyRegex, IHttpRouteConstraint constraint) {
+            base.AddDefaultRouteConstraint(keyRegex, constraint);
         }
     }
 }

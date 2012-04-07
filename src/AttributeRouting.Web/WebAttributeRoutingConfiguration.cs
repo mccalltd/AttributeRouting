@@ -9,7 +9,7 @@ namespace AttributeRouting.Web {
     public abstract class WebAttributeRoutingConfiguration<TController, TParameter>
         : AttributeRoutingConfiguration<IRouteConstraint, TController, AttributeRoute<TController, TParameter>, TParameter, HttpContextBase, RouteData>
     {
-        private readonly IConstraintFactory<IRouteConstraint> _constraintFactory;
+        private readonly IConstraintFactory _constraintFactory;
 
         protected WebAttributeRoutingConfiguration(Func<IRouteHandler> handlerFactory) {
             RouteHandlerFactory = handlerFactory;
@@ -20,8 +20,18 @@ namespace AttributeRouting.Web {
         /// <summary>
         /// Constraint factory
         /// </summary>
-        public override IConstraintFactory<IRouteConstraint> ConstraintFactory {
+        public override IConstraintFactory ConstraintFactory {
             get { return _constraintFactory; }
+        }
+
+        /// <summary>
+        /// Automatically applies the specified constaint against url parameters
+        /// with names that match the given regular expression.
+        /// </summary>
+        /// <param name="keyRegex">The regex used to match url parameter names</param>
+        /// <param name="constraint">The constraint to apply to matched parameters</param>
+        public void AddDefaultRouteConstraint(string keyRegex, IRouteConstraint constraint) {
+            base.AddDefaultRouteConstraint(keyRegex, constraint);
         }
 
         public Func<IRouteHandler> RouteHandlerFactory { get; set; }

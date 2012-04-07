@@ -22,7 +22,7 @@ namespace AttributeRouting
             InheritActionsFromBaseController = false;
             Assemblies = new List<Assembly>();
             PromotedControllerTypes = new List<Type>();
-            DefaultRouteConstraints = new Dictionary<string, TConstraint>();            
+            DefaultRouteConstraints = new Dictionary<string, object>();            
 
             TranslationProviders = new List<TranslationProviderBase>();
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
@@ -46,7 +46,7 @@ namespace AttributeRouting
         /// <summary>
         /// Constraint factory
         /// </summary>
-        public abstract IConstraintFactory<TConstraint> ConstraintFactory { get; }
+        public abstract IConstraintFactory ConstraintFactory { get; }
 
         /// <summary>
         /// Parameter factory
@@ -55,9 +55,12 @@ namespace AttributeRouting
 
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }
-        internal IDictionary<string, TConstraint> DefaultRouteConstraints { get; set; }
-        
+        internal IDictionary<string, object> DefaultRouteConstraints { get; set; }        
         internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
+
+        /// <summary>
+        /// Translation providers
+        /// </summary>
         public List<TranslationProviderBase> TranslationProviders { get; set; }
 
         /// <summary>
@@ -194,14 +197,7 @@ namespace AttributeRouting
         [Obsolete("This is a vestigial workaround for an old assembly scanning issue.")]
         public void AddTheRemainingScannedRoutes() { }
 
-        /// <summary>
-        /// Automatically applies the specified constaint against url parameters
-        /// with names that match the given regular expression.
-        /// </summary>
-        /// <param name="keyRegex">The regex used to match url parameter names</param>
-        /// <param name="constraint">The constraint to apply to matched parameters</param>
-        public void AddDefaultRouteConstraint(string keyRegex, TConstraint constraint)
-        {
+        protected void AddDefaultRouteConstraint(string keyRegex, object constraint) {
             if (!DefaultRouteConstraints.ContainsKey(keyRegex))
                 DefaultRouteConstraints.Add(keyRegex, constraint);
         }

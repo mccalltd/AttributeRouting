@@ -45,7 +45,7 @@ namespace AttributeRouting.Framework
 
         private readonly AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> _configuration;
         private readonly IAttributeRouteFactory _routeFactory;
-        private readonly IConstraintFactory<TConstraint> _constraintFactory;
+        private readonly IConstraintFactory _constraintFactory;
         private readonly IParameterFactory<TRouteParameter> _parameterFactory;
 
         internal RouteBuilder(AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration)
