@@ -138,22 +138,51 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the DefaultHttpRouteConvention")]
+        [NUnit.Framework.TestCaseAttribute("GetAll", "GET", "DefaultHttpRouteConvention", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("Get", "GET", "DefaultHttpRouteConvention/{id}", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("Post", "POST", "DefaultHttpRouteConvention", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("Put", "PUT", "DefaultHttpRouteConvention/{id}", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("Delete", "DELETE", "DefaultHttpRouteConvention/{id}", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("Custom", "GET", "DefaultHttpRouteConvention/Custom", new string[0])]
+        public virtual void GeneratingRoutesUsingTheDefaultHttpRouteConvention(string action, string method, string url, string[] exampleTags)
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes using the DefaultHttpRouteConvention", exampleTags);
+#line 43
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 44
+ testRunner.When(string.Format("I fetch the routes for the DefaultHttpRouteConvention controller\'s {0} action", action));
+#line 45
+ testRunner.Then(string.Format("the route url is \"{0}\"", url));
+#line 46
+  testRunner.And("the default for \"controller\" is \"DefaultHttpRouteConvention\"");
+#line 47
+  testRunner.And(string.Format("the default for \"action\" is \"{0}\"", action));
+#line 48
+  testRunner.And(string.Format("the route for {0} is constrained to {1} requests", action, method));
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating routes using the RestfulRouteConvention on actions with an explicit ro" +
             "ute defined")]
         public virtual void GeneratingRoutesUsingTheRestfulRouteConventionOnActionsWithAnExplicitRouteDefined()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes using the RestfulRouteConvention on actions with an explicit ro" +
                     "ute defined", ((string[])(null)));
-#line 43
+#line 59
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 44
+#line 60
  testRunner.When("I fetch the routes for the RestfulRouteConventionWithExplicitRoute controller\'s I" +
                     "ndex action");
-#line 45
+#line 61
  testRunner.Then("the 1st route url is \"RestfulRouteConventionWithExplicitRoute\"");
-#line 46
+#line 62
   testRunner.And("the 2nd route url is \"Legacy\"");
 #line hidden
             this.ScenarioCleanup();
@@ -166,17 +195,62 @@ this.FeatureBackground();
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes using the RestfulRouteConvention on actions with an explicit or" +
                     "dered route defined", ((string[])(null)));
-#line 48
+#line 64
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 49
+#line 65
  testRunner.When("I fetch the routes for the RestfulRouteConventionWithExplicitOrderedRoute control" +
                     "ler\'s Index action");
-#line 50
+#line 66
  testRunner.Then("the 1st route url is \"RestfulRouteConventionWithExplicitOrderedRoute/Primary\"");
-#line 51
+#line 67
   testRunner.And("the 2nd route url is \"RestfulRouteConventionWithExplicitOrderedRoute\"");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the DefaultHttpRouteConvention on actions with an explici" +
+            "t route defined")]
+        public virtual void GeneratingRoutesUsingTheDefaultHttpRouteConventionOnActionsWithAnExplicitRouteDefined()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes using the DefaultHttpRouteConvention on actions with an explici" +
+                    "t route defined", ((string[])(null)));
+#line 69
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 70
+ testRunner.When("I fetch the routes for the DefaultHttpRouteConventionWithExplicitRoute controller" +
+                    "\'s Get action");
+#line 71
+ testRunner.Then("the 1st route url is \"DefaultHttpRouteConventionWithExplicitRoute\"");
+#line 72
+  testRunner.And("the 2nd route url is \"Legacy\"");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes using the DefaultHttpRouteConvention on actions with an explici" +
+            "t ordered route defined")]
+        public virtual void GeneratingRoutesUsingTheDefaultHttpRouteConventionOnActionsWithAnExplicitOrderedRouteDefined()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes using the DefaultHttpRouteConvention on actions with an explici" +
+                    "t ordered route defined", ((string[])(null)));
+#line 74
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 75
+ testRunner.When("I fetch the routes for the DefaultHttpRouteConventionWithExplicitOrderedRoute con" +
+                    "troller\'s Index action");
+#line 76
+ testRunner.Then("the 1st route url is \"DefaultHttpRouteConventionWithExplicitOrderedRoute/Primary\"" +
+                    "");
+#line 77
+  testRunner.And("the 2nd route url is \"DefaultHttpRouteConventionWithExplicitOrderedRoute\"");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -17,10 +17,10 @@ namespace AttributeRouting.Web.Http
         // Setup conventions
         private static readonly List<HttpRouteConventionInfo> Conventions = new List<HttpRouteConventionInfo>
         {
-            // api/products (GET)
-            new HttpRouteConventionInfo(HttpMethod.Get, ""),
             // api/products/{id} (GET)
             new HttpRouteConventionInfo(HttpMethod.Get, "{id}"),
+            // api/products (GET)
+            new HttpRouteConventionInfo(HttpMethod.Get, ""),
             // api/products (POST)
             new HttpRouteConventionInfo(HttpMethod.Post, ""),
             // api/products/{id} (DELETE)
@@ -28,6 +28,8 @@ namespace AttributeRouting.Web.Http
             // api/products/{id} (PUT)
             new HttpRouteConventionInfo(HttpMethod.Put, "{id}")
         };
+
+        private readonly List<HttpRouteConventionInfo> AlreadyUsed = new List<HttpRouteConventionInfo>();
 
         public override IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
         {
@@ -51,14 +53,14 @@ namespace AttributeRouting.Web.Http
                 {
                     var requiresId = !string.IsNullOrEmpty(c.Url);
 
-                    if (!c.AlreadyUsed)
+                    if (!AlreadyUsed.Contains(c))
                     {
                         // Check first parameter, if it requires ID
                         if (!requiresId || (actionMethod.GetParameters().Length > 0 && actionMethod.GetParameters()[0].Name.Equals("id", StringComparison.OrdinalIgnoreCase)))
                         {
                             yield return BuildRouteAttribute(c);
 
-                            c.AlreadyUsed = true;
+                            AlreadyUsed.Add(c);
                         }
                     }
                 }
@@ -98,10 +100,8 @@ namespace AttributeRouting.Web.Http
             {
                 HttpMethod = httpMethod;
                 Url = url;
-                AlreadyUsed = false;
             }
 
-            public bool AlreadyUsed { get; set; }
             public HttpMethod HttpMethod { get; private set; }
             public string Url { get; private set; }
         }

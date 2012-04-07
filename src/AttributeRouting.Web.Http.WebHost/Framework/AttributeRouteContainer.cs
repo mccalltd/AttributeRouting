@@ -33,5 +33,13 @@ namespace AttributeRouting.Web.Http.WebHost.Framework
             get { return Route.DataTokens; }
             set { Route.DataTokens = new RouteValueDictionary(value); }
         }
+
+        /// <summary>
+        /// Constraints dictionary
+        /// </summary>
+        public override IDictionary<string, object> Constraints {
+            get { return Route.Constraints; }
+            set { Route.Constraints = new RouteValueDictionary(value); }
+        }
     }
 }

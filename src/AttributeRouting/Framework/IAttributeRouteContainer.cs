@@ -31,5 +31,10 @@ namespace AttributeRouting.Framework {
         /// DataTokens dictionary
         /// </summary>
         IDictionary<string, object> DataTokens { get; set; }
+
+        /// <summary>
+        /// Constraints dictionary
+        /// </summary>
+        IDictionary<string, object> Constraints { get; set; }
     }
 }

@@ -103,6 +103,38 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating routes for an API controller")]
+        [NUnit.Framework.TestCaseAttribute("GET", "Get", "api", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("HEAD", "Get", "api", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("POST", "Post", "api", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("PUT", "Put", "api/{id}", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("DELETE", "Delete", "api/{id}", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("GET", "Wildcards", "api/Wildcards/{*pathInfo}", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("", "AnyVerb", "api/AnyVerb", new string[0])]
+        public virtual void GeneratingRoutesForAnAPIController(string method, string action, string url, string[] exampleTags)
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes for an API controller", exampleTags);
+#line 24
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 25
+ testRunner.When(string.Format("I fetch the routes for the ApiStandardUsage controller\'s {0} action", action));
+#line 26
+ testRunner.Then(string.Format("the route is constrained to {0} requests", method));
+#line 27
+  testRunner.And(string.Format("the route url is \"{0}\"", url));
+#line 28
+  testRunner.And("the default for \"controller\" is \"ApiStandardUsage\"");
+#line 29
+  testRunner.And(string.Format("the default for \"action\" is \"{0}\"", action));
+#line 30
+  testRunner.And("the namespace is \"AttributeRouting.Specs.Subjects.Http\"");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

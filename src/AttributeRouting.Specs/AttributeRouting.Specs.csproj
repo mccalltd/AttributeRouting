@@ -53,8 +53,26 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Json">
+      <HintPath>..\packages\System.Json.4.0.20126.16343\lib\net40\System.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\System.Net.Http.Formatting.4.0.20126.16343\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\AspNetWebApi.Core.4.0.20126.16343\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Common">
+      <HintPath>..\packages\System.Web.Http.Common.4.0.20126.16343\lib\net40\System.Web.Http.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml.Linq" />
@@ -116,6 +134,9 @@
     <Compile Include="Steps\SharedSteps.cs" />
     <Compile Include="Steps\StandardUsageSteps.cs" />
     <Compile Include="Subjects\BugFixesController.cs" />
+    <Compile Include="Subjects\Http\RouteConstraintsController.cs" />
+    <Compile Include="Subjects\Http\RouteConventionsController.cs" />
+    <Compile Include="Subjects\Http\StandardUsageController.cs" />
     <Compile Include="Subjects\LowercaseUrlController.cs" />
     <Compile Include="Subjects\RouteAreasControllers.cs" />
     <Compile Include="Subjects\RoutePrefixesControllers.cs" />
@@ -179,6 +200,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AttributeRouting.Web.Http.SelfHost\AttributeRouting.Web.Http.SelfHost.csproj">
+      <Project>{246F7AEC-9429-4FBB-8747-92A3F025C711}</Project>
+      <Name>AttributeRouting.Web.Http.SelfHost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AttributeRouting.Web.Http.WebHost\AttributeRouting.Web.Http.WebHost.csproj">
+      <Project>{A018FEC5-45F8-44FB-BB6C-33697B418434}</Project>
+      <Name>AttributeRouting.Web.Http.WebHost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AttributeRouting.Web.Http\AttributeRouting.Web.Http.csproj">
+      <Project>{CCDE9AD7-3822-4B0B-AA19-DF6698A85D3D}</Project>
+      <Name>AttributeRouting.Web.Http</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AttributeRouting.Web\AttributeRouting.Web.csproj">
       <Project>{C91C065B-A821-4890-9F31-F9E245D804D1}</Project>
       <Name>AttributeRouting.Web</Name>

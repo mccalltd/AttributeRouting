@@ -84,6 +84,8 @@ this.FeatureBackground();
 #line 7
  testRunner.When("I fetch the routes for the RouteConstraints controller\'s Index action");
 #line 8
+ testRunner.And("I fetch the routes for the ApiRouteConstraints controller\'s Get action");
+#line 9
  testRunner.Then("the parameter \"p1\" is constrained by the pattern \"\\d+\"");
 #line hidden
             this.ScenarioCleanup();
@@ -94,22 +96,25 @@ this.FeatureBackground();
         public virtual void RegexRouteConstraintsSpecifiedInline()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Regex route constraints specified inline", ((string[])(null)));
-#line 10
+#line 11
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 11
+#line 12
  testRunner.When("I fetch the routes for the RouteConstraints controller\'s InlineConstraints action" +
                     "");
-#line 12
- testRunner.Then("the route url is \"InlineConstraints/{number}/{word}/{alphanum}/{capture}\"");
 #line 13
- testRunner.Then("the parameter \"number\" is constrained by the pattern \"\\d+\"");
+ testRunner.And("I fetch the routes for the ApiRouteConstraints controller\'s InlineConstraints act" +
+                    "ion");
 #line 14
- testRunner.Then("the parameter \"word\" is constrained by the pattern \"\\w{2}\"");
+ testRunner.Then("the route url is \"InlineConstraints/{number}/{word}/{alphanum}/{capture}\"");
 #line 15
- testRunner.Then("the parameter \"alphanum\" is constrained by the pattern \"[A-Za-z0-9]*\"");
+ testRunner.Then("the parameter \"number\" is constrained by the pattern \"\\d+\"");
 #line 16
+ testRunner.Then("the parameter \"word\" is constrained by the pattern \"\\w{2}\"");
+#line 17
+ testRunner.Then("the parameter \"alphanum\" is constrained by the pattern \"[A-Za-z0-9]*\"");
+#line 18
  testRunner.Then("the parameter \"capture\" is constrained by the pattern \"(gotcha)\"");
 #line hidden
             this.ScenarioCleanup();
@@ -120,16 +125,23 @@ this.FeatureBackground();
         public virtual void MultipleRoutesWithDifferentConstraints()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple routes with different constraints", ((string[])(null)));
-#line 18
+#line 20
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 19
- testRunner.When("I fetch the routes for the RouteConstraints controller\'s MultipleRoutes action");
-#line 20
- testRunner.Then("the route named \"MultipleConstraints1\" has a constraint on \"p1\" of \"\\d+\"");
 #line 21
+ testRunner.When("I fetch the routes for the RouteConstraints controller\'s MultipleRoutes action");
+#line 22
+ testRunner.And("I fetch the routes for the ApiRouteConstraints controller\'s MultipleRoutes action" +
+                    "");
+#line 23
+ testRunner.Then("the route named \"MultipleConstraints1\" has a constraint on \"p1\" of \"\\d+\"");
+#line 24
   testRunner.And("the route named \"MultipleConstraints2\" has a constraint on \"p1\" of \"\\d{4}\"");
+#line 25
+  testRunner.And("the route named \"ApiMultipleConstraints1\" has a constraint on \"p1\" of \"\\d+\"");
+#line 26
+  testRunner.And("the route named \"ApiMultipleConstraints2\" has a constraint on \"p1\" of \"\\d{4}\"");
 #line hidden
             this.ScenarioCleanup();
         }
