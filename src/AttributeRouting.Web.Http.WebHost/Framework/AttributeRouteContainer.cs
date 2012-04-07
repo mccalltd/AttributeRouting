@@ -41,5 +41,13 @@ namespace AttributeRouting.Web.Http.WebHost.Framework
             get { return Route.Constraints; }
             set { Route.Constraints = new RouteValueDictionary(value); }
         }
+
+        /// <summary>
+        /// Defaults dictionary
+        /// </summary>
+        public override IDictionary<string, object> Defaults {
+            get { return Route.Defaults; }
+            set { Route.Defaults = new RouteValueDictionary(value); }
+        }
     }
 }

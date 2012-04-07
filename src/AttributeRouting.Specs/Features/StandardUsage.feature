@@ -22,10 +22,10 @@ Scenario Outline: Generating routes for an action method
 		|        | AnyVerb   | AnyVerb               |
 
 Scenario Outline: Generating routes for an API controller
-	When I fetch the routes for the ApiStandardUsage controller's <action> action
+	When I fetch the routes for the HttpStandardUsage controller's <action> action
 	Then the route is constrained to <method> requests
 	 And the route url is "<url>"
-	 And the default for "controller" is "ApiStandardUsage"
+	 And the default for "controller" is "HttpStandardUsage"
 	 And the default for "action" is "<action>"
 	 And the namespace is "AttributeRouting.Specs.Subjects.Http"
 	

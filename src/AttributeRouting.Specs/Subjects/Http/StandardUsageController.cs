@@ -4,7 +4,7 @@ using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Specs.Subjects.Http
 {
-    public class ApiStandardUsageController : ApiController
+    public class HttpStandardUsageController : ApiController
     {
         [GET("api")]
         public string Get()

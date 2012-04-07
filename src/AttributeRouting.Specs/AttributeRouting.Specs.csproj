@@ -134,8 +134,10 @@
     <Compile Include="Steps\SharedSteps.cs" />
     <Compile Include="Steps\StandardUsageSteps.cs" />
     <Compile Include="Subjects\BugFixesController.cs" />
+    <Compile Include="Subjects\Http\RouteAreasControllers.cs" />
     <Compile Include="Subjects\Http\RouteConstraintsController.cs" />
     <Compile Include="Subjects\Http\RouteConventionsController.cs" />
+    <Compile Include="Subjects\Http\RouteDefaultsController.cs" />
     <Compile Include="Subjects\Http\StandardUsageController.cs" />
     <Compile Include="Subjects\LowercaseUrlController.cs" />
     <Compile Include="Subjects\RouteAreasControllers.cs" />

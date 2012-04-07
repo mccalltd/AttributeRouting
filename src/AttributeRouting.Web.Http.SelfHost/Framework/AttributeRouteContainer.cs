@@ -44,5 +44,13 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework {
             get { return Route.Constraints; }
             set { throw new NotImplementedException("WebAPI HttpRoute.Constraints has no setter."); }
         }
+
+        /// <summary>
+        /// Defaults dictionary
+        /// </summary>
+        public override IDictionary<string, object> Defaults {
+            get { return Route.Defaults; }
+            set { throw new NotImplementedException("WebAPI HttpRoute.Constraints has no setter."); }
+        }
     }
 }

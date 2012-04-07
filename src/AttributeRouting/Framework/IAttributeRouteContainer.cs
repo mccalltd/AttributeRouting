@@ -36,5 +36,10 @@ namespace AttributeRouting.Framework {
         /// Constraints dictionary
         /// </summary>
         IDictionary<string, object> Constraints { get; set; }
+
+        /// <summary>
+        /// Defaults dictionary
+        /// </summary>
+        IDictionary<string, object> Defaults { get; set; }
     }
 }

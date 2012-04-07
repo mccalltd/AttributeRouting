@@ -121,13 +121,13 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 25
- testRunner.When(string.Format("I fetch the routes for the ApiStandardUsage controller\'s {0} action", action));
+ testRunner.When(string.Format("I fetch the routes for the HttpStandardUsage controller\'s {0} action", action));
 #line 26
  testRunner.Then(string.Format("the route is constrained to {0} requests", method));
 #line 27
   testRunner.And(string.Format("the route url is \"{0}\"", url));
 #line 28
-  testRunner.And("the default for \"controller\" is \"ApiStandardUsage\"");
+  testRunner.And("the default for \"controller\" is \"HttpStandardUsage\"");
 #line 29
   testRunner.And(string.Format("the default for \"action\" is \"{0}\"", action));
 #line 30
