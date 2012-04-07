@@ -60,7 +60,7 @@ namespace AttributeRouting.Framework
 
         public IEnumerable<AttributeRouteContainerBase<TRoute>> BuildAllRoutes()
         {
-            var routeReflector = new RouteReflector<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(_configuration);
+            var routeReflector = RouteReflectorFactory.Create(_configuration);
             var routeSpecs = routeReflector.GenerateRouteSpecifications().ToList();
             var mappedSubdomains = routeSpecs.Where(s => s.Subdomain.HasValue()).Select(s => s.Subdomain).Distinct().ToList();
 
