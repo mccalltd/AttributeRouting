@@ -139,6 +139,7 @@
     <Compile Include="Subjects\Http\RouteConventionsController.cs" />
     <Compile Include="Subjects\Http\RouteDefaultsController.cs" />
     <Compile Include="Subjects\Http\RoutePrecedenceController.cs" />
+    <Compile Include="Subjects\Http\RoutePrefixesControllers.cs" />
     <Compile Include="Subjects\Http\StandardUsageController.cs" />
     <Compile Include="Subjects\LowercaseUrlController.cs" />
     <Compile Include="Subjects\RouteAreasControllers.cs" />
