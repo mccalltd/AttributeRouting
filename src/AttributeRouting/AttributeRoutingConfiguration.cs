@@ -17,15 +17,7 @@ namespace AttributeRouting
         /// <summary>
         /// Creates and initializes a new configuration object.
         /// </summary>
-        protected AttributeRoutingConfiguration(
-            IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> attributeRouteFactory,
-            IConstraintFactory<TConstraint> constraintFactory,
-            IParameterFactory<TRouteParameter> parameterFactory) {
-
-            // Factories
-            AttributeFactory = attributeRouteFactory;
-            ConstraintFactory = constraintFactory;
-            ParameterFactory = parameterFactory;
+        protected AttributeRoutingConfiguration() {
 
             InheritActionsFromBaseController = false;
             Assemblies = new List<Assembly>();
@@ -49,17 +41,17 @@ namespace AttributeRouting
         /// <summary>
         /// Attribute factory
         /// </summary>
-        public IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> AttributeFactory { get; private set; }
+        public abstract IAttributeRouteFactory AttributeFactory { get; }
 
         /// <summary>
         /// Constraint factory
         /// </summary>
-        public IConstraintFactory<TConstraint> ConstraintFactory { get; private set; }
+        public abstract IConstraintFactory<TConstraint> ConstraintFactory { get; }
 
         /// <summary>
         /// Parameter factory
         /// </summary>
-        public IParameterFactory<TRouteParameter> ParameterFactory { get; private set; } 
+        public abstract IParameterFactory<TRouteParameter> ParameterFactory { get; } 
 
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }

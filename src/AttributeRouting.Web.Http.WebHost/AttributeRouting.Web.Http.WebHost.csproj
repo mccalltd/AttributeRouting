@@ -70,8 +70,6 @@
     </Compile>
     <Compile Include="HttpAreaConfiguration.cs" />
     <Compile Include="HttpAttributeRoutingConfiguration.cs" />
-    <Compile Include="Framework\AttributeRoute.cs" />
-    <Compile Include="Framework\AttributeRouteContainer.cs" />
     <Compile Include="Framework\Factories\HttpAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

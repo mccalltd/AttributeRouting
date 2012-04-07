@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Routing;
+using AttributeRouting.Framework;
 using AttributeRouting.Specs.Subjects;
 using AttributeRouting.Web.Logging;
 using AttributeRouting.Web.Mvc;
@@ -22,9 +23,9 @@ namespace AttributeRouting.Specs.Tests.LowercaseUrls
                 c.UseLowercaseRoutes = true;
             });
 
-            routes.Cast<AttributeRoute>().LogTo(Console.Out);
+            routes.Cast<Route>().LogTo(Console.Out);
 
-            var route = routes.Cast<AttributeRoute>().FirstOrDefault();
+            var route = routes.Cast<Route>().FirstOrDefault();
             Assert.That(route, Is.Not.Null);
             Assert.That(route.Url, Is.EqualTo("lowercaseurl/hello/{userName}/goodbye"));
         }
@@ -36,9 +37,9 @@ namespace AttributeRouting.Specs.Tests.LowercaseUrls
             routes.Clear();
             routes.MapAttributeRoutes(c => c.AddRoutesFromController<LowercaseUrlController>());
 
-            routes.Cast<AttributeRoute>().LogTo(Console.Out);
+            routes.Cast<Route>().LogTo(Console.Out);
 
-            var route = routes.Cast<AttributeRoute>().FirstOrDefault();
+            var route = routes.Cast<Route>().FirstOrDefault();
             Assert.That(route, Is.Not.Null);
             Assert.That(route.Url, Is.EqualTo("LowercaseUrl/Hello/{userName}/Goodbye"));
         }

@@ -6,7 +6,8 @@ namespace AttributeRouting.Framework {
     /// Generic interface for AttributeRoutes (logging, etc.) that doesn't
     /// require a Route type
     /// </summary>
-    public interface IAttributeRouteContainer {
+    public interface IAttributeRoute {
+
         /// <summary>
         /// The name of this route, for supporting named routes.
         /// </summary>
@@ -28,6 +29,11 @@ namespace AttributeRouting.Framework {
         string Subdomain { get; set; }
 
         /// <summary>
+        /// Route URL
+        /// </summary>
+        string Url { get; set; }
+
+        /// <summary>
         /// DataTokens dictionary
         /// </summary>
         IDictionary<string, object> DataTokens { get; set; }
@@ -41,5 +47,15 @@ namespace AttributeRouting.Framework {
         /// Defaults dictionary
         /// </summary>
         IDictionary<string, object> Defaults { get; set; }
+
+        /// <summary>
+        /// The translations available for this route.
+        /// </summary>
+        IEnumerable<IAttributeRoute> Translations { get; set; }
+
+        /// <summary>
+        /// Default route container back-reference
+        /// </summary>
+        IAttributeRoute DefaultRouteContainer { get; set; }
     }
 }

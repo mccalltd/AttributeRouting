@@ -9,12 +9,19 @@ namespace AttributeRouting.Web {
     public abstract class WebAttributeRoutingConfiguration<TController, TParameter>
         : AttributeRoutingConfiguration<IRouteConstraint, TController, AttributeRoute<TController, TParameter>, TParameter, HttpContextBase, RouteData>
     {
-        protected WebAttributeRoutingConfiguration(Func<IRouteHandler> handlerFactory, 
-            AttributeRouteFactory<TController, TParameter> attributeRouteFactory,
-            ConstraintFactory constraintFactory,
-            IParameterFactory<TParameter> parameterFactory) 
-            : base(attributeRouteFactory, constraintFactory, parameterFactory) {
+        private readonly IConstraintFactory<IRouteConstraint> _constraintFactory;
+
+        protected WebAttributeRoutingConfiguration(Func<IRouteHandler> handlerFactory) {
             RouteHandlerFactory = handlerFactory;
+
+            _constraintFactory = new ConstraintFactory();
+        }
+
+        /// <summary>
+        /// Constraint factory
+        /// </summary>
+        public override IConstraintFactory<IRouteConstraint> ConstraintFactory {
+            get { return _constraintFactory; }
         }
 
         public Func<IRouteHandler> RouteHandlerFactory { get; set; }

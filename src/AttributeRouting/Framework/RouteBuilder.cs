@@ -44,7 +44,7 @@ namespace AttributeRouting.Framework
     {
 
         private readonly AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> _configuration;
-        private readonly IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> _routeFactory;
+        private readonly IAttributeRouteFactory _routeFactory;
         private readonly IConstraintFactory<TConstraint> _constraintFactory;
         private readonly IParameterFactory<TRouteParameter> _parameterFactory;
 
@@ -58,7 +58,7 @@ namespace AttributeRouting.Framework
             _parameterFactory = configuration.ParameterFactory;
         }
 
-        public IEnumerable<AttributeRouteContainerBase<TRoute>> BuildAllRoutes()
+        public IEnumerable<IAttributeRoute> BuildAllRoutes()
         {
             var routeReflector = RouteReflectorFactory.Create(_configuration);
             var routeSpecs = routeReflector.GenerateRouteSpecifications().ToList();
@@ -74,12 +74,11 @@ namespace AttributeRouting.Framework
             }
         }
 
-        private IEnumerable<AttributeRouteContainerBase<TRoute>> Build(RouteSpecification routeSpec) {
+        private IEnumerable<IAttributeRoute> Build(RouteSpecification routeSpec) {
             var route = _routeFactory.CreateAttributeRoute(CreateRouteUrl(routeSpec),
                                                            CreateRouteDefaults(routeSpec),
                                                            CreateRouteConstraints(routeSpec),
-                                                           CreateRouteDataTokens(routeSpec),
-                                                           _configuration);
+                                                           CreateRouteDataTokens(routeSpec));
 
             route.RouteName = CreateRouteName(routeSpec);
             route.Translations = CreateRouteTranslations(routeSpec);
@@ -306,7 +305,7 @@ namespace AttributeRouting.Framework
             return Regex.Replace(url, String.Join("|", patterns), "");
         }
 
-        private IEnumerable<AttributeRouteContainerBase<TRoute>> CreateRouteTranslations(RouteSpecification routeSpec)
+        private IEnumerable<IAttributeRoute> CreateRouteTranslations(RouteSpecification routeSpec)
         {
             // If no translation provider, then get out of here.
             if (!_configuration.TranslationProviders.Any())
@@ -340,8 +339,7 @@ namespace AttributeRouting.Framework
                                                                       routeSpec.IsAbsoluteUrl),
                                                        CreateRouteDefaults(routeSpec),
                                                        CreateRouteConstraints(routeSpec),
-                                                       CreateRouteDataTokens(routeSpec),
-                                                       _configuration);
+                                                       CreateRouteDataTokens(routeSpec));
 
                 translatedRoute.CultureName = cultureName;
 

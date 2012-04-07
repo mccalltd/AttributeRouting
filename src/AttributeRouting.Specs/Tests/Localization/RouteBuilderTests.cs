@@ -42,7 +42,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             // Ensure that a route is added for each translation
             Assert.That(RouteTable.Routes.Count, Is.EqualTo(2));
 
-            var translatedRoute = RouteTable.Routes.Cast<AttributeRoute>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
+            var translatedRoute = RouteTable.Routes.Cast<Route>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
             Assert.That(translatedRoute, Is.Not.Null);
             Assert.That(translatedRoute.Url, Is.EqualTo("es-Area/es-Prefix/es-Index"));
 
@@ -70,7 +70,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             // Ensure that a route is added for each translation
             Assert.That(RouteTable.Routes.Count, Is.EqualTo(2));
 
-            var translatedRoute = RouteTable.Routes.Cast<AttributeRoute>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
+            var translatedRoute = RouteTable.Routes.Cast<Route>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
             Assert.That(translatedRoute, Is.Not.Null);
             Assert.That(translatedRoute.Url, Is.EqualTo("Area/Prefix/es-Index"));
 
@@ -113,7 +113,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             // Ensure that a route is added for each translation
             Assert.That(RouteTable.Routes.Count, Is.EqualTo(2));
 
-            var translatedRoute = RouteTable.Routes.Cast<AttributeRoute>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
+            var translatedRoute = RouteTable.Routes.Cast<Route>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
             Assert.That(translatedRoute, Is.Not.Null);
             Assert.That(translatedRoute.Url, Is.EqualTo("es-Area/es-Prefix/es-Index"));
 

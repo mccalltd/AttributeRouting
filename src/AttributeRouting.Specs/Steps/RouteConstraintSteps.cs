@@ -11,7 +11,7 @@ namespace AttributeRouting.Specs.Steps
         [Then(@"the parameter ""(.*?)"" is constrained by the pattern ""(.*?)""")]
         public void ThenTheParameterIsContrainedBy(string key, object pattern)
         {
-            var routes = ScenarioContext.Current.GetFetchedRouteContainers();
+            var routes = ScenarioContext.Current.GetFetchedRoutes();
 
             foreach (var route in routes) {
                 Assert.That(route, Is.Not.Null);
@@ -22,7 +22,7 @@ namespace AttributeRouting.Specs.Steps
 
         [Then(@"the route named ""(.*)"" has a constraint on ""(.*)"" of ""(.*)""")]
         public void ThenTheRouteNamedHasAConstraintOnOf(string routeName, string key, string value) {
-            var routes = ScenarioContext.Current.GetFetchedRouteContainers().Where(r => r.RouteName == routeName);
+            var routes = ScenarioContext.Current.GetFetchedRoutes().Where(r => r.RouteName == routeName);
 
             foreach (var route in routes) {
                 Assert.That(route, Is.Not.Null);

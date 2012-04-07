@@ -1,27 +1,33 @@
 using System.Collections.Generic;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework;
+using AttributeRouting.Framework.Factories;
 using AttributeRouting.Web.Framework;
-using AttributeRouting.Web.Framework.Factories;
 
 namespace AttributeRouting.Web.Mvc.Framework.Factories {
-    internal class MvcAttributeRouteFactory : AttributeRouteFactory<IController, UrlParameter>
+    internal class MvcAttributeRouteFactory : IAttributeRouteFactory
     {
-        public override AttributeRouteContainerBase<AttributeRoute<IController, UrlParameter>> CreateAttributeRoute(
-            string url, 
-            IDictionary<string, object> defaults, 
-            IDictionary<string, object> constraints, 
-            IDictionary<string, object> dataTokens, 
-            AttributeRoutingConfiguration<IRouteConstraint, IController, AttributeRoute<IController, UrlParameter>, UrlParameter, HttpContextBase, RouteData> configuration)
-        {
-            return new AttributeRouteContainer(url,
-                    new RouteValueDictionary(defaults),
-                    new RouteValueDictionary(constraints),
-                    new RouteValueDictionary(dataTokens),
-                    configuration as AttributeRoutingConfiguration);
+        private readonly AttributeRoutingConfiguration _configuration;
+
+        public MvcAttributeRouteFactory(AttributeRoutingConfiguration configuration) {
+            _configuration = configuration;
         }
 
+        /// <summary>
+        /// Create a new attribute route that wraps an underlying framework route
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="defaults"></param>
+        /// <param name="constraints"></param>
+        /// <param name="dataTokens"></param>
+        /// <returns></returns>
+        public IAttributeRoute CreateAttributeRoute(string url, IDictionary<string, object> defaults, IDictionary<string, object> constraints, IDictionary<string, object> dataTokens) {
+            return new AttributeRoute<IController, UrlParameter>(url,
+                new RouteValueDictionary(defaults),
+                new RouteValueDictionary(constraints),
+                new RouteValueDictionary(dataTokens),
+                _configuration);
+        }
     }
 }

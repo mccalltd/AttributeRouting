@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Http.Routing;
 using System.Web.Routing;
 using AttributeRouting.Framework;
 using TechTalk.SpecFlow;
@@ -10,27 +11,22 @@ namespace AttributeRouting.Specs
     {
         public static void SetFetchedRoutes(this ScenarioContext context, IEnumerable<Route> routes)
         {
-            context.Set(routes, "FetchedRoutes");
+            context.Set(routes.ToList(), "FetchedRoutes");
         }
 
-        public static IEnumerable<Route> GetFetchedRoutes(this ScenarioContext context)
+        public static IEnumerable<IAttributeRoute> GetFetchedRoutes(this ScenarioContext context)
         {
-            return context.Get<IEnumerable<Route>>("FetchedRoutes");
+            var routes = context.Get<IEnumerable<Route>>("FetchedRoutes");
+
+            return routes.OfType<IAttributeRoute>();
         }
 
-        public static IEnumerable<Web.Mvc.Framework.AttributeRoute> GetFetchedMvcRoutes(this ScenarioContext context) {
-            return context.GetFetchedRoutes().OfType<Web.Mvc.Framework.AttributeRoute>();
+        public static IEnumerable<Route> GetFetchedWebRoutes(this ScenarioContext context) {
+            return context.GetFetchedRoutes().OfType<Route>();
         }
 
-        public static IEnumerable<Web.Http.WebHost.Framework.AttributeRoute> GetFetchedHttpWebHostRoutes(this ScenarioContext context) {
-            return context.GetFetchedRoutes().OfType<Web.Http.WebHost.Framework.AttributeRoute>();
-        }
-
-        public static IEnumerable<IAttributeRouteContainer> GetFetchedRouteContainers(this ScenarioContext context) {
-            IEnumerable<IAttributeRouteContainer> mvcRoutes = context.GetFetchedMvcRoutes().Select(r => r.Container);
-            IEnumerable<IAttributeRouteContainer> webRoutes = context.GetFetchedHttpWebHostRoutes().Select(r => r.Container);
-
-            return mvcRoutes.Union(webRoutes);
+        public static IEnumerable<HttpRoute> GetFetchedHttpSelfHostRoutes(this ScenarioContext context) {
+            return context.GetFetchedRoutes().OfType<HttpRoute>();
         }
     }
 }

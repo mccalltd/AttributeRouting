@@ -72,7 +72,6 @@
     <Compile Include="HttpAreaConfiguration.cs" />
     <Compile Include="HttpAttributeRoutingConfiguration.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
-    <Compile Include="Framework\AttributeRouteContainer.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\HttpRouteConstraintFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />

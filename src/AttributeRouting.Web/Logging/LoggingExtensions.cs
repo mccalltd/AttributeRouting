@@ -19,8 +19,8 @@ namespace AttributeRouting.Web.Logging
 
         public static void LogTo(this Route route, TextWriter writer)
         {
-            string name = route is IAttributeRouteContainer 
-                ? ((IAttributeRouteContainer)route).RouteName : null;
+            string name = route is IAttributeRoute 
+                ? ((IAttributeRoute)route).RouteName : null;
 
             LogWriter.LogRoute(writer, name, AttributeRouteInfo.GetRouteInfo(route.Url, route.Defaults, route.Constraints, route.DataTokens));
         }

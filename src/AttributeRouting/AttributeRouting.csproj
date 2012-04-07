@@ -60,11 +60,10 @@
     <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />
     <Compile Include="Constraints\IAttributeRouteConstraint.cs" />
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
-    <Compile Include="Framework\AttributeRouteContainerBase.cs" />
     <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\IConstraintFactory.cs" />
     <Compile Include="Framework\Factories\IParameterFactory.cs" />
-    <Compile Include="Framework\IAttributeRouteContainer.cs" />
+    <Compile Include="Framework\IAttributeRoute.cs" />
     <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\ObjectExtensions.cs" />

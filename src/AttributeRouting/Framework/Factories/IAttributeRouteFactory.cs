@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 
 namespace AttributeRouting.Framework.Factories {
-    public interface IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
+
+    /// <summary>
+    /// For frameworks to implement, a way to create a framework-specific attribute route
+    /// </summary>
+    public interface IAttributeRouteFactory
     {
 
         /// <summary>
@@ -11,12 +15,12 @@ namespace AttributeRouting.Framework.Factories {
         /// <param name="defaults"></param>
         /// <param name="constraints"></param>
         /// <param name="dataTokens"></param>
-        /// <param name="configuration"></param>
         /// <returns></returns>
-        AttributeRouteContainerBase<TRoute> CreateAttributeRoute(string url,
+        IAttributeRoute CreateAttributeRoute(string url,
             IDictionary<string, object> defaults,
             IDictionary<string, object> constraints,
-            IDictionary<string, object> dataTokens,
-            AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration);
+            IDictionary<string, object> dataTokens);
     }
+
+    
 }

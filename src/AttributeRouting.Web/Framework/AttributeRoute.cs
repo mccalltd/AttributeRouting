@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
@@ -7,9 +8,8 @@ using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Framework {
-    public class AttributeRoute<TController, TParameter> : Route
+    public class AttributeRoute<TController, TParameter> : Route, IAttributeRoute
     {
-
         private readonly WebAttributeRoutingConfiguration<TController, TParameter> _configuration;
 
         /// <summary>
@@ -19,15 +19,11 @@ namespace AttributeRouting.Web.Framework {
             RouteValueDictionary defaults,
             RouteValueDictionary constraints,
             RouteValueDictionary dataTokens,
-            WebAttributeRoutingConfiguration<TController, TParameter> configuration,
-            AttributeRouteContainerBase<AttributeRoute<TController, TParameter>> wrapper)
+            WebAttributeRoutingConfiguration<TController, TParameter> configuration)
             : base(url, defaults, constraints, dataTokens, configuration.RouteHandlerFactory()) {
 
             _configuration = configuration;
-            Container = wrapper;
         }
-
-        public AttributeRouteContainerBase<AttributeRoute<TController, TParameter>> Container { get; private set; }
 
         public override RouteData GetRouteData(HttpContextBase httpContext) {
             var routeData = base.GetRouteData(httpContext);
@@ -45,14 +41,14 @@ namespace AttributeRouting.Web.Framework {
 
         private bool IsSubdomainMatched(HttpContextBase httpContext) {
             // If no subdomains are mapped with AR, then yes.
-            if (!Container.MappedSubdomains.Any())
+            if (!MappedSubdomains.Any())
                 return true;
 
             // Get the subdomain from the requested hostname.
             var subdomain = _configuration.SubdomainParser(httpContext.Request.Headers["host"]);
 
             // Match if this route is mapped to the requested host's subdomain
-            if ((Container.Subdomain ?? _configuration.DefaultSubdomain).ValueEquals(subdomain))
+            if ((Subdomain ?? _configuration.DefaultSubdomain).ValueEquals(subdomain))
                 return true;
 
             // Otherwise, this route does not match the request.
@@ -71,26 +67,26 @@ namespace AttributeRouting.Web.Framework {
             var currentUINeutralCultureName = currentUICultureName.Split('-').First();
 
             // If this is a translated route:
-            if (Container.DefaultRouteContainer != null) {
+            if (DefaultRouteContainer != null) {
                 // Match if the current UI culture matches the culture name of this route.
-                if (currentUICultureName.ValueEquals(Container.CultureName))
+                if (currentUICultureName.ValueEquals(CultureName))
                     return true;
 
                 // Match if the culture name is neutral and no translation exists for the specific culture.
-                if (Container.CultureName.Split('-').Length == 1
-                    && currentUINeutralCultureName == Container.CultureName
-                    && !Container.DefaultRouteContainer.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName))) {
+                if (CultureName.Split('-').Length == 1
+                    && currentUINeutralCultureName == CultureName
+                    && !DefaultRouteContainer.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName))) {
                     return true;
                 }
             } else {
                 // If this is a default route:
 
                 // Match if this route has no translations.
-                if (!Container.Translations.Any())
+                if (!Translations.Any())
                     return true;
 
                 // Match if this route has no translations for the neutral current UI culture.
-                if (!Container.Translations.Any(t => t.CultureName == currentUINeutralCultureName))
+                if (!Translations.Any(t => t.CultureName == currentUINeutralCultureName))
                     return true;
             }
 
@@ -122,19 +118,19 @@ namespace AttributeRouting.Web.Framework {
         }
 
         private VirtualPathData GetTranslatedVirtualPath(VirtualPathData virtualPathData, RequestContext requestContext, RouteValueDictionary values) {
-            if (Container.Translations == null || !Container.Translations.Any())
+            if (Translations == null || !Translations.Any())
                 return virtualPathData;
 
             var currentCultureName = Thread.CurrentThread.CurrentUICulture.Name;
 
             // Try and get the language-culture translation, then fall back to language translation
-            var translation = Container.Translations.FirstOrDefault(t => t.CultureName == currentCultureName)
-                              ?? Container.Translations.FirstOrDefault(t => currentCultureName.StartsWith(t.CultureName));
+            var translation = Translations.FirstOrDefault(t => t.CultureName == currentCultureName)
+                              ?? Translations.FirstOrDefault(t => currentCultureName.StartsWith(t.CultureName));
 
             if (translation == null)
                 return virtualPathData;
 
-            return translation.Route.GetVirtualPath(requestContext, values);
+            return ((Route)translation).GetVirtualPath(requestContext, values);
         }
 
         private static string TransformVirtualPathToLowercase(string virtualPath) {
@@ -167,5 +163,59 @@ namespace AttributeRouting.Web.Framework {
                 query = match.Groups["query"].Value;
             }
         }
+
+        /// <summary>
+        /// The name of this route, for supporting named routes.
+        /// </summary>
+        public string RouteName { get; set; }
+
+        /// <summary>
+        /// The culture name associated with this route.
+        /// </summary>
+        public string CultureName { get; set; }
+
+        /// <summary>
+        /// List of all the subdomains mapped via AttributeRouting.
+        /// </summary>
+        public List<string> MappedSubdomains { get; set; }
+
+        /// <summary>
+        /// The subdomain this route is to be applied against.
+        /// </summary>
+        public string Subdomain { get; set; }
+
+        /// <summary>
+        /// DataTokens dictionary
+        /// </summary>
+        IDictionary<string, object> IAttributeRoute.DataTokens {
+            get { return DataTokens; }
+            set { DataTokens = new RouteValueDictionary(value); }
+        }
+
+        /// <summary>
+        /// Constraints dictionary
+        /// </summary>
+        IDictionary<string, object> IAttributeRoute.Constraints {
+            get { return Constraints; }
+            set { Constraints = new RouteValueDictionary(value); }
+        }
+
+        /// <summary>
+        /// Defaults dictionary
+        /// </summary>
+        IDictionary<string, object> IAttributeRoute.Defaults {
+            get { return Defaults; }
+            set { Defaults=new RouteValueDictionary(value); }
+        }
+
+        /// <summary>
+        /// The translations available for this route.
+        /// </summary>
+        public IEnumerable<IAttributeRoute> Translations { get; set; }
+
+        /// <summary>
+        /// Default route container back-reference
+        /// </summary>
+        public IAttributeRoute DefaultRouteContainer { get; set; }
     }
 }

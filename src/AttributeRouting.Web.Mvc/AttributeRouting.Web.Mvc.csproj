@@ -52,8 +52,6 @@
     <Compile Include="AreaConfiguration.cs" />
     <Compile Include="AttributeRoutingConfiguration.cs" />
     <Compile Include="DELETEAttribute.cs" />
-    <Compile Include="Framework\AttributeRoute.cs" />
-    <Compile Include="Framework\AttributeRouteContainer.cs" />
     <Compile Include="Framework\Factories\MvcAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\UrlParameterFactory.cs" />
     <Compile Include="GETAttribute.cs" />
