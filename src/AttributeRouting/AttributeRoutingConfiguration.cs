@@ -124,10 +124,10 @@ namespace AttributeRouting
         /// Adds all the routes for all the controllers that derive from the specified controller
         /// to the end of the route collection.
         /// </summary>
-        /// <typeparam name="TController">The base controller type</typeparam>
-        public void AddRoutesFromControllersOfType<TController>()
+        /// <typeparam name="T">The base controller type</typeparam>
+        public void AddRoutesFromControllersOfType<T>() where T:TController
         {
-            AddRoutesFromControllersOfType(typeof(TController));
+            AddRoutesFromControllersOfType(typeof(T));
         }
 
         /// <summary>
@@ -153,6 +153,9 @@ namespace AttributeRouting
         /// <param name="controllerType">The controller type</param>
         public void AddRoutesFromController(Type controllerType)
         {
+            if (!typeof(TController).IsAssignableFrom(controllerType))
+                return;
+
             if (!PromotedControllerTypes.Contains(controllerType))
                 PromotedControllerTypes.Add(controllerType);
         }

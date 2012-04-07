@@ -37,6 +37,36 @@ namespace AttributeRouting.Specs.Subjects.Http {
     }
 
     [DefaultHttpRouteConvention]
+    [RoutePrefix("Prefix")]
+    public class DefaultHttpRouteConventionPrefixController : ApiController {
+
+        public string GetAll() {
+            return "";
+        }
+
+        public string Get(int id) {
+            return "";
+        }
+
+        public string Post() {
+            return "";
+        }
+
+        public string Delete(int id) {
+            return "";
+        }
+
+        public string Put(int id) {
+            return "";
+        }
+
+        [GET("Custom")]
+        public string Custom() {
+            return "";
+        }
+    }
+
+    [DefaultHttpRouteConvention]
     public class DefaultHttpRouteConventionWithExplicitRouteController : ApiController {
         [GET("Legacy", IsAbsoluteUrl = true)]
         public string Get() {
@@ -47,7 +77,7 @@ namespace AttributeRouting.Specs.Subjects.Http {
     [DefaultHttpRouteConvention]
     public class DefaultHttpRouteConventionWithExplicitOrderedRouteController : ApiController {
         [GET("Primary", Order = 1)]
-        public string Index() {
+        public string Get() {
             return "";
         }
     }
