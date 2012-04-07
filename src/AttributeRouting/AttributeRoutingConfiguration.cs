@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using AttributeRouting.Framework.Factories;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Helpers;
 
@@ -11,13 +12,21 @@ namespace AttributeRouting
     /// <summary>
     /// Configuration options to use when mapping AttributeRoutes.
     /// </summary>
-    public class AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
+    public abstract class AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
     {
         /// <summary>
         /// Creates and initializes a new configuration object.
         /// </summary>
-        public AttributeRoutingConfiguration()
-        {
+        protected AttributeRoutingConfiguration(
+            IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> attributeRouteFactory,
+            IConstraintFactory<TConstraint> constraintFactory,
+            IParameterFactory<TRouteParameter> parameterFactory) {
+
+            // Factories
+            AttributeFactory = attributeRouteFactory;
+            ConstraintFactory = constraintFactory;
+            ParameterFactory = parameterFactory;
+
             InheritActionsFromBaseController = false;
             Assemblies = new List<Assembly>();
             PromotedControllerTypes = new List<Type>();
@@ -36,6 +45,21 @@ namespace AttributeRouting
                            : String.Join(".", sections.Take(sections.Length - 2));
             };
         }
+
+        /// <summary>
+        /// Attribute factory
+        /// </summary>
+        public IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> AttributeFactory { get; private set; }
+
+        /// <summary>
+        /// Constraint factory
+        /// </summary>
+        public IConstraintFactory<TConstraint> ConstraintFactory { get; private set; }
+
+        /// <summary>
+        /// Parameter factory
+        /// </summary>
+        public IParameterFactory<TRouteParameter> ParameterFactory { get; private set; } 
 
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }

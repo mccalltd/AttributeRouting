@@ -8,6 +8,38 @@ using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
 {
+
+    /// <summary>
+    /// A static factory that eases creation of the RouteBuilder
+    /// </summary>
+    public static class RouteBuilderFactory {
+
+        /// <summary>
+        /// Create a new RouteBuilder with the given types
+        /// </summary>
+        /// <typeparam name="TConstraint"></typeparam>
+        /// <typeparam name="TController"></typeparam>
+        /// <typeparam name="TRoute"></typeparam>
+        /// <typeparam name="TRouteParameter"></typeparam>
+        /// <typeparam name="TRequestContext"></typeparam>
+        /// <typeparam name="TRouteData"></typeparam>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static RouteBuilder<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> Create<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(
+            AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration) {
+            return new RouteBuilder<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(configuration);
+        }
+    }
+
+    /// <summary>
+    /// Class that actually creates all the routes from attributes and AR configuration. Relies on RouteReflector to inspect types
+    /// </summary>
+    /// <typeparam name="TConstraint"></typeparam>
+    /// <typeparam name="TController"></typeparam>
+    /// <typeparam name="TRoute"></typeparam>
+    /// <typeparam name="TRouteParameter"></typeparam>
+    /// <typeparam name="TRequestContext"></typeparam>
+    /// <typeparam name="TRouteData"></typeparam>
     public class RouteBuilder<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
     {
 
@@ -16,15 +48,14 @@ namespace AttributeRouting.Framework
         private readonly IConstraintFactory<TConstraint> _constraintFactory;
         private readonly IParameterFactory<TRouteParameter> _parameterFactory;
 
-        public RouteBuilder(AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration,
-            IAttributeRouteFactory<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> routeFactory, IConstraintFactory<TConstraint> constraintFactory, IParameterFactory<TRouteParameter> parameterFactory)
+        internal RouteBuilder(AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
             _configuration = configuration;
-            _routeFactory = routeFactory;
-            _constraintFactory = constraintFactory;
-            _parameterFactory = parameterFactory;
+            _routeFactory = configuration.AttributeFactory;
+            _constraintFactory = configuration.ConstraintFactory;
+            _parameterFactory = configuration.ParameterFactory;
         }
 
         public IEnumerable<AttributeRouteContainerBase<TRoute>> BuildAllRoutes()

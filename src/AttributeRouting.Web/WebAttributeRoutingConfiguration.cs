@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Web;
 using System.Web.Routing;
+using AttributeRouting.Framework.Factories;
 using AttributeRouting.Web.Framework;
+using AttributeRouting.Web.Framework.Factories;
 
 namespace AttributeRouting.Web {
-    public class WebAttributeRoutingConfiguration<TController, TParameter>
+    public abstract class WebAttributeRoutingConfiguration<TController, TParameter>
         : AttributeRoutingConfiguration<IRouteConstraint, TController, AttributeRoute<TController, TParameter>, TParameter, HttpContextBase, RouteData>
     {
-        public WebAttributeRoutingConfiguration(Func<IRouteHandler> handlerFactory)
-        {
+        protected WebAttributeRoutingConfiguration(Func<IRouteHandler> handlerFactory, 
+            AttributeRouteFactory<TController, TParameter> attributeRouteFactory,
+            ConstraintFactory constraintFactory,
+            IParameterFactory<TParameter> parameterFactory) 
+            : base(attributeRouteFactory, constraintFactory, parameterFactory) {
             RouteHandlerFactory = handlerFactory;
         }
 

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Web.Http;
+using AttributeRouting.Framework;
 using AttributeRouting.Web.Http.SelfHost.Framework;
 using AttributeRouting.Web.Http.SelfHost.Framework.Factories;
 
@@ -54,8 +55,7 @@ namespace AttributeRouting.Web.Http.SelfHost
 
         private static void MapHttpAttributeRoutesInternal(this HttpRouteCollection routes, HttpAttributeRoutingConfiguration configuration)
         {
-            var generatedRoutes = new RouteBuilder(
-                configuration, new AttributeRouteFactory(), new HttpRouteConstraintFactory(), new RouteParameterFactory()).BuildAllRoutes();
+            var generatedRoutes = RouteBuilderFactory.Create(configuration).BuildAllRoutes();
 
             generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, r.Route));
         }

@@ -54,7 +54,6 @@
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\ConstraintFactory.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
-    <Compile Include="Framework\RouteBuilder.cs" />
     <Compile Include="Framework\RouteReflector.cs" />
     <Compile Include="Helpers\HttpRequestBaseExtensions.cs" />
     <Compile Include="WebAreaConfiguration.cs" />
