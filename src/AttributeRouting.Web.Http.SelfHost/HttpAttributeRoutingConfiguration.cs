@@ -7,7 +7,7 @@ using AttributeRouting.Web.Http.SelfHost.Framework;
 using AttributeRouting.Web.Http.SelfHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.SelfHost {
-    public class HttpAttributeRoutingConfiguration : AttributeRoutingConfiguration<IHttpRouteConstraint, IHttpController, AttributeRoute, RouteParameter, HttpRequestMessage, IHttpRouteData>
+    public class HttpAttributeRoutingConfiguration : AttributeRoutingConfiguration<IHttpController, AttributeRoute, RouteParameter, HttpRequestMessage, IHttpRouteData>
     {
         private readonly IAttributeRouteFactory _attributeFactory;
         private readonly IConstraintFactory _constraintFactory;

@@ -12,7 +12,7 @@ namespace AttributeRouting
     /// <summary>
     /// Configuration options to use when mapping AttributeRoutes.
     /// </summary>
-    public abstract class AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
+    public abstract class AttributeRoutingConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
     {
         /// <summary>
         /// Creates and initializes a new configuration object.
@@ -206,9 +206,9 @@ namespace AttributeRouting
         /// Returns a utility for configuring areas when initializing AttributeRouting framework.
         /// </summary>
         /// <param name="name">The name of the area to configure</param>
-        public AreaConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> MapArea(string name)
+        public AreaConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData> MapArea(string name)
         {
-            return new AreaConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(name, this);
+            return new AreaConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(name, this);
         }
 
         /// <summary>

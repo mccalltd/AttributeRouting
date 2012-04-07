@@ -23,26 +23,25 @@ namespace AttributeRouting.Framework
         /// <typeparam name="TRouteData"></typeparam>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static RouteReflector<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> Create<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(
-            AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration) {
-            return new RouteReflector<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(configuration);
+        public static RouteReflector<TController, TRoute, TRouteParameter, TRequestContext, TRouteData> Create<TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(
+            AttributeRoutingConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration) {
+            return new RouteReflector<TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(configuration);
         }
     }
 
     /// <summary>
     /// A reflector that inspects the assemblies provided in configuration to find attribute routes and constraints
     /// </summary>
-    /// <typeparam name="TConstraint"></typeparam>
     /// <typeparam name="TController"></typeparam>
     /// <typeparam name="TRoute"></typeparam>
     /// <typeparam name="TRouteParameter"></typeparam>
     /// <typeparam name="TRequestContext"></typeparam>
     /// <typeparam name="TRouteData"></typeparam>
-    public class RouteReflector<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
+    public class RouteReflector<TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
     {
-        private readonly AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> _configuration;
+        private readonly AttributeRoutingConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData> _configuration;
 
-        internal RouteReflector(AttributeRoutingConfiguration<TConstraint, TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration)
+        internal RouteReflector(AttributeRoutingConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
