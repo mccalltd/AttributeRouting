@@ -38,9 +38,9 @@ namespace AttributeRouting.Helpers
         /// </summary>
         /// <param name="assembly"></param>
         /// <returns></returns>
-        public static IEnumerable<Type> GetControllerTypes<TController>(this Assembly assembly) {
+        public static IEnumerable<Type> GetControllerTypes(this Assembly assembly, Type controllerType) {
             return from type in assembly.GetTypes()
-                   where !type.IsAbstract && typeof(TController).IsAssignableFrom(type)
+                   where !type.IsAbstract && controllerType.IsAssignableFrom(type)
                    select type;
         }
 

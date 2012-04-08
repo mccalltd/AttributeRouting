@@ -12,8 +12,13 @@ namespace AttributeRouting
     /// <summary>
     /// Configuration options to use when mapping AttributeRoutes.
     /// </summary>
-    public abstract class AttributeRoutingConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
-    {
+    public abstract class AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> {
+
+        /// <summary>
+        /// Type of the framework controller (IController, IHttpController)
+        /// </summary>
+        public abstract Type FrameworkControllerType { get; }
+
         /// <summary>
         /// Creates and initializes a new configuration object.
         /// </summary>
@@ -121,15 +126,6 @@ namespace AttributeRouting
         public Func<TRequestContext, TRouteData, string> CurrentUICultureResolver { get; set; }
 
         /// <summary>
-        /// Scans the assembly of the specified controller for routes to register.
-        /// </summary>
-        /// <typeparam name="T">The type of the controller used to specify the assembly</typeparam>
-        public void ScanAssemblyOf<T>() where T:TController
-        {
-            ScanAssembly(typeof(T).Assembly);
-        }
-
-        /// <summary>
         /// Scans the specified assembly for routes to register.
         /// </summary>
         /// <param name="assembly">The assembly</param>
@@ -143,22 +139,12 @@ namespace AttributeRouting
         /// Adds all the routes for all the controllers that derive from the specified controller
         /// to the end of the route collection.
         /// </summary>
-        /// <typeparam name="T">The base controller type</typeparam>
-        public void AddRoutesFromControllersOfType<T>() where T:TController
-        {
-            AddRoutesFromControllersOfType(typeof(T));
-        }
-
-        /// <summary>
-        /// Adds all the routes for all the controllers that derive from the specified controller
-        /// to the end of the route collection.
-        /// </summary>
         /// <param name="baseControllerType">The base controller type</param>
         public void AddRoutesFromControllersOfType(Type baseControllerType)
         {
             var assembly = baseControllerType.Assembly;
 
-            var controllerTypes = from controllerType in assembly.GetControllerTypes<TController>()
+            var controllerTypes = from controllerType in assembly.GetControllerTypes(FrameworkControllerType)
                                   where baseControllerType.IsAssignableFrom(controllerType)
                                   select controllerType;
 
@@ -172,22 +158,11 @@ namespace AttributeRouting
         /// <param name="controllerType">The controller type</param>
         public void AddRoutesFromController(Type controllerType)
         {
-            if (!typeof(TController).IsAssignableFrom(controllerType))
+            if (!FrameworkControllerType.IsAssignableFrom(controllerType))
                 return;
 
             if (!PromotedControllerTypes.Contains(controllerType))
                 PromotedControllerTypes.Add(controllerType);
-        }
-
-
-        /// <summary>
-        /// Adds all the routes for the specified controller type to the end of the route collection.
-        /// </summary>
-        /// <typeparam name="T"> </typeparam>
-        public void AddRoutesFromController<T>()
-            where T:TController
-        {
-            AddRoutesFromController(typeof(T));
         }
 
         /// <summary>
@@ -206,9 +181,9 @@ namespace AttributeRouting
         /// Returns a utility for configuring areas when initializing AttributeRouting framework.
         /// </summary>
         /// <param name="name">The name of the area to configure</param>
-        public AreaConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData> MapArea(string name)
+        public AreaConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> MapArea(string name)
         {
-            return new AreaConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(name, this);
+            return new AreaConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData>(name, this);
         }
 
         /// <summary>

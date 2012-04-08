@@ -8,9 +8,9 @@ using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Framework {
-    public class AttributeRoute<TController, TParameter> : Route, IAttributeRoute
+    public class AttributeRoute<TParameter> : Route, IAttributeRoute
     {
-        private readonly WebAttributeRoutingConfiguration<TController, TParameter> _configuration;
+        private readonly WebAttributeRoutingConfiguration<TParameter> _configuration;
 
         /// <summary>
         /// Route supporting the AttributeRouting framework.
@@ -19,7 +19,7 @@ namespace AttributeRouting.Web.Framework {
             RouteValueDictionary defaults,
             RouteValueDictionary constraints,
             RouteValueDictionary dataTokens,
-            WebAttributeRoutingConfiguration<TController, TParameter> configuration)
+            WebAttributeRoutingConfiguration<TParameter> configuration)
             : base(url, defaults, constraints, dataTokens, configuration.RouteHandlerFactory()) {
 
             _configuration = configuration;

@@ -6,8 +6,8 @@ using AttributeRouting.Web.Framework;
 using AttributeRouting.Web.Framework.Factories;
 
 namespace AttributeRouting.Web {
-    public abstract class WebAttributeRoutingConfiguration<TController, TParameter>
-        : AttributeRoutingConfiguration<TController, AttributeRoute<TController, TParameter>, TParameter, HttpContextBase, RouteData>
+    public abstract class WebAttributeRoutingConfiguration<TParameter>
+        : AttributeRoutingConfiguration<AttributeRoute<TParameter>, TParameter, HttpContextBase, RouteData>
     {
         private readonly IConstraintFactory _constraintFactory;
 

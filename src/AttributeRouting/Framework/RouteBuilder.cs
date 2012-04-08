@@ -17,36 +17,34 @@ namespace AttributeRouting.Framework
         /// <summary>
         /// Create a new RouteBuilder with the given types
         /// </summary>
-        /// <typeparam name="TController"></typeparam>
         /// <typeparam name="TRoute"></typeparam>
         /// <typeparam name="TRouteParameter"></typeparam>
         /// <typeparam name="TRequestContext"></typeparam>
         /// <typeparam name="TRouteData"></typeparam>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static RouteBuilder<TController, TRoute, TRouteParameter, TRequestContext, TRouteData> Create<TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(
-            AttributeRoutingConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration) {
-            return new RouteBuilder<TController, TRoute, TRouteParameter, TRequestContext, TRouteData>(configuration);
+        public static RouteBuilder<TRoute, TRouteParameter, TRequestContext, TRouteData> Create<TRoute, TRouteParameter, TRequestContext, TRouteData>(
+            AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> configuration) {
+            return new RouteBuilder<TRoute, TRouteParameter, TRequestContext, TRouteData>(configuration);
         }
     }
 
     /// <summary>
     /// Class that actually creates all the routes from attributes and AR configuration. Relies on RouteReflector to inspect types
     /// </summary>
-    /// <typeparam name="TController"></typeparam>
     /// <typeparam name="TRoute"></typeparam>
     /// <typeparam name="TRouteParameter"></typeparam>
     /// <typeparam name="TRequestContext"></typeparam>
     /// <typeparam name="TRouteData"></typeparam>
-    public class RouteBuilder<TController, TRoute, TRouteParameter, TRequestContext, TRouteData>
+    public class RouteBuilder<TRoute, TRouteParameter, TRequestContext, TRouteData>
     {
 
-        private readonly AttributeRoutingConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData> _configuration;
+        private readonly AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> _configuration;
         private readonly IAttributeRouteFactory _routeFactory;
         private readonly IConstraintFactory _constraintFactory;
         private readonly IParameterFactory<TRouteParameter> _parameterFactory;
 
-        internal RouteBuilder(AttributeRoutingConfiguration<TController, TRoute, TRouteParameter, TRequestContext, TRouteData> configuration)
+        internal RouteBuilder(AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
