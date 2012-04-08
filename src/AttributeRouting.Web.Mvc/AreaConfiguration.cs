@@ -5,7 +5,7 @@ namespace AttributeRouting.Web.Mvc
     /// <summary>
     /// Helper for configuring areas when initializing AttributeRouting framework.
     /// </summary>
-    public class AreaConfiguration : WebAreaConfiguration<UrlParameter>
+    public class AreaConfiguration : WebAreaConfiguration
     {
         public AreaConfiguration(string name, AttributeRoutingConfiguration configuration) : base(name, configuration)
         {

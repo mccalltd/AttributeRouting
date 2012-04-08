@@ -12,7 +12,7 @@ namespace AttributeRouting
     /// <summary>
     /// Configuration options to use when mapping AttributeRoutes.
     /// </summary>
-    public abstract class AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> {
+    public abstract class AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> {
 
         /// <summary>
         /// Type of the framework controller (IController, IHttpController)
@@ -56,7 +56,7 @@ namespace AttributeRouting
         /// <summary>
         /// Parameter factory
         /// </summary>
-        public abstract IParameterFactory<TRouteParameter> ParameterFactory { get; } 
+        public abstract IParameterFactory ParameterFactory { get; } 
 
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }
@@ -181,9 +181,9 @@ namespace AttributeRouting
         /// Returns a utility for configuring areas when initializing AttributeRouting framework.
         /// </summary>
         /// <param name="name">The name of the area to configure</param>
-        public AreaConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> MapArea(string name)
+        public AreaConfiguration<TRoute, TRequestContext, TRouteData> MapArea(string name)
         {
-            return new AreaConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData>(name, this);
+            return new AreaConfiguration<TRoute, TRequestContext, TRouteData>(name, this);
         }
 
         /// <summary>

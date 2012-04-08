@@ -8,11 +8,11 @@ using AttributeRouting.Web.Framework;
 
 namespace AttributeRouting.Web
 {
-    public class WebAreaConfiguration<TParameter>
-        : AreaConfiguration<AttributeRoute<TParameter>, TParameter, HttpContextBase, RouteData>
+    public class WebAreaConfiguration
+        : AreaConfiguration<AttributeRoute, HttpContextBase, RouteData>
     {
         public WebAreaConfiguration(string name, 
-            WebAttributeRoutingConfiguration<TParameter> configuration) : base(name, configuration)
+            WebAttributeRoutingConfiguration configuration) : base(name, configuration)
         {
         }
     }

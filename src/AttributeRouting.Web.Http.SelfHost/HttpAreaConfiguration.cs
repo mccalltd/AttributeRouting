@@ -11,7 +11,7 @@ using AttributeRouting.Web.Http.SelfHost.Framework;
 namespace AttributeRouting.Web.Http.SelfHost
 {
     public class HttpAreaConfiguration
-        : AreaConfiguration<AttributeRoute, RouteParameter, HttpRequestMessage, IHttpRouteData>
+        : AreaConfiguration<AttributeRoute, HttpRequestMessage, IHttpRouteData>
     {
         public HttpAreaConfiguration(string name, HttpAttributeRoutingConfiguration configuration) : base(name, configuration)
         {

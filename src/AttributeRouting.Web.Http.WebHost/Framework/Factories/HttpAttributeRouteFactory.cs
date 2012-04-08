@@ -27,7 +27,7 @@ namespace AttributeRouting.Web.Http.WebHost.Framework.Factories
         /// <param name="dataTokens"></param>
         /// <returns></returns>
         public IAttributeRoute CreateAttributeRoute(string url, IDictionary<string, object> defaults, IDictionary<string, object> constraints, IDictionary<string, object> dataTokens) {
-            return new AttributeRoute<RouteParameter>(url,
+            return new AttributeRoute(url,
                 new RouteValueDictionary(defaults),
                 new RouteValueDictionary(constraints),
                 new RouteValueDictionary(dataTokens), 

@@ -3,9 +3,9 @@ using AttributeRouting.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.WebHost.Framework.Factories
 {
-    internal class RouteParameterFactory : IParameterFactory<RouteParameter>
+    internal class RouteParameterFactory : IParameterFactory
     {
-        public RouteParameter Optional()
+        public object Optional()
         {
             return RouteParameter.Optional;
         }

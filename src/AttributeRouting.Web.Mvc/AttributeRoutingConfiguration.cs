@@ -6,10 +6,10 @@ using AttributeRouting.Web.Mvc.Framework.Factories;
 
 namespace AttributeRouting.Web.Mvc
 {
-    public class AttributeRoutingConfiguration : WebAttributeRoutingConfiguration<UrlParameter>
+    public class AttributeRoutingConfiguration : WebAttributeRoutingConfiguration
     {
         private readonly IAttributeRouteFactory _attributeFactory;
-        private readonly IParameterFactory<UrlParameter> _parameterFactory;
+        private readonly IParameterFactory _parameterFactory;
 
         public AttributeRoutingConfiguration()
             : base(() => new MvcRouteHandler()) {
@@ -31,7 +31,7 @@ namespace AttributeRouting.Web.Mvc
         /// <summary>
         /// Parameter factory
         /// </summary>
-        public override IParameterFactory<UrlParameter> ParameterFactory {
+        public override IParameterFactory ParameterFactory {
             get { return _parameterFactory; }
         }
 

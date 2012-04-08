@@ -3,13 +3,12 @@ namespace AttributeRouting.Framework.Factories {
     /// <summary>
     /// Factory methods for getting RouteParameters or UrlParameters
     /// </summary>
-    public interface IParameterFactory<out TRouteParameter> {
+    public interface IParameterFactory {
 
         /// <summary>
-        /// Optional parameter
+        /// Optional parameter (UrlParameter.Optional, RouteParameter.Optional)
         /// </summary>
-        /// <typeparam name="TRouteParameter"></typeparam>
         /// <returns></returns>
-        TRouteParameter Optional();
+        object Optional();
     }
 }

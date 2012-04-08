@@ -3,9 +3,9 @@ using AttributeRouting.Framework.Factories;
 
 namespace AttributeRouting.Web.Mvc.Framework.Factories
 {
-    internal class UrlParameterFactory : IParameterFactory<UrlParameter>
+    internal class UrlParameterFactory : IParameterFactory
     {
-        public UrlParameter Optional()
+        public object Optional()
         {
             return UrlParameter.Optional;
         }

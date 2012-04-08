@@ -8,11 +8,11 @@ using AttributeRouting.Web.Http.SelfHost.Framework;
 using AttributeRouting.Web.Http.SelfHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.SelfHost {
-    public class HttpAttributeRoutingConfiguration : AttributeRoutingConfiguration<AttributeRoute, RouteParameter, HttpRequestMessage, IHttpRouteData>
+    public class HttpAttributeRoutingConfiguration : AttributeRoutingConfiguration<AttributeRoute, HttpRequestMessage, IHttpRouteData>
     {
         private readonly IAttributeRouteFactory _attributeFactory;
         private readonly IConstraintFactory _constraintFactory;
-        private readonly IParameterFactory<RouteParameter> _parameterFactory;
+        private readonly IParameterFactory _parameterFactory;
 
         public HttpAttributeRoutingConfiguration() {
             _attributeFactory = new AttributeRouteFactory(this);
@@ -41,7 +41,7 @@ namespace AttributeRouting.Web.Http.SelfHost {
         /// <summary>
         /// Parameter factory
         /// </summary>
-        public override IParameterFactory<RouteParameter> ParameterFactory {
+        public override IParameterFactory ParameterFactory {
             get { return _parameterFactory; }
         }
 

@@ -67,7 +67,7 @@ namespace AttributeRouting.Specs.Tests.TrailingSlashes
                 AppendTrailingSlash = appendTrailingSlash,
             };
 
-            return new AttributeRoute<UrlParameter>(url,
+            return new AttributeRoute(url,
                                       new RouteValueDictionary(),
                                       new RouteValueDictionary(),
                                       new RouteValueDictionary(),

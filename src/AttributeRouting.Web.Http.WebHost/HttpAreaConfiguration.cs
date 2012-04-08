@@ -6,7 +6,7 @@ namespace AttributeRouting.Web.Http.WebHost
     /// <summary>
     /// Helper for configuring areas when initializing AttributeRouting framework.
     /// </summary>
-    public class HttpAreaConfiguration : WebAreaConfiguration<RouteParameter>
+    public class HttpAreaConfiguration : WebAreaConfiguration
     {
         public HttpAreaConfiguration(string name, HttpAttributeRoutingConfiguration configuration) 
             : base(name, configuration)

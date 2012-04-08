@@ -16,14 +16,13 @@ namespace AttributeRouting.Framework
         /// Creates a new RouteReflector for the given types
         /// </summary>
         /// <typeparam name="TRoute"></typeparam>
-        /// <typeparam name="TRouteParameter"></typeparam>
         /// <typeparam name="TRequestContext"></typeparam>
         /// <typeparam name="TRouteData"></typeparam>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static RouteReflector<TRoute, TRouteParameter, TRequestContext, TRouteData> Create<TRoute, TRouteParameter, TRequestContext, TRouteData>(
-            AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> configuration) {
-            return new RouteReflector<TRoute, TRouteParameter, TRequestContext, TRouteData>(configuration);
+        public static RouteReflector<TRoute, TRequestContext, TRouteData> Create<TRoute, TRequestContext, TRouteData>(
+            AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> configuration) {
+            return new RouteReflector<TRoute, TRequestContext, TRouteData>(configuration);
         }
     }
 
@@ -31,14 +30,13 @@ namespace AttributeRouting.Framework
     /// A reflector that inspects the assemblies provided in configuration to find attribute routes and constraints
     /// </summary>
     /// <typeparam name="TRoute"></typeparam>
-    /// <typeparam name="TRouteParameter"></typeparam>
     /// <typeparam name="TRequestContext"></typeparam>
     /// <typeparam name="TRouteData"></typeparam>
-    public class RouteReflector<TRoute, TRouteParameter, TRequestContext, TRouteData>
+    public class RouteReflector<TRoute, TRequestContext, TRouteData>
     {
-        private readonly AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> _configuration;
+        private readonly AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> _configuration;
 
-        internal RouteReflector(AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> configuration)
+        internal RouteReflector(AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 

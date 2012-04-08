@@ -6,15 +6,15 @@ namespace AttributeRouting
     /// <summary>
     /// Helper for configuring areas when initializing AttributeRouting framework.
     /// </summary>
-    public class AreaConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData>
+    public class AreaConfiguration<TRoute, TRequestContext, TRouteData>
     {
         private readonly string _name;
-        private readonly AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> _configuration;
+        private readonly AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> _configuration;
 
         /// <summary>
         /// Helper for configuring areas when initializing AttributeRouting framework.
         /// </summary>
-        public AreaConfiguration(string name, AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> configuration)
+        public AreaConfiguration(string name, AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> configuration)
         {
             _name = name;
             _configuration = configuration;

@@ -8,10 +8,10 @@ using AttributeRouting.Web.Framework.Factories;
 using AttributeRouting.Web.Http.WebHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.WebHost {
-    public class HttpAttributeRoutingConfiguration : WebAttributeRoutingConfiguration<RouteParameter>
+    public class HttpAttributeRoutingConfiguration : WebAttributeRoutingConfiguration
     {
         private readonly IAttributeRouteFactory _attributeFactory;
-        private readonly IParameterFactory<RouteParameter> _parameterFactory;
+        private readonly IParameterFactory _parameterFactory;
 
         public HttpAttributeRoutingConfiguration()
             : base(() => HttpControllerRouteHandler.Instance)
@@ -34,7 +34,7 @@ namespace AttributeRouting.Web.Http.WebHost {
         /// <summary>
         /// Parameter factory
         /// </summary>
-        public override IParameterFactory<RouteParameter> ParameterFactory {
+        public override IParameterFactory ParameterFactory {
             get { return _parameterFactory; }
         }
 

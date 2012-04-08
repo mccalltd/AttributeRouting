@@ -17,15 +17,14 @@ namespace AttributeRouting.Framework
         /// <summary>
         /// Create a new RouteBuilder with the given types
         /// </summary>
-        /// <typeparam name="TRoute"></typeparam>
-        /// <typeparam name="TRouteParameter"></typeparam>
+        /// <typeparam name="TRoute"></typeparam>        
         /// <typeparam name="TRequestContext"></typeparam>
         /// <typeparam name="TRouteData"></typeparam>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static RouteBuilder<TRoute, TRouteParameter, TRequestContext, TRouteData> Create<TRoute, TRouteParameter, TRequestContext, TRouteData>(
-            AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> configuration) {
-            return new RouteBuilder<TRoute, TRouteParameter, TRequestContext, TRouteData>(configuration);
+        public static RouteBuilder<TRoute, TRequestContext, TRouteData> Create<TRoute, TRequestContext, TRouteData>(
+            AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> configuration) {
+            return new RouteBuilder<TRoute, TRequestContext, TRouteData>(configuration);
         }
     }
 
@@ -36,15 +35,15 @@ namespace AttributeRouting.Framework
     /// <typeparam name="TRouteParameter"></typeparam>
     /// <typeparam name="TRequestContext"></typeparam>
     /// <typeparam name="TRouteData"></typeparam>
-    public class RouteBuilder<TRoute, TRouteParameter, TRequestContext, TRouteData>
+    public class RouteBuilder<TRoute, TRequestContext, TRouteData>
     {
 
-        private readonly AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> _configuration;
+        private readonly AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> _configuration;
         private readonly IAttributeRouteFactory _routeFactory;
         private readonly IConstraintFactory _constraintFactory;
-        private readonly IParameterFactory<TRouteParameter> _parameterFactory;
+        private readonly IParameterFactory _parameterFactory;
 
-        internal RouteBuilder(AttributeRoutingConfiguration<TRoute, TRouteParameter, TRequestContext, TRouteData> configuration)
+        internal RouteBuilder(AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
