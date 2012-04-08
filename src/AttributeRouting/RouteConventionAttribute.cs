@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using AttributeRouting.Constraints;
 
-namespace AttributeRouting.Web.Http
+namespace AttributeRouting
 {
     /// <summary>
-    /// Base class for HttpConventionAttributes
+    /// Base class implementors can use to define a custom controller-level route convention.
     /// </summary>
-    public abstract class HttpConventionAttribute : Attribute, IRouteConvention
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    public abstract class RouteConventionAttribute : Attribute, IRouteConvention
     {
         /// <summary>
         /// Gets the RouteAttributes to be applied to the given action method.
@@ -37,6 +38,11 @@ namespace AttributeRouting.Web.Http
             yield break;
         }
 
+        /// <summary>
+        /// Gets the route constraints to be applied against the given action method.
+        /// </summary>
+        /// <param name="actionMethod"></param>
+        /// <returns></returns>
         public virtual IEnumerable<IAttributeRouteConstraint> GetRouteConstraintAttributes(MethodInfo actionMethod)
         {
             yield break;

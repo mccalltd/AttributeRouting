@@ -56,15 +56,18 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AreaConfiguration.cs" />
+    <Compile Include="AttributeRoutingConfigurationBase.cs" />
     <Compile Include="Constraints\IRegexRouteConstraint.cs" />
     <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />
     <Compile Include="Constraints\IAttributeRouteConstraint.cs" />
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
+    <Compile Include="DELETEAttribute.cs" />
     <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\IConstraintFactory.cs" />
     <Compile Include="Framework\Factories\IParameterFactory.cs" />
     <Compile Include="Framework\IAttributeRoute.cs" />
     <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
+    <Compile Include="GETAttribute.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\ObjectExtensions.cs" />
     <Compile Include="Helpers\ReflectionExtensions.cs" />
@@ -80,11 +83,14 @@
     <Compile Include="IRouteConvention.cs" />
     <Compile Include="Logging\AttributeRouteInfo.cs" />
     <Compile Include="Logging\LogWriter.cs" />
+    <Compile Include="POSTAttribute.cs" />
+    <Compile Include="PUTAttribute.cs" />
+    <Compile Include="RouteAttribute.cs" />
     <Compile Include="RouteConstraintAttributeBase.cs" />
+    <Compile Include="RouteConventionAttribute.cs" />
     <Compile Include="RoutePrefixAttribute.cs" />
     <Compile Include="RouteAreaAttribute.cs" />
     <Compile Include="RouteDefaultAttribute.cs" />
-    <Compile Include="AttributeRoutingConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\RouteSpecification.cs" />
     <Compile Include="Framework\RouteReflector.cs" />

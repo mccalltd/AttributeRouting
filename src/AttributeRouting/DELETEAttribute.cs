@@ -1,4 +1,4 @@
-namespace AttributeRouting.Web.Mvc
+namespace AttributeRouting
 {
     /// <summary>
     /// Defines a route for an action constrained to requests providing an httpMethod value of DELETE.

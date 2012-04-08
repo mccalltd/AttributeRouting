@@ -1,28 +1,43 @@
 using System;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
-namespace AttributeRouting.Web.Http
+namespace AttributeRouting
 {
+    /// <summary>
+    /// The route information for an action.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public class HttpRouteAttribute : Attribute, IRouteAttribute
+    public class RouteAttribute : Attribute, IRouteAttribute
     {
-        public HttpRouteAttribute(string routeUrl, params string[] allowedMethods) {
-            if (routeUrl == null) throw new ArgumentNullException("routeUrl");            
+        /// <summary>
+        /// Specify the route information for an action.
+        /// </summary>
+        /// <param name="routeUrl">The url that is associated with this action</param>
+        /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
+        public RouteAttribute(string routeUrl, params string[] allowedMethods)
+        {
+            if (routeUrl == null) throw new ArgumentNullException("routeUrl");
+
+            if (allowedMethods.Any(m => !Regex.IsMatch(m, "HEAD|GET|POST|PUT|DELETE")))
+                throw new ArgumentException("The allowedMethods are restricted to either HEAD, GET, POST, PUT, or DELETE.", "allowedMethods");
 
             RouteUrl = routeUrl;
             HttpMethods = allowedMethods;
             Order = int.MaxValue;
-            Precedence = int.MaxValue;                        
+            Precedence = int.MaxValue;
         }
-
-        /// <summary>
-        /// The HttpMethods this route is constrained against.
-        /// </summary>
-        public string[] HttpMethods { get; private set; }
 
         /// <summary>
         /// The url for this action.
         /// </summary>
         public string RouteUrl { get; private set; }
+
+        /// <summary>
+        /// The HttpMethods this route is constrained against.
+        /// </summary>
+        public string[] HttpMethods { get; private set; }
 
         /// <summary>
         /// The order of this route among all the routes defined against this action.

@@ -12,7 +12,7 @@ namespace AttributeRouting.Web.Http
     /// Sets up the default Web API route convention
     /// See: http://www.asp.net/web-api/overview/web-api-routing-and-actions/routing-in-aspnet-web-api
     /// </summary>
-    public class DefaultHttpRouteConventionAttribute : HttpConventionAttribute
+    public class DefaultHttpRouteConventionAttribute : RouteConventionAttribute
     {
         // Setup conventions
         private static readonly List<HttpRouteConventionInfo> Conventions = new List<HttpRouteConventionInfo>

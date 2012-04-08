@@ -50,17 +50,11 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AttributeRoutingConfiguration.cs" />
-    <Compile Include="DELETEAttribute.cs" />
     <Compile Include="Framework\Factories\MvcAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\UrlParameterFactory.cs" />
-    <Compile Include="GETAttribute.cs" />
-    <Compile Include="POSTAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PUTAttribute.cs" />
     <Compile Include="RestfulRouteConventionAttribute.cs" />
-    <Compile Include="RouteAttribute.cs" />
     <Compile Include="RouteCollectionExtensions.cs" />
-    <Compile Include="RouteConventionAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AttributeRouting.Web\AttributeRouting.Web.csproj">
