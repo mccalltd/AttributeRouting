@@ -49,7 +49,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AreaConfiguration.cs" />
     <Compile Include="AttributeRoutingConfiguration.cs" />
     <Compile Include="DELETEAttribute.cs" />
     <Compile Include="Framework\Factories\MvcAttributeRouteFactory.cs" />

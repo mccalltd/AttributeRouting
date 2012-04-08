@@ -126,6 +126,14 @@ namespace AttributeRouting
         public Func<TRequestContext, TRouteData, string> CurrentUICultureResolver { get; set; }
 
         /// <summary>
+        /// Returns a utility for configuring areas when initializing AttributeRouting framework.
+        /// </summary>
+        /// <param name="name">The name of the area to configure</param>
+        public AreaConfiguration<TRoute, TRequestContext, TRouteData> MapArea(string name) {
+            return new AreaConfiguration<TRoute, TRequestContext, TRouteData>(name, this);
+        }
+
+        /// <summary>
         /// Scans the specified assembly for routes to register.
         /// </summary>
         /// <param name="assembly">The assembly</param>
@@ -175,15 +183,6 @@ namespace AttributeRouting
         protected void AddDefaultRouteConstraint(string keyRegex, object constraint) {
             if (!DefaultRouteConstraints.ContainsKey(keyRegex))
                 DefaultRouteConstraints.Add(keyRegex, constraint);
-        }
-
-        /// <summary>
-        /// Returns a utility for configuring areas when initializing AttributeRouting framework.
-        /// </summary>
-        /// <param name="name">The name of the area to configure</param>
-        public AreaConfiguration<TRoute, TRequestContext, TRouteData> MapArea(string name)
-        {
-            return new AreaConfiguration<TRoute, TRequestContext, TRouteData>(name, this);
         }
 
         /// <summary>
