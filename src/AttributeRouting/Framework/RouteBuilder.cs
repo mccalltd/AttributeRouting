@@ -22,28 +22,26 @@ namespace AttributeRouting.Framework
         /// <typeparam name="TRouteData"></typeparam>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static RouteBuilder<TRoute, TRequestContext, TRouteData> Create<TRoute, TRequestContext, TRouteData>(
-            AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> configuration) {
-            return new RouteBuilder<TRoute, TRequestContext, TRouteData>(configuration);
+        public static RouteBuilder<TRequestContext, TRouteData> Create<TRequestContext, TRouteData>(
+            AttributeRoutingConfiguration<TRequestContext, TRouteData> configuration) {
+            return new RouteBuilder<TRequestContext, TRouteData>(configuration);
         }
     }
 
     /// <summary>
     /// Class that actually creates all the routes from attributes and AR configuration. Relies on RouteReflector to inspect types
-    /// </summary>
-    /// <typeparam name="TRoute"></typeparam>
-    /// <typeparam name="TRouteParameter"></typeparam>
+    /// </summary>    
     /// <typeparam name="TRequestContext"></typeparam>
     /// <typeparam name="TRouteData"></typeparam>
-    public class RouteBuilder<TRoute, TRequestContext, TRouteData>
+    public class RouteBuilder<TRequestContext, TRouteData>
     {
 
-        private readonly AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> _configuration;
+        private readonly AttributeRoutingConfiguration<TRequestContext, TRouteData> _configuration;
         private readonly IAttributeRouteFactory _routeFactory;
         private readonly IConstraintFactory _constraintFactory;
         private readonly IParameterFactory _parameterFactory;
 
-        internal RouteBuilder(AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> configuration)
+        internal RouteBuilder(AttributeRoutingConfiguration<TRequestContext, TRouteData> configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 

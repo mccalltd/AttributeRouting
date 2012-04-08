@@ -14,29 +14,27 @@ namespace AttributeRouting.Framework
 
         /// <summary>
         /// Creates a new RouteReflector for the given types
-        /// </summary>
-        /// <typeparam name="TRoute"></typeparam>
+        /// </summary>        
         /// <typeparam name="TRequestContext"></typeparam>
         /// <typeparam name="TRouteData"></typeparam>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static RouteReflector<TRoute, TRequestContext, TRouteData> Create<TRoute, TRequestContext, TRouteData>(
-            AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> configuration) {
-            return new RouteReflector<TRoute, TRequestContext, TRouteData>(configuration);
+        public static RouteReflector<TRequestContext, TRouteData> Create<TRequestContext, TRouteData>(
+            AttributeRoutingConfiguration<TRequestContext, TRouteData> configuration) {
+            return new RouteReflector<TRequestContext, TRouteData>(configuration);
         }
     }
 
     /// <summary>
     /// A reflector that inspects the assemblies provided in configuration to find attribute routes and constraints
-    /// </summary>
-    /// <typeparam name="TRoute"></typeparam>
+    /// </summary>    
     /// <typeparam name="TRequestContext"></typeparam>
     /// <typeparam name="TRouteData"></typeparam>
-    public class RouteReflector<TRoute, TRequestContext, TRouteData>
+    public class RouteReflector<TRequestContext, TRouteData>
     {
-        private readonly AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> _configuration;
+        private readonly AttributeRoutingConfiguration<TRequestContext, TRouteData> _configuration;
 
-        internal RouteReflector(AttributeRoutingConfiguration<TRoute, TRequestContext, TRouteData> configuration)
+        internal RouteReflector(AttributeRoutingConfiguration<TRequestContext, TRouteData> configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 

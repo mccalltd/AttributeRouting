@@ -8,7 +8,7 @@ using AttributeRouting.Web.Http.SelfHost.Framework;
 using AttributeRouting.Web.Http.SelfHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.SelfHost {
-    public class HttpAttributeRoutingConfiguration : AttributeRoutingConfiguration<AttributeRoute, HttpRequestMessage, IHttpRouteData>
+    public class HttpAttributeRoutingConfiguration : AttributeRoutingConfiguration<HttpRequestMessage, IHttpRouteData>
     {
         private readonly IAttributeRouteFactory _attributeFactory;
         private readonly IConstraintFactory _constraintFactory;

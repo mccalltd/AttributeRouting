@@ -9,7 +9,7 @@ using AttributeRouting.Web.Framework;
 namespace AttributeRouting.Web
 {
     public class AreaConfiguration
-        : AreaConfiguration<AttributeRoute, HttpContextBase, RouteData>
+        : AreaConfiguration<HttpContextBase, RouteData>
     {
         public AreaConfiguration(string name, 
             WebAttributeRoutingConfiguration configuration) : base(name, configuration)

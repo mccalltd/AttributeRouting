@@ -7,7 +7,7 @@ using AttributeRouting.Web.Framework.Factories;
 
 namespace AttributeRouting.Web {
     public abstract class WebAttributeRoutingConfiguration
-        : AttributeRoutingConfiguration<AttributeRoute, HttpContextBase, RouteData>
+        : AttributeRoutingConfiguration<HttpContextBase, RouteData>
     {
         private readonly IConstraintFactory _constraintFactory;
 
