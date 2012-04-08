@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Web;
 using System.Web.Routing;
 using AttributeRouting.Framework.Factories;
@@ -6,8 +7,7 @@ using AttributeRouting.Web.Framework;
 using AttributeRouting.Web.Framework.Factories;
 
 namespace AttributeRouting.Web {
-    public abstract class WebAttributeRoutingConfiguration
-        : AttributeRoutingConfiguration<HttpContextBase, RouteData>
+    public abstract class WebAttributeRoutingConfiguration : AttributeRoutingConfigurationBase
     {
         private readonly IConstraintFactory _constraintFactory;
 
@@ -15,6 +15,8 @@ namespace AttributeRouting.Web {
             RouteHandlerFactory = handlerFactory;
 
             _constraintFactory = new ConstraintFactory();
+
+            CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
         }
 
         /// <summary>
@@ -61,5 +63,12 @@ namespace AttributeRouting.Web {
         public void UseRouteHandler(Func<IRouteHandler> routeHandlerFactory) {
             RouteHandlerFactory = routeHandlerFactory;
         }
+
+        /// <summary>
+        /// this delegate returns the current UI culture name.
+        /// This value is used when constraining inbound routes by culture <see cref="AttributeRoutingConfiguration{TRequestContext,TRouteData}.ConstrainTranslatedRoutesByCurrentUICulture"/>.
+        /// The default delegate returns the CurrentUICulture name of the current thread.
+        /// </summary>
+        public Func<HttpContextBase, RouteData, string> CurrentUICultureResolver { get; set; }
     }
 }

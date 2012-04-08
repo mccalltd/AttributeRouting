@@ -55,7 +55,6 @@
     <Compile Include="Framework\Factories\ConstraintFactory.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Helpers\HttpRequestBaseExtensions.cs" />
-    <Compile Include="AreaConfiguration.cs" />
     <Compile Include="WebAttributeRoutingConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexRouteConstraint.cs" />

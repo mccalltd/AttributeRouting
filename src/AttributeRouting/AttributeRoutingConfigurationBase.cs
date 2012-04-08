@@ -12,7 +12,7 @@ namespace AttributeRouting
     /// <summary>
     /// Configuration options to use when mapping AttributeRoutes.
     /// </summary>
-    public abstract class AttributeRoutingConfiguration<TRequestContext, TRouteData> {
+    public abstract class AttributeRoutingConfigurationBase {
 
         /// <summary>
         /// Type of the framework controller (IController, IHttpController)
@@ -22,15 +22,14 @@ namespace AttributeRouting
         /// <summary>
         /// Creates and initializes a new configuration object.
         /// </summary>
-        protected AttributeRoutingConfiguration() {
+        protected AttributeRoutingConfigurationBase() {
 
             InheritActionsFromBaseController = false;
             Assemblies = new List<Assembly>();
             PromotedControllerTypes = new List<Type>();
             DefaultRouteConstraints = new Dictionary<string, object>();            
 
-            TranslationProviders = new List<TranslationProviderBase>();
-            CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
+            TranslationProviders = new List<TranslationProviderBase>();            
 
             AreaSubdomainOverrides = new Dictionary<string, string>();
             DefaultSubdomain = "www";
@@ -119,18 +118,11 @@ namespace AttributeRouting
         public bool ConstrainTranslatedRoutesByCurrentUICulture { get; set; }
 
         /// <summary>
-        /// this delegate returns the current UI culture name.
-        /// This value is used when constraining inbound routes by culture <see cref="ConstrainTranslatedRoutesByCurrentUICulture"/>.
-        /// The default delegate returns the CurrentUICulture name of the current thread.
-        /// </summary>
-        public Func<TRequestContext, TRouteData, string> CurrentUICultureResolver { get; set; }
-
-        /// <summary>
         /// Returns a utility for configuring areas when initializing AttributeRouting framework.
         /// </summary>
         /// <param name="name">The name of the area to configure</param>
-        public AreaConfiguration<TRequestContext, TRouteData> MapArea(string name) {
-            return new AreaConfiguration<TRequestContext, TRouteData>(name, this);
+        public AreaConfiguration MapArea(string name) {
+            return new AreaConfiguration(name, this);
         }
 
         /// <summary>

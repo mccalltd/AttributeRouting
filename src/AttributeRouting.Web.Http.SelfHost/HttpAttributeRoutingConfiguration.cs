@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Routing;
@@ -8,7 +9,7 @@ using AttributeRouting.Web.Http.SelfHost.Framework;
 using AttributeRouting.Web.Http.SelfHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.SelfHost {
-    public class HttpAttributeRoutingConfiguration : AttributeRoutingConfiguration<HttpRequestMessage, IHttpRouteData>
+    public class HttpAttributeRoutingConfiguration : AttributeRoutingConfigurationBase
     {
         private readonly IAttributeRouteFactory _attributeFactory;
         private readonly IConstraintFactory _constraintFactory;
@@ -18,6 +19,8 @@ namespace AttributeRouting.Web.Http.SelfHost {
             _attributeFactory = new AttributeRouteFactory(this);
             _constraintFactory = new HttpRouteConstraintFactory();
             _parameterFactory = new RouteParameterFactory();
+
+            CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
         }
 
         public override Type FrameworkControllerType {
@@ -44,6 +47,13 @@ namespace AttributeRouting.Web.Http.SelfHost {
         public override IParameterFactory ParameterFactory {
             get { return _parameterFactory; }
         }
+
+        /// <summary>
+        /// this delegate returns the current UI culture name.
+        /// This value is used when constraining inbound routes by culture <see cref="AttributeRoutingConfiguration{TRequestContext,TRouteData}.ConstrainTranslatedRoutesByCurrentUICulture"/>.
+        /// The default delegate returns the CurrentUICulture name of the current thread.
+        /// </summary>
+        public Func<HttpRequestMessage, IHttpRouteData, string> CurrentUICultureResolver { get; set; }
 
         /// <summary>
         /// Scans the assembly of the specified controller for routes to register.

@@ -8,33 +8,13 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// A static factory to help create route reflectors
-    /// </summary>
-    public static class RouteReflectorFactory {
-
-        /// <summary>
-        /// Creates a new RouteReflector for the given types
-        /// </summary>        
-        /// <typeparam name="TRequestContext"></typeparam>
-        /// <typeparam name="TRouteData"></typeparam>
-        /// <param name="configuration"></param>
-        /// <returns></returns>
-        public static RouteReflector<TRequestContext, TRouteData> Create<TRequestContext, TRouteData>(
-            AttributeRoutingConfiguration<TRequestContext, TRouteData> configuration) {
-            return new RouteReflector<TRequestContext, TRouteData>(configuration);
-        }
-    }
-
-    /// <summary>
     /// A reflector that inspects the assemblies provided in configuration to find attribute routes and constraints
     /// </summary>    
-    /// <typeparam name="TRequestContext"></typeparam>
-    /// <typeparam name="TRouteData"></typeparam>
-    public class RouteReflector<TRequestContext, TRouteData>
+    public class RouteReflector
     {
-        private readonly AttributeRoutingConfiguration<TRequestContext, TRouteData> _configuration;
+        private readonly AttributeRoutingConfigurationBase _configuration;
 
-        internal RouteReflector(AttributeRoutingConfiguration<TRequestContext, TRouteData> configuration)
+        public RouteReflector(AttributeRoutingConfigurationBase configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
