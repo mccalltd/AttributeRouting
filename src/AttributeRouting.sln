@@ -29,6 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web.Http",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{DE34F753-6251-493F-902B-D520D655F69A}"
 	ProjectSection(SolutionItems) = preProject
+		AttributeRouting.Shared.nuspec = AttributeRouting.Shared.nuspec
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject

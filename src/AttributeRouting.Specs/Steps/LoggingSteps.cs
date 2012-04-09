@@ -21,7 +21,7 @@ namespace AttributeRouting.Specs.Steps
         [Then(@"ta-da!")]
         public void Then()
         {
-            Assert.Pass();
+            
         }
     }
 }

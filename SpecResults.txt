@@ -1,0 +1,2273 @@
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.3s)
+When I log the routes
+TOTAL ROUTES: 124
+========================================
+ 
+URL: BugFixes/Gallery/_CenterImage/{guid_Gallery}/{slideShow}/{currentController}/{image}
+DEFAULTS:
+- controller = BugFixes
+- action = Issue43_OptionalParamsAreMucky
+- guid_Gallery = 
+- slideShow = 
+- currentController = 
+- image = 
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: LowercaseUrl/Hello/{userName}/Goodbye
+DEFAULTS:
+- controller = LowercaseUrl
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Area/Index
+DEFAULTS:
+- controller = Areas
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: Area/DuplicatePrefix
+DEFAULTS:
+- controller = Areas
+- action = DuplicatePrefix
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: AreaAbsolute
+DEFAULTS:
+- controller = Areas
+- action = Absolute
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: Area/Areas
+DEFAULTS:
+- controller = Areas
+- action = RouteBeginsWithAreaName
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: ExplicitArea/Index
+DEFAULTS:
+- controller = ExplicitAreaUrl
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: ExplicitArea/DuplicatePrefix
+DEFAULTS:
+- controller = ExplicitAreaUrl
+- action = DuplicatePrefix
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: Prefix/Index
+DEFAULTS:
+- controller = RoutePrefixes
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Prefix/DuplicatePrefix
+DEFAULTS:
+- controller = RoutePrefixes
+- action = DuplicatePrefix
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: PrefixAbsolute
+DEFAULTS:
+- controller = RoutePrefixes
+- action = Absolute
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Prefix/Prefixer
+DEFAULTS:
+- controller = RoutePrefixes
+- action = RouteBeginsWithRoutePrefix
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Area/Prefix/Index
+DEFAULTS:
+- controller = AreaRoutePrefixes
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: Area/Prefix/DuplicatePrefix
+DEFAULTS:
+- controller = AreaRoutePrefixes
+- action = DuplicatePrefix
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: AreaPrefixAbsolute
+DEFAULTS:
+- controller = AreaRoutePrefixes
+- action = Absolute
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: Constraint/{p1}
+DEFAULTS:
+- controller = RouteConstraints
+- action = Index
+CONSTRAINTS:
+- p1 = \d+
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: InlineConstraints/{number}/{word}/{alphanum}/{capture}
+DEFAULTS:
+- controller = RouteConstraints
+- action = InlineConstraints
+CONSTRAINTS:
+- number = \d+
+- word = \w{2}
+- alphanum = [A-Za-z0-9]*
+- capture = (gotcha)
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: MultipleConstraints/1/{p1}
+NAME: MultipleConstraints1
+DEFAULTS:
+- controller = RouteConstraints
+- action = MultipleRoutes
+CONSTRAINTS:
+- p1 = \d+
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: MultipleConstraints/2/{p1}
+NAME: MultipleConstraints2
+DEFAULTS:
+- controller = RouteConstraints
+- action = MultipleRoutes
+CONSTRAINTS:
+- p1 = \d{4}
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConvention
+DEFAULTS:
+- controller = RestfulRouteConvention
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Legacy
+DEFAULTS:
+- controller = RestfulRouteConvention
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConvention/New
+DEFAULTS:
+- controller = RestfulRouteConvention
+- action = New
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConvention
+DEFAULTS:
+- controller = RestfulRouteConvention
+- action = Create
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConvention/{id}
+DEFAULTS:
+- controller = RestfulRouteConvention
+- action = Show
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConvention/{id}/Edit
+DEFAULTS:
+- controller = RestfulRouteConvention
+- action = Edit
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConvention/{id}
+DEFAULTS:
+- controller = RestfulRouteConvention
+- action = Update
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConvention/{id}/Delete
+DEFAULTS:
+- controller = RestfulRouteConvention
+- action = Delete
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConvention/{id}
+DEFAULTS:
+- controller = RestfulRouteConvention
+- action = Destroy
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConvention/Custom
+DEFAULTS:
+- controller = RestfulRouteConvention
+- action = Custom
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Prefix
+DEFAULTS:
+- controller = RestfulRouteConventionPrefix
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Prefix/New
+DEFAULTS:
+- controller = RestfulRouteConventionPrefix
+- action = New
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Prefix
+DEFAULTS:
+- controller = RestfulRouteConventionPrefix
+- action = Create
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Prefix/{id}
+DEFAULTS:
+- controller = RestfulRouteConventionPrefix
+- action = Show
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Prefix/{id}/Edit
+DEFAULTS:
+- controller = RestfulRouteConventionPrefix
+- action = Edit
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Prefix/{id}
+DEFAULTS:
+- controller = RestfulRouteConventionPrefix
+- action = Update
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Prefix/{id}/Delete
+DEFAULTS:
+- controller = RestfulRouteConventionPrefix
+- action = Delete
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Prefix/{id}
+DEFAULTS:
+- controller = RestfulRouteConventionPrefix
+- action = Destroy
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConventionWithExplicitOrderedRoute/Primary
+DEFAULTS:
+- controller = RestfulRouteConventionWithExplicitOrderedRoute
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConventionWithExplicitOrderedRoute
+DEFAULTS:
+- controller = RestfulRouteConventionWithExplicitOrderedRoute
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: RestfulRouteConventionWithExplicitRoute
+DEFAULTS:
+- controller = RestfulRouteConventionWithExplicitRoute
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Legacy
+DEFAULTS:
+- controller = RestfulRouteConventionWithExplicitRoute
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Default/{p1}
+DEFAULTS:
+- controller = RouteDefaults
+- action = Index
+- p1 = variable
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: InlineDefaults/{hello}/{goodnight}
+DEFAULTS:
+- controller = RouteDefaults
+- action = InlineDefaults
+- hello = sun
+- goodnight = moon
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Optionals/{p1}/{p2}/{p3}
+DEFAULTS:
+- controller = RouteDefaults
+- action = Optionals
+- p1 = 
+- p2 = 
+- p3 = 
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: MultipleDefaults/1/{p1}
+NAME: MultipleDefaults1
+DEFAULTS:
+- controller = RouteDefaults
+- action = MultipleRoutes
+- p1 = first
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: MultipleDefaults/2/{p1}
+NAME: MultipleDefaults2
+DEFAULTS:
+- controller = RouteDefaults
+- action = MultipleRoutes
+- p1 = second
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Index/First
+DEFAULTS:
+- controller = RoutePrecedenceAmongRoutes
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Index/Second
+DEFAULTS:
+- controller = RoutePrecedenceAmongRoutes
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Index/Third
+DEFAULTS:
+- controller = RoutePrecedenceAmongRoutes
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Route1
+DEFAULTS:
+- controller = RoutePrecedenceAmongActions
+- action = Route1
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Route2
+DEFAULTS:
+- controller = RoutePrecedenceAmongActions
+- action = Route2
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Route3
+DEFAULTS:
+- controller = RoutePrecedenceAmongActions
+- action = Route3
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Controller3/Index
+DEFAULTS:
+- controller = RoutePrecedenceAmongControllers3
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Controller1/Index
+DEFAULTS:
+- controller = RoutePrecedenceAmongControllers1
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Controller2/Index
+DEFAULTS:
+- controller = RoutePrecedenceAmongControllers2
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: DerivedController1/Index
+DEFAULTS:
+- controller = RoutePrecedenceAmongDerivedControllers1
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: DerivedController2/Index
+DEFAULTS:
+- controller = RoutePrecedenceAmongDerivedControllers2
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Index
+DEFAULTS:
+- controller = StandardUsage
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Create
+DEFAULTS:
+- controller = StandardUsage
+- action = Create
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Update/{id}
+DEFAULTS:
+- controller = StandardUsage
+- action = Update
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Destroy/{id}
+DEFAULTS:
+- controller = StandardUsage
+- action = Destroy
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: Wildcards/{*pathInfo}
+DEFAULTS:
+- controller = StandardUsage
+- action = Wildcards
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: AnyVerb
+DEFAULTS:
+- controller = StandardUsage
+- action = AnyVerb
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: 
+DEFAULTS:
+- controller = Subdomain
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Users
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: admin
+DEFAULTS:
+- controller = SubdomainWithAreaUrl
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Admin
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: {culture}/Cms/Home
+DEFAULTS:
+- controller = CulturePrefix
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Cms
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: Area/Prefix/Index
+DEFAULTS:
+- controller = Translation
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: CustomArea/CustomPrefix/CustomIndex
+DEFAULTS:
+- controller = TranslationWithCustomKeys
+- action = CustomIndex
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = CustomArea
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: Translate/Actions/Index
+DEFAULTS:
+- controller = TranslateActions
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+URL: ApiArea/Get
+DEFAULTS:
+- controller = HttpAreas
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+- area = ApiArea
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: ApiArea/DuplicatePrefix
+DEFAULTS:
+- controller = HttpAreas
+- action = DuplicatePrefix
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+- area = ApiArea
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: ApiAreaAbsolute
+DEFAULTS:
+- controller = HttpAreas
+- action = Absolute
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+- area = ApiArea
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: ApiArea/ApiAreas
+DEFAULTS:
+- controller = HttpAreas
+- action = RouteBeginsWithAreaName
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+- area = ApiArea
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: ApiExplicitArea/Get
+DEFAULTS:
+- controller = HttpExplicitAreaUrl
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+- area = ApiArea
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: ApiExplicitArea/DuplicatePrefix
+DEFAULTS:
+- controller = HttpExplicitAreaUrl
+- action = DuplicatePrefix
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+- area = ApiArea
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: Constraint/{p1}
+DEFAULTS:
+- controller = ApiRouteConstraints
+- action = Get
+CONSTRAINTS:
+- p1 = \d+
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: InlineConstraints/{number}/{word}/{alphanum}/{capture}
+DEFAULTS:
+- controller = ApiRouteConstraints
+- action = InlineConstraints
+CONSTRAINTS:
+- number = \d+
+- word = \w{2}
+- alphanum = [A-Za-z0-9]*
+- capture = (gotcha)
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: MultipleConstraints/1/{p1}
+NAME: ApiMultipleConstraints1
+DEFAULTS:
+- controller = ApiRouteConstraints
+- action = MultipleRoutes
+CONSTRAINTS:
+- p1 = \d+
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: MultipleConstraints/2/{p1}
+NAME: ApiMultipleConstraints2
+DEFAULTS:
+- controller = ApiRouteConstraints
+- action = MultipleRoutes
+CONSTRAINTS:
+- p1 = \d{4}
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: DefaultHttpRouteConvention
+DEFAULTS:
+- controller = DefaultHttpRouteConvention
+- action = GetAll
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: DefaultHttpRouteConvention/{id}
+DEFAULTS:
+- controller = DefaultHttpRouteConvention
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: DefaultHttpRouteConvention
+DEFAULTS:
+- controller = DefaultHttpRouteConvention
+- action = Post
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: DefaultHttpRouteConvention/{id}
+DEFAULTS:
+- controller = DefaultHttpRouteConvention
+- action = Delete
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: DefaultHttpRouteConvention/{id}
+DEFAULTS:
+- controller = DefaultHttpRouteConvention
+- action = Put
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: DefaultHttpRouteConvention/Custom
+DEFAULTS:
+- controller = DefaultHttpRouteConvention
+- action = Custom
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Prefix
+DEFAULTS:
+- controller = DefaultHttpRouteConventionPrefix
+- action = GetAll
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Prefix/{id}
+DEFAULTS:
+- controller = DefaultHttpRouteConventionPrefix
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Prefix
+DEFAULTS:
+- controller = DefaultHttpRouteConventionPrefix
+- action = Post
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Prefix/{id}
+DEFAULTS:
+- controller = DefaultHttpRouteConventionPrefix
+- action = Delete
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Prefix/{id}
+DEFAULTS:
+- controller = DefaultHttpRouteConventionPrefix
+- action = Put
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Prefix/Custom
+DEFAULTS:
+- controller = DefaultHttpRouteConventionPrefix
+- action = Custom
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: DefaultHttpRouteConventionWithExplicitRoute
+DEFAULTS:
+- controller = DefaultHttpRouteConventionWithExplicitRoute
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Legacy
+DEFAULTS:
+- controller = DefaultHttpRouteConventionWithExplicitRoute
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: DefaultHttpRouteConventionWithExplicitOrderedRoute/Primary
+DEFAULTS:
+- controller = DefaultHttpRouteConventionWithExplicitOrderedRoute
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: DefaultHttpRouteConventionWithExplicitOrderedRoute
+DEFAULTS:
+- controller = DefaultHttpRouteConventionWithExplicitOrderedRoute
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Default/{p1}
+DEFAULTS:
+- controller = HttpRouteDefaults
+- action = Get
+- p1 = variable
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: InlineDefaults/{hello}/{goodnight}
+DEFAULTS:
+- controller = HttpRouteDefaults
+- action = InlineDefaults
+- hello = sun
+- goodnight = moon
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Optionals/{p1}/{p2}/{p3}
+DEFAULTS:
+- controller = HttpRouteDefaults
+- action = Optionals
+- p1 = 
+- p2 = 
+- p3 = 
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: MultipleDefaults/1/{p1}
+NAME: ApiMultipleDefaults1
+DEFAULTS:
+- controller = HttpRouteDefaults
+- action = MultipleRoutes
+- p1 = first
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: MultipleDefaults/2/{p1}
+NAME: ApiMultipleDefaults2
+DEFAULTS:
+- controller = HttpRouteDefaults
+- action = MultipleRoutes
+- p1 = second
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Get/First
+DEFAULTS:
+- controller = HttpRoutePrecedenceAmongRoutes
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Get/Second
+DEFAULTS:
+- controller = HttpRoutePrecedenceAmongRoutes
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: Get/Third
+DEFAULTS:
+- controller = HttpRoutePrecedenceAmongRoutes
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiRoute1
+DEFAULTS:
+- controller = HttpRoutePrecedenceAmongActions
+- action = Route1
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiRoute2
+DEFAULTS:
+- controller = HttpRoutePrecedenceAmongActions
+- action = Route2
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiRoute3
+DEFAULTS:
+- controller = HttpRoutePrecedenceAmongActions
+- action = Route3
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiController3/Get
+DEFAULTS:
+- controller = HttpRoutePrecedenceAmongControllers3
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiController1/Get
+DEFAULTS:
+- controller = HttpRoutePrecedenceAmongControllers1
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiController2/Get
+DEFAULTS:
+- controller = HttpRoutePrecedenceAmongControllers2
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiDerivedController1/Get
+DEFAULTS:
+- controller = HttpRoutePrecedenceAmongDerivedControllers1
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiDerivedController2/Get
+DEFAULTS:
+- controller = HttpRoutePrecedenceAmongDerivedControllers2
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiPrefix/Get
+DEFAULTS:
+- controller = HttpRoutePrefixes
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiPrefix/DuplicatePrefix
+DEFAULTS:
+- controller = HttpRoutePrefixes
+- action = DuplicatePrefix
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiPrefixAbsolute
+DEFAULTS:
+- controller = HttpRoutePrefixes
+- action = Absolute
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiPrefix/ApiPrefixer
+DEFAULTS:
+- controller = HttpRoutePrefixes
+- action = RouteBeginsWithRoutePrefix
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: ApiArea/ApiPrefix/Get
+DEFAULTS:
+- controller = HttpAreaRoutePrefixes
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+- area = ApiArea
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: ApiArea/ApiPrefix/DuplicatePrefix
+DEFAULTS:
+- controller = HttpAreaRoutePrefixes
+- action = DuplicatePrefix
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+- area = ApiArea
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: ApiAreaPrefixAbsolute
+DEFAULTS:
+- controller = HttpAreaRoutePrefixes
+- action = Absolute
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+- area = ApiArea
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: api
+DEFAULTS:
+- controller = HttpStandardUsage
+- action = Get
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: api
+DEFAULTS:
+- controller = HttpStandardUsage
+- action = Post
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: api/{id}
+DEFAULTS:
+- controller = HttpStandardUsage
+- action = Put
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: api/{id}
+DEFAULTS:
+- controller = HttpStandardUsage
+- action = Delete
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: api/Wildcards/{*pathInfo}
+DEFAULTS:
+- controller = HttpStandardUsage
+- action = Wildcards
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+URL: api/AnyVerb
+DEFAULTS:
+- controller = HttpStandardUsage
+- action = AnyVerb
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects.Http
+ 
+----------------------------------------
+ 
+-> done: LoggingDefinitions.WhenILogTheRoutes() (0.0s)
+Then ta-da!
+-> error: 
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the Areas controller's Absolute action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("Areas", "Absolute") (0.0s)
+Then the route url is "AreaAbsolute"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "AreaAbsolute") (0.0s)
+When I fetch the routes for the HttpAreas controller's Absolute action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpAreas", "Absolute") (0.0s)
+Then the route url is "ApiAreaAbsolute"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiAreaAbsolute") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the Areas controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("Areas", "Index") (0.0s)
+Then the route url is "Area/Index"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Area/Index") (0.0s)
+And the data token for "area" is "Area"
+-> done: SharedSteps.ThenTheDataTokenForKeyIsValue("area", "Area") (0.0s)
+When I fetch the routes for the HttpAreas controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpAreas", "Get") (0.0s)
+Then the route url is "ApiArea/Get"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiArea/Get") (0.0s)
+And the data token for "area" is "ApiArea"
+-> done: SharedSteps.ThenTheDataTokenForKeyIsValue("area", "ApiArea") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the Areas controller's DuplicatePrefix action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("Areas", "DuplicatePrefix") (0.0s)
+Then the route url is "Area/DuplicatePrefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Area/DuplicatePrefix") (0.0s)
+When I fetch the routes for the HttpAreas controller's DuplicatePrefix action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpAreas", "DuplicatePrefix") (0.0s)
+Then the route url is "ApiArea/DuplicatePrefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiArea/Duplicate...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the Areas controller's RouteBeginsWithAreaName action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("Areas", "RouteBeginsWithAr...") (0.0s)
+Then the route url is "Area/Areas"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Area/Areas") (0.0s)
+When I fetch the routes for the HttpAreas controller's RouteBeginsWithAreaName action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpAreas", "RouteBeginsWithAr...") (0.0s)
+Then the route url is "ApiArea/ApiAreas"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiArea/ApiAreas") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the ExplicitAreaUrl controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("ExplicitAreaUrl", "Index") (0.0s)
+Then the route url is "ExplicitArea/Index"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ExplicitArea/Index") (0.0s)
+And the data token for "area" is "Area"
+-> done: SharedSteps.ThenTheDataTokenForKeyIsValue("area", "Area") (0.0s)
+When I fetch the routes for the HttpExplicitAreaUrl controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpExplicitAreaUrl", "Get") (0.0s)
+Then the route url is "ApiExplicitArea/Get"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiExplicitArea/Get") (0.0s)
+And the data token for "area" is "ApiArea"
+-> done: SharedSteps.ThenTheDataTokenForKeyIsValue("area", "ApiArea") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the ExplicitAreaUrl controller's DuplicatePrefix action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("ExplicitAreaUrl", "DuplicatePrefix") (0.0s)
+Then the route url is "ExplicitArea/DuplicatePrefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ExplicitArea/Dupl...") (0.0s)
+And the data token for "area" is "Area"
+-> done: SharedSteps.ThenTheDataTokenForKeyIsValue("area", "Area") (0.0s)
+When I fetch the routes for the HttpExplicitAreaUrl controller's DuplicatePrefix action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpExplicitAreaUrl", "DuplicatePrefix") (0.0s)
+Then the route url is "ApiExplicitArea/DuplicatePrefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiExplicitArea/D...") (0.0s)
+And the data token for "area" is "ApiArea"
+-> done: SharedSteps.ThenTheDataTokenForKeyIsValue("area", "ApiArea") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RouteConstraints controller's MultipleRoutes action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RouteConstraints", "MultipleRoutes") (0.0s)
+And I fetch the routes for the ApiRouteConstraints controller's MultipleRoutes action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("ApiRouteConstraints", "MultipleRoutes") (0.0s)
+Then the route named "MultipleConstraints1" has a constraint on "p1" of "\d+"
+-> done: RouteConstraintSteps.ThenTheRouteNamedHasAConstraintOnOf("MultipleConstraints1", "p1", "\d+") (0.0s)
+And the route named "MultipleConstraints2" has a constraint on "p1" of "\d{4}"
+-> done: RouteConstraintSteps.ThenTheRouteNamedHasAConstraintOnOf("MultipleConstraints2", "p1", "\d{4}") (0.0s)
+And the route named "ApiMultipleConstraints1" has a constraint on "p1" of "\d+"
+-> done: RouteConstraintSteps.ThenTheRouteNamedHasAConstraintOnOf("ApiMultipleConstr...", "p1", "\d+") (0.0s)
+And the route named "ApiMultipleConstraints2" has a constraint on "p1" of "\d{4}"
+-> done: RouteConstraintSteps.ThenTheRouteNamedHasAConstraintOnOf("ApiMultipleConstr...", "p1", "\d{4}") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RouteConstraints controller's InlineConstraints action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RouteConstraints", "InlineConstraints") (0.0s)
+And I fetch the routes for the ApiRouteConstraints controller's InlineConstraints action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("ApiRouteConstraints", "InlineConstraints") (0.0s)
+Then the route url is "InlineConstraints/{number}/{word}/{alphanum}/{capture}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "InlineConstraints...") (0.0s)
+Then the parameter "number" is constrained by the pattern "\d+"
+-> done: RouteConstraintSteps.ThenTheParameterIsContrainedBy("number", "\d+") (0.0s)
+Then the parameter "word" is constrained by the pattern "\w{2}"
+-> done: RouteConstraintSteps.ThenTheParameterIsContrainedBy("word", "\w{2}") (0.0s)
+Then the parameter "alphanum" is constrained by the pattern "[A-Za-z0-9]*"
+-> done: RouteConstraintSteps.ThenTheParameterIsContrainedBy("alphanum", "[A-Za-z0-9]*") (0.0s)
+Then the parameter "capture" is constrained by the pattern "(gotcha)"
+-> done: RouteConstraintSteps.ThenTheParameterIsContrainedBy("capture", "(gotcha)") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RouteConstraints controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RouteConstraints", "Index") (0.0s)
+And I fetch the routes for the ApiRouteConstraints controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("ApiRouteConstraints", "Get") (0.0s)
+Then the parameter "p1" is constrained by the pattern "\d+"
+-> done: RouteConstraintSteps.ThenTheParameterIsContrainedBy("p1", "\d+") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConvention controller's Custom action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Custom") (0.0s)
+Then the route url is "DefaultHttpRouteConvention/Custom"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "DefaultHttpRouteC...") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "Custom"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Custom") (0.0s)
+And the route for Custom is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Custom", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConvention controller's GetAll action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "GetAll") (0.0s)
+Then the route url is "DefaultHttpRouteConvention"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "DefaultHttpRouteC...") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "GetAll"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "GetAll") (0.0s)
+And the route for GetAll is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("GetAll", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConvention controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Get") (0.0s)
+Then the route url is "DefaultHttpRouteConvention/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "DefaultHttpRouteC...") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "Get"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Get") (0.0s)
+And the route for Get is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Get", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConvention controller's Post action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Post") (0.0s)
+Then the route url is "DefaultHttpRouteConvention"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "DefaultHttpRouteC...") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "Post"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Post") (0.0s)
+And the route for Post is constrained to POST requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Post", "POST") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConvention controller's Put action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Put") (0.0s)
+Then the route url is "DefaultHttpRouteConvention/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "DefaultHttpRouteC...") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "Put"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Put") (0.0s)
+And the route for Put is constrained to PUT requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Put", "PUT") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConvention controller's Delete action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Delete") (0.0s)
+Then the route url is "DefaultHttpRouteConvention/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "DefaultHttpRouteC...") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "Delete"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Delete") (0.0s)
+And the route for Delete is constrained to DELETE requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Delete", "DELETE") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConventionWithExplicitOrderedRoute controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Get") (0.0s)
+Then the 1st route url is "DefaultHttpRouteConventionWithExplicitOrderedRoute/Primary"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("1", "DefaultHttpRouteC...") (0.0s)
+And the 2nd route url is "DefaultHttpRouteConventionWithExplicitOrderedRoute"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("2", "DefaultHttpRouteC...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConventionWithExplicitRoute controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Get") (0.0s)
+Then the 1st route url is "DefaultHttpRouteConventionWithExplicitRoute"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("1", "DefaultHttpRouteC...") (0.0s)
+And the 2nd route url is "Legacy"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("2", "Legacy") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConventionPrefix controller's Put action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Put") (0.0s)
+Then the route url is "Prefix/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/{id}") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "Put"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Put") (0.0s)
+And the route for Put is constrained to PUT requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Put", "PUT") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConventionPrefix controller's Delete action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Delete") (0.0s)
+Then the route url is "Prefix/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/{id}") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "Delete"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Delete") (0.0s)
+And the route for Delete is constrained to DELETE requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Delete", "DELETE") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConventionPrefix controller's Custom action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Custom") (0.0s)
+Then the route url is "Prefix/Custom"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/Custom") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "Custom"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Custom") (0.0s)
+And the route for Custom is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Custom", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConventionPrefix controller's GetAll action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "GetAll") (0.0s)
+Then the route url is "Prefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "GetAll"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "GetAll") (0.0s)
+And the route for GetAll is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("GetAll", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConventionPrefix controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Get") (0.0s)
+Then the route url is "Prefix/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/{id}") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "Get"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Get") (0.0s)
+And the route for Get is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Get", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the DefaultHttpRouteConventionPrefix controller's Post action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("DefaultHttpRouteC...", "Post") (0.0s)
+Then the route url is "Prefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix") (0.0s)
+And the default for "controller" is "DefaultHttpRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "DefaultHttpRouteC...") (0.0s)
+And the default for "action" is "Post"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Post") (0.0s)
+And the route for Post is constrained to POST requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Post", "POST") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConvention controller's New action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "New") (0.0s)
+Then the route url is "RestfulRouteConvention/New"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "RestfulRouteConve...") (0.0s)
+And the default for "controller" is "RestfulRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "New"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "New") (0.0s)
+And the route for New is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("New", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConvention controller's Edit action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Edit") (0.0s)
+Then the route url is "RestfulRouteConvention/{id}/Edit"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "RestfulRouteConve...") (0.0s)
+And the default for "controller" is "RestfulRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Edit"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Edit") (0.0s)
+And the route for Edit is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Edit", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConvention controller's Update action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Update") (0.0s)
+Then the route url is "RestfulRouteConvention/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "RestfulRouteConve...") (0.0s)
+And the default for "controller" is "RestfulRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Update"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Update") (0.0s)
+And the route for Update is constrained to PUT requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Update", "PUT") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConvention controller's Create action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Create") (0.0s)
+Then the route url is "RestfulRouteConvention"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "RestfulRouteConve...") (0.0s)
+And the default for "controller" is "RestfulRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Create"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Create") (0.0s)
+And the route for Create is constrained to POST requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Create", "POST") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConvention controller's Destroy action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Destroy") (0.0s)
+Then the route url is "RestfulRouteConvention/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "RestfulRouteConve...") (0.0s)
+And the default for "controller" is "RestfulRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Destroy"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Destroy") (0.0s)
+And the route for Destroy is constrained to DELETE requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Destroy", "DELETE") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConvention controller's Delete action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Delete") (0.0s)
+Then the route url is "RestfulRouteConvention/{id}/Delete"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "RestfulRouteConve...") (0.0s)
+And the default for "controller" is "RestfulRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Delete"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Delete") (0.0s)
+And the route for Delete is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Delete", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConvention controller's Custom action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Custom") (0.0s)
+Then the route url is "RestfulRouteConvention/Custom"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "RestfulRouteConve...") (0.0s)
+And the default for "controller" is "RestfulRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Custom"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Custom") (0.0s)
+And the route for Custom is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Custom", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConvention controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Index") (0.0s)
+Then the route url is "RestfulRouteConvention"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "RestfulRouteConve...") (0.0s)
+And the default for "controller" is "RestfulRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Index"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Index") (0.0s)
+And the route for Index is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Index", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConvention controller's Show action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Show") (0.0s)
+Then the route url is "RestfulRouteConvention/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "RestfulRouteConve...") (0.0s)
+And the default for "controller" is "RestfulRouteConvention"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Show"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Show") (0.0s)
+And the route for Show is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Show", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConventionWithExplicitOrderedRoute controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Index") (0.0s)
+Then the 1st route url is "RestfulRouteConventionWithExplicitOrderedRoute/Primary"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("1", "RestfulRouteConve...") (0.0s)
+And the 2nd route url is "RestfulRouteConventionWithExplicitOrderedRoute"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("2", "RestfulRouteConve...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConventionWithExplicitRoute controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Index") (0.0s)
+Then the 1st route url is "RestfulRouteConventionWithExplicitRoute"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("1", "RestfulRouteConve...") (0.0s)
+And the 2nd route url is "Legacy"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("2", "Legacy") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConventionPrefix controller's Show action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Show") (0.0s)
+Then the route url is "Prefix/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/{id}") (0.0s)
+And the default for "controller" is "RestfulRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Show"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Show") (0.0s)
+And the route for Show is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Show", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConventionPrefix controller's Destroy action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Destroy") (0.0s)
+Then the route url is "Prefix/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/{id}") (0.0s)
+And the default for "controller" is "RestfulRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Destroy"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Destroy") (0.0s)
+And the route for Destroy is constrained to DELETE requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Destroy", "DELETE") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConventionPrefix controller's Edit action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Edit") (0.0s)
+Then the route url is "Prefix/{id}/Edit"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/{id}/Edit") (0.0s)
+And the default for "controller" is "RestfulRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Edit"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Edit") (0.0s)
+And the route for Edit is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Edit", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConventionPrefix controller's Create action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Create") (0.0s)
+Then the route url is "Prefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix") (0.0s)
+And the default for "controller" is "RestfulRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Create"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Create") (0.0s)
+And the route for Create is constrained to POST requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Create", "POST") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConventionPrefix controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Index") (0.0s)
+Then the route url is "Prefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix") (0.0s)
+And the default for "controller" is "RestfulRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Index"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Index") (0.0s)
+And the route for Index is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Index", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConventionPrefix controller's New action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "New") (0.0s)
+Then the route url is "Prefix/New"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/New") (0.0s)
+And the default for "controller" is "RestfulRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "New"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "New") (0.0s)
+And the route for New is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("New", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConventionPrefix controller's Update action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Update") (0.0s)
+Then the route url is "Prefix/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/{id}") (0.0s)
+And the default for "controller" is "RestfulRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Update"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Update") (0.0s)
+And the route for Update is constrained to PUT requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Update", "PUT") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RestfulRouteConventionPrefix controller's Delete action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RestfulRouteConve...", "Delete") (0.0s)
+Then the route url is "Prefix/{id}/Delete"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/{id}/Delete") (0.0s)
+And the default for "controller" is "RestfulRouteConventionPrefix"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "RestfulRouteConve...") (0.0s)
+And the default for "action" is "Delete"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Delete") (0.0s)
+And the route for Delete is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteForIsConstrainedToRequests("Delete", "GET") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RouteDefaults controller's MultipleRoutes action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RouteDefaults", "MultipleRoutes") (0.0s)
+And I fetch the routes for the HttpRouteDefaults controller's MultipleRoutes action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpRouteDefaults", "MultipleRoutes") (0.0s)
+Then the route named "MultipleDefaults1" has a default for "p1" of "first"
+-> done: RouteDefaultsSteps.ThenTheRouteNamedHasADefaultForOf("MultipleDefaults1", "p1", "first") (0.0s)
+And the route named "MultipleDefaults2" has a default for "p1" of "second"
+-> done: RouteDefaultsSteps.ThenTheRouteNamedHasADefaultForOf("MultipleDefaults2", "p1", "second") (0.0s)
+And the route named "ApiMultipleDefaults1" has a default for "p1" of "first"
+-> done: RouteDefaultsSteps.ThenTheRouteNamedHasADefaultForOf("ApiMultipleDefaults1", "p1", "first") (0.0s)
+And the route named "ApiMultipleDefaults2" has a default for "p1" of "second"
+-> done: RouteDefaultsSteps.ThenTheRouteNamedHasADefaultForOf("ApiMultipleDefaults2", "p1", "second") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RouteDefaults controller's Optionals action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RouteDefaults", "Optionals") (0.0s)
+And I fetch the routes for the HttpRouteDefaults controller's Optionals action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpRouteDefaults", "Optionals") (0.0s)
+Then the route url is "Optionals/{p1}/{p2}/{p3}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Optionals/{p1}/{p...") (0.0s)
+And the parameter "p1" is optional
+-> done: RouteDefaultsSteps.ThenTheParameterIsOptional("p1") (0.0s)
+And the parameter "p2" is optional
+-> done: RouteDefaultsSteps.ThenTheParameterIsOptional("p2") (0.0s)
+And the parameter "p3" is optional
+-> done: RouteDefaultsSteps.ThenTheParameterIsOptional("p3") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RouteDefaults controller's InlineDefaults action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RouteDefaults", "InlineDefaults") (0.0s)
+And I fetch the routes for the HttpRouteDefaults controller's InlineDefaults action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpRouteDefaults", "InlineDefaults") (0.0s)
+Then the route url is "InlineDefaults/{hello}/{goodnight}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "InlineDefaults/{h...") (0.0s)
+Then the default for "hello" is "sun"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("hello", "sun") (0.0s)
+Then the default for "goodnight" is "moon"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("goodnight", "moon") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RouteDefaults controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RouteDefaults", "Index") (0.0s)
+And I fetch the routes for the HttpRouteDefaults controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpRouteDefaults", "Get") (0.0s)
+Then the default for "p1" is "variable"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("p1", "variable") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RoutePrecedenceAmongActions controller
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RoutePrecedenceAm...") (0.0s)
+Then the 1st route's url is "Route1"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("1", "Route1") (0.0s)
+And the 2nd route's url is "Route2"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("2", "Route2") (0.0s)
+And the 3rd route's url is "Route3"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("3", "Route3") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+Given I have a new configuration object
+-> done: RoutePrecedenceSteps.GivenIHaveANewConfigurationObject() (0.0s)
+And I add the routes from controllers derived from the RoutePrecedenceAmongDerivedControllersBase controller
+-> done: RoutePrecedenceSteps.GivenIAddTheRoutesFromControllersOfTypeBaseController("RoutePrecedenceAm...") (0.0s)
+And I add the routes from the RoutePrecedenceAmongControllers1 controller
+-> done: RoutePrecedenceSteps.GivenIAddTheRoutesFromTheController("RoutePrecedenceAm...") (0.0s)
+When I generate the routes with this configuration
+-> done: RoutePrecedenceSteps.WhenIGenerateTheRoutesWithThisConfiguration() (0.0s)
+Then the routes from the RoutePrecedenceAmongDerivedControllers1 controller precede those from the RoutePrecedenceAmongControllers1 controller
+-> done: RoutePrecedenceSteps.ThenTheRoutesFromTheFirstControllerPrecedeThoseFromTheNextController("RoutePrecedenceAm...", "RoutePrecedenceAm...") (0.0s)
+And the routes from the RoutePrecedenceAmongDerivedControllers2 controller precede those from the RoutePrecedenceAmongControllers1 controller
+-> done: RoutePrecedenceSteps.ThenTheRoutesFromTheFirstControllerPrecedeThoseFromTheNextController("RoutePrecedenceAm...", "RoutePrecedenceAm...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+Given I have a new configuration object
+-> done: RoutePrecedenceSteps.GivenIHaveANewConfigurationObject() (0.0s)
+And I add the routes from the RoutePrecedenceAmongControllers1 controller
+-> done: RoutePrecedenceSteps.GivenIAddTheRoutesFromTheController("RoutePrecedenceAm...") (0.0s)
+And I add the routes from the RoutePrecedenceAmongControllers2 controller
+-> done: RoutePrecedenceSteps.GivenIAddTheRoutesFromTheController("RoutePrecedenceAm...") (0.0s)
+And I add the routes from the RoutePrecedenceAmongControllers3 controller
+-> done: RoutePrecedenceSteps.GivenIAddTheRoutesFromTheController("RoutePrecedenceAm...") (0.0s)
+When I generate the routes with this configuration
+-> done: RoutePrecedenceSteps.WhenIGenerateTheRoutesWithThisConfiguration() (0.0s)
+Then the routes from the RoutePrecedenceAmongControllers1 controller precede those from the RoutePrecedenceAmongControllers2 controller
+-> done: RoutePrecedenceSteps.ThenTheRoutesFromTheFirstControllerPrecedeThoseFromTheNextController("RoutePrecedenceAm...", "RoutePrecedenceAm...") (0.0s)
+And the routes from the RoutePrecedenceAmongControllers2 controller precede those from the RoutePrecedenceAmongControllers3 controller
+-> done: RoutePrecedenceSteps.ThenTheRoutesFromTheFirstControllerPrecedeThoseFromTheNextController("RoutePrecedenceAm...", "RoutePrecedenceAm...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RoutePrecedenceAmongRoutes controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RoutePrecedenceAm...", "Index") (0.0s)
+Then 3 routes are found
+-> done: SharedSteps.ThenNRoutesShouldBeFound(3) (0.0s)
+And the 1st route's url is "Index/First"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("1", "Index/First") (0.0s)
+And the 2nd route's url is "Index/Second"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("2", "Index/Second") (0.0s)
+And the 3rd route's url is "Index/Third"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("3", "Index/Third") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the HttpRoutePrecedenceAmongActions controller
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpRoutePreceden...") (0.0s)
+Then the 1st route's url is "ApiRoute1"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("1", "ApiRoute1") (0.0s)
+And the 2nd route's url is "ApiRoute2"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("2", "ApiRoute2") (0.0s)
+And the 3rd route's url is "ApiRoute3"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("3", "ApiRoute3") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+Given I have a new configuration object
+-> done: RoutePrecedenceSteps.GivenIHaveANewConfigurationObject() (0.0s)
+And I add the routes from controllers derived from the HttpRoutePrecedenceAmongDerivedControllersBase controller
+-> done: RoutePrecedenceSteps.GivenIAddTheRoutesFromControllersOfTypeBaseController("HttpRoutePreceden...") (0.0s)
+And I add the routes from the HttpRoutePrecedenceAmongControllers1 controller
+-> done: RoutePrecedenceSteps.GivenIAddTheRoutesFromTheController("HttpRoutePreceden...") (0.0s)
+When I generate the routes with this configuration
+-> done: RoutePrecedenceSteps.WhenIGenerateTheRoutesWithThisConfiguration() (0.0s)
+Then the routes from the HttpRoutePrecedenceAmongDerivedControllers1 controller precede those from the HttpRoutePrecedenceAmongControllers1 controller
+-> done: RoutePrecedenceSteps.ThenTheRoutesFromTheFirstControllerPrecedeThoseFromTheNextController("HttpRoutePreceden...", "HttpRoutePreceden...") (0.0s)
+And the routes from the HttpRoutePrecedenceAmongDerivedControllers2 controller precede those from the HttpRoutePrecedenceAmongControllers1 controller
+-> done: RoutePrecedenceSteps.ThenTheRoutesFromTheFirstControllerPrecedeThoseFromTheNextController("HttpRoutePreceden...", "HttpRoutePreceden...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+Given I have a new configuration object
+-> done: RoutePrecedenceSteps.GivenIHaveANewConfigurationObject() (0.0s)
+And I add the routes from the HttpRoutePrecedenceAmongControllers1 controller
+-> done: RoutePrecedenceSteps.GivenIAddTheRoutesFromTheController("HttpRoutePreceden...") (0.0s)
+And I add the routes from the HttpRoutePrecedenceAmongControllers2 controller
+-> done: RoutePrecedenceSteps.GivenIAddTheRoutesFromTheController("HttpRoutePreceden...") (0.0s)
+And I add the routes from the HttpRoutePrecedenceAmongControllers3 controller
+-> done: RoutePrecedenceSteps.GivenIAddTheRoutesFromTheController("HttpRoutePreceden...") (0.0s)
+When I generate the routes with this configuration
+-> done: RoutePrecedenceSteps.WhenIGenerateTheRoutesWithThisConfiguration() (0.0s)
+Then the routes from the HttpRoutePrecedenceAmongControllers1 controller precede those from the HttpRoutePrecedenceAmongControllers2 controller
+-> done: RoutePrecedenceSteps.ThenTheRoutesFromTheFirstControllerPrecedeThoseFromTheNextController("HttpRoutePreceden...", "HttpRoutePreceden...") (0.0s)
+And the routes from the HttpRoutePrecedenceAmongControllers2 controller precede those from the HttpRoutePrecedenceAmongControllers3 controller
+-> done: RoutePrecedenceSteps.ThenTheRoutesFromTheFirstControllerPrecedeThoseFromTheNextController("HttpRoutePreceden...", "HttpRoutePreceden...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the HttpRoutePrecedenceAmongRoutes controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpRoutePreceden...", "Get") (0.0s)
+Then 3 routes are found
+-> done: SharedSteps.ThenNRoutesShouldBeFound(3) (0.0s)
+And the 1st route's url is "Get/First"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("1", "Get/First") (0.0s)
+And the 2nd route's url is "Get/Second"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("2", "Get/Second") (0.0s)
+And the 3rd route's url is "Get/Third"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("3", "Get/Third") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the AreaRoutePrefixes controller's Absolute action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("AreaRoutePrefixes", "Absolute") (0.0s)
+Then the route url is "AreaPrefixAbsolute"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "AreaPrefixAbsolute") (0.0s)
+When I fetch the routes for the HttpAreaRoutePrefixes controller's Absolute action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpAreaRoutePref...", "Absolute") (0.0s)
+Then the route url is "ApiAreaPrefixAbsolute"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiAreaPrefixAbso...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RoutePrefixes controller's Absolute action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RoutePrefixes", "Absolute") (0.0s)
+Then the route url is "PrefixAbsolute"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "PrefixAbsolute") (0.0s)
+When I fetch the routes for the HttpRoutePrefixes controller's Absolute action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpRoutePrefixes", "Absolute") (0.0s)
+Then the route url is "ApiPrefixAbsolute"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiPrefixAbsolute") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the AreaRoutePrefixes controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("AreaRoutePrefixes", "Index") (0.0s)
+Then the route url is "Area/Prefix/Index"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Area/Prefix/Index") (0.0s)
+When I fetch the routes for the HttpAreaRoutePrefixes controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpAreaRoutePref...", "Get") (0.0s)
+Then the route url is "ApiArea/ApiPrefix/Get"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiArea/ApiPrefix...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the AreaRoutePrefixes controller's DuplicatePrefix action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("AreaRoutePrefixes", "DuplicatePrefix") (0.0s)
+Then the route url is "Area/Prefix/DuplicatePrefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Area/Prefix/Dupli...") (0.0s)
+When I fetch the routes for the HttpAreaRoutePrefixes controller's DuplicatePrefix action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpAreaRoutePref...", "DuplicatePrefix") (0.0s)
+Then the route url is "ApiArea/ApiPrefix/DuplicatePrefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiArea/ApiPrefix...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RoutePrefixes controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RoutePrefixes", "Index") (0.0s)
+Then the route url is "Prefix/Index"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/Index") (0.0s)
+When I fetch the routes for the HttpRoutePrefixes controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpRoutePrefixes", "Get") (0.0s)
+Then the route url is "ApiPrefix/Get"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiPrefix/Get") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RoutePrefixes controller's DuplicatePrefix action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RoutePrefixes", "DuplicatePrefix") (0.0s)
+Then the route url is "Prefix/DuplicatePrefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/DuplicateP...") (0.0s)
+When I fetch the routes for the HttpRoutePrefixes controller's DuplicatePrefix action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpRoutePrefixes", "DuplicatePrefix") (0.0s)
+Then the route url is "ApiPrefix/DuplicatePrefix"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiPrefix/Duplica...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the RoutePrefixes controller's RouteBeginsWithRoutePrefix action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("RoutePrefixes", "RouteBeginsWithRo...") (0.0s)
+Then the route url is "Prefix/Prefixer"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Prefix/Prefixer") (0.0s)
+When I fetch the routes for the HttpRoutePrefixes controller's RouteBeginsWithRoutePrefix action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpRoutePrefixes", "RouteBeginsWithRo...") (0.0s)
+Then the route url is "ApiPrefix/ApiPrefixer"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "ApiPrefix/ApiPref...") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.0s)
+When I fetch the routes for the StandardUsage controller's Destroy action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("StandardUsage", "Destroy") (0.0s)
+Then the route is constrained to DELETE requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("DELETE") (0.0s)
+And the route url is "Destroy/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Destroy/{id}") (0.0s)
+And the default for "controller" is "StandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "StandardUsage") (0.0s)
+And the default for "action" is "Destroy"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Destroy") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the StandardUsage controller's Update action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("StandardUsage", "Update") (0.0s)
+Then the route is constrained to PUT requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("PUT") (0.0s)
+And the route url is "Update/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Update/{id}") (0.0s)
+And the default for "controller" is "StandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "StandardUsage") (0.0s)
+And the default for "action" is "Update"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Update") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the StandardUsage controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("StandardUsage", "Index") (0.0s)
+Then the route is constrained to HEAD requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("HEAD") (0.0s)
+And the route url is "Index"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Index") (0.0s)
+And the default for "controller" is "StandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "StandardUsage") (0.0s)
+And the default for "action" is "Index"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Index") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the StandardUsage controller's Wildcards action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("StandardUsage", "Wildcards") (0.0s)
+Then the route is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("GET") (0.0s)
+And the route url is "Wildcards/{*pathInfo}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Wildcards/{*pathI...") (0.0s)
+And the default for "controller" is "StandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "StandardUsage") (0.0s)
+And the default for "action" is "Wildcards"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Wildcards") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the StandardUsage controller's AnyVerb action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("StandardUsage", "AnyVerb") (0.0s)
+Then the route is constrained to  requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("") (0.0s)
+And the route url is "AnyVerb"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "AnyVerb") (0.0s)
+And the default for "controller" is "StandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "StandardUsage") (0.0s)
+And the default for "action" is "AnyVerb"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "AnyVerb") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the StandardUsage controller's Create action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("StandardUsage", "Create") (0.0s)
+Then the route is constrained to POST requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("POST") (0.0s)
+And the route url is "Create"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Create") (0.0s)
+And the default for "controller" is "StandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "StandardUsage") (0.0s)
+And the default for "action" is "Create"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Create") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the StandardUsage controller's Index action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("StandardUsage", "Index") (0.0s)
+Then the route is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("GET") (0.0s)
+And the route url is "Index"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "Index") (0.0s)
+And the default for "controller" is "StandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "StandardUsage") (0.0s)
+And the default for "action" is "Index"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Index") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the HttpStandardUsage controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpStandardUsage", "Get") (0.0s)
+Then the route is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("GET") (0.0s)
+And the route url is "api"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "api") (0.0s)
+And the default for "controller" is "HttpStandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "HttpStandardUsage") (0.0s)
+And the default for "action" is "Get"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Get") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects.Http"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the HttpStandardUsage controller's Get action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpStandardUsage", "Get") (0.0s)
+Then the route is constrained to HEAD requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("HEAD") (0.0s)
+And the route url is "api"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "api") (0.0s)
+And the default for "controller" is "HttpStandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "HttpStandardUsage") (0.0s)
+And the default for "action" is "Get"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Get") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects.Http"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the HttpStandardUsage controller's Post action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpStandardUsage", "Post") (0.0s)
+Then the route is constrained to POST requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("POST") (0.0s)
+And the route url is "api"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "api") (0.0s)
+And the default for "controller" is "HttpStandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "HttpStandardUsage") (0.0s)
+And the default for "action" is "Post"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Post") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects.Http"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the HttpStandardUsage controller's Put action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpStandardUsage", "Put") (0.0s)
+Then the route is constrained to PUT requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("PUT") (0.0s)
+And the route url is "api/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "api/{id}") (0.0s)
+And the default for "controller" is "HttpStandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "HttpStandardUsage") (0.0s)
+And the default for "action" is "Put"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Put") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects.Http"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the HttpStandardUsage controller's Delete action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpStandardUsage", "Delete") (0.0s)
+Then the route is constrained to DELETE requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("DELETE") (0.0s)
+And the route url is "api/{id}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "api/{id}") (0.0s)
+And the default for "controller" is "HttpStandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "HttpStandardUsage") (0.0s)
+And the default for "action" is "Delete"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Delete") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects.Http"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the HttpStandardUsage controller's Wildcards action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpStandardUsage", "Wildcards") (0.0s)
+Then the route is constrained to GET requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("GET") (0.0s)
+And the route url is "api/Wildcards/{*pathInfo}"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "api/Wildcards/{*p...") (0.0s)
+And the default for "controller" is "HttpStandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "HttpStandardUsage") (0.0s)
+And the default for "action" is "Wildcards"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "Wildcards") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects.Http"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+Given I generate the routes defined in the subject controllers
+-> done: SharedSteps.GivenIGenerateTheRoutesDefinedInTheSubjectControllers() (0.1s)
+When I fetch the routes for the HttpStandardUsage controller's AnyVerb action
+-> done: SharedSteps.WhenIFetchTheRoutesFor("HttpStandardUsage", "AnyVerb") (0.0s)
+Then the route is constrained to  requests
+-> done: StandardUsageSteps.ThenTheRouteIsConstrainedToRequests("") (0.0s)
+And the route url is "api/AnyVerb"
+-> done: StandardUsageSteps.ThenTheRouteUrlIs("", "api/AnyVerb") (0.0s)
+And the default for "controller" is "HttpStandardUsage"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("controller", "HttpStandardUsage") (0.0s)
+And the default for "action" is "AnyVerb"
+-> done: StandardUsageSteps.ThenTheDefaultForIs("action", "AnyVerb") (0.0s)
+And the namespace is "AttributeRouting.Specs.Subjects.Http"
+-> done: StandardUsageSteps.ThenTheNamespaceIs("AttributeRouting....") (0.0s)
+TOTAL ROUTES: 2
+========================================
+ 
+URL: {culture}/Cms/Home
+DEFAULTS:
+- controller = CulturePrefix
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Cms
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: {culture}/Cms/Inicio
+DEFAULTS:
+- controller = CulturePrefix
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Cms
+- UseNamespaceFallback = False
+- cultureName = pt
+ 
+----------------------------------------
+ 
+TOTAL ROUTES: 1
+========================================
+ 
+URL: BugFixes/Gallery/_CenterImage/{guid_Gallery}/{slideShow}/{currentController}/{image}
+DEFAULTS:
+- controller = BugFixes
+- action = Issue43_OptionalParamsAreMucky
+- guid_Gallery = 
+- slideShow = 
+- currentController = 
+- image = 
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+TOTAL ROUTES: 2
+========================================
+ 
+URL: Area/Prefix/Index
+DEFAULTS:
+- controller = Translation
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: Area/Prefix/es-Index
+DEFAULTS:
+- controller = Translation
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+- cultureName = es
+ 
+----------------------------------------
+ 
+TOTAL ROUTES: 2
+========================================
+ 
+URL: Area/Prefix/Index
+DEFAULTS:
+- controller = Translation
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: es-Area/es-Prefix/es-Index
+DEFAULTS:
+- controller = Translation
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+- cultureName = es
+ 
+----------------------------------------
+ 
+TOTAL ROUTES: 2
+========================================
+ 
+URL: Area/Prefix/Index
+DEFAULTS:
+- controller = Translation
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+ 
+----------------------------------------
+ 
+URL: es-Area/es-Prefix/es-Index
+DEFAULTS:
+- controller = Translation
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+- area = Area
+- UseNamespaceFallback = False
+- cultureName = es
+ 
+----------------------------------------
+ 
+TOTAL ROUTES: 1
+========================================
+ 
+URL: lowercaseurl/hello/{userName}/goodbye
+DEFAULTS:
+- controller = LowercaseUrl
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 
+TOTAL ROUTES: 1
+========================================
+ 
+URL: LowercaseUrl/Hello/{userName}/Goodbye
+DEFAULTS:
+- controller = LowercaseUrl
+- action = Index
+DATA TOKENS:
+- namespaces = AttributeRouting.Specs.Subjects
+ 
+----------------------------------------
+ 

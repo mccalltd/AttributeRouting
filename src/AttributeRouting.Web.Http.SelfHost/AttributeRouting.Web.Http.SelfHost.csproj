@@ -83,6 +83,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="AttributeRouting.WebApi.Hosted.nutrans" />
+    <None Include="AttributeRouting.WebApi.Hosted.symbols.nutrans" />
+    <None Include="AttributeRouting.cs.pp" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

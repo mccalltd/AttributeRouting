@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!-- AttributeRouting Shared Nuspec File; all packages share this -->
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>Tim McCall</authors>
+    <owners>Tim McCall</owners>
+    <copyright>© 2012 Tim McCall</copyright>
+    <projectUrl>https://github.com/mccalltd/AttributeRouting/wiki</projectUrl>
+    <tags>attribute, routing, route, asp.net, mvc, webapi</tags>
+    <id>AttributeRouting.WebHost</id>
+    <description>ASP.NET Web API AttributeRouting lets you specify routes using attributes on your API controllers and actions.</description>
+    <dependencies>
+      <dependency id="WebActivator" version="1.0.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\build\bin\AttributeRouting.dll" target="lib\net40" />
+    <file src="..\..\build\bin\AttributeRouting.Web.dll" target="lib\net40" />
+    <file src="..\..\build\bin\AttributeRouting.Web.Http.dll" target="lib\net40" />
+    <file src="..\..\build\bin\AttributeRouting.Web.Http.WebHost.dll" target="lib\net40" />
+    <file src="web.config.transform" target="content" />
+    <file src="AttributeRoutingHttp.cs.pp" target="content\App_Start" />
+  </files>
+</package>
