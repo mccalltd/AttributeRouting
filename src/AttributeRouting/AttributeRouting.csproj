@@ -85,7 +85,7 @@
     <Compile Include="Logging\LogWriter.cs" />
     <Compile Include="POSTAttribute.cs" />
     <Compile Include="PUTAttribute.cs" />
-    <Compile Include="RouteAttribute.cs" />
+    <Compile Include="RouteAttributeBase.cs" />
     <Compile Include="RouteConstraintAttributeBase.cs" />
     <Compile Include="RouteConventionAttribute.cs" />
     <Compile Include="RoutePrefixAttribute.cs" />

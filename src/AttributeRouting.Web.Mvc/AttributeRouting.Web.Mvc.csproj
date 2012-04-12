@@ -52,6 +52,7 @@
     <Compile Include="AttributeRoutingConfiguration.cs" />
     <Compile Include="Framework\Factories\MvcAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\UrlParameterFactory.cs" />
+    <Compile Include="RouteAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestfulRouteConventionAttribute.cs" />
     <Compile Include="RouteCollectionExtensions.cs" />

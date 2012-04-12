@@ -9,19 +9,28 @@ namespace AttributeRouting
     /// The route information for an action.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public class RouteAttribute : Attribute, IRouteAttribute
+    public abstract class RouteAttributeBase : Attribute, IRouteAttribute
     {
+        protected RouteAttributeBase(string routeUrl)
+        {
+            if (routeUrl == null) throw new ArgumentNullException("routeUrl");
+
+            RouteUrl = routeUrl;
+            Order = int.MaxValue;
+            Precedence = int.MaxValue;
+        }
+
         /// <summary>
         /// Specify the route information for an action.
         /// </summary>
         /// <param name="routeUrl">The url that is associated with this action</param>
         /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
-        public RouteAttribute(string routeUrl, params string[] allowedMethods)
+        protected RouteAttributeBase(string routeUrl, params string[] allowedMethods)
         {
             if (routeUrl == null) throw new ArgumentNullException("routeUrl");
 
-            if (allowedMethods.Any(m => !Regex.IsMatch(m, "HEAD|GET|POST|PUT|DELETE")))
-                throw new ArgumentException("The allowedMethods are restricted to either HEAD, GET, POST, PUT, or DELETE.", "allowedMethods");
+            if (HttpMethods.Any(m => !Regex.IsMatch(m, "HEAD|GET|POST|PUT|DELETE|PATCH|OPTIONS|TRACE")))
+                throw new InvalidOperationException("The allowedMethods are restricted to either HEAD, GET, POST, PUT, DELETE, PATCH, OPTIONS, or TRACE.");
 
             RouteUrl = routeUrl;
             HttpMethods = allowedMethods;
@@ -37,7 +46,7 @@ namespace AttributeRouting
         /// <summary>
         /// The HttpMethods this route is constrained against.
         /// </summary>
-        public string[] HttpMethods { get; private set; }
+        public string[] HttpMethods { get; protected set; }
 
         /// <summary>
         /// The order of this route among all the routes defined against this action.

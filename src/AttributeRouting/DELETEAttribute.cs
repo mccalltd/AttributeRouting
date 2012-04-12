@@ -3,7 +3,7 @@ namespace AttributeRouting
     /// <summary>
     /// Defines a route for an action constrained to requests providing an httpMethod value of DELETE.
     /// </summary>
-    public class DELETEAttribute : RouteAttribute
+    public class DELETEAttribute : RouteAttributeBase
     {
         /// <summary>
         /// Specify a route for an action constrained to requests providing an httpMethod value of DELETE.

@@ -18,7 +18,7 @@ namespace AttributeRouting.Web.Http.SelfHost
             
         }
 
-        public ICollection<string> AllowedMethods
+        ICollection<string> IRestfulHttpMethodConstraint.AllowedMethods
         {
             get { return new ReadOnlyCollection<string>(base.AllowedMethods.Select(method => method.Method).ToList()); }
         }

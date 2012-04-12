@@ -1,5 +1,4 @@
 using System.Web.Http;
-using System.Web.Mvc;
 using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Specs.Subjects.Http
@@ -36,7 +35,7 @@ namespace AttributeRouting.Specs.Subjects.Http
             return "";
         }
 
-        [Route("api/AnyVerb")]
+        [HttpRoute("api/AnyVerb")]
         public string AnyVerb()
         {
             return "";
