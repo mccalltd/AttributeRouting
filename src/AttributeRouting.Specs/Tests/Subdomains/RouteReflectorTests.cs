@@ -53,5 +53,22 @@ namespace AttributeRouting.Specs.Tests.Subdomains
             Assert.That(spec.AreaName, Is.EqualTo("Users"));
             Assert.That(spec.AreaUrl, Is.EqualTo(null));
         }
+
+        [Test]
+        public void Returns_null_area_url_when_controller_configured_with_subdomain_only_via_configuration_object()
+        {
+            var configuration = new AttributeRoutingConfiguration();
+            configuration.AddRoutesFromController<SubdomainControllerWithoutSubdomainInAttribute>();
+            configuration.MapArea("NoSubdomain").ToSubdomain("subdomain");
+
+            var reflector = new RouteReflector(configuration);
+            var specs = reflector.GenerateRouteSpecifications().ToList();
+
+            var spec = specs.SingleOrDefault();
+            Assert.That(spec, Is.Not.Null);
+            Assert.That(spec.Subdomain, Is.EqualTo("subdomain"));
+            Assert.That(spec.AreaName, Is.EqualTo("NoSubdomain"));
+            Assert.That(spec.AreaUrl, Is.EqualTo(null));
+        }
     }
 }

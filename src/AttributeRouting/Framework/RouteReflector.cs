@@ -53,12 +53,13 @@ namespace AttributeRouting.Framework
                     orderby controllerIndex, routeAttribute.Precedence
                     // precedence is within a controller
                     let routeName = routeAttribute.RouteName
+                    let subdomain = GetAreaSubdomain(routeAreaAttribute)
                     select new RouteSpecification
                     {
                         AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
-                        AreaUrl = GetAreaUrl(routeAreaAttribute),
+                        AreaUrl = GetAreaUrl(routeAreaAttribute, subdomain),
                         AreaUrlTranslationKey = routeAreaAttribute.SafeGet(a => a.TranslationKey),
-                        Subdomain = GetAreaSubdomain(routeAreaAttribute),
+                        Subdomain = subdomain,
                         RoutePrefixUrl = GetRoutePrefix(routePrefixAttribute, actionMethod, convention),
                         RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
                         ControllerType = controllerType,
@@ -90,16 +91,17 @@ namespace AttributeRouting.Framework
             return attributes.OrderBy(a => a.Order);
         }
 
-        private static string GetAreaUrl(RouteAreaAttribute routeAreaAttribute)
+        private static string GetAreaUrl(RouteAreaAttribute routeAreaAttribute, string subdomain)
         {
             if (routeAreaAttribute == null)
                 return null;
 
-            // If a subdomain is specified for the area, then assume the area url is blank;
+            // If a subdomain is specified for the area either in the RouteAreaAttribute or via 
+            // configuration, then assume the area url is blank;
             // eg: admin.badass.com.
             // However, our fearless coder can decide to explicitly specify an area url if desired;
             // eg: internal.badass.com/admin.
-            if (routeAreaAttribute.Subdomain.HasValue() && routeAreaAttribute.AreaUrl.HasNoValue())
+            if (subdomain.HasValue() && routeAreaAttribute.AreaUrl.HasNoValue())
                 return null;
 
             return routeAreaAttribute.AreaUrl ?? routeAreaAttribute.AreaName;
