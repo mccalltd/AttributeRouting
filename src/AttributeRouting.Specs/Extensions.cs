@@ -21,7 +21,7 @@ namespace AttributeRouting.Specs
                 throw new ApplicationException("The table is missing the following column definitions: " + String.Join(", ", missingColumns));    
         }
 
-        public static AttributeRoute RequireRouteNamed(this IEnumerable<AttributeRoute> routes, string name)
+        public static IAttributeRoute RequireRouteNamed(this IEnumerable<IAttributeRoute> routes, string name)
         {
             var route = routes.FirstOrDefault(r => r.RouteName == name);
             if (route == null)

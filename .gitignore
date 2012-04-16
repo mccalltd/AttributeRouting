@@ -6,5 +6,7 @@ _ReSharper.*
 *.user
 *.suo
 *.cache
-nuget/*.nupkg
 App_Data/
+packages*/
+build*/
+src/**/*.nuspec

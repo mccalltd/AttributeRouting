@@ -4,6 +4,11 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_v2.0_
+
+* #57, #52 Added support for Web API, both Web-hosted and Self-hosted  
+  - Added new Nuget packages, *AttributeRouting.WebApi* and *AttributeRouting.WebApi.Hosted*  
+
 _v1.7_
 
 * #53 - added config setting for resolving the current UI culture name when constraining inbound requests.

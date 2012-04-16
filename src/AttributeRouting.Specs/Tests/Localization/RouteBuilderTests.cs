@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
-using AttributeRouting.Framework;
 using AttributeRouting.Framework.Localization;
-using AttributeRouting.Logging;
 using AttributeRouting.Specs.Subjects;
+using AttributeRouting.Web.Logging;
+using AttributeRouting.Web.Mvc;
+using AttributeRouting.Web.Mvc.Framework;
 using NUnit.Framework;
 
 namespace AttributeRouting.Specs.Tests.Localization
@@ -41,7 +42,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             // Ensure that a route is added for each translation
             Assert.That(RouteTable.Routes.Count, Is.EqualTo(2));
 
-            var translatedRoute = RouteTable.Routes.Cast<AttributeRoute>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
+            var translatedRoute = RouteTable.Routes.Cast<Route>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
             Assert.That(translatedRoute, Is.Not.Null);
             Assert.That(translatedRoute.Url, Is.EqualTo("es-Area/es-Prefix/es-Index"));
 
@@ -69,7 +70,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             // Ensure that a route is added for each translation
             Assert.That(RouteTable.Routes.Count, Is.EqualTo(2));
 
-            var translatedRoute = RouteTable.Routes.Cast<AttributeRoute>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
+            var translatedRoute = RouteTable.Routes.Cast<Route>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
             Assert.That(translatedRoute, Is.Not.Null);
             Assert.That(translatedRoute.Url, Is.EqualTo("Area/Prefix/es-Index"));
 
@@ -112,7 +113,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             // Ensure that a route is added for each translation
             Assert.That(RouteTable.Routes.Count, Is.EqualTo(2));
 
-            var translatedRoute = RouteTable.Routes.Cast<AttributeRoute>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
+            var translatedRoute = RouteTable.Routes.Cast<Route>().SingleOrDefault(r => (string)r.DataTokens["cultureName"] == "es");
             Assert.That(translatedRoute, Is.Not.Null);
             Assert.That(translatedRoute.Url, Is.EqualTo("es-Area/es-Prefix/es-Index"));
 

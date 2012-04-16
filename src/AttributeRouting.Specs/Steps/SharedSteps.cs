@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Routing;
+using AttributeRouting.Web.Http.WebHost;
+using AttributeRouting.Web.Mvc;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -13,6 +15,7 @@ namespace AttributeRouting.Specs.Steps
         {
             RouteTable.Routes.Clear();
             RouteTable.Routes.MapAttributeRoutes();
+            RouteTable.Routes.MapHttpAttributeRoutes();
         }
 
         [When(@"I fetch the routes for the (.*?) controller's (.*?) action")]

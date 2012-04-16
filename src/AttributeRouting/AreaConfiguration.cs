@@ -9,12 +9,12 @@ namespace AttributeRouting
     public class AreaConfiguration
     {
         private readonly string _name;
-        private readonly AttributeRoutingConfiguration _configuration;
+        private readonly AttributeRoutingConfigurationBase _configuration;
 
         /// <summary>
         /// Helper for configuring areas when initializing AttributeRouting framework.
         /// </summary>
-        public AreaConfiguration(string name, AttributeRoutingConfiguration configuration)
+        public AreaConfiguration(string name, AttributeRoutingConfigurationBase configuration)
         {
             _name = name;
             _configuration = configuration;

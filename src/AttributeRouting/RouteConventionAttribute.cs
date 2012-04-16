@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
+using AttributeRouting.Constraints;
 
 namespace AttributeRouting
 {
@@ -8,14 +9,14 @@ namespace AttributeRouting
     /// Base class implementors can use to define a custom controller-level route convention.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public abstract class RouteConventionAttribute : Attribute
+    public abstract class RouteConventionAttribute : Attribute, IRouteConvention
     {
         /// <summary>
         /// Gets the RouteAttributes to be applied to the given action method.
         /// </summary>
         /// <param name="actionMethod"></param>
         /// <returns></returns>
-        public abstract IEnumerable<RouteAttribute> GetRouteAttributes(MethodInfo actionMethod);
+        public abstract IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod);
 
         /// <summary>
         /// Gets the default route prefix to use if no RoutePrefix is applied on the controller.
@@ -42,7 +43,7 @@ namespace AttributeRouting
         /// </summary>
         /// <param name="actionMethod"></param>
         /// <returns></returns>
-        public virtual IEnumerable<RouteConstraintAttribute> GetRouteConstraintAtributes(MethodInfo actionMethod)
+        public virtual IEnumerable<IAttributeRouteConstraint> GetRouteConstraintAttributes(MethodInfo actionMethod)
         {
             yield break;
         }

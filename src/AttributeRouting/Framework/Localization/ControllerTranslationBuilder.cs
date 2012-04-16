@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Web.Mvc;
 
 namespace AttributeRouting.Framework.Localization
 {
@@ -9,7 +8,7 @@ namespace AttributeRouting.Framework.Localization
     /// Fluent helper for adding translations for the route components of a controller in a strongly typed manner.
     /// </summary>
     /// <typeparam name="TController">The type of controler for which to add translations</typeparam>
-    public class ControllerTranslationBuilder<TController> where TController : IController
+    public class ControllerTranslationBuilder<TController>
     {
         private readonly TranslationBuilder _builder;
         private readonly TranslationKeyGenerator _keyGenerator;
@@ -49,7 +48,7 @@ namespace AttributeRouting.Framework.Localization
         }
 
         /// <summary>
-        /// Add translations for the route url specified via the <see cref="RouteAttribute"/> applied to the specified action in this controller.
+        /// Add translations for the route url specified via the <see cref="AttributeRouting.Mvc.RouteAttribute"/> applied to the specified action in this controller.
         /// </summary>
         /// <param name="action">Expression pointing to an action method on the controller</param>
         /// <param name="cultureTranslationPairs">Dictionary using cultureName as a key and a translation as the value</param>

@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Web.Routing;
 using AttributeRouting.Specs.Subjects;
+using AttributeRouting.Web.Mvc;
 using NUnit.Framework;
 
 namespace AttributeRouting.Specs.Tests.Subdomains

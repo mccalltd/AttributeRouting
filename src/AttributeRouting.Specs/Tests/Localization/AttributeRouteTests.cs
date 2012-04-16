@@ -7,6 +7,8 @@ using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Specs.Subjects;
+using AttributeRouting.Web.Mvc;
+using AttributeRouting.Web.Mvc.Framework;
 using NUnit.Framework;
 
 namespace AttributeRouting.Specs.Tests.Localization
@@ -26,7 +28,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             routes.MapAttributeRoutes(c => c.AddRoutesFromController<TranslateActionsController>());
 
             // Fetch the first route
-            var route = routes.Cast<AttributeRoute>().SingleOrDefault();
+            var route = routes.Cast<Route>().SingleOrDefault();
             Assert.That(route, Is.Not.Null);
 
             var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
@@ -150,7 +152,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             Assert.That(routeData, Is.Null);
         }
 
-        private AttributeRoute MapRoutesAndFetchFirst(Func<AttributeRoute, bool> predicate)
+        private Route MapRoutesAndFetchFirst(Func<IAttributeRoute, bool> predicate)
         {
             var provider = new FluentTranslationProvider();
 
@@ -170,10 +172,10 @@ namespace AttributeRouting.Specs.Tests.Localization
             });
 
             // Fetch the first route
-            var route = routes.Cast<AttributeRoute>().FirstOrDefault(predicate);
+            var route = routes.Cast<IAttributeRoute>().FirstOrDefault(predicate);
             Assert.That(route, Is.Not.Null);
 
-            return route;
+            return route as Route;
         }
     }
 }
