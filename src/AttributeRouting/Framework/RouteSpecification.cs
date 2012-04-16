@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using AttributeRouting.Constraints;
 
 namespace AttributeRouting.Framework
 {
@@ -11,7 +10,7 @@ namespace AttributeRouting.Framework
         {
             ActionParameters = new ParameterInfo[0];
             DefaultAttributes = new List<RouteDefaultAttribute>();
-            ConstraintAttributes = new List<IAttributeRouteConstraint>();
+            ConstraintAttributes = new List<RouteConstraintAttributeBase>();
         }
 
         public string AreaName { get; set; }
@@ -40,7 +39,7 @@ namespace AttributeRouting.Framework
 
         public ICollection<RouteDefaultAttribute> DefaultAttributes { get; set; }
 
-        public ICollection<IAttributeRouteConstraint> ConstraintAttributes { get; set; }
+        public ICollection<RouteConstraintAttributeBase> ConstraintAttributes { get; set; }
 
         public string RouteName { get; set; }
 

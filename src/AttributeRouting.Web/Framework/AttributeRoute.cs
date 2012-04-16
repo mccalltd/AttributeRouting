@@ -7,7 +7,8 @@ using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
-namespace AttributeRouting.Web.Framework {
+namespace AttributeRouting.Web.Framework
+{
     public class AttributeRoute : Route, IAttributeRoute
     {
         private readonly WebAttributeRoutingConfiguration _configuration;
@@ -15,17 +16,18 @@ namespace AttributeRouting.Web.Framework {
         /// <summary>
         /// Route supporting the AttributeRouting framework.
         /// </summary>
-        public AttributeRoute(string url, 
-            RouteValueDictionary defaults,
-            RouteValueDictionary constraints,
-            RouteValueDictionary dataTokens,
-            WebAttributeRoutingConfiguration configuration)
-            : base(url, defaults, constraints, dataTokens, configuration.RouteHandlerFactory()) {
-
+        public AttributeRoute(string url,
+                              RouteValueDictionary defaults,
+                              RouteValueDictionary constraints,
+                              RouteValueDictionary dataTokens,
+                              WebAttributeRoutingConfiguration configuration)
+            : base(url, defaults, constraints, dataTokens, configuration.RouteHandlerFactory())
+        {
             _configuration = configuration;
         }
 
-        public override RouteData GetRouteData(HttpContextBase httpContext) {
+        public override RouteData GetRouteData(HttpContextBase httpContext)
+        {
             var routeData = base.GetRouteData(httpContext);
             if (routeData == null)
                 return null;
@@ -39,7 +41,8 @@ namespace AttributeRouting.Web.Framework {
             return routeData;
         }
 
-        private bool IsSubdomainMatched(HttpContextBase httpContext) {
+        private bool IsSubdomainMatched(HttpContextBase httpContext)
+        {
             // If no subdomains are mapped with AR, then yes.
             if (!MappedSubdomains.Any())
                 return true;
@@ -55,7 +58,8 @@ namespace AttributeRouting.Web.Framework {
             return false;
         }
 
-        private bool IsCultureNameMatched(HttpContextBase httpContext, RouteData routeData) {
+        private bool IsCultureNameMatched(HttpContextBase httpContext, RouteData routeData)
+        {
             if (!_configuration.ConstrainTranslatedRoutesByCurrentUICulture)
                 return true;
 
@@ -67,7 +71,8 @@ namespace AttributeRouting.Web.Framework {
             var currentUINeutralCultureName = currentUICultureName.Split('-').First();
 
             // If this is a translated route:
-            if (DefaultRouteContainer != null) {
+            if (DefaultRouteContainer != null)
+            {
                 // Match if the current UI culture matches the culture name of this route.
                 if (currentUICultureName.ValueEquals(CultureName))
                     return true;
@@ -75,10 +80,13 @@ namespace AttributeRouting.Web.Framework {
                 // Match if the culture name is neutral and no translation exists for the specific culture.
                 if (CultureName.Split('-').Length == 1
                     && currentUINeutralCultureName == CultureName
-                    && !DefaultRouteContainer.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName))) {
+                    && !DefaultRouteContainer.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName)))
+                {
                     return true;
                 }
-            } else {
+            }
+            else
+            {
                 // If this is a default route:
 
                 // Match if this route has no translations.
@@ -94,7 +102,8 @@ namespace AttributeRouting.Web.Framework {
             return false;
         }
 
-        public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
+        public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
+        {
             var virtualPathData = base.GetVirtualPath(requestContext, values);
             if (virtualPathData == null)
                 return null;
@@ -117,7 +126,8 @@ namespace AttributeRouting.Web.Framework {
             return virtualPathData;
         }
 
-        private VirtualPathData GetTranslatedVirtualPath(VirtualPathData virtualPathData, RequestContext requestContext, RouteValueDictionary values) {
+        private VirtualPathData GetTranslatedVirtualPath(VirtualPathData virtualPathData, RequestContext requestContext, RouteValueDictionary values)
+        {
             if (Translations == null || !Translations.Any())
                 return virtualPathData;
 
@@ -133,14 +143,16 @@ namespace AttributeRouting.Web.Framework {
             return ((Route)translation).GetVirtualPath(requestContext, values);
         }
 
-        private static string TransformVirtualPathToLowercase(string virtualPath) {
+        private static string TransformVirtualPathToLowercase(string virtualPath)
+        {
             string path, query;
             GetPathAndQuery(virtualPath, out path, out query);
 
             return path.ToLowerInvariant() + query;
         }
 
-        private static string AppendTrailingSlashToVirtualPath(string virtualPath) {
+        private static string AppendTrailingSlashToVirtualPath(string virtualPath)
+        {
             string path, query;
             GetPathAndQuery(virtualPath, out path, out query);
 
@@ -150,15 +162,19 @@ namespace AttributeRouting.Web.Framework {
             return path + query;
         }
 
-        private static void GetPathAndQuery(string virtualPath, out string path, out string query) {
+        private static void GetPathAndQuery(string virtualPath, out string path, out string query)
+        {
             // NOTE: Do not lowercase the querystring vals
             var match = Regex.Match(virtualPath, @"(?<path>[^\?]*)(?<query>\?.*)?");
 
             // Just covering my backside here in case the regex fails for some reason.
-            if (!match.Success) {
+            if (!match.Success)
+            {
                 path = virtualPath;
                 query = null;
-            } else {
+            }
+            else
+            {
                 path = match.Groups["path"].Value;
                 query = match.Groups["query"].Value;
             }
@@ -187,7 +203,8 @@ namespace AttributeRouting.Web.Framework {
         /// <summary>
         /// DataTokens dictionary
         /// </summary>
-        IDictionary<string, object> IAttributeRoute.DataTokens {
+        IDictionary<string, object> IAttributeRoute.DataTokens
+        {
             get { return DataTokens; }
             set { DataTokens = new RouteValueDictionary(value); }
         }
@@ -195,7 +212,8 @@ namespace AttributeRouting.Web.Framework {
         /// <summary>
         /// Constraints dictionary
         /// </summary>
-        IDictionary<string, object> IAttributeRoute.Constraints {
+        IDictionary<string, object> IAttributeRoute.Constraints
+        {
             get { return Constraints; }
             set { Constraints = new RouteValueDictionary(value); }
         }
@@ -203,9 +221,10 @@ namespace AttributeRouting.Web.Framework {
         /// <summary>
         /// Defaults dictionary
         /// </summary>
-        IDictionary<string, object> IAttributeRoute.Defaults {
+        IDictionary<string, object> IAttributeRoute.Defaults
+        {
             get { return Defaults; }
-            set { Defaults=new RouteValueDictionary(value); }
+            set { Defaults = new RouteValueDictionary(value); }
         }
 
         /// <summary>

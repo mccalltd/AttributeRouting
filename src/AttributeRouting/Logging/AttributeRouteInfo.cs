@@ -22,9 +22,9 @@ namespace AttributeRouting.Logging
         public IDictionary<string, string> DataTokens { get; set; }
 
         public static AttributeRouteInfo GetRouteInfo(string url,
-            IDictionary<string, object> defaults,
-            IDictionary<string, object> constraints,
-            IDictionary<string, object> dataTokens)
+                                                      IDictionary<string, object> defaults,
+                                                      IDictionary<string, object> constraints,
+                                                      IDictionary<string, object> dataTokens)
         {
 
             var item = new AttributeRouteInfo { Url = url };
@@ -43,9 +43,10 @@ namespace AttributeRouting.Logging
                         continue;
 
                     if (constraint.Value is IRestfulHttpMethodConstraint)
-                        item.HttpMethod = String.Join(", ", ((IRestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
-                    else if (constraint.Value is IRegexRouteConstraint)
-                        item.Constraints.Add(constraint.Key, ((IRegexRouteConstraint)constraint.Value).Pattern);
+                        item.HttpMethod = String.Join(", ",
+                                                      ((IRestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
+                    else if (constraint.Value is RegexRouteConstraintBase)
+                        item.Constraints.Add(constraint.Key, ((RegexRouteConstraintBase)constraint.Value).Pattern);
                     else
                         item.Constraints.Add(constraint.Key, constraint.Value.ToString());
                 }

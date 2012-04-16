@@ -20,8 +20,7 @@ namespace AttributeRouting.Tests.SelfHost
             {
                 cfg.ScanAssemblyOf<ProductsController>();
 
-                // Must have this on, otherwise you need to specify RouteName
-                // in your attributes
+                // Must have this on, otherwise you need to specify RouteName in your attributes
                 cfg.AutoGenerateRouteNames = true;
             });
 

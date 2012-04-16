@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 
-namespace AttributeRouting.Framework {
-
+namespace AttributeRouting.Framework
+{
     /// <summary>
-    /// Generic interface for AttributeRoutes (logging, etc.) that doesn't
-    /// require a Route type
+    /// Generic interface for AttributeRoutes (logging, etc.) that doesn't require a Route type
     /// </summary>
-    public interface IAttributeRoute {
+    public interface IAttributeRoute
+    {
 
         /// <summary>
         /// The name of this route, for supporting named routes.

@@ -1,5 +1,4 @@
 using System;
-using AttributeRouting.Constraints;
 
 namespace AttributeRouting
 {
@@ -7,7 +6,7 @@ namespace AttributeRouting
     /// Defines a constraint for a url parameter defined in a RouteAttribute applied to this action.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public abstract class RouteConstraintAttributeBase : Attribute, IAttributeRouteConstraint
+    public abstract class RouteConstraintAttributeBase : Attribute
     {
         /// <summary>
         /// Specify a constraint for a url parameter defined in a RouteAttribute applied to this action.

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace AttributeRouting.Constraints
@@ -9,13 +6,17 @@ namespace AttributeRouting.Constraints
     /// <summary>
     /// A regular expression to constrain the route against. This is the base class containing shared logic.
     /// </summary>
-    public abstract class RegexRouteConstraintBase : IRegexRouteConstraint
+    public abstract class RegexRouteConstraintBase
     {
         protected RegexRouteConstraintBase(string pattern, RegexOptions options = RegexOptions.None)
         {
             Pattern = pattern;
             Options = options;
         }
+
+        public string Pattern { get; private set; }
+
+        public RegexOptions Options { get; set; }
 
         protected bool IsMatch(string parameterName, IDictionary<string, object> routeDictionary)
         {
@@ -27,8 +28,5 @@ namespace AttributeRouting.Constraints
 
             return Regex.IsMatch(valueAsString, Pattern, Options);
         }
-
-        public string Pattern { get; private set; }
-        public RegexOptions Options { get; set; }
     }
 }

@@ -5,12 +5,14 @@ using AttributeRouting.Framework;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Web.Framework;
 
-namespace AttributeRouting.Web.Mvc.Framework.Factories {
+namespace AttributeRouting.Web.Mvc.Framework.Factories
+{
     internal class MvcAttributeRouteFactory : IAttributeRouteFactory
     {
         private readonly AttributeRoutingConfiguration _configuration;
 
-        public MvcAttributeRouteFactory(AttributeRoutingConfiguration configuration) {
+        public MvcAttributeRouteFactory(AttributeRoutingConfiguration configuration)
+        {
             _configuration = configuration;
         }
 
@@ -22,12 +24,15 @@ namespace AttributeRouting.Web.Mvc.Framework.Factories {
         /// <param name="constraints"></param>
         /// <param name="dataTokens"></param>
         /// <returns></returns>
-        public IAttributeRoute CreateAttributeRoute(string url, IDictionary<string, object> defaults, IDictionary<string, object> constraints, IDictionary<string, object> dataTokens) {
+        public IAttributeRoute CreateAttributeRoute(string url, IDictionary<string, object> defaults,
+                                                    IDictionary<string, object> constraints,
+                                                    IDictionary<string, object> dataTokens)
+        {
             return new AttributeRoute(url,
-                new RouteValueDictionary(defaults),
-                new RouteValueDictionary(constraints),
-                new RouteValueDictionary(dataTokens),
-                _configuration);
+                                      new RouteValueDictionary(defaults),
+                                      new RouteValueDictionary(constraints),
+                                      new RouteValueDictionary(dataTokens),
+                                      _configuration);
         }
     }
 }

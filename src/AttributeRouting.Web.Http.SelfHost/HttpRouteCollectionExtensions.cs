@@ -4,8 +4,6 @@ using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Routing;
 using AttributeRouting.Framework;
-using AttributeRouting.Web.Http.SelfHost.Framework;
-using AttributeRouting.Web.Http.SelfHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.SelfHost
 {

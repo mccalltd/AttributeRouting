@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading;
-using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Routing;
 using AttributeRouting.Framework.Factories;
-using AttributeRouting.Web.Http.SelfHost.Framework;
 using AttributeRouting.Web.Http.SelfHost.Framework.Factories;
 
-namespace AttributeRouting.Web.Http.SelfHost {
+namespace AttributeRouting.Web.Http.SelfHost
+{
     public class HttpAttributeRoutingConfiguration : AttributeRoutingConfigurationBase
     {
         private readonly IAttributeRouteFactory _attributeFactory;
         private readonly IConstraintFactory _constraintFactory;
         private readonly IParameterFactory _parameterFactory;
 
-        public HttpAttributeRoutingConfiguration() {
+        public HttpAttributeRoutingConfiguration()
+        {
             _attributeFactory = new AttributeRouteFactory(this);
             _constraintFactory = new HttpRouteConstraintFactory();
             _parameterFactory = new RouteParameterFactory();
@@ -23,28 +23,32 @@ namespace AttributeRouting.Web.Http.SelfHost {
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
         }
 
-        public override Type FrameworkControllerType {
-            get { return typeof (IHttpController); }
+        public override Type FrameworkControllerType
+        {
+            get { return typeof(IHttpController); }
         }
 
         /// <summary>
         /// Attribute factory
         /// </summary>
-        public override IAttributeRouteFactory AttributeFactory {
+        public override IAttributeRouteFactory AttributeFactory
+        {
             get { return _attributeFactory; }
         }
 
         /// <summary>
         /// Constraint factory
         /// </summary>
-        public override IConstraintFactory ConstraintFactory {
+        public override IConstraintFactory ConstraintFactory
+        {
             get { return _constraintFactory; }
         }
 
         /// <summary>
         /// Parameter factory
         /// </summary>
-        public override IParameterFactory ParameterFactory {
+        public override IParameterFactory ParameterFactory
+        {
             get { return _parameterFactory; }
         }
 
@@ -59,7 +63,8 @@ namespace AttributeRouting.Web.Http.SelfHost {
         /// Scans the assembly of the specified controller for routes to register.
         /// </summary>
         /// <typeparam name="T">The type of the controller used to specify the assembly</typeparam>
-        public void ScanAssemblyOf<T>() where T : IHttpController {
+        public void ScanAssemblyOf<T>() where T : IHttpController
+        {
             ScanAssembly(typeof(T).Assembly);
         }
 
@@ -67,7 +72,8 @@ namespace AttributeRouting.Web.Http.SelfHost {
         /// Adds all the routes for the specified controller type to the end of the route collection.
         /// </summary>
         /// <typeparam name="T"> </typeparam>
-        public void AddRoutesFromController<T>() where T : IHttpController {
+        public void AddRoutesFromController<T>() where T : IHttpController
+        {
             AddRoutesFromController(typeof(T));
         }
 
@@ -76,7 +82,8 @@ namespace AttributeRouting.Web.Http.SelfHost {
         /// to the end of the route collection.
         /// </summary>
         /// <typeparam name="T">The base controller type</typeparam>
-        public void AddRoutesFromControllersOfType<T>() where T : IHttpController {
+        public void AddRoutesFromControllersOfType<T>() where T : IHttpController
+        {
             AddRoutesFromControllersOfType(typeof(T));
         }
 
@@ -86,7 +93,8 @@ namespace AttributeRouting.Web.Http.SelfHost {
         /// </summary>
         /// <param name="keyRegex">The regex used to match url parameter names</param>
         /// <param name="constraint">The constraint to apply to matched parameters</param>
-        public void AddDefaultRouteConstraint(string keyRegex, IHttpRouteConstraint constraint) {
+        public void AddDefaultRouteConstraint(string keyRegex, IHttpRouteConstraint constraint)
+        {
             base.AddDefaultRouteConstraint(keyRegex, constraint);
         }
     }

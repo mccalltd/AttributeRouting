@@ -3,9 +3,6 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Routing;
 using AttributeRouting.Framework;
-using AttributeRouting.Web.Framework.Factories;
-using AttributeRouting.Web.Mvc.Framework;
-using AttributeRouting.Web.Mvc.Framework.Factories;
 
 namespace AttributeRouting.Web.Mvc
 {

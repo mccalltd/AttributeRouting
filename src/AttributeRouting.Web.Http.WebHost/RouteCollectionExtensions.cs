@@ -3,9 +3,6 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Routing;
 using AttributeRouting.Framework;
-using AttributeRouting.Web.Framework.Factories;
-using AttributeRouting.Web.Http.WebHost.Framework;
-using AttributeRouting.Web.Http.WebHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.WebHost
 {

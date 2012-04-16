@@ -11,13 +11,13 @@ namespace AttributeRouting.Web.Http.SelfHost
     /// </summary>
     public class RegexRouteConstraint : RegexRouteConstraintBase, IHttpRouteConstraint
     {
-        public RegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None) : base(pattern, options)
-        {
-        }
+        public RegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None)
+            : base(pattern, options) {}
 
-        public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
+        public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName,
+                          IDictionary<string, object> values, HttpRouteDirection routeDirection)
         {
-            return base.IsMatch(parameterName, values);
+            return IsMatch(parameterName, values);
         }
     }
 }
