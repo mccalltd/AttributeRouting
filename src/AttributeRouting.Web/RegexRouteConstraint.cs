@@ -17,7 +17,7 @@ namespace AttributeRouting.Web
 
         public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
         {
-            return base.IsMatch(parameterName, values);
+            return IsMatch(parameterName, values);
         }
     }
 }

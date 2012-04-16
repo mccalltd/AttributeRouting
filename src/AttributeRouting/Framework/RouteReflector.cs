@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AttributeRouting.Constraints;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// A reflector that inspects the assemblies provided in configuration to find attribute routes and constraints
+    /// A reflector that inspects the assemblies provided in configuration to find AttributeRouting attributes.
     /// </summary>    
     public class RouteReflector
     {
@@ -32,7 +31,6 @@ namespace AttributeRouting.Framework
 
             var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes(_configuration.FrameworkControllerType)).ToList();
             var remainingControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
-
             var remainingRouteSpecs = GenerateRouteSpecifications(remainingControllerTypes, _configuration.InheritActionsFromBaseController);
 
             foreach (var spec in remainingRouteSpecs)
@@ -45,12 +43,12 @@ namespace AttributeRouting.Framework
 
             return (from controllerType in controllerTypes
                     let controllerIndex = controllerCount++
-                    let convention = controllerType.GetCustomAttribute<IRouteConvention>(false)
+                    let convention = controllerType.GetCustomAttribute<RouteConventionAttributeBase>(false)
                     let routeAreaAttribute = controllerType.GetCustomAttribute<RouteAreaAttribute>(true)
                     let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
                     from actionMethod in controllerType.GetActionMethods(inheritActionsFromBaseController)
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
-                    orderby controllerIndex, routeAttribute.Precedence
+                    orderby controllerIndex , routeAttribute.Precedence
                     // precedence is within a controller
                     let routeName = routeAttribute.RouteName
                     let subdomain = GetAreaSubdomain(routeAreaAttribute)
@@ -76,17 +74,16 @@ namespace AttributeRouting.Framework
                     }).ToList();
         }
 
-        private static IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod,
-                                                                      IRouteConvention convention)
+        private static IEnumerable<RouteAttributeBase> GetRouteAttributes(MethodInfo actionMethod, RouteConventionAttributeBase convention)
         {
-            var attributes = new List<IRouteAttribute>();
+            var attributes = new List<RouteAttributeBase>();
 
             // Add convention-based attributes
             if (convention != null)
                 attributes.AddRange(convention.GetRouteAttributes(actionMethod));
 
             // Add explicitly-defined attributes
-            attributes.AddRange(actionMethod.GetCustomAttributes<IRouteAttribute>(false));
+            attributes.AddRange(actionMethod.GetCustomAttributes<RouteAttributeBase>(false));
 
             return attributes.OrderBy(a => a.Order);
         }
@@ -123,7 +120,7 @@ namespace AttributeRouting.Framework
             return routeAreaAttribute.Subdomain;
         }
 
-        private static string GetRoutePrefix(RoutePrefixAttribute routePrefixAttribute, MethodInfo actionMethod, IRouteConvention convention)
+        private static string GetRoutePrefix(RoutePrefixAttribute routePrefixAttribute, MethodInfo actionMethod, RouteConventionAttributeBase convention)
         {
             // Return an explicitly defined route prefix, if defined
             if (routePrefixAttribute != null)
@@ -136,8 +133,7 @@ namespace AttributeRouting.Framework
             return null;
         }
 
-        private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName,
-                                                                               IRouteConvention convention)
+        private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName, RouteConventionAttributeBase convention)
         {
             var defaultAttributes = new List<RouteDefaultAttribute>();
 
@@ -155,15 +151,13 @@ namespace AttributeRouting.Framework
             return defaultAttributes.ToList();
         }
 
-        private static ICollection<IAttributeRouteConstraint> GetConstraintAttributes(MethodInfo actionMethod,
-                                                                                     string routeName,
-                                                                                     IRouteConvention convention)
+        private static ICollection<RouteConstraintAttributeBase> GetConstraintAttributes(MethodInfo actionMethod, string routeName, RouteConventionAttributeBase convention)
         {
-            var constraintAttributes = new List<IAttributeRouteConstraint>();
+            var constraintAttributes = new List<RouteConstraintAttributeBase>();
 
             // Yield explicitly defined constraint attributes first
             constraintAttributes.AddRange(
-                from constraintAttribute in actionMethod.GetCustomAttributes<IAttributeRouteConstraint>(false)
+                from constraintAttribute in actionMethod.GetCustomAttributes<RouteConstraintAttributeBase>(false)
                 where !constraintAttribute.ForRouteNamed.HasValue() ||
                       constraintAttribute.ForRouteNamed == routeName
                 select constraintAttribute);

@@ -12,7 +12,7 @@ namespace AttributeRouting.Web.Http
     /// Sets up the default Web API route convention
     /// See: http://www.asp.net/web-api/overview/web-api-routing-and-actions/routing-in-aspnet-web-api
     /// </summary>
-    public class DefaultHttpRouteConventionAttribute : RouteConventionAttribute
+    public class DefaultHttpRouteConventionAttribute : RouteConventionAttributeBase
     {
         // Setup conventions
         private static readonly List<HttpRouteConventionInfo> Conventions = new List<HttpRouteConventionInfo>
@@ -31,7 +31,7 @@ namespace AttributeRouting.Web.Http
 
         private readonly List<HttpRouteConventionInfo> AlreadyUsed = new List<HttpRouteConventionInfo>();
 
-        public override IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
+        public override IEnumerable<RouteAttributeBase> GetRouteAttributes(MethodInfo actionMethod)
         {
             // Logic from ApiControllerActionSelector
 
@@ -77,7 +77,7 @@ namespace AttributeRouting.Web.Http
             yield break;
         }
 
-        private IRouteAttribute BuildRouteAttribute(HttpRouteConventionInfo convention)
+        private RouteAttributeBase BuildRouteAttribute(HttpRouteConventionInfo convention)
         {
             switch (convention.HttpMethod.Method)
             {

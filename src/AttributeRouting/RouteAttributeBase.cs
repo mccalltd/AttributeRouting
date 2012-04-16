@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace AttributeRouting
@@ -9,8 +8,12 @@ namespace AttributeRouting
     /// The route information for an action.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public abstract class RouteAttributeBase : Attribute, IRouteAttribute
+    public abstract class RouteAttributeBase : Attribute
     {
+        /// <summary>
+        /// Specify the route information for an action.
+        /// </summary>
+        /// <param name="routeUrl">The url that is associated with this action</param>
         protected RouteAttributeBase(string routeUrl)
         {
             if (routeUrl == null) throw new ArgumentNullException("routeUrl");
@@ -18,6 +21,7 @@ namespace AttributeRouting
             RouteUrl = routeUrl;
             Order = int.MaxValue;
             Precedence = int.MaxValue;
+            HttpMethods = new string[0];
         }
 
         /// <summary>
@@ -26,16 +30,13 @@ namespace AttributeRouting
         /// <param name="routeUrl">The url that is associated with this action</param>
         /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
         protected RouteAttributeBase(string routeUrl, params string[] allowedMethods)
+            : this(routeUrl)
         {
-            if (routeUrl == null) throw new ArgumentNullException("routeUrl");
+            HttpMethods = allowedMethods;
 
             if (HttpMethods.Any(m => !Regex.IsMatch(m, "HEAD|GET|POST|PUT|DELETE|PATCH|OPTIONS|TRACE")))
-                throw new InvalidOperationException("The allowedMethods are restricted to either HEAD, GET, POST, PUT, DELETE, PATCH, OPTIONS, or TRACE.");
-
-            RouteUrl = routeUrl;
-            HttpMethods = allowedMethods;
-            Order = int.MaxValue;
-            Precedence = int.MaxValue;
+                throw new InvalidOperationException(
+                    "The allowedMethods are restricted to either HEAD, GET, POST, PUT, DELETE, PATCH, OPTIONS, or TRACE.");
         }
 
         /// <summary>

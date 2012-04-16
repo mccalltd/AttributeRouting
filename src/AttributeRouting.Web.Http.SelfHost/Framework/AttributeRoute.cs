@@ -9,29 +9,33 @@ using System.Web.Http.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
-namespace AttributeRouting.Web.Http.SelfHost.Framework {
-    public class AttributeRoute : HttpRoute, IAttributeRoute {
+namespace AttributeRouting.Web.Http.SelfHost.Framework
+{
+    public class AttributeRoute : HttpRoute, IAttributeRoute
+    {
         private readonly HttpAttributeRoutingConfiguration _configuration;
 
         /// <summary>
         /// Route supporting the AttributeRouting framework.
         /// </summary>
-        public AttributeRoute(string url, 
-            HttpRouteValueDictionary defaults,
-            HttpRouteValueDictionary constraints,
-            HttpRouteValueDictionary dataTokens,
-            HttpAttributeRoutingConfiguration configuration)
-            : base(url, defaults, constraints, dataTokens) {
-
+        public AttributeRoute(string url,
+                              HttpRouteValueDictionary defaults,
+                              HttpRouteValueDictionary constraints,
+                              HttpRouteValueDictionary dataTokens,
+                              HttpAttributeRoutingConfiguration configuration)
+            : base(url, defaults, constraints, dataTokens)
+        {
             _configuration = configuration;
-        }        
+        }
 
-        public string Url {
+        public string Url
+        {
             get { return RouteTemplate; }
             set { throw new NotImplementedException("IHttpRoute.RouteTemplate has no setter."); }
         }
 
-        public override IHttpRouteData GetRouteData(string virtualPathRoot, HttpRequestMessage request) {
+        public override IHttpRouteData GetRouteData(string virtualPathRoot, HttpRequestMessage request)
+        {
             var routeData = base.GetRouteData(virtualPathRoot, request);
             if (routeData == null)
                 return null;
@@ -45,7 +49,8 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework {
             return routeData;
         }
 
-        private bool IsSubdomainMatched(HttpRequestMessage request) {
+        private bool IsSubdomainMatched(HttpRequestMessage request)
+        {
             // If no subdomains are mapped with AR, then yes.
             if (!MappedSubdomains.Any())
                 return true;
@@ -61,7 +66,8 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework {
             return false;
         }
 
-        private bool IsCultureNameMatched(HttpRequestMessage request, IHttpRouteData routeData) {
+        private bool IsCultureNameMatched(HttpRequestMessage request, IHttpRouteData routeData)
+        {
             if (!_configuration.ConstrainTranslatedRoutesByCurrentUICulture)
                 return true;
 
@@ -73,7 +79,8 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework {
             var currentUINeutralCultureName = currentUICultureName.Split('-').First();
 
             // If this is a translated route:
-            if (DefaultRouteContainer != null) {
+            if (DefaultRouteContainer != null)
+            {
                 // Match if the current UI culture matches the culture name of this route.
                 if (currentUICultureName.ValueEquals(CultureName))
                     return true;
@@ -81,10 +88,13 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework {
                 // Match if the culture name is neutral and no translation exists for the specific culture.
                 if (CultureName.Split('-').Length == 1
                     && currentUINeutralCultureName == CultureName
-                    && !DefaultRouteContainer.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName))) {
+                    && !DefaultRouteContainer.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName)))
+                {
                     return true;
                 }
-            } else {
+            }
+            else
+            {
                 // If this is a default route:
 
                 // Match if this route has no translations.
@@ -100,7 +110,9 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework {
             return false;
         }
 
-        public override IHttpVirtualPathData GetVirtualPath(HttpControllerContext controllerContext, IDictionary<string, object> values) {
+        public override IHttpVirtualPathData GetVirtualPath(HttpControllerContext controllerContext,
+                                                            IDictionary<string, object> values)
+        {
             var virtualPathData = base.GetVirtualPath(controllerContext, values);
             if (virtualPathData == null)
                 return null;
@@ -121,7 +133,10 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework {
             return new HttpVirtualPathData(virtualPathData.Route, virtualPath);
         }
 
-        private IHttpVirtualPathData GetTranslatedVirtualPath(IHttpVirtualPathData virtualPathData, HttpControllerContext requestContext, IDictionary<string, object> values) {
+        private IHttpVirtualPathData GetTranslatedVirtualPath(IHttpVirtualPathData virtualPathData,
+                                                              HttpControllerContext requestContext,
+                                                              IDictionary<string, object> values)
+        {
             if (Translations == null || !Translations.Any())
                 return virtualPathData;
 
@@ -137,14 +152,16 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework {
             return ((HttpRoute)translation).GetVirtualPath(requestContext, values);
         }
 
-        private static string TransformVirtualPathToLowercase(string virtualPath) {
+        private static string TransformVirtualPathToLowercase(string virtualPath)
+        {
             string path, query;
             GetPathAndQuery(virtualPath, out path, out query);
 
             return path.ToLowerInvariant() + query;
         }
 
-        private static string AppendTrailingSlashToVirtualPath(string virtualPath) {
+        private static string AppendTrailingSlashToVirtualPath(string virtualPath)
+        {
             string path, query;
             GetPathAndQuery(virtualPath, out path, out query);
 
@@ -154,15 +171,19 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework {
             return path + query;
         }
 
-        private static void GetPathAndQuery(string virtualPath, out string path, out string query) {
+        private static void GetPathAndQuery(string virtualPath, out string path, out string query)
+        {
             // NOTE: Do not lowercase the querystring vals
             var match = Regex.Match(virtualPath, @"(?<path>[^\?]*)(?<query>\?.*)?");
 
             // Just covering my backside here in case the regex fails for some reason.
-            if (!match.Success) {
+            if (!match.Success)
+            {
                 path = virtualPath;
                 query = null;
-            } else {
+            }
+            else
+            {
                 path = match.Groups["path"].Value;
                 query = match.Groups["query"].Value;
             }
@@ -191,25 +212,28 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework {
         /// <summary>
         /// DataTokens dictionary
         /// </summary>
-        IDictionary<string, object> IAttributeRoute.DataTokens {
-            get { return DataTokens; } 
-            set { throw new NotImplementedException("HttpRoute.DataTokens has no setter.");}
+        IDictionary<string, object> IAttributeRoute.DataTokens
+        {
+            get { return DataTokens; }
+            set { throw new NotImplementedException("HttpRoute.DataTokens has no setter."); }
         }
 
         /// <summary>
         /// Constraints dictionary
         /// </summary>
-        IDictionary<string, object> IAttributeRoute.Constraints {
-            get { return Constraints; } 
-            set { throw new NotImplementedException("HttpRoute.Constraints has no setter.");}
+        IDictionary<string, object> IAttributeRoute.Constraints
+        {
+            get { return Constraints; }
+            set { throw new NotImplementedException("HttpRoute.Constraints has no setter."); }
         }
 
         /// <summary>
         /// Defaults dictionary
         /// </summary>
-        IDictionary<string, object> IAttributeRoute.Defaults {
+        IDictionary<string, object> IAttributeRoute.Defaults
+        {
             get { return Defaults; }
-            set { throw new NotImplementedException("HttpRoute.Defaults has no setter.");}
+            set { throw new NotImplementedException("HttpRoute.Defaults has no setter."); }
         }
 
         /// <summary>

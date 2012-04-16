@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Helpers;
@@ -12,7 +11,8 @@ namespace AttributeRouting
     /// <summary>
     /// Configuration options to use when mapping AttributeRoutes.
     /// </summary>
-    public abstract class AttributeRoutingConfigurationBase {
+    public abstract class AttributeRoutingConfigurationBase
+    {
 
         /// <summary>
         /// Type of the framework controller (IController, IHttpController)
@@ -22,14 +22,15 @@ namespace AttributeRouting
         /// <summary>
         /// Creates and initializes a new configuration object.
         /// </summary>
-        protected AttributeRoutingConfigurationBase() {
+        protected AttributeRoutingConfigurationBase()
+        {
 
             InheritActionsFromBaseController = false;
             Assemblies = new List<Assembly>();
             PromotedControllerTypes = new List<Type>();
-            DefaultRouteConstraints = new Dictionary<string, object>();            
+            DefaultRouteConstraints = new Dictionary<string, object>();
 
-            TranslationProviders = new List<TranslationProviderBase>();            
+            TranslationProviders = new List<TranslationProviderBase>();
 
             AreaSubdomainOverrides = new Dictionary<string, string>();
             DefaultSubdomain = "www";
@@ -55,11 +56,11 @@ namespace AttributeRouting
         /// <summary>
         /// Parameter factory
         /// </summary>
-        public abstract IParameterFactory ParameterFactory { get; } 
+        public abstract IParameterFactory ParameterFactory { get; }
 
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }
-        internal IDictionary<string, object> DefaultRouteConstraints { get; set; }        
+        internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
         internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
 
         /// <summary>
@@ -121,7 +122,8 @@ namespace AttributeRouting
         /// Returns a utility for configuring areas when initializing AttributeRouting framework.
         /// </summary>
         /// <param name="name">The name of the area to configure</param>
-        public AreaConfiguration MapArea(string name) {
+        public AreaConfiguration MapArea(string name)
+        {
             return new AreaConfiguration(name, this);
         }
 
@@ -150,7 +152,7 @@ namespace AttributeRouting
 
             foreach (var controllerType in controllerTypes)
                 AddRoutesFromController(controllerType);
-        }        
+        }
 
         /// <summary>
         /// Adds all the routes for the specified controller type to the end of the route collection.
@@ -170,9 +172,10 @@ namespace AttributeRouting
         /// you must explicitly specify that you want to include the remaining routes discoved while scanning assemblies.
         /// </summary>
         [Obsolete("This is a vestigial workaround for an old assembly scanning issue.")]
-        public void AddTheRemainingScannedRoutes() { }
+        public void AddTheRemainingScannedRoutes() {}
 
-        protected void AddDefaultRouteConstraint(string keyRegex, object constraint) {
+        protected void AddDefaultRouteConstraint(string keyRegex, object constraint)
+        {
             if (!DefaultRouteConstraints.ContainsKey(keyRegex))
                 DefaultRouteConstraints.Add(keyRegex, constraint);
         }

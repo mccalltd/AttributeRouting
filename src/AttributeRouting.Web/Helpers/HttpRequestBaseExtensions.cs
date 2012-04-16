@@ -49,10 +49,10 @@ namespace AttributeRouting.Web.Helpers
 
         public static string GetHttpMethod(this HttpRequestBase request)
         {
-            return ObjectExtensions.SafeGet(request, r => r.Headers["X-HTTP-Method-Override"]) ??
-                   ObjectExtensions.SafeGet(request, r => GetFormValue(r, "X-HTTP-Method-Override")) ??
-                   ObjectExtensions.SafeGet(request, r => GetQueryStringValue(r, "X-HTTP-Method-Override")) ??
-                   ObjectExtensions.SafeGet(request, r => r.HttpMethod, "GET");
+            return request.SafeGet(r => r.Headers["X-HTTP-Method-Override"]) ??
+                   request.SafeGet(r => GetFormValue(r, "X-HTTP-Method-Override")) ??
+                   request.SafeGet(r => GetQueryStringValue(r, "X-HTTP-Method-Override")) ??
+                   request.SafeGet(r => r.HttpMethod, "GET");
         }
     }
 }

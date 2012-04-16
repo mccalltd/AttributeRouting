@@ -10,8 +10,5 @@ namespace AttributeRouting.Framework.Localization
     /// var translation = translations[key][cultureName];
     /// </code>
     /// </summary>
-    public class TranslationsDictionary : Dictionary<string, IDictionary<string, string>>
-    {
-        
-    }
+    public class TranslationsDictionary : Dictionary<string, IDictionary<string, string>> { }
 }

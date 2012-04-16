@@ -13,14 +13,11 @@ namespace AttributeRouting.Web.Http.SelfHost
     public class RestfulHttpMethodConstraint : HttpMethodConstraint, IRestfulHttpMethodConstraint
     {
         public RestfulHttpMethodConstraint(params HttpMethod[] allowedMethods)
-            : base(allowedMethods)
-        {
-            
-        }
+            : base(allowedMethods) {}
 
         ICollection<string> IRestfulHttpMethodConstraint.AllowedMethods
         {
-            get { return new ReadOnlyCollection<string>(base.AllowedMethods.Select(method => method.Method).ToList()); }
+            get { return new ReadOnlyCollection<string>(AllowedMethods.Select(method => method.Method).ToList()); }
         }
     }
 }
