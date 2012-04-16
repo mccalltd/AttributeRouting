@@ -54,7 +54,7 @@ namespace AttributeRouting.Web.Http.SelfHost
 
         /// <summary>
         /// this delegate returns the current UI culture name.
-        /// This value is used when constraining inbound routes by culture <see cref="AttributeRoutingConfiguration{TRequestContext,TRouteData}.ConstrainTranslatedRoutesByCurrentUICulture"/>.
+        /// This value is used when constraining inbound routes by culture.
         /// The default delegate returns the CurrentUICulture name of the current thread.
         /// </summary>
         public Func<HttpRequestMessage, IHttpRouteData, string> CurrentUICultureResolver { get; set; }

@@ -13,12 +13,6 @@ namespace AttributeRouting
     /// </summary>
     public abstract class AttributeRoutingConfigurationBase
     {
-
-        /// <summary>
-        /// Type of the framework controller (IController, IHttpController)
-        /// </summary>
-        public abstract Type FrameworkControllerType { get; }
-
         /// <summary>
         /// Creates and initializes a new configuration object.
         /// </summary>
@@ -42,6 +36,11 @@ namespace AttributeRouting
                            : String.Join(".", sections.Take(sections.Length - 2));
             };
         }
+
+        /// <summary>
+        /// Type of the framework controller (IController, IHttpController)
+        /// </summary>
+        public abstract Type FrameworkControllerType { get; }
 
         /// <summary>
         /// Attribute factory

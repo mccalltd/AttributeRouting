@@ -1,3 +1,4 @@
+build/
 bin/
 obj/
 _ReSharper.*
@@ -8,3 +9,4 @@ _ReSharper.*
 *.cache
 App_Data/
 packages/
+src/**/*.nuspec

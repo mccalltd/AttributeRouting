@@ -36,7 +36,7 @@ namespace AttributeRouting.Web.Http.SelfHost
         {
             var configuration = new HttpAttributeRoutingConfiguration();
             configurationAction.Invoke(configuration);
-
+            
             routes.MapHttpAttributeRoutesInternal(configuration);
         }
 

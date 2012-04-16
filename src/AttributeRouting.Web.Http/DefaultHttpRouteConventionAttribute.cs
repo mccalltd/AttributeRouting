@@ -41,7 +41,7 @@ namespace AttributeRouting.Web.Http
                 yield break;
             }
 
-            if (actionMethod.GetBaseDefinition().DeclaringType.IsAssignableFrom(typeof(ApiController)))
+            if (actionMethod.GetBaseDefinition().SafeGet(x => x.DeclaringType).IsAssignableFrom(typeof(ApiController)))
             {
                 // is a method on Object, IHttpController, ApiController
                 yield break;
