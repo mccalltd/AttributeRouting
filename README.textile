@@ -4,6 +4,10 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_v2.1_
+
+* #60 - can now override global configuration settings for UseLowercaseRoutes, PreserveCaseForUrlParameters, and AppendTrailingSlash via similarly named properties on the route attributes (GET, POST, PUT, DELETE, and Route).
+
 _v2.0_
 
 * #57, #52 Added support for Web API, both Web-hosted and Self-hosted  
