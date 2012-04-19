@@ -24,7 +24,7 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
         /// <returns></returns>
         public IAttributeRoute CreateAttributeRoute(string url, IDictionary<string, object> defaults, IDictionary<string, object> constraints, IDictionary<string, object> dataTokens)
         {
-            return new AttributeRoute(url,
+            return new HttpAttributeRoute(url,
                                       new HttpRouteValueDictionary(defaults),
                                       new HttpRouteValueDictionary(constraints),
                                       new HttpRouteValueDictionary(dataTokens),

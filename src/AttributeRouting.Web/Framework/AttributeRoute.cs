@@ -12,7 +12,7 @@ namespace AttributeRouting.Web.Framework
         private readonly WebAttributeRoutingConfiguration _configuration;
 
         /// <summary>
-        /// Route supporting the AttributeRouting framework.
+        /// Route used by the AttributeRouting framework in web projects.
         /// </summary>
         public AttributeRoute(string url,
                               RouteValueDictionary defaults,

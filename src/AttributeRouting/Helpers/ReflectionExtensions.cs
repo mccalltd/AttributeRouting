@@ -37,14 +37,17 @@ namespace AttributeRouting.Helpers
         /// Get controllers in given assembly, depending on target framework (MVC, WebAPI)
         /// </summary>
         /// <param name="assembly"></param>
+        /// <param name="controllerType"> </param>
         /// <returns></returns>
-        public static IEnumerable<Type> GetControllerTypes(this Assembly assembly, Type controllerType) {
+        public static IEnumerable<Type> GetControllerTypes(this Assembly assembly, Type controllerType)
+        {
             return from type in assembly.GetTypes()
                    where !type.IsAbstract && controllerType.IsAssignableFrom(type)
                    select type;
         }
 
-        public static string GetControllerName(this Type type) {
+        public static string GetControllerName(this Type type)
+        {
             return Regex.Replace(type.Name, "Controller$", "");
         }
     }

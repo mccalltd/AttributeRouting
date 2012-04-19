@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- AttributeRouting Shared Nuspec File; all packages share this -->
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>Tim McCall</authors>
+    <owners>Tim McCall</owners>
+    <copyright>© 2012 Tim McCall</copyright>
+    <projectUrl>https://github.com/mccalltd/AttributeRouting/wiki</projectUrl>
+    <tags>attribute, routing, route, asp.net, mvc, webapi, web, api, selfhost, self, host</tags>
+    <id>AttributeRouting.WebApi.Hosted</id>
+    <title>Attribute Routing (Self-hosted Web API)</title>
+    <description>AttributeRouting for self-hosted Web API lets you specify routes using attributes on your API controllers and actions.</description>
+  </metadata>
+  <files>
+    <file src="..\..\..\build\bin\AttributeRouting.dll" target="lib\net40" />
+    <file src="..\..\..\build\bin\AttributeRouting.xml" target="lib\net40" />
+    <file src="..\..\..\build\bin\AttributeRouting.Web.Http.dll" target="lib\net40" />
+    <file src="..\..\..\build\bin\AttributeRouting.Web.Http.xml" target="lib\net40" />
+    <file src="..\..\..\build\bin\AttributeRouting.Web.Http.SelfHost.dll" target="lib\net40" />
+    <file src="..\..\..\build\bin\AttributeRouting.Web.Http.SelfHost.xml" target="lib\net40" />
+    <file src="AttributeRouting.cs.pp" target="content" />
+  </files>
+</package>

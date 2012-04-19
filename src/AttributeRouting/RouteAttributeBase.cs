@@ -76,8 +76,7 @@ namespace AttributeRouting
 
         /// <summary>
         /// If set, will override <see cref="AttributeRoutingConfigurationBase.UseLowercaseRoutes"/>
-        /// set via global configuration
-        /// and the generated route will have a lowercase URL.
+        /// set via global configuration for this route.
         /// </summary>
         public bool UseLowercaseRoute
         {
@@ -92,8 +91,7 @@ namespace AttributeRouting
 
         /// <summary>
         /// If set, will override <see cref="AttributeRoutingConfigurationBase.PreserveCaseForUrlParameters"/>
-        /// set via global configuration
-        /// and the generated route will not lowercase URL parameter values.
+        /// set via global configuration for this route.
         /// </summary>
         public bool PreserveCaseForUrlParameters 
         {
@@ -108,8 +106,7 @@ namespace AttributeRouting
 
         /// <summary>
         /// If true, will override <see cref="AttributeRoutingConfigurationBase.AppendTrailingSlash"/>
-        /// set via global configuration
-        /// and the generated route will have a trailing slash on the path of outbound URLs.
+        /// set via global configuration for this route.
         /// </summary>
         public bool AppendTrailingSlash
         {

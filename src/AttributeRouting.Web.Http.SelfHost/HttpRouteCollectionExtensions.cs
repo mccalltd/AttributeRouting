@@ -29,9 +29,7 @@ namespace AttributeRouting.Web.Http.SelfHost
         /// and applies configuration options against the routes found.
         /// </summary>
         /// <param name="routes"></param>
-        /// <param name="configurationAction">
-        /// The initialization action that builds the configuration object.
-        /// </param>
+        /// <param name="configurationAction">The initialization action that builds the configuration object</param>
         public static void MapHttpAttributeRoutes(this HttpRouteCollection routes, Action<HttpAttributeRoutingConfiguration> configurationAction)
         {
             var configuration = new HttpAttributeRoutingConfiguration();
@@ -44,9 +42,8 @@ namespace AttributeRouting.Web.Http.SelfHost
         /// Scans the specified assemblies for all routes defined with AttributeRouting attributes,
         /// and applies configuration options against the routes found.
         /// </summary>
-        /// <param name="configuration">
-        /// The configuration object.
-        /// </param>
+        /// <param name="routes"> </param>
+        /// <param name="configuration">The configuration object</param>
         public static void MapHttpAttributeRoutes(this HttpRouteCollection routes, HttpAttributeRoutingConfiguration configuration)
         {
             routes.MapHttpAttributeRoutesInternal(configuration);

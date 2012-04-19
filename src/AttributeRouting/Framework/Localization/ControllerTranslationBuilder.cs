@@ -48,7 +48,7 @@ namespace AttributeRouting.Framework.Localization
         }
 
         /// <summary>
-        /// Add translations for the route url specified via the <see cref="AttributeRouting.Mvc.RouteAttribute"/> applied to the specified action in this controller.
+        /// Add translations for the route url specified via the route attribute applied to the specified action in this controller.
         /// </summary>
         /// <param name="action">Expression pointing to an action method on the controller</param>
         /// <param name="cultureTranslationPairs">Dictionary using cultureName as a key and a translation as the value</param>

@@ -27,12 +27,12 @@
     
     <Target Name="NugetPack" DependsOnTargets="Build">
         <ItemGroup>
-            <MainNuspec Include="src\AttributeRouting.Web.Mvc\AttributeRouting.nuspec"/>
-            <MainNuspec Include="src\AttributeRouting.Web.Http.SelfHost\AttributeRouting.WebApi.Hosted.nuspec"/>
-            <MainNuspec Include="src\AttributeRouting.Web.Http.WebHost\AttributeRouting.WebApi.nuspec"/>            
-            <SymbolsNuspec Include="src\AttributeRouting.Web.Mvc\AttributeRouting.symbols.nuspec"/>   
-            <SymbolsNuspec Include="src\AttributeRouting.Web.Http.SelfHost\AttributeRouting.WebApi.Hosted.symbols.nuspec"/>
-            <SymbolsNuspec Include="src\AttributeRouting.Web.Http.WebHost\AttributeRouting.WebApi.symbols.nuspec"/>
+            <MainNuspec Include="src\AttributeRouting.Web.Mvc\nuget\AttributeRouting.nuspec"/>
+            <MainNuspec Include="src\AttributeRouting.Web.Http.SelfHost\nuget\AttributeRouting.WebApi.Hosted.nuspec"/>
+            <MainNuspec Include="src\AttributeRouting.Web.Http.WebHost\nuget\AttributeRouting.WebApi.nuspec"/>            
+            <SymbolsNuspec Include="src\AttributeRouting.Web.Mvc\nuget\AttributeRouting.symbols.nuspec"/>   
+            <SymbolsNuspec Include="src\AttributeRouting.Web.Http.SelfHost\nuget\AttributeRouting.WebApi.Hosted.symbols.nuspec"/>
+            <SymbolsNuspec Include="src\AttributeRouting.Web.Http.WebHost\nuget\AttributeRouting.WebApi.symbols.nuspec"/>
             <Transforms Include="src\**\*.nutrans" />
         </ItemGroup>        
         <PropertyGroup>

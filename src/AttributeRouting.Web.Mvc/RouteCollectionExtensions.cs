@@ -27,9 +27,8 @@ namespace AttributeRouting.Web.Mvc
         /// Scans the specified assemblies for all routes defined with AttributeRouting attributes,
         /// and applies configuration options against the routes found.
         /// </summary>
-        /// <param name="configurationAction">
-        /// The initialization action that builds the configuration object.
-        /// </param>
+        /// <param name="routes"> </param>
+        /// <param name="configurationAction">The initialization action that builds the configuration object</param>
         public static void MapAttributeRoutes(this RouteCollection routes, Action<AttributeRoutingConfiguration> configurationAction)
         {
             var configuration = new AttributeRoutingConfiguration();
@@ -42,9 +41,8 @@ namespace AttributeRouting.Web.Mvc
         /// Scans the specified assemblies for all routes defined with AttributeRouting attributes,
         /// and applies configuration options against the routes found.
         /// </summary>
-        /// <param name="configuration">
-        /// The configuration object.
-        /// </param>
+        /// <param name="routes"></param>
+        /// <param name="configuration">The configuration object</param>
         public static void MapAttributeRoutes(this RouteCollection routes, AttributeRoutingConfiguration configuration)
         {
             routes.MapAttributeRoutesInternal(configuration);

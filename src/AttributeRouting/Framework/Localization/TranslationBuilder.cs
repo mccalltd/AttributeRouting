@@ -32,12 +32,13 @@ namespace AttributeRouting.Framework.Localization
         }
 
         /// <summary>
-        /// Returns a <see cref="AttributeRouting.Framework.Localization.ControllerTranslationBuilder"/>
+        /// Returns a <see cref="ControllerTranslationBuilder{TController}"/>
         /// for adding translations of route components in a strongly typed manner.
         /// </summary>
         /// <typeparam name="TController">The type of the controller for which to add translations</typeparam>
-        public ControllerTranslationBuilder<TController> ForController<TController>() {
+        public ControllerTranslationBuilder<TController> ForController<TController>()
+        {
             return new ControllerTranslationBuilder<TController>(this);
-        }       
+        }
     }
 }

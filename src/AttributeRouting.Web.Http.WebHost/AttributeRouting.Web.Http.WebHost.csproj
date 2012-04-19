@@ -23,6 +23,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +33,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\AttributeRouting.Web.Http.WebHost.xml</DocumentationFile>
+    <NoWarn>1591, 1587</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -75,11 +79,11 @@
     <Compile Include="RouteCollectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AttributeRoutingHttp.cs.pp" />
-    <None Include="AttributeRouting.WebApi.nutrans" />
-    <None Include="AttributeRouting.WebApi.symbols.nutrans" />
+    <None Include="nuget\AttributeRoutingHttp.cs.pp" />
+    <None Include="nuget\AttributeRouting.WebApi.nutrans" />
+    <None Include="nuget\AttributeRouting.WebApi.symbols.nutrans" />
     <None Include="packages.config" />
-    <None Include="web.config.transform" />
+    <None Include="nuget\web.config.transform" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AttributeRouting.Web\AttributeRouting.Web.csproj">

@@ -9,18 +9,18 @@ using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Http.SelfHost.Framework
 {
-    public class AttributeRoute : HttpRoute, IAttributeRoute
+    public class HttpAttributeRoute : HttpRoute, IAttributeRoute
     {
         private readonly HttpAttributeRoutingConfiguration _configuration;
 
         /// <summary>
-        /// Route supporting the AttributeRouting framework.
+        /// Route used by the AttributeRouting framework in self-host projects.
         /// </summary>
-        public AttributeRoute(string url,
-                              HttpRouteValueDictionary defaults,
-                              HttpRouteValueDictionary constraints,
-                              HttpRouteValueDictionary dataTokens,
-                              HttpAttributeRoutingConfiguration configuration)
+        public HttpAttributeRoute(string url,
+                                  HttpRouteValueDictionary defaults,
+                                  HttpRouteValueDictionary constraints,
+                                  HttpRouteValueDictionary dataTokens,
+                                  HttpAttributeRoutingConfiguration configuration)
             : base(url, defaults, constraints, dataTokens)
         {
             _configuration = configuration;
@@ -153,7 +153,7 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework
 
             if (_configuration.TranslationProviders.Any())
             {
-                virtualPathData = 
+                virtualPathData =
                     this.GetTranslatedVirtualPath(t => ((HttpRoute)t).GetVirtualPath(controllerContext, values))
                     ?? virtualPathData;
             }

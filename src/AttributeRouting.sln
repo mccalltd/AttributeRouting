@@ -33,7 +33,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{DE34F7
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{01EC4F0A-A27A-45B8-9DB5-BA447A9F4A6F}"
+	ProjectSection(SolutionItems) = preProject
+		..\build.bat = ..\build.bat
+		..\build.xml = ..\build.xml
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -141,9 +151,5 @@ Global
 		{486087C6-E95B-4FE2-8263-7B6B2DF81888} = {840281A8-8870-417F-9B24-ED0E866608A2}
 		{E832A82B-2302-4113-83E3-261446E22C87} = {840281A8-8870-417F-9B24-ED0E866608A2}
 		{0D2A13E6-A092-402E-B8FE-035F3A620B86} = {840281A8-8870-417F-9B24-ED0E866608A2}
-	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
