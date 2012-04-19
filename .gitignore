@@ -9,4 +9,4 @@ _ReSharper.*
 *.cache
 App_Data/
 packages/
-src/**/*.nuspec
+nuget/*.nuspec
