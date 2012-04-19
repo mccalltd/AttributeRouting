@@ -12,6 +12,84 @@ namespace AttributeRouting.Framework
     public static class AttributeRouteExtensions
     {
         /// <summary>
+        /// Tests whether the configured subdomain (if any) matches the current host.
+        /// </summary>
+        /// <param name="route"></param>
+        /// <param name="host">The host from the current request</param>
+        /// <param name="configuration">The configuration for the route</param>
+        /// <returns>True if the subdomain for this route matches the current request host.</returns>
+        public static bool IsSubdomainMatched(this IAttributeRoute route, string host, AttributeRoutingConfigurationBase configuration)
+        {
+            // If no subdomains are mapped with AR, then yes.
+            if (!route.MappedSubdomains.Any())
+                return true;
+
+            // Get the subdomain from the requested hostname.
+            var subdomain = configuration.SubdomainParser(host);
+
+            // Match if this route is mapped to the requested host's subdomain
+            if ((route.Subdomain ?? configuration.DefaultSubdomain).ValueEquals(subdomain))
+                return true;
+
+            // Otherwise, this route does not match the request.
+            return false;
+        }
+
+        /// <summary>
+        /// Tests whether the route matches the current UI culture.
+        /// </summary>
+        /// <param name="route"></param>
+        /// <param name="currentUICultureName"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static bool IsCultureNameMatched(this IAttributeRoute route, string currentUICultureName, AttributeRoutingConfigurationBase configuration)
+        {
+            if (!configuration.ConstrainTranslatedRoutesByCurrentUICulture)
+                return true;
+
+            // If no translations are available, then obviously the answer is yes.
+            if (!configuration.TranslationProviders.Any())
+                return true;
+
+            var currentUINeutralCultureName = currentUICultureName.Split('-').First();
+
+            // If this is a translated route:
+            if (route.DefaultRouteContainer != null)
+            {
+                var routeCultureName = route.CultureName;
+
+                // Match if the current UI culture matches the culture name of this route.
+                if (currentUICultureName.ValueEquals(routeCultureName))
+                    return true;
+
+                // Match if the culture name is neutral and no translation exists for the specific culture.
+                var translations = route.DefaultRouteContainer.Translations;
+                if (routeCultureName.Split('-').Length == 1
+                    && currentUINeutralCultureName == routeCultureName
+                    && !translations.Any(t => t.CultureName.ValueEquals(currentUICultureName)))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                // If this is a default route:
+
+                // Match if this route has no translations.
+                var translations = route.Translations.ToArray();
+                if (!translations.Any())
+                    return true;
+
+                // Match if this route has no translations for the neutral current UI culture.
+                if (!translations.Any(t => t.CultureName == currentUINeutralCultureName))
+                    return true;
+            }
+
+            // Otherwise, don't match.
+            return false;
+        }
+
+        /// <summary>
         /// Gets the translated virtual path for this route.
         /// </summary>
         /// <typeparam name="TVirtualPathData">
