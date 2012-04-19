@@ -7,7 +7,7 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Mixins for use int implementations of IAttributeRoute.
+    /// Mixins for use in implementations of IAttributeRoute.
     /// </summary>
     public static class AttributeRouteExtensions
     {
@@ -22,10 +22,8 @@ namespace AttributeRouting.Framework
         /// <param name="route"></param>
         /// <param name="fromTranslation">A delegate that can get the TVirtualPathData from a translated route</param>
         /// <returns>Returns null if no translation is available.</returns>
-        public static TVirtualPathData GetTranslatedVirtualPath<TVirtualPathData>(
-            this IAttributeRoute route,
-            Func<IAttributeRoute, TVirtualPathData> fromTranslation
-            ) where TVirtualPathData: class
+        public static TVirtualPathData GetTranslatedVirtualPath<TVirtualPathData>(this IAttributeRoute route, Func<IAttributeRoute, TVirtualPathData> fromTranslation)
+            where TVirtualPathData : class
         {
             var translations = (route.Translations ?? Enumerable.Empty<IAttributeRoute>()).ToList();
             if (!translations.Any())
