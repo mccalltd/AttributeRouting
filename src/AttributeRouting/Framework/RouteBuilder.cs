@@ -55,7 +55,9 @@ namespace AttributeRouting.Framework
             route.RouteName = CreateRouteName(routeSpec);
             route.Translations = CreateRouteTranslations(routeSpec);
             route.Subdomain = routeSpec.Subdomain;
-
+            route.UseLowercaseRoute = routeSpec.UseLowercaseRoute;
+            route.PreserveCaseForUrlParameters = routeSpec.PreserveCaseForUrlParameters;
+            route.AppendTrailingSlash = routeSpec.AppendTrailingSlash;
 
             // Yield the default route first
             yield return route;
@@ -89,11 +91,14 @@ namespace AttributeRouting.Framework
 
         private string CreateRouteUrl(RouteSpecification routeSpec)
         {
-            return CreateRouteUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl,
-                                  routeSpec.IsAbsoluteUrl);
+            return CreateRouteUrl(routeSpec.RouteUrl,
+                                  routeSpec.RoutePrefixUrl,
+                                  routeSpec.AreaUrl,
+                                  routeSpec.IsAbsoluteUrl,
+                                  routeSpec.UseLowercaseRoute);
         }
 
-        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, bool isAbsoluteUrl)
+        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, bool isAbsoluteUrl, bool useLowercaseRoutes)
         {
             var detokenizedUrl = DetokenizeUrl(routeUrl);
 
@@ -133,7 +138,7 @@ namespace AttributeRouting.Framework
             }
 
             // If we are lowercasing routes, then lowercase everything but the route params
-            if (_configuration.UseLowercaseRoutes)
+            if (useLowercaseRoutes || _configuration.UseLowercaseRoutes)
             {
                 for (var i = 0; i < urlBuilder.Length; i++)
                 {
@@ -312,7 +317,8 @@ namespace AttributeRouting.Framework
                     _routeFactory.CreateAttributeRoute(CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
                                                                       translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
                                                                       translatedAreaUrl ?? routeSpec.AreaUrl,
-                                                                      routeSpec.IsAbsoluteUrl),
+                                                                      routeSpec.IsAbsoluteUrl,
+                                                                      routeSpec.UseLowercaseRoute),
                                                        CreateRouteDefaults(routeSpec),
                                                        CreateRouteConstraints(routeSpec),
                                                        CreateRouteDataTokens(routeSpec));

@@ -60,6 +60,7 @@
     <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
     <Compile Include="DELETEAttribute.cs" />
+    <Compile Include="Framework\AttributeRouteExtensions.cs" />
     <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\IConstraintFactory.cs" />
     <Compile Include="Framework\Factories\IParameterFactory.cs" />

@@ -1,6 +1,4 @@
 ﻿using System.Web.Mvc;
-using AttributeRouting.Web;
-using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
 {
@@ -11,6 +9,18 @@ namespace AttributeRouting.Specs.Subjects
         public ActionResult Index(string userName)
         {
             return Content("How ya doing today?");
+        }
+
+        [GET("Lowercase-Override/{routeParam}", UseLowercaseRoute = true)]
+        public ActionResult LowercaseOverride()
+        {
+            return Content("");
+        }
+
+        [GET("Lowercase-Preserve-Url-Param-Case-Override/{routeParam}", UseLowercaseRoute = true, PreserveCaseForUrlParameters = true)]
+        public ActionResult LowercasePreserveUrlParamCaseOverride()
+        {
+            return Content("");
         }
     }
 }

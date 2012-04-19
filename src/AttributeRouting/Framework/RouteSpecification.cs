@@ -46,5 +46,11 @@ namespace AttributeRouting.Framework
         public bool IsAbsoluteUrl { get; set; }
 
         public string Subdomain { get; set; }
+
+        public bool UseLowercaseRoute { get; set; }
+
+        public bool PreserveCaseForUrlParameters { get; set; }
+
+        public bool AppendTrailingSlash { get; set; }
     }
 }

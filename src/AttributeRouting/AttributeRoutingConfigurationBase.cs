@@ -18,7 +18,6 @@ namespace AttributeRouting
         /// </summary>
         protected AttributeRoutingConfigurationBase()
         {
-
             InheritActionsFromBaseController = false;
             Assemblies = new List<Assembly>();
             PromotedControllerTypes = new List<Type>();

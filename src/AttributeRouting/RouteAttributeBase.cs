@@ -73,5 +73,26 @@ namespace AttributeRouting
         /// Key used by translation provider to lookup the translation for the <see cref="RouteUrl"/>.
         /// </summary>
         public string TranslationKey { get; set; }
+
+        /// <summary>
+        /// If true, will override <see cref="AttributeRoutingConfigurationBase.UseLowercaseRoutes"/>
+        /// set via global configuration
+        /// and the generated route will have a lowercase URL.
+        /// </summary>
+        public bool UseLowercaseRoute { get; set; }
+
+        /// <summary>
+        /// If true, will override <see cref="AttributeRoutingConfigurationBase.PreserveCaseForUrlParameters"/>
+        /// set via global configuration
+        /// and the generated route will not lowercase URL parameter values.
+        /// </summary>
+        public bool PreserveCaseForUrlParameters { get; set; }
+
+        /// <summary>
+        /// If true, will override <see cref="AttributeRoutingConfigurationBase.AppendTrailingSlash"/>
+        /// set via global configuration
+        /// and the generated route will have a trailing slash on the path of outbound URLs.
+        /// </summary>
+        public bool AppendTrailingSlash { get; set; }
     }
 }

@@ -7,7 +7,6 @@ namespace AttributeRouting.Framework
     /// </summary>
     public interface IAttributeRoute
     {
-
         /// <summary>
         /// The name of this route, for supporting named routes.
         /// </summary>
@@ -32,6 +31,27 @@ namespace AttributeRouting.Framework
         /// Route URL
         /// </summary>
         string Url { get; set; }
+
+        /// <summary>
+        /// If true, will override <see cref="AttributeRoutingConfigurationBase.UseLowercaseRoutes"/>
+        /// set via global configuration
+        /// and the generated route will have a lowercase URL.
+        /// </summary>
+        bool UseLowercaseRoute { get; set; }
+
+        /// <summary>
+        /// If true, will override <see cref="AttributeRoutingConfigurationBase.PreserveCaseForUrlParameters"/>
+        /// set via global configuration
+        /// and the generated route will not lowercase URL parameter values.
+        /// </summary>
+        bool PreserveCaseForUrlParameters { get; set; }
+
+        /// <summary>
+        /// If true, will override <see cref="AttributeRoutingConfigurationBase.AppendTrailingSlash"/>
+        /// set via global configuration
+        /// and the generated route will have a trailing slash on the path of outbound URLs.
+        /// </summary>
+        bool AppendTrailingSlash { get; set; }
 
         /// <summary>
         /// DataTokens dictionary

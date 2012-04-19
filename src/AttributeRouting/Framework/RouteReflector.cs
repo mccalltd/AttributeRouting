@@ -70,7 +70,10 @@ namespace AttributeRouting.Framework
                         DefaultAttributes = GetDefaultAttributes(actionMethod, routeName, convention),
                         ConstraintAttributes = GetConstraintAttributes(actionMethod, routeName, convention),
                         RouteName = routeName,
-                        IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl
+                        IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl,
+                        UseLowercaseRoute = routeAttribute.UseLowercaseRoute,
+                        PreserveCaseForUrlParameters = routeAttribute.PreserveCaseForUrlParameters,
+                        AppendTrailingSlash = routeAttribute.AppendTrailingSlash
                     }).ToList();
         }
 

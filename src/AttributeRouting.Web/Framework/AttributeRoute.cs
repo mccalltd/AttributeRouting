@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Web;
 using System.Web.Routing;
 using AttributeRouting.Framework;
@@ -25,6 +23,42 @@ namespace AttributeRouting.Web.Framework
         {
             _configuration = configuration;
         }
+
+        public string RouteName { get; set; }
+
+        public string CultureName { get; set; }
+
+        public List<string> MappedSubdomains { get; set; }
+
+        public string Subdomain { get; set; }
+
+        public bool UseLowercaseRoute { get; set; }
+
+        public bool PreserveCaseForUrlParameters { get; set; }
+
+        public bool AppendTrailingSlash { get; set; }
+
+        IDictionary<string, object> IAttributeRoute.DataTokens
+        {
+            get { return DataTokens; }
+            set { DataTokens = new RouteValueDictionary(value); }
+        }
+
+        IDictionary<string, object> IAttributeRoute.Constraints
+        {
+            get { return Constraints; }
+            set { Constraints = new RouteValueDictionary(value); }
+        }
+
+        IDictionary<string, object> IAttributeRoute.Defaults
+        {
+            get { return Defaults; }
+            set { Defaults = new RouteValueDictionary(value); }
+        }
+
+        public IEnumerable<IAttributeRoute> Translations { get; set; }
+
+        public IAttributeRoute DefaultRouteContainer { get; set; }
 
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
@@ -109,132 +143,17 @@ namespace AttributeRouting.Web.Framework
                 return null;
 
             if (_configuration.TranslationProviders.Any())
-                virtualPathData = GetTranslatedVirtualPath(virtualPathData, requestContext, values);
+            {
+                virtualPathData = 
+                    this.GetTranslatedVirtualPath(t => ((Route)t).GetVirtualPath(requestContext, values))
+                    ?? virtualPathData;
+            }
 
-            var virtualPath = virtualPathData.VirtualPath;
-
-            // NOTE: The initial lowercasing of all BUT url params occurs in RouteBuilder.CreateRouteUrl().
-            // This is just a final lowercasing of the final, parameter-replaced url.
-            if (_configuration.UseLowercaseRoutes && !_configuration.PreserveCaseForUrlParameters)
-                virtualPath = TransformVirtualPathToLowercase(virtualPath);
-
-            if (_configuration.AppendTrailingSlash)
-                virtualPath = AppendTrailingSlashToVirtualPath(virtualPath);
+            var virtualPath = this.GetFinalVirtualPath(virtualPathData.VirtualPath, _configuration);
 
             virtualPathData.VirtualPath = virtualPath;
 
             return virtualPathData;
         }
-
-        private VirtualPathData GetTranslatedVirtualPath(VirtualPathData virtualPathData, RequestContext requestContext, RouteValueDictionary values)
-        {
-            if (Translations == null || !Translations.Any())
-                return virtualPathData;
-
-            var currentCultureName = Thread.CurrentThread.CurrentUICulture.Name;
-
-            // Try and get the language-culture translation, then fall back to language translation
-            var translation = Translations.FirstOrDefault(t => t.CultureName == currentCultureName)
-                              ?? Translations.FirstOrDefault(t => currentCultureName.StartsWith(t.CultureName));
-
-            if (translation == null)
-                return virtualPathData;
-
-            return ((Route)translation).GetVirtualPath(requestContext, values);
-        }
-
-        private static string TransformVirtualPathToLowercase(string virtualPath)
-        {
-            string path, query;
-            GetPathAndQuery(virtualPath, out path, out query);
-
-            return path.ToLowerInvariant() + query;
-        }
-
-        private static string AppendTrailingSlashToVirtualPath(string virtualPath)
-        {
-            string path, query;
-            GetPathAndQuery(virtualPath, out path, out query);
-
-            if (path.HasValue() && !path.EndsWith("/"))
-                path += "/";
-
-            return path + query;
-        }
-
-        private static void GetPathAndQuery(string virtualPath, out string path, out string query)
-        {
-            // NOTE: Do not lowercase the querystring vals
-            var match = Regex.Match(virtualPath, @"(?<path>[^\?]*)(?<query>\?.*)?");
-
-            // Just covering my backside here in case the regex fails for some reason.
-            if (!match.Success)
-            {
-                path = virtualPath;
-                query = null;
-            }
-            else
-            {
-                path = match.Groups["path"].Value;
-                query = match.Groups["query"].Value;
-            }
-        }
-
-        /// <summary>
-        /// The name of this route, for supporting named routes.
-        /// </summary>
-        public string RouteName { get; set; }
-
-        /// <summary>
-        /// The culture name associated with this route.
-        /// </summary>
-        public string CultureName { get; set; }
-
-        /// <summary>
-        /// List of all the subdomains mapped via AttributeRouting.
-        /// </summary>
-        public List<string> MappedSubdomains { get; set; }
-
-        /// <summary>
-        /// The subdomain this route is to be applied against.
-        /// </summary>
-        public string Subdomain { get; set; }
-
-        /// <summary>
-        /// DataTokens dictionary
-        /// </summary>
-        IDictionary<string, object> IAttributeRoute.DataTokens
-        {
-            get { return DataTokens; }
-            set { DataTokens = new RouteValueDictionary(value); }
-        }
-
-        /// <summary>
-        /// Constraints dictionary
-        /// </summary>
-        IDictionary<string, object> IAttributeRoute.Constraints
-        {
-            get { return Constraints; }
-            set { Constraints = new RouteValueDictionary(value); }
-        }
-
-        /// <summary>
-        /// Defaults dictionary
-        /// </summary>
-        IDictionary<string, object> IAttributeRoute.Defaults
-        {
-            get { return Defaults; }
-            set { Defaults = new RouteValueDictionary(value); }
-        }
-
-        /// <summary>
-        /// The translations available for this route.
-        /// </summary>
-        public IEnumerable<IAttributeRoute> Translations { get; set; }
-
-        /// <summary>
-        /// Default route container back-reference
-        /// </summary>
-        public IAttributeRoute DefaultRouteContainer { get; set; }
     }
 }
