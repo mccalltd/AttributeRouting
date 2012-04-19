@@ -39,24 +39,49 @@ namespace AttributeRouting.Specs.Tests.LowercaseUrls
         [Test]
         public void It_returns_routes_with_everything_lowered_including_params_when_configured_via_route_attribute()
         {
+            // Arrange
             var routes = RouteTable.Routes;
             routes.Clear();
             routes.MapAttributeRoutes(c => c.AddRoutesFromController<LowercaseUrlController>());
 
             var route = routes.Cast<Route>().ElementAt(1);
-
             Assert.That(route, Is.Not.Null);
 
+            // Act
             var requestContext = MockBuilder.BuildRequestContext();
-
             var pathData = route.GetVirtualPath(requestContext, new RouteValueDictionary
             {
                 { "routeParam", "CharlieChan" },
                 { "queryString", "WhatTimeIsIt" }
             });
 
+            // Assert
             Assert.That(pathData, Is.Not.Null);
             Assert.That(pathData.VirtualPath, Is.EqualTo("lowercaseurl/lowercase-override/charliechan?queryString=WhatTimeIsIt"));
+        }
+
+        [Test]
+        public void It_returns_routes_with_everything_not_lowered_when_configured_via_route_attribute()
+        {
+            // Arrange
+            var routes = RouteTable.Routes;
+            routes.Clear();
+            routes.MapAttributeRoutes(c =>
+            {
+                c.AddRoutesFromController<LowercaseUrlController>();
+                c.UseLowercaseRoutes = true;
+            });
+
+            var route = routes.Cast<Route>().ElementAt(2);
+            Assert.That(route, Is.Not.Null);
+
+            // Act
+            var requestContext = MockBuilder.BuildRequestContext();
+            var pathData = route.GetVirtualPath(requestContext, new RouteValueDictionary());
+
+            // Assert
+            Assert.That(pathData, Is.Not.Null);
+            Assert.That(pathData.VirtualPath, Is.EqualTo("LowercaseUrl/Uppercase-Override"));
         }
 
         [Test]
@@ -94,7 +119,7 @@ namespace AttributeRouting.Specs.Tests.LowercaseUrls
             routes.Clear();
             routes.MapAttributeRoutes(c => c.AddRoutesFromController<LowercaseUrlController>());
 
-            var route = routes.Cast<Route>().ElementAt(2);
+            var route = routes.Cast<Route>().ElementAt(3);
 
             Assert.That(route, Is.Not.Null);
 

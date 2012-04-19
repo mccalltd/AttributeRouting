@@ -1,10 +1,9 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web;
 using System.Web.Routing;
-using AttributeRouting.Framework;
+using AttributeRouting.Specs.Subjects;
 using AttributeRouting.Web.Framework;
 using AttributeRouting.Web.Mvc;
-using AttributeRouting.Web.Mvc.Framework;
 using Moq;
 using NUnit.Framework;
 
@@ -25,7 +24,7 @@ namespace AttributeRouting.Specs.Tests.TrailingSlashes
         }
 
         [Test]
-        public void It_does_not_append_trailing_slash_to_urls_when_not_configured_to_do_so() 
+        public void It_does_not_append_trailing_slash_to_urls_when_not_configured() 
         {
             var route = BuildAttributeRoute("Controller/Action", false, false);
 
@@ -36,7 +35,7 @@ namespace AttributeRouting.Specs.Tests.TrailingSlashes
         }
 
         [Test]
-        public void It_returns_paths_with_trailing_slash_when_configured_to_do_so() 
+        public void It_returns_paths_with_trailing_slash_when_configured_gloablly() 
         {
             var route = BuildAttributeRoute("Controller/Action", false, true);
 
@@ -49,7 +48,62 @@ namespace AttributeRouting.Specs.Tests.TrailingSlashes
         }
 
         [Test]
-        public void It_does_not_append_trailing_slahs_to_root_urls_when_configured_for_trailing_slashes() 
+        public void It_returns_paths_with_trailing_slash_when_configured_via_route_attribute() 
+        {
+            // Arrange
+            var routes = RouteTable.Routes;
+            routes.Clear();
+            routes.MapAttributeRoutes(c =>
+            {
+                c.AddRoutesFromController<TrailingSlashesController>();
+                c.UseLowercaseRoutes = true;
+            });
+
+            var route = routes.Cast<Route>().ElementAt(1);
+            Assert.That(route, Is.Not.Null);
+
+            // Act
+            var requestContext = MockBuilder.BuildRequestContext();
+            var pathData = route.GetVirtualPath(requestContext, new RouteValueDictionary
+            {
+                { "queryString", "WhatTimeIsIt" }
+            });
+
+            // Assert
+            Assert.That(pathData, Is.Not.Null);
+            Assert.That(pathData.VirtualPath, Is.EqualTo("trailing-slash/route-override-true/?queryString=WhatTimeIsIt"));
+        }
+
+        [Test]
+        public void It_does_not_return_paths_with_trailing_slash_when_configured_via_route_attribute() 
+        {
+            // Arrange
+            var routes = RouteTable.Routes;
+            routes.Clear();
+            routes.MapAttributeRoutes(c =>
+            {
+                c.AddRoutesFromController<TrailingSlashesController>();
+                c.UseLowercaseRoutes = true;
+                c.AppendTrailingSlash = true;
+            });
+
+            var route = routes.Cast<Route>().ElementAt(2);
+            Assert.That(route, Is.Not.Null);
+
+            // Act
+            var requestContext = MockBuilder.BuildRequestContext();
+            var pathData = route.GetVirtualPath(requestContext, new RouteValueDictionary
+            {
+                { "queryString", "WhatTimeIsIt" }
+            });
+
+            // Assert
+            Assert.That(pathData, Is.Not.Null);
+            Assert.That(pathData.VirtualPath, Is.EqualTo("trailing-slash/route-override-false?queryString=WhatTimeIsIt"));
+        }
+
+        [Test]
+        public void It_does_not_append_trailing_slash_to_root_urls_when_configured_for_trailing_slashes() 
         {
             var route = BuildAttributeRoute("", false, true);
 

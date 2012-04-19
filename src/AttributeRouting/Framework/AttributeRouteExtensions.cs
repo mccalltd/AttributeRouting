@@ -52,14 +52,32 @@ namespace AttributeRouting.Framework
         /// <returns>The final virtual path</returns>
         public static string GetFinalVirtualPath(this IAttributeRoute route, string virtualPath, AttributeRoutingConfigurationBase configuration)
         {
-            // NOTE: The initial lowercasing of all BUT url params occurs in RouteBuilder.CreateRouteUrl().
-            // This is just a final lowercasing of the final, parameter-replaced url.
-            var lower = route.UseLowercaseRoute || configuration.UseLowercaseRoutes;
-            var preserve = route.PreserveCaseForUrlParameters || configuration.PreserveCaseForUrlParameters;
+            /**
+             * Lowercase urls.
+             * NOTE: The initial lowercasing of all BUT url params occurs in RouteBuilder.CreateRouteUrl().
+             * This is just a final lowercasing of the final, parameter-replaced url.
+             */
+
+            var lower = route.UseLowercaseRoute.HasValue
+                            ? route.UseLowercaseRoute.Value
+                            : configuration.UseLowercaseRoutes;
+            
+            var preserve = route.PreserveCaseForUrlParameters.HasValue
+                               ? route.PreserveCaseForUrlParameters.Value
+                               : configuration.PreserveCaseForUrlParameters;
+            
             if (lower && !preserve)
                 virtualPath = TransformVirtualPathToLowercase(virtualPath);
 
-            if (configuration.AppendTrailingSlash)
+            /**
+             * Append trailing slashes
+             */
+
+            var appendTrailingSlash = route.AppendTrailingSlash.HasValue
+                                          ? route.AppendTrailingSlash.Value
+                                          : configuration.AppendTrailingSlash;
+
+            if (appendTrailingSlash)
                 virtualPath = AppendTrailingSlashToVirtualPath(virtualPath);
 
             return virtualPath;

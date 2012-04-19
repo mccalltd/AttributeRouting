@@ -1,7 +1,5 @@
 ﻿using System.Net;
 using System.Web.Mvc;
-using AttributeRouting.Web;
-using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Tests.Web.Controllers
 {
@@ -22,7 +20,7 @@ namespace AttributeRouting.Tests.Web.Controllers
             return Content("<h1>404</h1>You got this because the route is not mapped.");
         }
 
-        [GET("About", Precedence = 2)]
+        [GET("About", Precedence = 2, UseLowercaseRoute = false, AppendTrailingSlash = true)]
         public ActionResult About()
         {
             return Content("About");

@@ -17,4 +17,9 @@
         Do you want to <a href="routes.axd">debug the routes for this sample</a>?
     </p>
 
+    <p>
+        Just some test links:
+        <%: Html.ActionLink("About", "About", "Home") %>
+    </p>
+
 </asp:Content>

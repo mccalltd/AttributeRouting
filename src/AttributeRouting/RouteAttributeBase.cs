@@ -75,24 +75,51 @@ namespace AttributeRouting
         public string TranslationKey { get; set; }
 
         /// <summary>
-        /// If true, will override <see cref="AttributeRoutingConfigurationBase.UseLowercaseRoutes"/>
+        /// If set, will override <see cref="AttributeRoutingConfigurationBase.UseLowercaseRoutes"/>
         /// set via global configuration
         /// and the generated route will have a lowercase URL.
         /// </summary>
-        public bool UseLowercaseRoute { get; set; }
+        public bool UseLowercaseRoute
+        {
+            get { return UseLowercaseRouteFlag.GetValueOrDefault(); }
+            set { UseLowercaseRouteFlag = value; }
+        }
 
         /// <summary>
-        /// If true, will override <see cref="AttributeRoutingConfigurationBase.PreserveCaseForUrlParameters"/>
+        /// Internal flag marking the tri-state value.
+        /// </summary>
+        internal bool? UseLowercaseRouteFlag { get; set; }
+
+        /// <summary>
+        /// If set, will override <see cref="AttributeRoutingConfigurationBase.PreserveCaseForUrlParameters"/>
         /// set via global configuration
         /// and the generated route will not lowercase URL parameter values.
         /// </summary>
-        public bool PreserveCaseForUrlParameters { get; set; }
+        public bool PreserveCaseForUrlParameters 
+        {
+            get { return PreserveCaseForUrlParametersFlag.GetValueOrDefault(); }
+            set { PreserveCaseForUrlParametersFlag = value; }
+        }
+
+        /// <summary>
+        /// Internal flag marking the tri-state value.
+        /// </summary>
+        internal bool? PreserveCaseForUrlParametersFlag { get; set; }
 
         /// <summary>
         /// If true, will override <see cref="AttributeRoutingConfigurationBase.AppendTrailingSlash"/>
         /// set via global configuration
         /// and the generated route will have a trailing slash on the path of outbound URLs.
         /// </summary>
-        public bool AppendTrailingSlash { get; set; }
+        public bool AppendTrailingSlash
+        {
+            get { return AppendTrailingSlashFlag.GetValueOrDefault(); }
+            set { AppendTrailingSlashFlag = value; }
+        }
+
+        /// <summary>
+        /// Internal flag marking the tri-state value.
+        /// </summary>
+        internal bool? AppendTrailingSlashFlag { get; set; }
     }
 }

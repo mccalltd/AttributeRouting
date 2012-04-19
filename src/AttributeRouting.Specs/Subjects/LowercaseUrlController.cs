@@ -17,6 +17,12 @@ namespace AttributeRouting.Specs.Subjects
             return Content("");
         }
 
+        [GET("Uppercase-Override", UseLowercaseRoute = false)]
+        public ActionResult UppercaseOverride()
+        {
+            return Content("");
+        }
+
         [GET("Lowercase-Preserve-Url-Param-Case-Override/{routeParam}", UseLowercaseRoute = true, PreserveCaseForUrlParameters = true)]
         public ActionResult LowercasePreserveUrlParamCaseOverride()
         {

@@ -98,7 +98,7 @@ namespace AttributeRouting.Framework
                                   routeSpec.UseLowercaseRoute);
         }
 
-        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, bool isAbsoluteUrl, bool useLowercaseRoutes)
+        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, bool isAbsoluteUrl, bool? useLowercaseRoute)
         {
             var detokenizedUrl = DetokenizeUrl(routeUrl);
 
@@ -138,7 +138,8 @@ namespace AttributeRouting.Framework
             }
 
             // If we are lowercasing routes, then lowercase everything but the route params
-            if (useLowercaseRoutes || _configuration.UseLowercaseRoutes)
+            var lower = useLowercaseRoute.HasValue ? useLowercaseRoute.Value : _configuration.UseLowercaseRoutes;
+            if (lower)
             {
                 for (var i = 0; i < urlBuilder.Length; i++)
                 {

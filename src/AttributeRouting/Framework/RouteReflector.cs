@@ -71,9 +71,9 @@ namespace AttributeRouting.Framework
                         ConstraintAttributes = GetConstraintAttributes(actionMethod, routeName, convention),
                         RouteName = routeName,
                         IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl,
-                        UseLowercaseRoute = routeAttribute.UseLowercaseRoute,
-                        PreserveCaseForUrlParameters = routeAttribute.PreserveCaseForUrlParameters,
-                        AppendTrailingSlash = routeAttribute.AppendTrailingSlash
+                        UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
+                        PreserveCaseForUrlParameters = routeAttribute.PreserveCaseForUrlParametersFlag,
+                        AppendTrailingSlash = routeAttribute.AppendTrailingSlashFlag
                     }).ToList();
         }
 
