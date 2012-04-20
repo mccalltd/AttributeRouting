@@ -16,6 +16,6 @@ namespace AttributeRouting.Web
         /// Constrain a route by the specified allowed HTTP methods.
         /// </summary>
         public RestfulHttpMethodConstraint(params string[] allowedMethods)
-            : base(allowedMethods) { }       
+            : base(allowedMethods) { }
     }
 }

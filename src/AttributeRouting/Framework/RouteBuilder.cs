@@ -214,9 +214,8 @@ namespace AttributeRouting.Framework
                 constraints.Add("httpMethod", _constraintFactory.CreateRestfulHttpMethodConstraint(routeSpec.HttpMethods));
 
             // Inline constraints
-            foreach (
-                var parameter in GetUrlParameterContents(routeSpec.RouteUrl).Where(p => Regex.IsMatch(p, @"^.*\(.*\)$"))
-                )
+            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).Where(p => Regex.IsMatch(p, @"^.*\(.*\)$"));
+            foreach (var parameter in urlParameters)
             {
                 var indexOfOpenParen = parameter.IndexOf('(');
                 var parameterName = parameter.Substring(0, indexOfOpenParen);
