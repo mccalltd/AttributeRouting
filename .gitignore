@@ -16,4 +16,4 @@ _ReSharper.*
 ** Ignore certain dirs in projects
 App_Data/
 packages/
-src/**/nuget/*.nuspec
+nuget/**/*.nuspec

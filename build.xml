@@ -27,13 +27,13 @@
     
     <Target Name="NugetPack" DependsOnTargets="Build">
         <ItemGroup>
-            <MainNuspec Include="src\AttributeRouting.Web.Mvc\nuget\AttributeRouting.nuspec"/>
-            <MainNuspec Include="src\AttributeRouting.Web.Http.SelfHost\nuget\AttributeRouting.WebApi.Hosted.nuspec"/>
-            <MainNuspec Include="src\AttributeRouting.Web.Http.WebHost\nuget\AttributeRouting.WebApi.nuspec"/>            
-            <SymbolsNuspec Include="src\AttributeRouting.Web.Mvc\nuget\AttributeRouting.symbols.nuspec"/>   
-            <SymbolsNuspec Include="src\AttributeRouting.Web.Http.SelfHost\nuget\AttributeRouting.WebApi.Hosted.symbols.nuspec"/>
-            <SymbolsNuspec Include="src\AttributeRouting.Web.Http.WebHost\nuget\AttributeRouting.WebApi.symbols.nuspec"/>
-            <Transforms Include="src\**\*.nutrans" />
+            <MainNuspec Include="nuget\AttributeRouting.Web.Mvc\AttributeRouting.nuspec"/>
+            <MainNuspec Include="nuget\AttributeRouting.Web.Http.WebHost\AttributeRouting.WebApi.nuspec"/>            
+            <MainNuspec Include="nuget\AttributeRouting.Web.Http.SelfHost\AttributeRouting.WebApi.Hosted.nuspec"/>
+            <SymbolsNuspec Include="nuget\AttributeRouting.Web.Mvc\AttributeRouting.symbols.nuspec"/>   
+            <SymbolsNuspec Include="nuget\AttributeRouting.Web.Http.WebHost\AttributeRouting.WebApi.symbols.nuspec"/>
+            <SymbolsNuspec Include="nuget\AttributeRouting.Web.Http.SelfHost\AttributeRouting.WebApi.Hosted.symbols.nuspec"/>
+            <Transforms Include="nuget\**\*.nutrans" />
         </ItemGroup>        
         <PropertyGroup>
             <OutputDir>build\nuget</OutputDir>
@@ -49,7 +49,7 @@
         <!-- Transform Nuspecs -->
         <TransformXmlHierarchy
             Source="%(Transforms.Identity)"
-            Destination="src\%(Transforms.RecursiveDir)%(Transforms.Filename).nuspec"
+            Destination="nuget\%(Transforms.RecursiveDir)%(Transforms.Filename).nuspec"
             TaskDirectory="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\Web\" />
 
         <MakeDir Directories="$(OutputDir)"/>

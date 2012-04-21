@@ -79,11 +79,7 @@
     <Compile Include="RouteCollectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="nuget\AttributeRoutingHttp.cs.pp" />
-    <None Include="nuget\AttributeRouting.WebApi.nutrans" />
-    <None Include="nuget\AttributeRouting.WebApi.symbols.nutrans" />
     <None Include="packages.config" />
-    <None Include="nuget\web.config.transform" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AttributeRouting.Web\AttributeRouting.Web.csproj">
