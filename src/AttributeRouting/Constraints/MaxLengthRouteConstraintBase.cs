@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Constraints
 {
@@ -10,11 +11,11 @@ namespace AttributeRouting.Constraints
     {
         protected MaxLengthRouteConstraintBase(string maxLength)
         {
-            int maxLengthValue;
-            if (int.TryParse(maxLength, out maxLengthValue))
-                MaxLength = maxLengthValue;
-            else
+            var parsedMaxLength = maxLength.ParseInt();
+            if (!parsedMaxLength.HasValue)
                 throw new ArgumentOutOfRangeException("maxLength", maxLength, "Cannot parse an int from the given value.");
+
+            MaxLength = parsedMaxLength.Value;
         }
 
         /// <summary>

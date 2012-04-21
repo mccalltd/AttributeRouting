@@ -64,7 +64,7 @@
     <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />
     <Compile Include="Constraints\MaxRouteConstraintBase.cs" />
     <Compile Include="Constraints\MinRouteConstraintBase.cs" />
-    <Compile Include="Constraints\RangeLengthRouteConstraintBase.cs" />
+    <Compile Include="Constraints\LengthRouteConstraintBase.cs" />
     <Compile Include="Constraints\MinLengthRouteConstraintBase.cs" />
     <Compile Include="Constraints\RangeRouteConstraintBase.cs" />
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />

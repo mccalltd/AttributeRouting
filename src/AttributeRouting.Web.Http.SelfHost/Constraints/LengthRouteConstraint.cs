@@ -8,13 +8,13 @@ namespace AttributeRouting.Web.Http.SelfHost.Constraints
     /// <summary>
     /// Constraints a url parameter to be a string of a length within a given range.
     /// </summary>
-    public class RangeLengthRouteConstraint : RangeLengthRouteConstraintBase, IHttpRouteConstraint
+    public class LengthRouteConstraint : LengthRouteConstraintBase, IHttpRouteConstraint
     {
-        public RangeLengthRouteConstraint(string minLength, string maxLength)
-        {
-            MinLengthConstraint = new MinLengthRouteConstraint(minLength);
-            MaxLengthConstraint = new MaxLengthRouteConstraint(maxLength);
-        }
+        public LengthRouteConstraint(string length) : base(length) { }
+
+        public LengthRouteConstraint(string minLength, string maxLength)
+            : base(new MinLengthRouteConstraint(minLength),
+                   new MaxLengthRouteConstraint(maxLength)) { }
 
         public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
         {

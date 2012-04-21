@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Constraints
 {
@@ -10,11 +11,11 @@ namespace AttributeRouting.Constraints
     {
         protected MinLengthRouteConstraintBase(string minLength)
         {
-            int minLengthValue;
-            if (int.TryParse(minLength, out minLengthValue))
-                MinLength = minLengthValue;
-            else
+            var parsedMinLength = minLength.ParseInt();
+            if (!parsedMinLength.HasValue)
                 throw new ArgumentOutOfRangeException("minLength", minLength, "Cannot parse an int from the given value.");
+
+            MinLength = parsedMinLength.Value;
         }
 
         /// <summary>
