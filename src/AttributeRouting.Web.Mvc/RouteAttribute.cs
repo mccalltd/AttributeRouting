@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Reflection;
 using System.Web.Mvc;
 using AttributeRouting.Helpers;
 
@@ -10,7 +10,7 @@ namespace AttributeRouting.Web.Mvc
     /// The route information for an action.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public class RouteAttribute : IRouteAttribute
+    public class RouteAttribute : ActionMethodSelectorAttribute, IRouteAttribute
     {
         /// <summary>
         /// Specify the route information for an action.
@@ -31,14 +31,10 @@ namespace AttributeRouting.Web.Mvc
         /// </summary>
         /// <param name="routeUrl">The url that is associated with this action</param>
         /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
-        public RouteAttribute(string routeUrl, params string[] allowedMethods)
+        public RouteAttribute(string routeUrl, HttpVerbs allowedMethods)
             : this(routeUrl)
         {
-            HttpMethods = allowedMethods;
-
-            if (HttpMethods.Any(m => !Regex.IsMatch(m, "HEAD|GET|POST|PUT|DELETE|PATCH|OPTIONS|TRACE")))
-                throw new InvalidOperationException(
-                    "The allowedMethods are restricted to either HEAD, GET, POST, PUT, DELETE, PATCH, OPTIONS, or TRACE.");
+            HttpMethods = allowedMethods.ToString().ToUpper().SplitAndTrim(new[] { "," });
         }
 
         public string RouteUrl { get; private set; }
@@ -75,5 +71,11 @@ namespace AttributeRouting.Web.Mvc
         }
 
         public bool? AppendTrailingSlashFlag { get; private set; }
+
+        public override bool IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
+        {
+            var method = controllerContext.HttpContext.Request.GetHttpMethodOverride();
+            return HttpMethods.Any(m => m.ValueEquals(method));
+        }
     }
 }

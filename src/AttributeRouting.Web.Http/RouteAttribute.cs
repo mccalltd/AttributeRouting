@@ -1,20 +1,23 @@
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Net.Http;
+using System.Reflection;
+using System.Web.Http.Routing;
+using AttributeRouting.Helpers;
 
-namespace AttributeRouting
+namespace AttributeRouting.Web.Http
 {
     /// <summary>
     /// The route information for an action.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public abstract class RouteAttributeBase : IRouteAttribute
+    public class RouteAttribute : HttpRoute, IActionHttpMethodSelector, IRouteAttribute
     {
         /// <summary>
         /// Specify the route information for an action.
         /// </summary>
         /// <param name="routeUrl">The url that is associated with this action</param>
-        protected RouteAttributeBase(string routeUrl)
+        public RouteAttribute(string routeUrl)
         {
             if (routeUrl == null) throw new ArgumentNullException("routeUrl");
 
@@ -29,14 +32,10 @@ namespace AttributeRouting
         /// </summary>
         /// <param name="routeUrl">The url that is associated with this action</param>
         /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
-        protected RouteAttributeBase(string routeUrl, params string[] allowedMethods)
+        public RouteAttribute(string routeUrl, params HttpMethod[] allowedMethods)
             : this(routeUrl)
         {
-            HttpMethods = allowedMethods;
-
-            if (HttpMethods.Any(m => !Regex.IsMatch(m, "HEAD|GET|POST|PUT|DELETE|PATCH|OPTIONS|TRACE")))
-                throw new InvalidOperationException(
-                    "The allowedMethods are restricted to either HEAD, GET, POST, PUT, DELETE, PATCH, OPTIONS, or TRACE.");
+            HttpMethods = allowedMethods.Select(m => m.Method.ToUpper()).ToArray();
         }
 
         public string RouteUrl { get; private set; }
@@ -73,5 +72,11 @@ namespace AttributeRouting
         }
 
         public bool? AppendTrailingSlashFlag { get; private set; }
+
+        public override bool IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
+        {
+            var method = controllerContext.HttpContext.Request.GetHttpMethodOverride();
+            return HttpMethods.Any(m => m.ValueEquals(method));
+        }
     }
 }

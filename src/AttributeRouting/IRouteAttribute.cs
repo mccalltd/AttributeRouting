@@ -1,5 +1,10 @@
 namespace AttributeRouting
 {
+    /// <remarks>
+    /// Implementors MUST disambiguate among routes based on the HttpMethods allowed for this route.
+    /// In System.Web.Mvc, that means deriving from ActionMethodSelectorAttribute.
+    /// In System.Web.Http, that means deriving from IActionMethodSelectorAttribute.
+    /// </remarks>
     public interface IRouteAttribute 
     {
         /// <summary>
