@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using AttributeRouting.Helpers;
 
@@ -6,17 +9,71 @@ namespace AttributeRouting.Web.Mvc
     /// <summary>
     /// The route information for an action.
     /// </summary>
-    public class RouteAttribute : RouteAttributeBase
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
+    public class RouteAttribute : IRouteAttribute
     {
+        /// <summary>
+        /// Specify the route information for an action.
+        /// </summary>
+        /// <param name="routeUrl">The url that is associated with this action</param>
         public RouteAttribute(string routeUrl)
-            : base(routeUrl)
         {
+            if (routeUrl == null) throw new ArgumentNullException("routeUrl");
+
+            RouteUrl = routeUrl;
+            Order = int.MaxValue;
+            Precedence = int.MaxValue;
+            HttpMethods = new string[0];
         }
 
-        public RouteAttribute(string routeUrl, HttpVerbs allowedMethods)
-            : base(routeUrl)
+        /// <summary>
+        /// Specify the route information for an action.
+        /// </summary>
+        /// <param name="routeUrl">The url that is associated with this action</param>
+        /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
+        public RouteAttribute(string routeUrl, params string[] allowedMethods)
+            : this(routeUrl)
         {
-            HttpMethods = allowedMethods.ToString().ToUpper().SplitAndTrim(new[] {","});
+            HttpMethods = allowedMethods;
+
+            if (HttpMethods.Any(m => !Regex.IsMatch(m, "HEAD|GET|POST|PUT|DELETE|PATCH|OPTIONS|TRACE")))
+                throw new InvalidOperationException(
+                    "The allowedMethods are restricted to either HEAD, GET, POST, PUT, DELETE, PATCH, OPTIONS, or TRACE.");
         }
+
+        public string RouteUrl { get; private set; }
+
+        public string[] HttpMethods { get; protected set; }
+
+        public int Order { get; set; }
+
+        public int Precedence { get; set; }
+
+        public string RouteName { get; set; }
+
+        public bool IsAbsoluteUrl { get; set; }
+
+        public string TranslationKey { get; set; }
+
+        public bool UseLowercaseRoute
+        {
+            set { UseLowercaseRouteFlag = value; }
+        }
+
+        public bool? UseLowercaseRouteFlag { get; private set; }
+
+        public bool PreserveCaseForUrlParameters 
+        {
+            set { PreserveCaseForUrlParametersFlag = value; }
+        }
+        
+        public bool? PreserveCaseForUrlParametersFlag { get; private set; }
+
+        public bool AppendTrailingSlash
+        {
+            set { AppendTrailingSlashFlag = value; }
+        }
+
+        public bool? AppendTrailingSlashFlag { get; private set; }
     }
 }

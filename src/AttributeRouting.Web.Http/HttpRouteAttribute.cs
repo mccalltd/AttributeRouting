@@ -11,7 +11,6 @@ namespace AttributeRouting.Web.Http
         public HttpRouteAttribute(string routeUrl)
             : base(routeUrl)
         {
-            
         }
 
         public HttpRouteAttribute(string routeUrl, params HttpMethod[] allowedMethods) 
