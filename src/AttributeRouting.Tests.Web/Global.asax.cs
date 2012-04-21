@@ -5,6 +5,7 @@ using AttributeRouting.Framework.Localization;
 using AttributeRouting.Tests.Web.Areas.Api.Controllers;
 using AttributeRouting.Tests.Web.Controllers;
 using AttributeRouting.Web;
+using AttributeRouting.Web.Constraints;
 using AttributeRouting.Web.Http.WebHost;
 using AttributeRouting.Web.Mvc;
 using ControllerBase = AttributeRouting.Tests.Web.Controllers.ControllerBase;

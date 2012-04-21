@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using AttributeRouting.Constraints;
 using AttributeRouting.Framework.Factories;
+using AttributeRouting.Web.Constraints;
 
 namespace AttributeRouting.Web.Framework.Factories
 {

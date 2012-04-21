@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Web.Http.Common;
 using AttributeRouting.Constraints;
 using AttributeRouting.Framework.Factories;
+using AttributeRouting.Web.Http.SelfHost.Constraints;
 
 namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
 {

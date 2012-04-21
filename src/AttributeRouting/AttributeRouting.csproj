@@ -59,8 +59,18 @@
     </Compile>
     <Compile Include="AreaConfiguration.cs" />
     <Compile Include="AttributeRoutingConfigurationBase.cs" />
+    <Compile Include="Constraints\EnumRouteConstraintBase.cs" />
+    <Compile Include="Constraints\IAttributeRouteConstraint.cs" />
     <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />
+    <Compile Include="Constraints\MaxRouteConstraintBase.cs" />
+    <Compile Include="Constraints\MinRouteConstraintBase.cs" />
+    <Compile Include="Constraints\RangeLengthRouteConstraintBase.cs" />
+    <Compile Include="Constraints\MinLengthRouteConstraintBase.cs" />
+    <Compile Include="Constraints\RangeRouteConstraintBase.cs" />
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
+    <Compile Include="Constraints\RouteConstraintFactory.cs" />
+    <Compile Include="Constraints\MaxLengthRouteConstraintBase.cs" />
+    <Compile Include="Constraints\TypeOfRouteConstraintBase.cs" />
     <Compile Include="Framework\AttributeRouteExtensions.cs" />
     <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\IConstraintFactory.cs" />
@@ -69,6 +79,7 @@
     <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\ObjectExtensions.cs" />
+    <Compile Include="Helpers\ParsingExtensions.cs" />
     <Compile Include="Helpers\ReflectionExtensions.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Framework\Localization\TranslationBuilder.cs" />

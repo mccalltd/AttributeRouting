@@ -4,9 +4,9 @@ using System.Text.RegularExpressions;
 namespace AttributeRouting.Constraints
 {
     /// <summary>
-    /// A regular expression to constrain the route against. This is the base class containing shared logic.
+    /// Constraints a url parameter by a regular expression.
     /// </summary>
-    public abstract class RegexRouteConstraintBase
+    public abstract class RegexRouteConstraintBase : IAttributeRouteConstraint
     {
         protected RegexRouteConstraintBase(string pattern, RegexOptions options = RegexOptions.None)
         {
@@ -14,11 +14,17 @@ namespace AttributeRouting.Constraints
             Options = options;
         }
 
+        /// <summary>
+        /// The pattern to match.
+        /// </summary>
         public string Pattern { get; private set; }
 
-        public RegexOptions Options { get; set; }
+        /// <summary>
+        /// Regex options for matching.
+        /// </summary>
+        public RegexOptions Options { get; private set; }
 
-        protected bool IsMatch(string parameterName, IDictionary<string, object> routeDictionary)
+        public bool IsMatch(string parameterName, IDictionary<string, object> routeDictionary)
         {
             var value = routeDictionary[parameterName];
             if (value == null)

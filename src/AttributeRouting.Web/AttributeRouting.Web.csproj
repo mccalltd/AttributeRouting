@@ -52,6 +52,15 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Constraints\EnumRouteConstraintBase.cs" />
+    <Compile Include="Constraints\MaxLengthRouteConstraintBase.cs" />
+    <Compile Include="Constraints\MaxRouteConstraintBase.cs" />
+    <Compile Include="Constraints\MinLengthRouteConstraintBase.cs" />
+    <Compile Include="Constraints\MinRouteConstraintBase.cs" />
+    <Compile Include="Constraints\RangeLengthRouteConstraintBase.cs" />
+    <Compile Include="Constraints\RangeRouteConstraintBase.cs" />
+    <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
+    <Compile Include="Constraints\TypeOfRouteConstraints.cs" />
     <Compile Include="RegexRouteConstraintAttribute.cs" />
     <Compile Include="RestfulHttpMethodConstraint.cs" />
     <Compile Include="Logging\LoggingExtensions.cs" />
@@ -61,7 +70,6 @@
     <Compile Include="Helpers\HttpRequestBaseExtensions.cs" />
     <Compile Include="WebAttributeRoutingConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegexRouteConstraint.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">
