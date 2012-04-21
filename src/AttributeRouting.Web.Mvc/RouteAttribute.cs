@@ -53,6 +53,7 @@ namespace AttributeRouting.Web.Mvc
 
         public bool UseLowercaseRoute
         {
+            get { return UseLowercaseRouteFlag.GetValueOrDefault(); }
             set { UseLowercaseRouteFlag = value; }
         }
 
@@ -60,6 +61,7 @@ namespace AttributeRouting.Web.Mvc
 
         public bool PreserveCaseForUrlParameters 
         {
+            get { return PreserveCaseForUrlParametersFlag.GetValueOrDefault(); }
             set { PreserveCaseForUrlParametersFlag = value; }
         }
         
@@ -67,6 +69,7 @@ namespace AttributeRouting.Web.Mvc
 
         public bool AppendTrailingSlash
         {
+            get { return AppendTrailingSlashFlag.GetValueOrDefault(); }
             set { AppendTrailingSlashFlag = value; }
         }
 

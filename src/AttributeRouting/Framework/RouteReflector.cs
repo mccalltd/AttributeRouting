@@ -77,16 +77,16 @@ namespace AttributeRouting.Framework
                     }).ToList();
         }
 
-        private static IEnumerable<RouteAttributeBase> GetRouteAttributes(MethodInfo actionMethod, RouteConventionAttributeBase convention)
+        private static IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod, RouteConventionAttributeBase convention)
         {
-            var attributes = new List<RouteAttributeBase>();
+            var attributes = new List<IRouteAttribute>();
 
             // Add convention-based attributes
             if (convention != null)
                 attributes.AddRange(convention.GetRouteAttributes(actionMethod));
 
             // Add explicitly-defined attributes
-            attributes.AddRange(actionMethod.GetCustomAttributes<RouteAttributeBase>(false));
+            attributes.AddRange(actionMethod.GetCustomAttributes<IRouteAttribute>(false));
 
             return attributes.OrderBy(a => a.Order);
         }

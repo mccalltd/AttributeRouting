@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Web.Http.Routing;
-using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Http
 {
@@ -11,13 +9,13 @@ namespace AttributeRouting.Web.Http
     /// The route information for an action.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public class RouteAttribute : HttpRoute, IActionHttpMethodSelector, IRouteAttribute
+    public class HttpRouteAttribute : Attribute, IRouteAttribute
     {
         /// <summary>
         /// Specify the route information for an action.
         /// </summary>
         /// <param name="routeUrl">The url that is associated with this action</param>
-        public RouteAttribute(string routeUrl)
+        public HttpRouteAttribute(string routeUrl)
         {
             if (routeUrl == null) throw new ArgumentNullException("routeUrl");
 
@@ -32,7 +30,7 @@ namespace AttributeRouting.Web.Http
         /// </summary>
         /// <param name="routeUrl">The url that is associated with this action</param>
         /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
-        public RouteAttribute(string routeUrl, params HttpMethod[] allowedMethods)
+        public HttpRouteAttribute(string routeUrl, params HttpMethod[] allowedMethods)
             : this(routeUrl)
         {
             HttpMethods = allowedMethods.Select(m => m.Method.ToUpper()).ToArray();
@@ -54,6 +52,7 @@ namespace AttributeRouting.Web.Http
 
         public bool UseLowercaseRoute
         {
+            get { return UseLowercaseRouteFlag.GetValueOrDefault(); }
             set { UseLowercaseRouteFlag = value; }
         }
 
@@ -61,6 +60,7 @@ namespace AttributeRouting.Web.Http
 
         public bool PreserveCaseForUrlParameters 
         {
+            get { return PreserveCaseForUrlParametersFlag.GetValueOrDefault(); }
             set { PreserveCaseForUrlParametersFlag = value; }
         }
         
@@ -68,15 +68,10 @@ namespace AttributeRouting.Web.Http
 
         public bool AppendTrailingSlash
         {
+            get { return AppendTrailingSlashFlag.GetValueOrDefault(); }
             set { AppendTrailingSlashFlag = value; }
         }
 
         public bool? AppendTrailingSlashFlag { get; private set; }
-
-        public override bool IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
-        {
-            var method = controllerContext.HttpContext.Request.GetHttpMethodOverride();
-            return HttpMethods.Any(m => m.ValueEquals(method));
-        }
     }
 }

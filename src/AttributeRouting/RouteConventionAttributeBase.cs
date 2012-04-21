@@ -15,7 +15,7 @@ namespace AttributeRouting
         /// </summary>
         /// <param name="actionMethod"></param>
         /// <returns></returns>
-        public abstract IEnumerable<RouteAttributeBase> GetRouteAttributes(MethodInfo actionMethod);
+        public abstract IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod);
 
         /// <summary>
         /// Gets the default route prefix to use if no RoutePrefix is applied on the controller.

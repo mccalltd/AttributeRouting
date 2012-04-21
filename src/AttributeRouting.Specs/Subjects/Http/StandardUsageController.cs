@@ -1,6 +1,5 @@
 using System.Web.Http;
 using AttributeRouting.Web.Http;
-using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects.Http
 {

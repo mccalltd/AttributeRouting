@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Web.Mvc;
+using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Tests.Web.Controllers
 {

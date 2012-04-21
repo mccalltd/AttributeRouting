@@ -46,7 +46,7 @@ namespace AttributeRouting
         /// If set, will override <see cref="AttributeRoutingConfigurationBase.UseLowercaseRoutes"/>
         /// set via global configuration for this route.
         /// </summary>
-        bool UseLowercaseRoute { set; }
+        bool UseLowercaseRoute { get; set; }
 
         /// <summary>
         /// Gets the tri-state value for UseLowercaseRoutes.
@@ -57,7 +57,7 @@ namespace AttributeRouting
         /// If set, will override <see cref="AttributeRoutingConfigurationBase.PreserveCaseForUrlParameters"/>
         /// set via global configuration for this route.
         /// </summary>
-        bool PreserveCaseForUrlParameters { set; }
+        bool PreserveCaseForUrlParameters { get; set; }
 
         /// <summary>
         /// Gets the tri-state value for PreserveCaseForUrlParameters.
@@ -68,7 +68,7 @@ namespace AttributeRouting
         /// If true, will override <see cref="AttributeRoutingConfigurationBase.AppendTrailingSlash"/>
         /// set via global configuration for this route.
         /// </summary>
-        bool AppendTrailingSlash { set; }
+        bool AppendTrailingSlash { get; set; }
 
         /// <summary>
         /// Gets the tri-state value for AppendTrailingSlash.

@@ -14,6 +14,8 @@ namespace AttributeRouting.Web.Http
     /// </summary>
     public class DefaultHttpRouteConventionAttribute : RouteConventionAttributeBase
     {
+        private readonly List<HttpRouteConventionInfo> _alreadyUsed = new List<HttpRouteConventionInfo>();
+
         // Setup conventions
         private static readonly List<HttpRouteConventionInfo> Conventions = new List<HttpRouteConventionInfo>
         {
@@ -29,9 +31,7 @@ namespace AttributeRouting.Web.Http
             new HttpRouteConventionInfo(HttpMethod.Put, "{id}")
         };
 
-        private readonly List<HttpRouteConventionInfo> AlreadyUsed = new List<HttpRouteConventionInfo>();
-
-        public override IEnumerable<RouteAttributeBase> GetRouteAttributes(MethodInfo actionMethod)
+        public override IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
         {
             // Logic from ApiControllerActionSelector
 
@@ -53,14 +53,14 @@ namespace AttributeRouting.Web.Http
                 {
                     var requiresId = !string.IsNullOrEmpty(c.Url);
 
-                    if (!AlreadyUsed.Contains(c))
+                    if (!_alreadyUsed.Contains(c))
                     {
                         // Check first parameter, if it requires ID
                         if (!requiresId || (actionMethod.GetParameters().Length > 0 && actionMethod.GetParameters()[0].Name.Equals("id", StringComparison.OrdinalIgnoreCase)))
                         {
                             yield return BuildRouteAttribute(c);
 
-                            AlreadyUsed.Add(c);
+                            _alreadyUsed.Add(c);
                         }
                     }
                 }
@@ -77,7 +77,7 @@ namespace AttributeRouting.Web.Http
             yield break;
         }
 
-        private RouteAttributeBase BuildRouteAttribute(HttpRouteConventionInfo convention)
+        private IRouteAttribute BuildRouteAttribute(HttpRouteConventionInfo convention)
         {
             switch (convention.HttpMethod.Method)
             {

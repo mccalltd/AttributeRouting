@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Routing;
 using AttributeRouting.Framework;
+using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Http.SelfHost.Framework
 {
@@ -75,7 +76,8 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework
                 return null;
 
             // Constrain by subdomain if configured
-            if (!this.IsSubdomainMatched(request.Headers.Host, _configuration))
+            var host = request.SafeGet(r => r.Headers.Host);
+            if (!this.IsSubdomainMatched(host, _configuration))
                 return null;
 
             // Constrain by culture name if configured

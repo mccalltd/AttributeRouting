@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Routing;
 using AttributeRouting.Framework;
+using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Framework
 {
@@ -67,7 +68,8 @@ namespace AttributeRouting.Web.Framework
                 return null;
 
             // Constrain by subdomain if configured
-            if (!this.IsSubdomainMatched(httpContext.Request.Headers["host"], _configuration))
+            var host = httpContext.SafeGet(ctx => ctx.Request.Headers["host"]);
+            if (!this.IsSubdomainMatched(host, _configuration))
                 return null;
 
             // Constrain by culture name if configured

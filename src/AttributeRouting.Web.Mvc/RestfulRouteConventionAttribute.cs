@@ -25,7 +25,7 @@ namespace AttributeRouting.Web.Mvc
             new RestfulRouteConventionInfo("Destroy", "DELETE", "{id}")
         };
 
-        public override IEnumerable<RouteAttributeBase> GetRouteAttributes(MethodInfo actionMethod)
+        public override IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
         {
             var convention = Conventions.SingleOrDefault(c => c.ActionName == actionMethod.Name);
             if (convention != null)
@@ -37,7 +37,7 @@ namespace AttributeRouting.Web.Mvc
             return actionMethod.DeclaringType.GetControllerName();
         }
 
-        private RouteAttributeBase BuildRouteAttribute(RestfulRouteConventionInfo convention)
+        private IRouteAttribute BuildRouteAttribute(RestfulRouteConventionInfo convention)
         {
             switch (convention.HttpMethod)
             {
