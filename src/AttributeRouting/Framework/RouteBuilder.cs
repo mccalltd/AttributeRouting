@@ -221,9 +221,10 @@ namespace AttributeRouting.Framework
             if (routeSpec.HttpMethods.Any())
                 constraints.Add("httpMethod", _routeConstraintFactory.CreateRestfulHttpMethodConstraint(routeSpec.HttpMethods));
 
+            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl);
+
             // Inline constraints (legacy)
-            var legacyUrlParametersWithInlineConstraints = GetUrlParameterContents(routeSpec.RouteUrl).Where(p => Regex.IsMatch(p, @"^.*\(.*\)$"));
-            foreach (var parameter in legacyUrlParametersWithInlineConstraints)
+            foreach (var parameter in urlParameters.Where(p => !p.Contains(":") && Regex.IsMatch(p, @"^.*\(.*\)$")))
             {
                 var indexOfOpenParen = parameter.IndexOf('(');
                 var parameterName = parameter.Substring(0, indexOfOpenParen);
@@ -237,8 +238,7 @@ namespace AttributeRouting.Framework
 
             // Inline constraints of the form urlParam:constraintDefinition(param1, ...)
             var constraintFactory = _configuration.RouteConstraintFactory;
-            var urlParametersWithInlineConstraints = GetUrlParameterContents(routeSpec.RouteUrl).Where(p => p.Contains(":"));
-            foreach (var parameter in urlParametersWithInlineConstraints)
+            foreach (var parameter in urlParameters.Where(p => p.Contains(":")))
             {
                 // Keep track of whether this param is optional, 
                 // because we wrap the final constraint if so.
