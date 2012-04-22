@@ -4,6 +4,10 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_v2.2_
+
+* #61 - Sexy inline route constraints. See "the wiki for inline constraints":https://github.com/mccalltd/AttributeRouting/wiki/Route-Constraints/
+
 _v2.1.1_
 
 * #63 - BREAKING CHANGE! Fixed issue with ambigous routes in MVC controllers. All prior versions worked from AttributeRouting.VERBAttribute, and these have moved into MVC and Web API specific versions to handle disambiguation: AttributeRouting.Web.Mvc.VERBAttribute and AttributeRouting.Web.Http.VERBAttribute.
