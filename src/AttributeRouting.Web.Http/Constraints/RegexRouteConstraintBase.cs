@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Web.Http.Routing;
 using AttributeRouting.Constraints;
 
-namespace AttributeRouting.Web.Http.SelfHost.Constraints
+namespace AttributeRouting.Web.Http.Constraints
 {
     /// <summary>
-    /// Constraints a url parameter to be a string with a maximum length.
+    /// Constraints a url parameter by a regular expression.
     /// </summary>
-    public class MaxLengthRouteConstraint : MaxLengthRouteConstraintBase, IHttpRouteConstraint
+    public class RegexRouteConstraint : RegexRouteConstraintBase, IHttpRouteConstraint
     {
-        public MaxLengthRouteConstraint(string maxLength) : base(maxLength) { }
+        public RegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None) 
+            : base(pattern, options) {}
 
         public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
         {

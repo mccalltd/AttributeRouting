@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using AttributeRouting.Constraints;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Class that actually creates all the routes from attributes and AR configuration. Relies on RouteReflector to inspect types
+    /// Class that actually creates all the routes from attributes and AR configuration. 
+    /// Relies on RouteReflector to inspect types.
     /// </summary>    
     public class RouteBuilder
     {
         private readonly AttributeRoutingConfigurationBase _configuration;
         private readonly IAttributeRouteFactory _routeFactory;
-        private readonly IConstraintFactory _constraintFactory;
+        private readonly IRouteConstraintFactory _routeConstraintFactory;
         private readonly IParameterFactory _parameterFactory;
 
         public RouteBuilder(AttributeRoutingConfigurationBase configuration)
@@ -24,7 +26,7 @@ namespace AttributeRouting.Framework
 
             _configuration = configuration;
             _routeFactory = configuration.AttributeFactory;
-            _constraintFactory = configuration.ConstraintFactory;
+            _routeConstraintFactory = configuration.RouteConstraintFactory;
             _parameterFactory = configuration.ParameterFactory;
         }
 
@@ -170,9 +172,12 @@ namespace AttributeRouting.Framework
             var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl);
 
             // Inspect the url for optional parameters, specified with a leading or trailing (or both) ?
-            foreach (var parameter in urlParameters.Where(p => Regex.IsMatch(p, @"^\?|\?$")))
+            foreach (var parameter in urlParameters.Where(p => p.StartsWith("?") || p.EndsWith("?")))
             {
                 var parameterName = parameter.Trim('?');
+                
+                if (parameterName.Contains(':'))
+                    parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
 
                 if (defaults.ContainsKey(parameterName))
                     continue;
@@ -181,10 +186,13 @@ namespace AttributeRouting.Framework
             }
 
             // Inline defaults
-            foreach (var parameter in urlParameters.Where(p => Regex.IsMatch(p, @"^.*=.*$")))
+            foreach (var parameter in urlParameters.Where(p => p.Contains('=')))
             {
                 var indexOfEquals = parameter.IndexOf('=');
                 var parameterName = parameter.Substring(0, indexOfEquals);
+
+                if (parameterName.Contains(':'))
+                    parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
 
                 if (defaults.ContainsKey(parameterName))
                     continue;
@@ -211,11 +219,11 @@ namespace AttributeRouting.Framework
 
             // Default constraints
             if (routeSpec.HttpMethods.Any())
-                constraints.Add("httpMethod", _constraintFactory.CreateRestfulHttpMethodConstraint(routeSpec.HttpMethods));
+                constraints.Add("httpMethod", _routeConstraintFactory.CreateRestfulHttpMethodConstraint(routeSpec.HttpMethods));
 
-            // Inline constraints
-            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).Where(p => Regex.IsMatch(p, @"^.*\(.*\)$"));
-            foreach (var parameter in urlParameters)
+            // Inline constraints (legacy)
+            var legacyUrlParametersWithInlineConstraints = GetUrlParameterContents(routeSpec.RouteUrl).Where(p => Regex.IsMatch(p, @"^.*\(.*\)$"));
+            foreach (var parameter in legacyUrlParametersWithInlineConstraints)
             {
                 var indexOfOpenParen = parameter.IndexOf('(');
                 var parameterName = parameter.Substring(0, indexOfOpenParen);
@@ -224,7 +232,52 @@ namespace AttributeRouting.Framework
                     continue;
 
                 var regexPattern = parameter.Substring(indexOfOpenParen + 1, parameter.Length - indexOfOpenParen - 2);
-                constraints.Add(parameterName, _constraintFactory.CreateRegexRouteConstraint(regexPattern));
+                constraints.Add(parameterName, _routeConstraintFactory.CreateRegexRouteConstraint(regexPattern));
+            }
+
+            // Inline constraints of the form urlParam:constraintDefinition(param1, ...)
+            var constraintFactory = _configuration.RouteConstraintFactory;
+            var urlParametersWithInlineConstraints = GetUrlParameterContents(routeSpec.RouteUrl).Where(p => p.Contains(":")).Select(p => p.Trim('?'));
+            foreach (var parameter in urlParametersWithInlineConstraints)
+            {
+                // Strip off everything after an equals sing, cause that is related to defaults.
+                var cleanParameter = parameter.Split('=').FirstOrDefault();
+
+                var sections = cleanParameter.SplitAndTrim(":");
+                var parameterName = sections.First();
+
+                // Do not override default or legacy inline constraints
+                if (constraints.ContainsKey(parameterName))
+                    continue;
+
+                // Add constraints for each inline definition
+                var constraintDefinitions = sections.Skip(1);
+                foreach (var definition in constraintDefinitions)
+                {
+                    IAttributeRouteConstraint constraint;
+                    string constraintName;
+
+                    if (Regex.IsMatch(definition, @"^.*\(.*\)$"))
+                    {
+                        // Constraint of the form "firstName:string(50)"
+                        var indexOfOpenParen = definition.IndexOf('(');
+                        constraintName = definition.Substring(0, indexOfOpenParen);
+                        var constraintParams = definition.Substring(indexOfOpenParen + 1, definition.Length - indexOfOpenParen - 2).SplitAndTrim(",");
+                        constraint = constraintFactory.CreateInlineRouteConstraint(constraintName, constraintParams);
+                    }
+                    else
+                    {
+                        // Constraint of the form "id:int"
+                        constraintName = definition;
+                        constraint = constraintFactory.CreateInlineRouteConstraint(constraintName);   
+                    }
+
+                    if (constraint == null)
+                        throw new AttributeRoutingException(
+                            "Could not find an available inline constraint for \"{0}\".".FormatWith(constraintName));
+
+                    constraints.Add(parameterName, constraint);                    
+                }
             }
 
             // Attribute-based constraints
@@ -279,6 +332,7 @@ namespace AttributeRouting.Framework
                 @"(?<=\{)\?",       // leading question mark (used to specify optional param)
                 @"\?(?=\})",        // trailing question mark (used to specify optional param)
                 @"\(.*?\)(?=\})",   // stuff inside parens (used to specify inline regex route constraint)
+                @"\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))", // new inline constraint syntax
                 @"=.*?(?=\})",      // equals and value (used to specify inline parameter default value)
             };
 

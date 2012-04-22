@@ -133,34 +133,67 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Multiple routes with different constraints")]
-        public virtual void MultipleRoutesWithDifferentConstraints()
+        [NUnit.Framework.DescriptionAttribute("Inline type of constraints")]
+        [NUnit.Framework.TestCaseAttribute("Int", "Inline-Constraints/Int/{x}", "x", "IntRouteConstraint", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("Long", "Inline-Constraints/Long/{x}", "x", "LongRouteConstraint", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("Float", "Inline-Constraints/Float/{x}", "x", "FloatRouteConstraint", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("Double", "Inline-Constraints/Double/{x}", "x", "DoubleRouteConstraint", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("Decimal", "Inline-Constraints/Decimal/{x}", "x", "DecimalRouteConstraint", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("Bool", "Inline-Constraints/Bool/{x}", "x", "BoolRouteConstraint", new string[0])]
+        public virtual void InlineTypeOfConstraints(string actionName, string url, string parameter, string constraintTypeName, string[] exampleTags)
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple routes with different constraints", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inline type of constraints", exampleTags);
 #line 26
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 27
- testRunner.When("I fetch the routes for the RouteConstraints controller\'s MultipleRoutes action");
 #line 28
- testRunner.Then("the route named \"MultipleConstraints1\" has a constraint on \"p1\" of \"\\d+\"");
+ testRunner.When(string.Format("I fetch the routes for the InlineRouteConstraints controller\'s {0} action", actionName));
 #line 29
- testRunner.And("the route named \"MultipleConstraints2\" has a constraint on \"p1\" of \"\\d{4}\"");
+ testRunner.Then(string.Format("the route url is \"{0}\"", url));
 #line 30
- testRunner.And("the route named \"ApiMultipleConstraints1\" has a constraint on \"p1\" of \"\\d+\"");
-#line 31
- testRunner.And("the route named \"ApiMultipleConstraints2\" has a constraint on \"p1\" of \"\\d{4}\"");
+ testRunner.And(string.Format("the parameter \"{0}\" is constrained by an inline AttributeRouting.Web.Constraints." +
+                        "{1}", parameter, constraintTypeName));
 #line 32
+ testRunner.When(string.Format("I fetch the routes for the ApiInlineRouteConstraints controller\'s {0} action", actionName));
+#line 33
+ testRunner.Then(string.Format("the route url is \"{0}\"", url));
+#line 34
+ testRunner.And(string.Format("the parameter \"{0}\" is constrained by an inline AttributeRouting.Web.Constraints." +
+                        "{1}", parameter, constraintTypeName));
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Multiple routes with different constraints")]
+        public virtual void MultipleRoutesWithDifferentConstraints()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple routes with different constraints", ((string[])(null)));
+#line 44
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 45
+ testRunner.When("I fetch the routes for the RouteConstraints controller\'s MultipleRoutes action");
+#line 46
+ testRunner.Then("the route named \"MultipleConstraints1\" has a constraint on \"p1\" of \"\\d+\"");
+#line 47
+ testRunner.And("the route named \"MultipleConstraints2\" has a constraint on \"p1\" of \"\\d{4}\"");
+#line 48
+ testRunner.And("the route named \"ApiMultipleConstraints1\" has a constraint on \"p1\" of \"\\d+\"");
+#line 49
+ testRunner.And("the route named \"ApiMultipleConstraints2\" has a constraint on \"p1\" of \"\\d{4}\"");
+#line 50
  testRunner.When("I fetch the routes for the ApiRouteConstraints controller\'s MultipleRoutes action" +
                     "");
-#line 33
+#line 51
  testRunner.Then("the route named \"MultipleConstraints1\" has a constraint on \"p1\" of \"\\d+\"");
-#line 34
+#line 52
  testRunner.And("the route named \"MultipleConstraints2\" has a constraint on \"p1\" of \"\\d{4}\"");
-#line 35
+#line 53
  testRunner.And("the route named \"ApiMultipleConstraints1\" has a constraint on \"p1\" of \"\\d+\"");
-#line 36
+#line 54
  testRunner.And("the route named \"ApiMultipleConstraints2\" has a constraint on \"p1\" of \"\\d{4}\"");
 #line hidden
             this.ScenarioCleanup();

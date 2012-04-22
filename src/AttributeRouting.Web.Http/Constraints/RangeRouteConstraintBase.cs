@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Web.Http.Routing;
 using AttributeRouting.Constraints;
 
-namespace AttributeRouting.Web.Http.SelfHost.Constraints
+namespace AttributeRouting.Web.Http.Constraints
 {
     /// <summary>
     /// Constraints a url parameter to be a long within a given range of values.

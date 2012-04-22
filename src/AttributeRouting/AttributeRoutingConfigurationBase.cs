@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using AttributeRouting.Constraints;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Helpers;
@@ -18,10 +20,13 @@ namespace AttributeRouting
         /// </summary>
         protected AttributeRoutingConfigurationBase()
         {
-            InheritActionsFromBaseController = false;
             Assemblies = new List<Assembly>();
             PromotedControllerTypes = new List<Type>();
+
+            InheritActionsFromBaseController = false;
+
             DefaultRouteConstraints = new Dictionary<string, object>();
+            InlineRouteConstraints = new Dictionary<string, Type>();
 
             TranslationProviders = new List<TranslationProviderBase>();
 
@@ -49,7 +54,12 @@ namespace AttributeRouting
         /// <summary>
         /// Constraint factory
         /// </summary>
-        public abstract IConstraintFactory ConstraintFactory { get; }
+        public abstract IRouteConstraintFactory RouteConstraintFactory { get; }
+
+        /// <summary>
+        /// Collection of available inline route constraint definitions.
+        /// </summary>
+        public IDictionary<string, Type> InlineRouteConstraints { get; private set; }
 
         /// <summary>
         /// Parameter factory
@@ -201,6 +211,21 @@ namespace AttributeRouting
             return (from provider in TranslationProviders
                     from cultureName in provider.CultureNames
                     select cultureName).Distinct().ToList();
+        }
+
+        protected void RegisterDefaultInlineRouteConstraints<TRouteConstraint>(Assembly assembly)
+        {
+            // Register default inline route constraints
+            var inlineConstraintTypes = from t in assembly.GetTypes()
+                                        where typeof(TRouteConstraint).IsAssignableFrom(t)
+                                              && typeof(IAttributeRouteConstraint).IsAssignableFrom(t)
+                                        select t;
+
+            foreach (var inlineConstraintType in inlineConstraintTypes)
+            {
+                var name = Regex.Replace(inlineConstraintType.Name, "RouteConstraint$", "").ToLowerInvariant();
+                InlineRouteConstraints.Add(name, inlineConstraintType);
+            }
         }
     }
 }

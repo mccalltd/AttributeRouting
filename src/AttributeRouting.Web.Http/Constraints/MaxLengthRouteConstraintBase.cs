@@ -3,14 +3,15 @@ using System.Net.Http;
 using System.Web.Http.Routing;
 using AttributeRouting.Constraints;
 
-namespace AttributeRouting.Web.Http.SelfHost.Constraints
+namespace AttributeRouting.Web.Http.Constraints
 {
     /// <summary>
-    /// Constraints a url parameter to be a value from an enum.
+    /// Constraints a url parameter to be a string with a maximum length.
     /// </summary>
-    public class EnumRouteConstraint<T> : EnumRouteConstraintBase<T>, IHttpRouteConstraint 
-        where T : struct
+    public class MaxLengthRouteConstraint : MaxLengthRouteConstraintBase, IHttpRouteConstraint
     {
+        public MaxLengthRouteConstraint(string maxLength) : base(maxLength) { }
+
         public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
         {
             return IsMatch(parameterName, values);

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Framework.Factories;
@@ -7,11 +6,11 @@ using AttributeRouting.Web.Framework;
 
 namespace AttributeRouting.Web.Mvc.Framework.Factories
 {
-    internal class MvcAttributeRouteFactory : IAttributeRouteFactory
+    internal class AttributeRouteFactory : IAttributeRouteFactory
     {
         private readonly AttributeRoutingConfiguration _configuration;
 
-        public MvcAttributeRouteFactory(AttributeRoutingConfiguration configuration)
+        public AttributeRouteFactory(AttributeRoutingConfiguration configuration)
         {
             _configuration = configuration;
         }

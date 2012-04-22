@@ -30,7 +30,7 @@ namespace AttributeRouting.Helpers
             return String.Format(s, args);
         }
 
-        public static string[] SplitAndTrim(this string s, string[] separator)
+        public static string[] SplitAndTrim(this string s, params string[] separator)
         {
             if (!s.HasValue())
                 return null;

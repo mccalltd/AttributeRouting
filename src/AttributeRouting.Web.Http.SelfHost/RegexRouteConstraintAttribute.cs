@@ -1,5 +1,5 @@
 using System.Text.RegularExpressions;
-using AttributeRouting.Web.Http.SelfHost.Constraints;
+using AttributeRouting.Web.Http.Constraints;
 
 namespace AttributeRouting.Web.Http.SelfHost
 {

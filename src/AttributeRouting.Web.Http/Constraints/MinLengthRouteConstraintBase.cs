@@ -3,14 +3,14 @@ using System.Net.Http;
 using System.Web.Http.Routing;
 using AttributeRouting.Constraints;
 
-namespace AttributeRouting.Web.Http.SelfHost.Constraints
+namespace AttributeRouting.Web.Http.Constraints
 {
     /// <summary>
-    /// Constraints a url parameter to be a long with a maximum value.
+    /// Constraints a url parameter to be a string with a maximum length.
     /// </summary>
-    public class MaxRouteConstraint : MaxRouteConstraintBase, IHttpRouteConstraint
+    public class MinLengthRouteConstraint : MinLengthRouteConstraintBase, IHttpRouteConstraint
     {
-        public MaxRouteConstraint(string max) : base (max) {}
+        public MinLengthRouteConstraint(string minLength) : base(minLength) { }
 
         public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
         {

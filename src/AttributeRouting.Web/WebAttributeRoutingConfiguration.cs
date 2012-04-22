@@ -9,27 +9,28 @@ namespace AttributeRouting.Web
 {
     public abstract class WebAttributeRoutingConfiguration : AttributeRoutingConfigurationBase
     {
-        private readonly IConstraintFactory _constraintFactory;
+        private readonly IRouteConstraintFactory _routeConstraintFactory;
 
         protected WebAttributeRoutingConfiguration(Func<IRouteHandler> handlerFactory)
         {
+            _routeConstraintFactory = new RouteConstraintFactory(this);
+
             RouteHandlerFactory = handlerFactory;
-
-            _constraintFactory = new ConstraintFactory();
-
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
+
+            RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(RegexRouteConstraintAttribute).Assembly);
         }
 
         /// <summary>
         /// Constraint factory
         /// </summary>
-        public override IConstraintFactory ConstraintFactory
+        public override IRouteConstraintFactory RouteConstraintFactory
         {
-            get { return _constraintFactory; }
+            get { return _routeConstraintFactory; }
         }
 
         /// <summary>
-        /// Automatically applies the specified constaint against url parameters
+        /// Automatically applies the specified constraint against url parameters
         /// with names that match the given regular expression.
         /// </summary>
         /// <param name="keyRegex">The regex used to match url parameter names</param>

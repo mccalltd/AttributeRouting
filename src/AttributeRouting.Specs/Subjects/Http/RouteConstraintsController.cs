@@ -4,6 +4,46 @@ using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Specs.Subjects.Http
 {
+    [RoutePrefix("Inline-Constraints")]
+    public class ApiInlineRouteConstraintsController : ApiController
+    {
+        [GET("Int/{x:int}")]
+        public string Int(int x)
+        {
+            return "";
+        }
+        
+        [GET("Long/{x:long}")]
+        public string Long(long x)
+        {
+            return "";
+        }
+        
+        [GET("Float/{x:float}")]
+        public string Float(float x)
+        {
+            return "";
+        }
+        
+        [GET("Double/{x:double}")]
+        public string Double(double x)
+        {
+            return "";
+        }
+        
+        [GET("Decimal/{x:decimal}")]
+        public string Decimal(decimal x)
+        {
+            return "";
+        }
+
+        [GET("Bool/{x:bool}")]
+        public string Bool(bool x)
+        {
+            return "";
+        }
+    }
+
     public class ApiRouteConstraintsController : ApiController
     {
         [GET("Constraint/{p1}")]

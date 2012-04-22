@@ -6,7 +6,7 @@ namespace AttributeRouting.Framework.Factories
     /// <summary>
     /// A factory interface for generate AR constraints that implement framework interfaces (IRouteConstraint, IHttpRouteConstraint)
     /// </summary>
-    public interface IConstraintFactory
+    public interface IRouteConstraintFactory
     {
         /// <summary>
         /// Creates a new RegexRouteConstraint
@@ -22,5 +22,13 @@ namespace AttributeRouting.Framework.Factories
         /// <param name="httpMethods"></param>
         /// <returns></returns>
         IRestfulHttpMethodConstraint CreateRestfulHttpMethodConstraint(string[] httpMethods);
+
+        /// <summary>
+        /// Creates an inline constraint of a specific type with the given parameters.
+        /// </summary>
+        /// <param name="name">The short name of the inline constraint</param>
+        /// <param name="parameters">The paramters with which to construct the constraint</param>
+        /// <returns></returns>
+        IAttributeRouteConstraint CreateInlineRouteConstraint(string name, params object[] parameters);
     }
 }

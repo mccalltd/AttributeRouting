@@ -73,7 +73,7 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="HttpAttributeRoutingConfiguration.cs" />
-    <Compile Include="Framework\Factories\HttpAttributeRouteFactory.cs" />
+    <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteCollectionExtensions.cs" />

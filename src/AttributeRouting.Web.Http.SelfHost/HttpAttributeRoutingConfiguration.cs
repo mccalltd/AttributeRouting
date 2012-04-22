@@ -11,16 +11,18 @@ namespace AttributeRouting.Web.Http.SelfHost
     public class HttpAttributeRoutingConfiguration : AttributeRoutingConfigurationBase
     {
         private readonly IAttributeRouteFactory _attributeFactory;
-        private readonly IConstraintFactory _constraintFactory;
+        private readonly IRouteConstraintFactory _routeConstraintFactory;
         private readonly IParameterFactory _parameterFactory;
 
         public HttpAttributeRoutingConfiguration()
         {
-            _attributeFactory = new AttributeRouteFactory(this);
-            _constraintFactory = new HttpRouteConstraintFactory();
-            _parameterFactory = new RouteParameterFactory();
+            _attributeFactory = new HttpAttributeRouteFactory(this);
+            _routeConstraintFactory = new HttpRouteConstraintFactory(this);
+            _parameterFactory = new HttpRouteParameterFactory();
 
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
+
+            RegisterDefaultInlineRouteConstraints<IHttpRouteConstraint>(typeof(RegexRouteConstraintAttribute).Assembly);
         }
 
         public override Type FrameworkControllerType
@@ -39,9 +41,9 @@ namespace AttributeRouting.Web.Http.SelfHost
         /// <summary>
         /// Constraint factory
         /// </summary>
-        public override IConstraintFactory ConstraintFactory
+        public override IRouteConstraintFactory RouteConstraintFactory
         {
-            get { return _constraintFactory; }
+            get { return _routeConstraintFactory; }
         }
 
         /// <summary>

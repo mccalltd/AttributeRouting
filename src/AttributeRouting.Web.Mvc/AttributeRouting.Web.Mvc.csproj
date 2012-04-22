@@ -55,7 +55,7 @@
     </Compile>
     <Compile Include="AttributeRoutingConfiguration.cs" />
     <Compile Include="DELETEAttribute.cs" />
-    <Compile Include="Framework\Factories\MvcAttributeRouteFactory.cs" />
+    <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
     <Compile Include="GETAttribute.cs" />
     <Compile Include="POSTAttribute.cs" />

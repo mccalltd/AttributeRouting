@@ -13,10 +13,27 @@ namespace AttributeRouting.Specs.Steps
         {
             var routes = ScenarioContext.Current.GetFetchedRoutes();
 
-            foreach (var route in routes) {
+            foreach (var route in routes)
+            {
                 Assert.That(route, Is.Not.Null);
-                Assert.That(route.Constraints[key], Is.TypeOf(typeof (RegexRouteConstraint)));
-                Assert.That(((RegexRouteConstraint) route.Constraints[key]).Pattern, Is.EqualTo(pattern));
+                Assert.That(route.Constraints[key], Is.TypeOf(typeof(RegexRouteConstraint)));
+                Assert.That(((RegexRouteConstraint)route.Constraints[key]).Pattern, Is.EqualTo(pattern));
+            }
+        }
+
+        [Then(@"the parameter ""(.*?)"" is constrained by an inline (.*)")]
+        public void ThenTheParameterIsConstrainedByAnInline(string key, string type)
+        {
+            var routes = ScenarioContext.Current.GetFetchedRoutes();
+
+            foreach (var route in routes)
+            {
+                Assert.That(route, Is.Not.Null);
+
+                var constraint = route.Constraints[key];
+
+                Assert.That(constraint, Is.Not.Null);
+                Assert.That(constraint.GetType().FullName, Is.EqualTo(type));
             }
         }
 
@@ -24,14 +41,15 @@ namespace AttributeRouting.Specs.Steps
         public void ThenTheRouteNamedHasAConstraintOnOf(string routeName, string key, string value) {
             var routes = ScenarioContext.Current.GetFetchedRoutes().Where(r => r.RouteName == routeName);
 
-            foreach (var route in routes) {
+            foreach (var route in routes)
+            {
                 Assert.That(route, Is.Not.Null);
 
                 var constraint = route.Constraints[key];
 
                 Assert.That(constraint, Is.Not.Null);
-                Assert.That(constraint, Is.TypeOf(typeof (RegexRouteConstraint)));
-                Assert.That(((RegexRouteConstraint) route.Constraints[key]).Pattern, Is.EqualTo(value));
+                Assert.That(constraint, Is.TypeOf(typeof(RegexRouteConstraint)));
+                Assert.That(((RegexRouteConstraint)route.Constraints[key]).Pattern, Is.EqualTo(value));
             }
         }
     }

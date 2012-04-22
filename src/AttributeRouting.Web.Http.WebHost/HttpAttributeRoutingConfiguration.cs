@@ -14,7 +14,7 @@ namespace AttributeRouting.Web.Http.WebHost
         public HttpAttributeRoutingConfiguration()
             : base(() => HttpControllerRouteHandler.Instance)
         {
-            _attributeFactory = new HttpAttributeRouteFactory(this);
+            _attributeFactory = new AttributeRouteFactory(this);
             _parameterFactory = new RouteParameterFactory();
         }
 

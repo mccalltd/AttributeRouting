@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Web.Http.Routing;
 using AttributeRouting.Constraints;
 
-namespace AttributeRouting.Web.Http.SelfHost.Constraints
+namespace AttributeRouting.Web.Http.Constraints
 {
     public class BoolRouteConstraint : TypeOfRouteConstraint<bool> {}
     public class IntRouteConstraint : TypeOfRouteConstraint<int> {}

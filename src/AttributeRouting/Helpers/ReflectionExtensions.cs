@@ -50,5 +50,6 @@ namespace AttributeRouting.Helpers
         {
             return Regex.Replace(type.Name, "Controller$", "");
         }
+
     }
 }
