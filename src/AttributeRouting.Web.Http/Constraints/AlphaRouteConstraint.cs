@@ -1,7 +1,15 @@
-﻿namespace AttributeRouting.Web.Http.Constraints
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Web.Http.Routing;
+using AttributeRouting.Constraints;
+
+namespace AttributeRouting.Web.Http.Constraints
 {
-    public class AlphaRouteConstraint : RegexRouteConstraint
+    public class AlphaRouteConstraint : AlphaRouteConstraintBase, IHttpRouteConstraint
     {
-        public AlphaRouteConstraint() : base(@"^[A-Za-z]*$") {}
+        public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
+        {
+            return IsMatch(parameterName, values);
+        }
     }
 }
