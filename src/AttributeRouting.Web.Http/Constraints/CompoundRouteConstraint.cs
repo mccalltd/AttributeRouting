@@ -6,11 +6,11 @@ using AttributeRouting.Constraints;
 
 namespace AttributeRouting.Web.Http.Constraints
 {
-    public class CompoundRouteConstraint : ICompoundRouteConstraint, IHttpRouteConstraint
+    public class CompoundRouteConstraintWrapper : ICompoundRouteConstraintWrapper, IHttpRouteConstraint
     {
         private readonly IHttpRouteConstraint[] _constraints;
 
-        public CompoundRouteConstraint(params IHttpRouteConstraint[] constraints)
+        public CompoundRouteConstraintWrapper(params IHttpRouteConstraint[] constraints)
         {
             _constraints = constraints;
         }

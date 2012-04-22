@@ -10,11 +10,11 @@ using AttributeRouting.Web.Constraints;
 
 namespace AttributeRouting.Web.Framework.Factories
 {
-    public class RouteConstraintFactory : IRouteConstraintFactory
+    public abstract class WebRouteConstraintFactoryBase : IRouteConstraintFactory
     {
-        private readonly WebAttributeRoutingConfiguration _configuration;
+        private readonly WebAttributeRoutingConfigurationBase _configuration;
 
-        public RouteConstraintFactory(WebAttributeRoutingConfiguration configuration)
+        protected WebRouteConstraintFactoryBase(WebAttributeRoutingConfigurationBase configuration)
         {
             _configuration = configuration;
         }
@@ -40,15 +40,17 @@ namespace AttributeRouting.Web.Framework.Factories
                     throw new AttributeRoutingException(
                         "The constraint \"{0}\" must implement System.Web.Routing.IRouteConstraint".FormatWith(type.FullName));
 
-                return Activator.CreateInstance(type, parameters) as IRouteConstraint;
+                return Activator.CreateInstance(type, parameters);
             }
 
             return null;
         }
 
-        public ICompoundRouteConstraint CreateCompoundRouteConstraint(params object[] constraints)
+        public ICompoundRouteConstraintWrapper CreateCompoundRouteConstraint(params object[] constraints)
         {
-            return new CompoundRouteConstraint(constraints.Cast<IRouteConstraint>().ToArray());
+            return new CompoundRouteConstraintWrapper(constraints.Cast<IRouteConstraint>().ToArray());
         }
+
+        public abstract IOptionalRouteConstraintWrapper CreateOptionalRouteConstraint(object constraint);
     }
 }

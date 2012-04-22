@@ -66,10 +66,10 @@
     <Compile Include="RestfulHttpMethodConstraint.cs" />
     <Compile Include="Logging\LoggingExtensions.cs" />
     <Compile Include="Logging\LogRoutesHandler.cs" />
-    <Compile Include="Framework\Factories\RouteConstraintFactory.cs" />
+    <Compile Include="Framework\Factories\WebRouteConstraintFactoryBase.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Helpers\HttpRequestBaseExtensions.cs" />
-    <Compile Include="WebAttributeRoutingConfiguration.cs" />
+    <Compile Include="WebAttributeRoutingConfigurationBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

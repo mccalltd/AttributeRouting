@@ -6,16 +6,18 @@ using AttributeRouting.Web.Http.WebHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.WebHost
 {
-    public class HttpAttributeRoutingConfiguration : WebAttributeRoutingConfiguration
+    public class HttpAttributeRoutingConfiguration : WebAttributeRoutingConfigurationBase
     {
         private readonly IAttributeRouteFactory _attributeFactory;
         private readonly IParameterFactory _parameterFactory;
+        private readonly RouteConstraintFactory _routeConstraintFactory;
 
         public HttpAttributeRoutingConfiguration()
             : base(() => HttpControllerRouteHandler.Instance)
         {
             _attributeFactory = new AttributeRouteFactory(this);
             _parameterFactory = new RouteParameterFactory();
+            _routeConstraintFactory = new RouteConstraintFactory(this);
         }
 
         public override Type FrameworkControllerType
@@ -37,6 +39,14 @@ namespace AttributeRouting.Web.Http.WebHost
         public override IParameterFactory ParameterFactory
         {
             get { return _parameterFactory; }
+        }
+
+        /// <summary>
+        /// Constraint factory
+        /// </summary>
+        public override IRouteConstraintFactory RouteConstraintFactory
+        {
+            get { return _routeConstraintFactory; }
         }
 
         /// <summary>

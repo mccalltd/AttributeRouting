@@ -10,7 +10,8 @@ namespace AttributeRouting.Web.Http.WebHost.Framework.Factories
     {
         private readonly HttpAttributeRoutingConfiguration _configuration;
 
-        public AttributeRouteFactory(HttpAttributeRoutingConfiguration configuration) {
+        public AttributeRouteFactory(HttpAttributeRoutingConfiguration configuration) 
+        {
             _configuration = configuration;
         }
 

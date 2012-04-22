@@ -112,10 +112,12 @@
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\BaseApiController.cs" />
+    <Compile Include="Areas\Api\Controllers\ConstraintsController.cs" />
     <Compile Include="Areas\Api\Controllers\ConventionController.cs" />
     <Compile Include="Areas\Api\Controllers\LocalizationController.cs" />
     <Compile Include="Areas\Api\Controllers\PlainController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ConstraintsController.cs" />
     <Compile Include="Controllers\DangerController.cs" />
     <Compile Include="Controllers\LocalizationController.cs" />
     <Compile Include="Controllers\NestedController.cs" />

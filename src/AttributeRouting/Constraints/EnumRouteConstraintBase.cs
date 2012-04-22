@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Constraints
 {
@@ -19,10 +21,10 @@ namespace AttributeRouting.Constraints
         public bool IsMatch(string parameterName, IDictionary<string, object> routeValues)
         {
             var value = routeValues[parameterName];
-            if (value == null)
+            if (value.HasNoValue())
                 return true;
 
-            return _enumNames.Contains(value.ToString());
+            return _enumNames.Any(n => n.ValueEquals(value.ToString()));
         }
     }
 }

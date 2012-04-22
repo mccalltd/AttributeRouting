@@ -8,6 +8,7 @@ using AttributeRouting.Framework;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Helpers;
 using AttributeRouting.Web.Http.Constraints;
+using OptionalRouteConstraintWrapper = AttributeRouting.Web.Http.SelfHost.Constraints.OptionalRouteConstraintWrapper;
 
 namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
 {
@@ -39,17 +40,22 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
 
                 if (!typeof(IHttpRouteConstraint).IsAssignableFrom(type))
                     throw new AttributeRoutingException(
-                        "The constraint \"{0}\" must implement System.Web.Routing.IRouteConstraint".FormatWith(type.FullName));
+                        "The constraint \"{0}\" must implement System.Web.Http.Routing.IHttpRouteConstraint".FormatWith(type.FullName));
 
-                return Activator.CreateInstance(type, parameters) as IAttributeRouteConstraint;
+                return Activator.CreateInstance(type, parameters);
             }
 
             return null;
         }
 
-        public ICompoundRouteConstraint CreateCompoundRouteConstraint(params object[] constraints)
+        public ICompoundRouteConstraintWrapper CreateCompoundRouteConstraint(params object[] constraints)
         {
-            return new CompoundRouteConstraint(constraints.Cast<IHttpRouteConstraint>().ToArray());
+            return new CompoundRouteConstraintWrapper(constraints.Cast<IHttpRouteConstraint>().ToArray());
+        }
+
+        public IOptionalRouteConstraintWrapper CreateOptionalRouteConstraint(object constraint)
+        {
+            return new OptionalRouteConstraintWrapper((IHttpRouteConstraint)constraint);
         }
     }
 }

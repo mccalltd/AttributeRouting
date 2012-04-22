@@ -54,9 +54,11 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AttributeRoutingConfiguration.cs" />
+    <Compile Include="Constraints\OptionalRouteConstraintWrapper.cs" />
     <Compile Include="DELETEAttribute.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
+    <Compile Include="Framework\Factories\RouteConstraintFactory.cs" />
     <Compile Include="GETAttribute.cs" />
     <Compile Include="POSTAttribute.cs" />
     <Compile Include="PUTAttribute.cs" />

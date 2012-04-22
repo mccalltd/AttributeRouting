@@ -5,16 +5,18 @@ using AttributeRouting.Web.Mvc.Framework.Factories;
 
 namespace AttributeRouting.Web.Mvc
 {
-    public class AttributeRoutingConfiguration : WebAttributeRoutingConfiguration
+    public class AttributeRoutingConfiguration : WebAttributeRoutingConfigurationBase
     {
         private readonly IAttributeRouteFactory _attributeFactory;
         private readonly IParameterFactory _parameterFactory;
+        private readonly RouteConstraintFactory _routeConstraintFactory;
 
         public AttributeRoutingConfiguration()
             : base(() => new MvcRouteHandler())
         {
             _attributeFactory = new AttributeRouteFactory(this);
             _parameterFactory = new RouteParameterFactory();
+            _routeConstraintFactory = new RouteConstraintFactory(this);
         }
 
         public override Type FrameworkControllerType
@@ -36,6 +38,14 @@ namespace AttributeRouting.Web.Mvc
         public override IParameterFactory ParameterFactory
         {
             get { return _parameterFactory; }
+        }
+
+        /// <summary>
+        /// Constraint factory
+        /// </summary>
+        public override IRouteConstraintFactory RouteConstraintFactory
+        {
+            get { return _routeConstraintFactory; }
         }
 
         /// <summary>

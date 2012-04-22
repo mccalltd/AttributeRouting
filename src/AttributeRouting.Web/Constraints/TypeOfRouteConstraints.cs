@@ -1,3 +1,4 @@
+using System;
 using System.Web;
 using System.Web.Routing;
 using AttributeRouting.Constraints;
@@ -10,6 +11,8 @@ namespace AttributeRouting.Web.Constraints
     public class FloatRouteConstraint : TypeOfRouteConstraint<float> {}
     public class DoubleRouteConstraint : TypeOfRouteConstraint<double> {}
     public class DecimalRouteConstraint : TypeOfRouteConstraint<decimal> {}
+    public class GuidRouteConstraint : TypeOfRouteConstraint<Guid> {}
+    public class DateTimeRouteConstraint : TypeOfRouteConstraint<DateTime> {}
 
     public abstract class TypeOfRouteConstraint<T> : TypeOfRouteConstraintBase<T>, IRouteConstraint
         where T : struct

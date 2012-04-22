@@ -1,3 +1,4 @@
+using System;
 using System.Web.Mvc;
 using AttributeRouting.Web.Mvc;
 
@@ -8,6 +9,12 @@ namespace AttributeRouting.Specs.Subjects
     {
         [GET("Int/{x:int}")]
         public string Int(int x)
+        {
+            return "";
+        }
+
+        [GET("IntOptional/{x:int?}")]
+        public string IntOptional(int? x)
         {
             return "";
         }
@@ -42,6 +49,18 @@ namespace AttributeRouting.Specs.Subjects
             return "";
         }
 
+        [GET("Guid/{x:guid}")]
+        public string Guid(Guid x)
+        {
+            return "";
+        }
+
+        [GET("DateTime/{x:datetime}")]
+        public string DateTime(DateTime x)
+        {
+            return "";
+        }
+
         [GET("Length/{x:length(1)}")]
         public string Length(string x)
         {
@@ -60,7 +79,7 @@ namespace AttributeRouting.Specs.Subjects
             return "";
         }
 
-        [GET("LengthRange/{x:length(1, 10)}")]
+        [GET("LengthRange/{x:length(2, 10)}")]
         public string LengthRange(string x)
         {
             return "";
@@ -84,14 +103,32 @@ namespace AttributeRouting.Specs.Subjects
             return "";
         }
 
-        [GET(@"Regex/{x:regex(\d+)}")]
-        public string Regex(int x)
+        [GET(@"Regex/{x:regex(^Howdy$)}")]
+        public string Regex(string x)
         {
-            return "";
+            return x;
         }
 
         [GET("Compound/{x:int:max(10)}")]
         public string Compound(int x)
+        {
+            return "";
+        }
+
+        [GET("Enum/{x:color}")]
+        public string Enum(Color x)
+        {
+            return "";
+        }
+
+        [GET("WithOptional/{x:color?}")]
+        public string WithOptional(Color? x)
+        {
+            return "";
+        }
+
+        [GET("WithDefault/{x:color=red}")]
+        public string WithDefault(Color x)
         {
             return "";
         }

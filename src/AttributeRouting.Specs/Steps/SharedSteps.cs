@@ -2,6 +2,7 @@
 using System.Web.Routing;
 using AttributeRouting.Specs.Subjects;
 using AttributeRouting.Specs.Subjects.Http;
+using AttributeRouting.Specs.Tests;
 using AttributeRouting.Web.Constraints;
 using AttributeRouting.Web.Http.WebHost;
 using AttributeRouting.Web.Mvc;
@@ -17,17 +18,37 @@ namespace AttributeRouting.Specs.Steps
         public void GivenIGenerateTheRoutesDefinedInTheSubjectControllers()
         {
             RouteTable.Routes.Clear();
-            
-            RouteTable.Routes.MapAttributeRoutes(config =>
+
+            RouteTable.Routes.MapAttributeRoutes(x =>
             {
-                config.ScanAssemblyOf<StandardUsageController>();
-                config.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                x.ScanAssemblyOf<StandardUsageController>();
+                x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
             });
 
-            RouteTable.Routes.MapHttpAttributeRoutes(config =>
+            RouteTable.Routes.MapHttpAttributeRoutes(x =>
             {
-                config.ScanAssemblyOf<HttpStandardUsageController>();
-                config.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                x.ScanAssemblyOf<HttpStandardUsageController>();
+                x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+            });
+        }
+
+        [Given(@"I have registered the routes for the (.*)")]
+        public void GivenIHaveRegisteredTheRoutesForThe(string controllerName)
+        {
+            RouteTable.Routes.Clear();
+
+            var type = typeof(StandardUsageController).Assembly.GetTypes().FirstOrDefault(t => t.Name == controllerName);
+
+            RouteTable.Routes.MapAttributeRoutes(x =>
+            {
+                x.AddRoutesFromController(type);
+                x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+            });
+
+            RouteTable.Routes.MapHttpAttributeRoutes(x =>
+            {
+                x.AddRoutesFromController(type);
+                x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
             });
         }
 
@@ -52,6 +73,14 @@ namespace AttributeRouting.Specs.Steps
             ScenarioContext.Current.SetFetchedRoutes(routes);
         }
 
+        [When(@"a request for ""(.*)"" is made")]
+        public void WhenARequestForUrlIsMade(string url)
+        {
+            var httpContextMock = MockBuilder.BuildMockHttpContext(r => r.SetupGet(x => x.PathInfo).Returns(url));
+
+            ScenarioContext.Current.SetCurrentHttpContext(httpContextMock.Object);
+        }
+
         [Then(@"(.*?) routes? are found")]
         public void ThenNRoutesShouldBeFound(int n)
         {
@@ -68,6 +97,21 @@ namespace AttributeRouting.Specs.Steps
             Assert.That(route, Is.Not.Null);
             Assert.That(route.DataTokens.ContainsKey(key), Is.True);
             Assert.That(route.DataTokens[key], Is.EqualTo(value));
+        }
+
+        [Then(@"the (.*) action is( not)? matched")]
+        public void ThenTheActionIsMatched(string actionName, string isNot)
+        {
+            var routeForAction = (from route in RouteTable.Routes.Cast<Route>()
+                                  where route.Defaults["action"].ToString() == actionName
+                                  select route).FirstOrDefault();
+
+            Assert.That(routeForAction, Is.Not.Null);
+
+            var currentHttpContext = ScenarioContext.Current.GetCurrentHttpContext();
+            var routeData = routeForAction.GetRouteData(currentHttpContext);
+
+            Assert.That(routeData, isNot.HasValue() ? Is.Null : Is.Not.Null);
         }
     }
 }

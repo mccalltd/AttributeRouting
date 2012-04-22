@@ -237,11 +237,15 @@ namespace AttributeRouting.Framework
 
             // Inline constraints of the form urlParam:constraintDefinition(param1, ...)
             var constraintFactory = _configuration.RouteConstraintFactory;
-            var urlParametersWithInlineConstraints = GetUrlParameterContents(routeSpec.RouteUrl).Where(p => p.Contains(":")).Select(p => p.Trim('?'));
+            var urlParametersWithInlineConstraints = GetUrlParameterContents(routeSpec.RouteUrl).Where(p => p.Contains(":"));
             foreach (var parameter in urlParametersWithInlineConstraints)
             {
-                // Strip off everything after an equals sing, cause that is related to defaults.
-                var cleanParameter = parameter.Split('=').FirstOrDefault();
+                // Keep track of whether this param is optional, 
+                // because we wrap the final constraint if so.
+                var parameterIsOptional = parameter.StartsWith("?") || parameter.EndsWith("?");
+
+                // Strip off everything related to defaults.
+                var cleanParameter = parameter.Trim('?').Split('=').FirstOrDefault();
 
                 var sections = cleanParameter.SplitAndTrim(":");
                 var parameterName = sections.First();
@@ -255,8 +259,8 @@ namespace AttributeRouting.Framework
                 var constraintDefinitions = sections.Skip(1);
                 foreach (var definition in constraintDefinitions)
                 {
-                    object constraint;
                     string constraintName;
+                    object constraint;
 
                     if (Regex.IsMatch(definition, @"^.*\(.*\)$"))
                     {
@@ -270,24 +274,27 @@ namespace AttributeRouting.Framework
                     {
                         // Constraint of the form "id:int"
                         constraintName = definition;
-                        constraint = constraintFactory.CreateInlineRouteConstraint(constraintName);   
+                        constraint = constraintFactory.CreateInlineRouteConstraint(constraintName);
                     }
 
                     if (constraint == null)
                         throw new AttributeRoutingException(
                             "Could not find an available inline constraint for \"{0}\".".FormatWith(constraintName));
 
-                    inlineConstraints.Add(constraint);                    
+                    inlineConstraints.Add(constraint);
                 }
 
-                // Apply the constraint to the parameter. Wrap multiple constraints in a compound constraint.
-                if (inlineConstraints.Count == 1)
-                    constraints.Add(parameterName, inlineConstraints.Single());
+                // Apply the constraint to the parameter. 
+                // Wrap multiple constraints in a compound constraint wrapper.
+                // Wrap constraints for optional params in an optional constraint wrapper.
+                var finalConstraint = (inlineConstraints.Count == 1)
+                                          ? inlineConstraints.Single()
+                                          : constraintFactory.CreateCompoundRouteConstraint(inlineConstraints.ToArray());
+
+                if (parameterIsOptional)
+                    constraints.Add(parameterName, constraintFactory.CreateOptionalRouteConstraint(finalConstraint));
                 else
-                {
-                    var compoundConstraint = constraintFactory.CreateCompoundRouteConstraint(inlineConstraints.ToArray());
-                    constraints.Add(parameterName, compoundConstraint);
-                }
+                    constraints.Add(parameterName, finalConstraint);
             }
 
             // Attribute-based constraints

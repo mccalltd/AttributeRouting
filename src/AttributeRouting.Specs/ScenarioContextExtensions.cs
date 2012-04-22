@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Http.Routing;
 using System.Web.Routing;
 using AttributeRouting.Framework;
@@ -19,6 +20,16 @@ namespace AttributeRouting.Specs
             var routes = context.Get<IEnumerable<Route>>("FetchedRoutes");
 
             return routes.OfType<IAttributeRoute>();
+        }
+
+        public static void SetCurrentHttpContext(this ScenarioContext context, HttpContextBase httpContext)
+        {
+            context.Set(httpContext, "CurrentHttpContext");    
+        }
+
+        public static HttpContextBase GetCurrentHttpContext(this ScenarioContext context)
+        {
+            return context.Get<HttpContextBase>("CurrentHttpContext");    
         }
 
         public static IEnumerable<Route> GetFetchedWebRoutes(this ScenarioContext context) {

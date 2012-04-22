@@ -8,7 +8,7 @@ namespace AttributeRouting.Constraints
     /// <remarks>
     /// Supports constraints specified like: param:constraint1:constraint2.
     /// </remarks>
-    public interface ICompoundRouteConstraint
+    public interface ICompoundRouteConstraintWrapper
     {
         /// <summary>
         /// Constraints to logically and when matching the route parameter.

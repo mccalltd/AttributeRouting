@@ -26,14 +26,14 @@ namespace AttributeRouting.Constraints
         public bool IsMatch(string parameterName, IDictionary<string, object> routeValues)
         {
             var value = routeValues[parameterName];
-            if (value == null)
+            if (value.HasNoValue())
                 return true;
 
             var parsedValue = value.ParseLong();
             if (!parsedValue.HasValue)
                 return false;
 
-            return parsedValue.Value <= Min;
+            return parsedValue.Value >= Min;
         }
     }
 }

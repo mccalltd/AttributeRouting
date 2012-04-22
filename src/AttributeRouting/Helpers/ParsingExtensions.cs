@@ -1,4 +1,6 @@
-﻿namespace AttributeRouting.Helpers
+﻿using System;
+
+namespace AttributeRouting.Helpers
 {
     public static class ParsingExtensions
     {
@@ -12,6 +14,8 @@
             if (typeOfT == typeof(double)) return obj.ParseDouble() as T?;
             if (typeOfT == typeof(decimal)) return obj.ParseDecimal() as T?;
             if (typeOfT == typeof(bool)) return obj.ParseBool() as T?;
+            if (typeOfT == typeof(Guid)) return obj.ParseGuid() as T?;
+            if (typeOfT == typeof(DateTime)) return obj.ParseDateTime() as T?;
 
             return null;
         }
@@ -83,6 +87,30 @@
             
             bool result;
             if (bool.TryParse(obj.ToString(), out result))
+                return result;
+
+            return null;
+        }
+
+        public static Guid? ParseGuid(this object obj)
+        {
+            if (obj == null) return null;
+            if (obj is Guid) return (Guid)obj;
+            
+            Guid result;
+            if (Guid.TryParse(obj.ToString(), out result))
+                return result;
+
+            return null;
+        }
+
+        public static DateTime? ParseDateTime(this object obj)
+        {
+            if (obj == null) return null;
+            if (obj is DateTime) return (DateTime)obj;
+            
+            DateTime result;
+            if (DateTime.TryParse(obj.ToString(), out result))
                 return result;
 
             return null;

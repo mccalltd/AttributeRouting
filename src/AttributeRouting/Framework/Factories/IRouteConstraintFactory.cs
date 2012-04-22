@@ -32,10 +32,17 @@ namespace AttributeRouting.Framework.Factories
         object CreateInlineRouteConstraint(string name, params object[] parameters);
 
         /// <summary>
-        /// Creates a compound route constraint to allow anding of individual inline constraints.
+        /// Creates a compound route constraint wrapper to allow anding of individual inline constraints.
         /// </summary>
         /// <param name="constraints">The constraints to apply together</param>
         /// <returns></returns>
-        ICompoundRouteConstraint CreateCompoundRouteConstraint(params object[] constraints);
+        ICompoundRouteConstraintWrapper CreateCompoundRouteConstraint(params object[] constraints);
+
+        /// <summary>
+        /// Creates an optional route constraint wrapper to allow inline constraints to be optional.
+        /// </summary>
+        /// <param name="constraint">The constraint</param>
+        /// <returns></returns>
+        IOptionalRouteConstraintWrapper CreateOptionalRouteConstraint(object constraint);
     }
 }

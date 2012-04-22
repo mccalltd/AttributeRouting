@@ -67,9 +67,9 @@
     <Compile Include="Constraints\MinRouteConstraintBase.cs" />
     <Compile Include="Constraints\LengthRouteConstraintBase.cs" />
     <Compile Include="Constraints\MinLengthRouteConstraintBase.cs" />
+    <Compile Include="Constraints\OptionalRouteConstraintBase.cs" />
     <Compile Include="Constraints\RangeRouteConstraintBase.cs" />
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
-    <Compile Include="Constraints\RouteConstraintFactory.cs" />
     <Compile Include="Constraints\MaxLengthRouteConstraintBase.cs" />
     <Compile Include="Constraints\TypeOfRouteConstraintBase.cs" />
     <Compile Include="Framework\AttributeRouteExtensions.cs" />

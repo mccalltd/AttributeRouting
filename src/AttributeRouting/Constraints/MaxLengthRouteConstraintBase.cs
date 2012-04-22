@@ -26,7 +26,7 @@ namespace AttributeRouting.Constraints
         public bool IsMatch(string parameterName, IDictionary<string, object> routeValues)
         {
             var value = routeValues[parameterName];
-            if (value == null)
+            if (value.HasNoValue())
                 return true;
 
             return value.ToString().Length <= MaxLength;

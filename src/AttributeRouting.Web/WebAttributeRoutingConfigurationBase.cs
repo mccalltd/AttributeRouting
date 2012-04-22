@@ -2,31 +2,17 @@
 using System.Threading;
 using System.Web;
 using System.Web.Routing;
-using AttributeRouting.Framework.Factories;
-using AttributeRouting.Web.Framework.Factories;
 
 namespace AttributeRouting.Web
 {
-    public abstract class WebAttributeRoutingConfiguration : AttributeRoutingConfigurationBase
+    public abstract class WebAttributeRoutingConfigurationBase : AttributeRoutingConfigurationBase
     {
-        private readonly IRouteConstraintFactory _routeConstraintFactory;
-
-        protected WebAttributeRoutingConfiguration(Func<IRouteHandler> handlerFactory)
+        protected WebAttributeRoutingConfigurationBase(Func<IRouteHandler> handlerFactory)
         {
-            _routeConstraintFactory = new RouteConstraintFactory(this);
-
             RouteHandlerFactory = handlerFactory;
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
 
             RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(RegexRouteConstraintAttribute).Assembly);
-        }
-
-        /// <summary>
-        /// Constraint factory
-        /// </summary>
-        public override IRouteConstraintFactory RouteConstraintFactory
-        {
-            get { return _routeConstraintFactory; }
         }
 
         /// <summary>

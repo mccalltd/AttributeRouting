@@ -64,7 +64,7 @@ namespace AttributeRouting.Constraints
             if (Length.HasValue)
             {
                 var value = routeValues[parameterName];
-                if (value == null)
+                if (value.HasNoValue())
                     return true;
 
                 return value.ToString().Length == Length.Value;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http.Routing;
@@ -11,6 +12,8 @@ namespace AttributeRouting.Web.Http.Constraints
     public class FloatRouteConstraint : TypeOfRouteConstraint<float> {}
     public class DoubleRouteConstraint : TypeOfRouteConstraint<double> {}
     public class DecimalRouteConstraint : TypeOfRouteConstraint<decimal> {}
+    public class GuidRouteConstraint : TypeOfRouteConstraint<Guid> {}
+    public class DateTimeRouteConstraint : TypeOfRouteConstraint<DateTime> {}
 
     public abstract class TypeOfRouteConstraint<T> : TypeOfRouteConstraintBase<T>, IHttpRouteConstraint
         where T : struct

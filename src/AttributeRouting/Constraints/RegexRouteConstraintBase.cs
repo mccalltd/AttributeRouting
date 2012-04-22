@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Constraints
 {
@@ -31,7 +32,7 @@ namespace AttributeRouting.Constraints
         public bool IsMatch(string parameterName, IDictionary<string, object> routeDictionary)
         {
             var value = routeDictionary[parameterName];
-            if (value == null)
+            if (value.HasNoValue())
                 return true;
 
             var valueAsString = value.ToString();

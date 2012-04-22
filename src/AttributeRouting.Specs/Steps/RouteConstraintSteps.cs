@@ -35,7 +35,7 @@ namespace AttributeRouting.Specs.Steps
 
                 Assert.That(constraint, Is.Not.Null);
 
-                var compoundRouteConstraint = constraint as ICompoundRouteConstraint;
+                var compoundRouteConstraint = constraint as ICompoundRouteConstraintWrapper;
                 if (compoundRouteConstraint != null)
                     Assert.That(compoundRouteConstraint.Constraints.Any(c => c.GetType().FullName == type),
                                 Is.True);
