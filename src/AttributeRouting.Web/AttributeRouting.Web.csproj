@@ -52,14 +52,15 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Constraints\EnumRouteConstraintBase.cs" />
+    <Compile Include="Constraints\CompoundRouteConstraint.cs" />
+    <Compile Include="Constraints\EnumRouteConstraint.cs" />
     <Compile Include="Constraints\LengthRouteConstraint.cs" />
-    <Compile Include="Constraints\MaxLengthRouteConstraintBase.cs" />
-    <Compile Include="Constraints\MaxRouteConstraintBase.cs" />
-    <Compile Include="Constraints\MinLengthRouteConstraintBase.cs" />
-    <Compile Include="Constraints\MinRouteConstraintBase.cs" />
-    <Compile Include="Constraints\RangeRouteConstraintBase.cs" />
-    <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
+    <Compile Include="Constraints\MaxLengthRouteConstraint.cs" />
+    <Compile Include="Constraints\MaxRouteConstraint.cs" />
+    <Compile Include="Constraints\MinLengthRouteConstraint.cs" />
+    <Compile Include="Constraints\MinRouteConstraint.cs" />
+    <Compile Include="Constraints\RangeRouteConstraint.cs" />
+    <Compile Include="Constraints\RegexRouteConstraint.cs" />
     <Compile Include="Constraints\TypeOfRouteConstraints.cs" />
     <Compile Include="RegexRouteConstraintAttribute.cs" />
     <Compile Include="RestfulHttpMethodConstraint.cs" />

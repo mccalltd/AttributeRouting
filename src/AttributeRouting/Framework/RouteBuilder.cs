@@ -251,10 +251,11 @@ namespace AttributeRouting.Framework
                     continue;
 
                 // Add constraints for each inline definition
+                var inlineConstraints = new List<object>();
                 var constraintDefinitions = sections.Skip(1);
                 foreach (var definition in constraintDefinitions)
                 {
-                    IAttributeRouteConstraint constraint;
+                    object constraint;
                     string constraintName;
 
                     if (Regex.IsMatch(definition, @"^.*\(.*\)$"))
@@ -276,7 +277,16 @@ namespace AttributeRouting.Framework
                         throw new AttributeRoutingException(
                             "Could not find an available inline constraint for \"{0}\".".FormatWith(constraintName));
 
-                    constraints.Add(parameterName, constraint);                    
+                    inlineConstraints.Add(constraint);                    
+                }
+
+                // Apply the constraint to the parameter. Wrap multiple constraints in a compound constraint.
+                if (inlineConstraints.Count == 1)
+                    constraints.Add(parameterName, inlineConstraints.Single());
+                else
+                {
+                    var compoundConstraint = constraintFactory.CreateCompoundRouteConstraint(inlineConstraints.ToArray());
+                    constraints.Add(parameterName, compoundConstraint);
                 }
             }
 

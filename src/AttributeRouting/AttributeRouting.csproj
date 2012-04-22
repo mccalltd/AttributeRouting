@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="AreaConfiguration.cs" />
     <Compile Include="AttributeRoutingConfigurationBase.cs" />
+    <Compile Include="Constraints\CompoundRouteConstraintBase.cs" />
     <Compile Include="Constraints\EnumRouteConstraintBase.cs" />
     <Compile Include="Constraints\IAttributeRouteConstraint.cs" />
     <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />

@@ -11,7 +11,16 @@ namespace AttributeRouting.Specs.Subjects.Http
         public string Get()
         {
             return "";
-        }    
+        }
+    }
+
+    public partial class HttpRoutePrecedenceAmongActionsController
+    {
+        [GET("ApiRoute2", Precedence = 2)]
+        public string Route2()
+        {
+            return "";
+        }
     }
 
     public partial class HttpRoutePrecedenceAmongActionsController : ApiController
@@ -24,15 +33,6 @@ namespace AttributeRouting.Specs.Subjects.Http
 
         [GET("ApiRoute3")]
         public string Route3()
-        {
-            return "";
-        }
-    }
-
-    public partial class HttpRoutePrecedenceAmongActionsController
-    {
-        [GET("ApiRoute2", Precedence = 2)]
-        public string Route2()
         {
             return "";
         }

@@ -30,7 +30,7 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
             return new RestfulHttpMethodConstraint(httpMethods.Select(HttpMethodHelper.GetHttpMethod).ToArray());
         }
 
-        public IAttributeRouteConstraint CreateInlineRouteConstraint(string name, params object[] parameters)
+        public object CreateInlineRouteConstraint(string name, params object[] parameters)
         {
             var inlineRouteConstraints = _configuration.InlineRouteConstraints;
             if (inlineRouteConstraints.ContainsKey(name))
@@ -45,6 +45,11 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
             }
 
             return null;
+        }
+
+        public ICompoundRouteConstraint CreateCompoundRouteConstraint(params object[] constraints)
+        {
+            return new CompoundRouteConstraint(constraints.Cast<IHttpRouteConstraint>().ToArray());
         }
     }
 }

@@ -11,6 +11,8 @@ namespace AttributeRouting.Web.Http.Constraints
     /// </summary>
     public class RegexRouteConstraint : RegexRouteConstraintBase, IHttpRouteConstraint
     {
+        public RegexRouteConstraint(string pattern) : base(pattern) { }
+
         public RegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None) 
             : base(pattern, options) {}
 

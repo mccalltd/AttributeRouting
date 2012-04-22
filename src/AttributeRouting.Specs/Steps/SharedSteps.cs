@@ -1,5 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Routing;
+using AttributeRouting.Specs.Subjects;
+using AttributeRouting.Specs.Subjects.Http;
+using AttributeRouting.Web.Constraints;
 using AttributeRouting.Web.Http.WebHost;
 using AttributeRouting.Web.Mvc;
 using NUnit.Framework;
@@ -14,8 +17,18 @@ namespace AttributeRouting.Specs.Steps
         public void GivenIGenerateTheRoutesDefinedInTheSubjectControllers()
         {
             RouteTable.Routes.Clear();
-            RouteTable.Routes.MapAttributeRoutes();
-            RouteTable.Routes.MapHttpAttributeRoutes();
+            
+            RouteTable.Routes.MapAttributeRoutes(config =>
+            {
+                config.ScanAssemblyOf<StandardUsageController>();
+                config.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+            });
+
+            RouteTable.Routes.MapHttpAttributeRoutes(config =>
+            {
+                config.ScanAssemblyOf<HttpStandardUsageController>();
+                config.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+            });
         }
 
         [When(@"I fetch the routes for the (.*?) controller's (.*?) action")]

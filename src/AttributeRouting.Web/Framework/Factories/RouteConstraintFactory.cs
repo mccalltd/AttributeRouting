@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Routing;
 using AttributeRouting.Constraints;
@@ -28,7 +29,7 @@ namespace AttributeRouting.Web.Framework.Factories
             return new RestfulHttpMethodConstraint(httpMethods);
         }
 
-        public IAttributeRouteConstraint CreateInlineRouteConstraint(string name, params object[] parameters)
+        public object CreateInlineRouteConstraint(string name, params object[] parameters)
         {
             var inlineRouteConstraints = _configuration.InlineRouteConstraints;
             if (inlineRouteConstraints.ContainsKey(name))
@@ -39,10 +40,15 @@ namespace AttributeRouting.Web.Framework.Factories
                     throw new AttributeRoutingException(
                         "The constraint \"{0}\" must implement System.Web.Routing.IRouteConstraint".FormatWith(type.FullName));
 
-                return Activator.CreateInstance(type, parameters) as IAttributeRouteConstraint;
+                return Activator.CreateInstance(type, parameters) as IRouteConstraint;
             }
 
             return null;
+        }
+
+        public ICompoundRouteConstraint CreateCompoundRouteConstraint(params object[] constraints)
+        {
+            return new CompoundRouteConstraint(constraints.Cast<IRouteConstraint>().ToArray());
         }
     }
 }

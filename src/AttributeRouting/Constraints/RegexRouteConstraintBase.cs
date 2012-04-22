@@ -8,7 +8,11 @@ namespace AttributeRouting.Constraints
     /// </summary>
     public abstract class RegexRouteConstraintBase : IAttributeRouteConstraint
     {
-        protected RegexRouteConstraintBase(string pattern, RegexOptions options = RegexOptions.None)
+        protected RegexRouteConstraintBase(string pattern)
+            : this(pattern, RegexOptions.None)
+        { }
+
+        protected RegexRouteConstraintBase(string pattern, RegexOptions options)
         {
             Pattern = pattern;
             Options = options;

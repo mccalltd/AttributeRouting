@@ -16,30 +16,50 @@ Scenario: Regex route constraints specified inline
 	Then the parameter "word" is constrained by the pattern "\w{2}"
 	Then the parameter "alphanum" is constrained by the pattern "[A-Za-z0-9]*"
 	Then the parameter "capture" is constrained by the pattern "(gotcha)"
-	When I fetch the routes for the ApiRouteConstraints controller's InlineConstraints action
+	When I fetch the routes for the HttpRouteConstraints controller's InlineConstraints action
 	Then the route url is "InlineConstraints/{number}/{word}/{alphanum}/{capture}"
 	Then the parameter "number" is constrained by the pattern "\d+"
 	Then the parameter "word" is constrained by the pattern "\w{2}"
 	Then the parameter "alphanum" is constrained by the pattern "[A-Za-z0-9]*"
 	Then the parameter "capture" is constrained by the pattern "(gotcha)"
 
-Scenario Outline: Inline type of constraints
+Scenario Outline: Inline constraints
 	# MVC
 	When I fetch the routes for the InlineRouteConstraints controller's <actionName> action
-	Then the route url is "<url>"
-	And the parameter "<parameter>" is constrained by an inline AttributeRouting.Web.Constraints.<constraintTypeName>
+	Then the route url is "Inline-Constraints/<actionName>/{x}"
+	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.<constraintTypeName>
 	# Web API
-	When I fetch the routes for the ApiInlineRouteConstraints controller's <actionName> action
-	Then the route url is "<url>"
-	And the parameter "<parameter>" is constrained by an inline AttributeRouting.Web.Constraints.<constraintTypeName>
+	When I fetch the routes for the HttpInlineRouteConstraints controller's <actionName> action
+	Then the route url is "Http-Inline-Constraints/<actionName>/{x}"
+	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.<constraintTypeName>
 	Examples: 
-	| actionName | url                            | parameter | constraintTypeName     |
-	| Int        | Inline-Constraints/Int/{x}     | x         | IntRouteConstraint     |
-	| Long       | Inline-Constraints/Long/{x}    | x         | LongRouteConstraint    |
-	| Float      | Inline-Constraints/Float/{x}   | x         | FloatRouteConstraint   |
-	| Double     | Inline-Constraints/Double/{x}  | x         | DoubleRouteConstraint  |
-	| Decimal    | Inline-Constraints/Decimal/{x} | x         | DecimalRouteConstraint |
-	| Bool       | Inline-Constraints/Bool/{x}    | x         | BoolRouteConstraint    |
+	| actionName  | constraintTypeName                                         |
+	| Int         | IntRouteConstraint                                         |
+	| Long        | LongRouteConstraint                                        |
+	| Float       | FloatRouteConstraint                                       |
+	| Double      | DoubleRouteConstraint                                      |
+	| Decimal     | DecimalRouteConstraint                                     |
+	| Bool        | BoolRouteConstraint                                        |
+	| Length      | LengthRouteConstraint                                      |
+	| MinLength   | MinLengthRouteConstraint                                   |
+	| MaxLength   | MaxLengthRouteConstraint                                   |
+	| LengthRange | LengthRouteConstraint                                      |
+	| Min         | MinRouteConstraint                                         |
+	| Max         | MaxRouteConstraint                                         |
+	| Range       | RangeRouteConstraint                                       |
+	| Regex       | RegexRouteConstraint                                       |
+
+Scenario: Compound inline constraints
+	# MVC
+	When I fetch the routes for the InlineRouteConstraints controller's Compound action
+	Then the route url is "Inline-Constraints/Compound/{x}"
+	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.MaxRouteConstraint
+	# Web API
+	When I fetch the routes for the HttpInlineRouteConstraints controller's Compound action
+	Then the route url is "Http-Inline-Constraints/Compound/{x}"
+	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.MaxRouteConstraint
 
 Scenario: Multiple routes with different constraints
 	When I fetch the routes for the RouteConstraints controller's MultipleRoutes action
@@ -47,7 +67,7 @@ Scenario: Multiple routes with different constraints
 	And the route named "MultipleConstraints2" has a constraint on "p1" of "\d{4}" 
 	And the route named "ApiMultipleConstraints1" has a constraint on "p1" of "\d+"
 	And the route named "ApiMultipleConstraints2" has a constraint on "p1" of "\d{4}"
-	When I fetch the routes for the ApiRouteConstraints controller's MultipleRoutes action
+	When I fetch the routes for the HttpRouteConstraints controller's MultipleRoutes action
 	Then the route named "MultipleConstraints1" has a constraint on "p1" of "\d+"
 	And the route named "MultipleConstraints2" has a constraint on "p1" of "\d{4}" 
 	And the route named "ApiMultipleConstraints1" has a constraint on "p1" of "\d+"
