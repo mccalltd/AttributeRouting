@@ -73,6 +73,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Constraints\AlphaRouteConstraint.cs" />
     <Compile Include="Constraints\CompoundRouteConstraint.cs" />
     <Compile Include="Constraints\EnumRouteConstraint.cs" />
     <Compile Include="Constraints\LengthRouteConstraint.cs" />

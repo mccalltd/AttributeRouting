@@ -34,6 +34,7 @@ Scenario Outline: Inline constraints
 	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.<constraintTypeName>
 	Examples: 
 	| actionName  | constraintTypeName       |
+	| Alpha       | AlphaRouteConstraint     |
 	| Int         | IntRouteConstraint       |
 	| Long        | LongRouteConstraint      |
 	| Float       | FloatRouteConstraint     |
@@ -64,6 +65,8 @@ Scenario Outline: Matching inline route constraints
 	Then the <action> action <condition> matched
 	Examples:
 	| url                                       | action       | condition |
+	| Alpha/abc                                 | Alpha        | is        |
+	| Alpha/123                                 | Alpha        | is not    |
 	| Int/53                                    | Int          | is        |
 	| Int/abc                                   | Int          | is not    |
 	| IntOptional                               | IntOptional  | is        |

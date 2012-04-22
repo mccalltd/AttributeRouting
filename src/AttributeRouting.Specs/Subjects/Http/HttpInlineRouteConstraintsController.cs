@@ -7,6 +7,12 @@ namespace AttributeRouting.Specs.Subjects.Http
     [RoutePrefix("Http-Inline-Constraints")]
     public class HttpInlineRouteConstraintsController : ApiController
     {
+        [GET("Alpha/{x:alpha}")]
+        public string Alpha(string x)
+        {
+            return "";
+        }
+
         [GET("Int/{x:int}")]
         public string Int(int x)
         {
