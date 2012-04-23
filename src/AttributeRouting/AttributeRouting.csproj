@@ -60,7 +60,7 @@
     <Compile Include="AreaConfiguration.cs" />
     <Compile Include="AttributeRoutingConfigurationBase.cs" />
     <Compile Include="Constraints\AlphaRouteConstraintBase.cs" />
-    <Compile Include="Constraints\CompoundRouteConstraintBase.cs" />
+    <Compile Include="Constraints\ICompoundRouteConstraintWrapper.cs" />
     <Compile Include="Constraints\EnumRouteConstraintBase.cs" />
     <Compile Include="Constraints\IAttributeRouteConstraint.cs" />
     <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />
@@ -68,7 +68,7 @@
     <Compile Include="Constraints\MinRouteConstraintBase.cs" />
     <Compile Include="Constraints\LengthRouteConstraintBase.cs" />
     <Compile Include="Constraints\MinLengthRouteConstraintBase.cs" />
-    <Compile Include="Constraints\OptionalRouteConstraintBase.cs" />
+    <Compile Include="Constraints\IOptionalRouteConstraintWrapper.cs" />
     <Compile Include="Constraints\RangeRouteConstraintBase.cs" />
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
     <Compile Include="Constraints\MaxLengthRouteConstraintBase.cs" />
