@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Net.Http;
-using System.Web.Http.Routing;
 
 namespace AttributeRouting.Web.Http
 {

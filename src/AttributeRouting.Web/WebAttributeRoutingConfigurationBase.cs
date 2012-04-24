@@ -15,6 +15,8 @@ namespace AttributeRouting.Web
             RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(RegexRouteConstraintAttribute).Assembly);
         }
 
+        public Func<IRouteHandler> RouteHandlerFactory { get; set; }
+
         /// <summary>
         /// Automatically applies the specified constraint against url parameters
         /// with names that match the given regular expression.
@@ -25,8 +27,6 @@ namespace AttributeRouting.Web
         {
             base.AddDefaultRouteConstraint(keyRegex, constraint);
         }
-
-        public Func<IRouteHandler> RouteHandlerFactory { get; set; }
 
         /// <summary>
         /// Specifies a function that returns an alternate route handler.
