@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using AttributeRouting.Constraints;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Helpers;
 
@@ -309,7 +308,7 @@ namespace AttributeRouting.Framework
             var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec));
             var urlParameterNames = GetUrlParameterContents(detokenizedUrl);
 
-            // Convention-based constraints
+            // Globally configured constraints
             foreach (var defaultConstraint in _configuration.DefaultRouteConstraints)
             {
                 var pattern = defaultConstraint.Key;
@@ -376,8 +375,7 @@ namespace AttributeRouting.Framework
                 foreach (var provider in _configuration.TranslationProviders)
                 {
                     translatedRouteUrl = translatedRouteUrl ?? provider.TranslateRouteUrl(cultureName, routeSpec);
-                    translatedRoutePrefix = translatedRoutePrefix ??
-                                            provider.TranslateRoutePrefix(cultureName, routeSpec);
+                    translatedRoutePrefix = translatedRoutePrefix ?? provider.TranslateRoutePrefix(cultureName, routeSpec);
                     translatedAreaUrl = translatedAreaUrl ?? provider.TranslateAreaUrl(cultureName, routeSpec);
                 }
 

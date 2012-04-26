@@ -48,8 +48,8 @@ namespace AttributeRouting.Framework
                     let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
                     from actionMethod in controllerType.GetActionMethods(inheritActionsFromBaseController)
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
-                    orderby controllerIndex , routeAttribute.Precedence
                     // precedence is within a controller
+                    orderby controllerIndex, routeAttribute.Precedence
                     let routeName = routeAttribute.RouteName
                     let subdomain = GetAreaSubdomain(routeAreaAttribute)
                     select new RouteSpecification
@@ -63,7 +63,6 @@ namespace AttributeRouting.Framework
                         ControllerType = controllerType,
                         ControllerName = controllerType.GetControllerName(),
                         ActionName = actionMethod.Name,
-                        ActionParameters = actionMethod.GetParameters(),
                         RouteUrl = routeAttribute.RouteUrl,
                         RouteUrlTranslationKey = routeAttribute.TranslationKey,
                         HttpMethods = routeAttribute.HttpMethods,
@@ -96,9 +95,8 @@ namespace AttributeRouting.Framework
             if (routeAreaAttribute == null)
                 return null;
 
-            // If a subdomain is specified for the area either in the RouteAreaAttribute or via 
-            // configuration, then assume the area url is blank;
-            // eg: admin.badass.com.
+            // If a subdomain is specified for the area either in the RouteAreaAttribute 
+            // or via configuration, then assume the area url is blank; eg: admin.badass.com.
             // However, our fearless coder can decide to explicitly specify an area url if desired;
             // eg: internal.badass.com/admin.
             if (subdomain.HasValue() && routeAreaAttribute.AreaUrl.HasNoValue())
@@ -112,7 +110,7 @@ namespace AttributeRouting.Framework
             if (routeAreaAttribute == null)
                 return null;
 
-            // Check for a subdomain ovveride specified via configuration object.
+            // Check for a subdomain override specified via configuration object.
             var subdomainOverride = (from o in _configuration.AreaSubdomainOverrides
                                      where o.Key == routeAreaAttribute.AreaName
                                      select o.Value).FirstOrDefault();

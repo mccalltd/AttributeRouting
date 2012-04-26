@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace AttributeRouting.Framework
 {
@@ -8,7 +7,6 @@ namespace AttributeRouting.Framework
     {
         public RouteSpecification()
         {
-            ActionParameters = new ParameterInfo[0];
             DefaultAttributes = new List<RouteDefaultAttribute>();
             ConstraintAttributes = new List<RouteConstraintAttributeBase>();
         }
@@ -28,8 +26,6 @@ namespace AttributeRouting.Framework
         public string ControllerName { get; set; }
 
         public string ActionName { get; set; }
-
-        public ParameterInfo[] ActionParameters { get; set; }
 
         public string RouteUrl { get; set; }
 
