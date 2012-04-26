@@ -77,6 +77,9 @@ namespace AttributeRouting.Web.Mvc
 
         public override bool IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
         {
+            if (!HttpMethods.Any())
+                return true;
+
             var method = controllerContext.HttpContext.Request.GetHttpMethodOverride();
             return HttpMethods.Any(m => m.ValueEquals(method));
         }

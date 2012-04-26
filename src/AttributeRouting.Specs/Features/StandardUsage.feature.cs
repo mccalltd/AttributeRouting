@@ -64,14 +64,6 @@ namespace AttributeRouting.Specs.Features
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void FeatureBackground()
-        {
-#line 3
-#line 4
- testRunner.Given("I generate the routes defined in the subject controllers");
-#line hidden
-        }
-        
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating routes for an action method")]
         [NUnit.Framework.TestCaseAttribute("GET", "Index", "Index", new string[0])]
@@ -84,21 +76,21 @@ namespace AttributeRouting.Specs.Features
         public virtual void GeneratingRoutesForAnActionMethod(string method, string action, string url, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes for an action method", exampleTags);
-#line 6
-this.ScenarioSetup(scenarioInfo);
 #line 3
-this.FeatureBackground();
-#line 7
+this.ScenarioSetup(scenarioInfo);
+#line 4
+ testRunner.Given("I have registered the routes for the StandardUsageController");
+#line 5
  testRunner.When(string.Format("I fetch the routes for the StandardUsage controller\'s {0} action", action));
-#line 8
+#line 6
  testRunner.Then(string.Format("the route is constrained to {0} requests", method));
-#line 9
+#line 7
   testRunner.And(string.Format("the route url is \"{0}\"", url));
-#line 10
+#line 8
   testRunner.And("the default for \"controller\" is \"StandardUsage\"");
-#line 11
+#line 9
   testRunner.And(string.Format("the default for \"action\" is \"{0}\"", action));
-#line 12
+#line 10
   testRunner.And("the namespace is \"AttributeRouting.Specs.Subjects\"");
 #line hidden
             this.ScenarioCleanup();
@@ -116,21 +108,21 @@ this.FeatureBackground();
         public virtual void GeneratingRoutesForAnAPIController(string method, string action, string url, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes for an API controller", exampleTags);
-#line 24
+#line 21
 this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 25
+#line 22
+ testRunner.Given("I have registered the routes for the HttpStandardUsageController");
+#line 23
  testRunner.When(string.Format("I fetch the routes for the HttpStandardUsage controller\'s {0} action", action));
-#line 26
+#line 24
  testRunner.Then(string.Format("the route is constrained to {0} requests", method));
-#line 27
+#line 25
   testRunner.And(string.Format("the route url is \"{0}\"", url));
-#line 28
+#line 26
   testRunner.And("the default for \"controller\" is \"HttpStandardUsage\"");
-#line 29
+#line 27
   testRunner.And(string.Format("the default for \"action\" is \"{0}\"", action));
-#line 30
+#line 28
   testRunner.And("the namespace is \"AttributeRouting.Specs.Subjects.Http\"");
 #line hidden
             this.ScenarioCleanup();

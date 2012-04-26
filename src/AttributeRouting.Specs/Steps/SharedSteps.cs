@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Specialized;
+using System.Linq;
 using System.Web.Routing;
+using AttributeRouting.Helpers;
 using AttributeRouting.Specs.Subjects;
 using AttributeRouting.Specs.Subjects.Http;
 using AttributeRouting.Specs.Tests;
@@ -73,10 +75,25 @@ namespace AttributeRouting.Specs.Steps
             ScenarioContext.Current.SetFetchedRoutes(routes);
         }
 
-        [When(@"a request for ""(.*)"" is made")]
-        public void WhenARequestForUrlIsMade(string url)
+        [When(@"a (.*)? request for ""(.*)"" is made")]
+        public void WhenAMethodRequestForUrlIsMade(string method, string url)
         {
-            var httpContextMock = MockBuilder.BuildMockHttpContext(r => r.SetupGet(x => x.PathInfo).Returns(url));
+            var desiredMethod = (method.HasValue() ? method : "GET").ToUpperInvariant();
+            var requestMethod = (desiredMethod.ValueEquals("GET") ? "GET" : "POST").ToUpperInvariant();
+
+            var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
+            {
+                r.SetupGet(x => x.PathInfo).Returns(url);
+                r.SetupGet(x => x.HttpMethod).Returns(requestMethod);
+               
+                if (desiredMethod != requestMethod)
+                {
+                    r.SetupGet(x => x.Headers).Returns(new NameValueCollection
+                    {
+                        { "X-HTTP-Method-Override", desiredMethod }
+                    });
+                }
+            });
 
             ScenarioContext.Current.SetCurrentHttpContext(httpContextMock.Object);
         }
