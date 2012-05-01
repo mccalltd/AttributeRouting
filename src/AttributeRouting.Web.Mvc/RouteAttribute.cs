@@ -80,7 +80,7 @@ namespace AttributeRouting.Web.Mvc
             if (!HttpMethods.Any())
                 return true;
 
-            var method = controllerContext.HttpContext.Request.GetHttpMethodOverride();
+            var method = controllerContext.HttpContext.Request.GetHttpMethodOverride().ToUpper();
             return HttpMethods.Any(m => m.ValueEquals(method));
         }
     }
