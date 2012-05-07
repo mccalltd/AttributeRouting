@@ -4,6 +4,10 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_v2.2.2_
+
+* #71 - fixed bug in regex pattern matching when multiple url parameters existed for a single url segment.
+
 _v2.2.1_
 
 * #65 - fixed bug introduced in v2.* that arises when using the RouteAttribute on actions without specifying a verb.
