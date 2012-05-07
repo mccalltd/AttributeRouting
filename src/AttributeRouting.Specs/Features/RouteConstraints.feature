@@ -54,6 +54,20 @@ Scenario Outline: Inline constraints
 	| Compound    | IntRouteConstraint       |
 	| Compound    | MaxRouteConstraint       |
 
+Scenario: Multiple inline constraints per url segment
+	# MVC
+	Given I have registered the routes for the InlineRouteConstraintsController
+	When I fetch the routes for the InlineRouteConstraints controller's MultipleWithinUrlSegment action
+	Then the route url is "Inline-Constraints/avatar/{width}x{height}/{image}"
+	And the parameter "width" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	And the parameter "height" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	# Web API
+	Given I have registered the routes for the HttpInlineRouteConstraintsController
+	When I fetch the routes for the HttpInlineRouteConstraints controller's MultipleWithinUrlSegment action
+	Then the route url is "Http-Inline-Constraints/avatar/{width}x{height}/{image}"
+	And the parameter "width" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	And the parameter "height" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+
 Scenario Outline: Matching inline route constraints
 	# MVC
 	Given I have registered the routes for the InlineRouteConstraintsController

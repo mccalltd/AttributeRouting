@@ -75,10 +75,10 @@ namespace AttributeRouting.Specs.Steps
             ScenarioContext.Current.SetFetchedRoutes(routes);
         }
 
-        [When(@"a (.*)? request for ""(.*)"" is made")]
+        [When(@"a(\s.*)? request for ""(.*)"" is made")]
         public void WhenAMethodRequestForUrlIsMade(string method, string url)
         {
-            var desiredMethod = (method.HasValue() ? method : "GET").ToUpperInvariant();
+            var desiredMethod = (method.HasValue() ? method : "GET").Trim().ToUpperInvariant();
             var requestMethod = (desiredMethod.ValueEquals("GET") ? "GET" : "POST").ToUpperInvariant();
 
             var httpContextMock = MockBuilder.BuildMockHttpContext(r =>

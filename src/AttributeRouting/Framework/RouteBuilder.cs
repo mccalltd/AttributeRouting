@@ -9,7 +9,7 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Class that actually creates all the routes from attributes and AR configuration. 
+    /// Creates all the routes from attributes and AR configuration. 
     /// Relies on RouteReflector to inspect types.
     /// </summary>    
     public class RouteBuilder
@@ -103,7 +103,7 @@ namespace AttributeRouting.Framework
         {
             var detokenizedUrl = DetokenizeUrl(routeUrl);
 
-            var urlParameterNames = GetUrlParameterContents(detokenizedUrl);
+            var urlParameterNames = GetUrlParameterContents(detokenizedUrl).ToList();
 
             // {controller} and {action} tokens are not valid
             if (urlParameterNames.Any(n => n.ValueEquals("controller")))
@@ -168,7 +168,7 @@ namespace AttributeRouting.Framework
                 { "action", routeSpec.ActionName }
             };
 
-            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl);
+            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).ToList();
 
             // Inspect the url for optional parameters, specified with a leading or trailing (or both) ?
             foreach (var parameter in urlParameters.Where(p => p.StartsWith("?") || p.EndsWith("?")))
@@ -220,7 +220,7 @@ namespace AttributeRouting.Framework
             if (routeSpec.HttpMethods.Any())
                 constraints.Add("httpMethod", _routeConstraintFactory.CreateRestfulHttpMethodConstraint(routeSpec.HttpMethods));
 
-            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl);
+            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).ToList();
 
             // Inline constraints (legacy)
             foreach (var parameter in urlParameters.Where(p => !p.Contains(":") && Regex.IsMatch(p, @"^.*\(.*\)$")))
@@ -306,7 +306,7 @@ namespace AttributeRouting.Framework
             }
 
             var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec));
-            var urlParameterNames = GetUrlParameterContents(detokenizedUrl);
+            var urlParameterNames = GetUrlParameterContents(detokenizedUrl).ToList();
 
             // Globally configured constraints
             foreach (var defaultConstraint in _configuration.DefaultRouteConstraints)
@@ -400,14 +400,41 @@ namespace AttributeRouting.Framework
             }
         }
 
-        private static List<string> GetUrlParameterContents(string url)
+        private static IEnumerable<string> GetUrlParameterContents(string url)
         {
             if (!url.HasValue())
-                return new List<string>();
+                yield break;
 
-            return (from urlPart in url.SplitAndTrim(new[] { "/" })
-                    from match in Regex.Matches(urlPart, @"(?<={).*(?=})").Cast<Match>()
-                    select match.Captures[0].ToString()).ToList();
+            var urlSegments = url.SplitAndTrim(new[] { "/" });
+            foreach (var urlSegment in urlSegments)
+            {
+                // Find an open curly in the segment, and if none, then move on to the next.
+                var iOpenCurly = urlSegment.IndexOf('{');
+                if (iOpenCurly == -1) continue;
+
+                var i = iOpenCurly + 1;
+                while (i < urlSegment.Length)
+                {
+                    if (urlSegment[i] == '}')
+                    {
+                        // If we find the closing curly, then yield the contents of the url param.
+                        yield return urlSegment.Substring(iOpenCurly + 1, i - iOpenCurly - 1);
+
+                        // Fast-forward to the next open curly brace.
+                        iOpenCurly = urlSegment.IndexOf('{', i);
+                        if (iOpenCurly == -1) break;
+                        i = iOpenCurly;
+                    }
+                    else if (urlSegment[i] == '{')
+                    {
+                        // If we find an inner open curly (due to inner regex patterns), 
+                        // then fast-forward beyond it.
+                        i = urlSegment.IndexOf('}', iOpenCurly);                        
+                    }
+
+                    i++;
+                }
+            }
         }
     }
 }

@@ -138,5 +138,11 @@ namespace AttributeRouting.Specs.Subjects.Http
         {
             return "";
         }
+
+        [GET("avatar/{width:int}x{height:int}/{image?}")]
+        public string MultipleWithinUrlSegment(int width, int height, string image)
+        {
+            return "";
+        }
     }
 }
