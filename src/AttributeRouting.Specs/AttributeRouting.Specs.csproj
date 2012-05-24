@@ -83,6 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
+    <Compile Include="Features\InheritingActions.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InheritingActions.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Logging.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -144,6 +149,7 @@
     <Compile Include="Subjects\Http\HttpRoutePrecedenceControllers.cs" />
     <Compile Include="Subjects\Http\HttpRoutePrefixesController.cs" />
     <Compile Include="Subjects\Http\HttpStandardUsageController.cs" />
+    <Compile Include="Subjects\InheritedActionControllers.cs" />
     <Compile Include="Subjects\InlineRouteConstraintsController.cs" />
     <Compile Include="Subjects\LowercaseUrlController.cs" />
     <Compile Include="Subjects\RouteAreasControllers.cs" />
@@ -174,6 +180,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Features\InheritingActions.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>InheritingActions.feature.cs</LastGenOutput>
+    </None>
     <None Include="Features\Logging.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Logging.feature.cs</LastGenOutput>

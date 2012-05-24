@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Linq;
+using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Helpers;
 using AttributeRouting.Specs.Subjects;
@@ -25,12 +26,14 @@ namespace AttributeRouting.Specs.Steps
             {
                 x.ScanAssemblyOf<StandardUsageController>();
                 x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                x.InheritActionsFromBaseController = true;
             });
 
             RouteTable.Routes.MapHttpAttributeRoutes(x =>
             {
                 x.ScanAssemblyOf<HttpStandardUsageController>();
                 x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                x.InheritActionsFromBaseController = true;
             });
         }
 
@@ -45,16 +48,19 @@ namespace AttributeRouting.Specs.Steps
             {
                 x.AddRoutesFromController(type);
                 x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                x.InheritActionsFromBaseController = true;
             });
 
             RouteTable.Routes.MapHttpAttributeRoutes(x =>
             {
                 x.AddRoutesFromController(type);
                 x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                x.InheritActionsFromBaseController = true;
             });
         }
 
         [When(@"I fetch the routes for the (.*?) controller's (.*?) action")]
+        [When(@"I fetch the routes for the (.*?)Controller's (.*?) action")]
         public void WhenIFetchTheRoutesFor(string controllerName, string actionName)
         {
             var routes = from route in RouteTable.Routes.Cast<Route>()
@@ -66,6 +72,7 @@ namespace AttributeRouting.Specs.Steps
         }
 
         [When(@"I fetch the routes for the (.*?) controller")]
+        [When(@"I fetch the routes for the (.*?)Controller")]
         public void WhenIFetchTheRoutesFor(string controllerName)
         {
             var routes = from route in RouteTable.Routes.Cast<Route>()
