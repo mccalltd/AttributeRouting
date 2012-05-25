@@ -2,7 +2,7 @@
 <package inherits="../AttributeRouting.Shared.nuspec" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
   <metadata>
     <id xdt:Transform="Insert">AttributeRouting</id>
-    <title xdt:Transform="Insert">Attribute Routing (ASP.NET MVC)</title>
+    <title xdt:Transform="Insert">AttributeRouting (ASP.NET MVC)</title>
     <description xdt:Transform="Insert">AttributeRouting for ASP.NET MVC lets you specify routes using attributes on your MVC controllers and actions.</description>
     <dependencies xdt:Transform="Insert">
       <dependency id="WebActivator" version="1.0.0.0" />

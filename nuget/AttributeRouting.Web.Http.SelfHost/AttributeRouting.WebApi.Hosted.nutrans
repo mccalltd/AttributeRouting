@@ -2,7 +2,7 @@
 <package inherits="../AttributeRouting.Shared.nuspec" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
   <metadata>
     <id xdt:Transform="Insert">AttributeRouting.WebApi.Hosted</id>
-    <title xdt:Transform="Insert">Attribute Routing (Self-hosted Web API)</title>
+    <title xdt:Transform="Insert">AttributeRouting (Self-hosted Web API)</title>
     <description xdt:Transform="Insert">AttributeRouting for self-hosted Web API lets you specify routes using attributes on your API controllers and actions.</description>
   </metadata>
 

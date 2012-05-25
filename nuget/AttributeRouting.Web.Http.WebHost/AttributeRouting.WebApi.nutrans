@@ -2,7 +2,7 @@
 <package inherits="../AttributeRouting.Shared.nuspec" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
   <metadata>
     <id xdt:Transform="Insert">AttributeRouting.WebApi</id>
-    <title xdt:Transform="Insert">Attribute Routing (ASP.NET Web API)</title>
+    <title xdt:Transform="Insert">AttributeRouting (ASP.NET Web API)</title>
     <description xdt:Transform="Insert">AttributeRouting for ASP.NET Web API lets you specify routes using attributes on your API controllers and actions.</description>
     <dependencies xdt:Transform="Insert">
       <dependency id="WebActivator" version="1.0.0.0" />
