@@ -11,6 +11,6 @@ namespace AttributeRouting.Web.Http
         /// Specify a route for an action constrained to requests providing an httpMethod value of GET.
         /// </summary>
         /// <param name="routeUrl">The url that is associated with this action</param>
-        public GETAttribute(string routeUrl) : base(routeUrl, HttpMethod.Get, HttpMethod.Head) {}
+        public GETAttribute(string routeUrl) : base(routeUrl, HttpMethod.Get, HttpMethod.Head, HttpMethod.Options) {}
     }
 }

@@ -11,6 +11,6 @@ namespace AttributeRouting.Web.Http
         /// Specify a route for an action constrained to requests providing an httpMethod value of DELETE.
         /// </summary>
         /// <param name="routeUrl">The url that is associated with this action</param>
-        public DELETEAttribute(string routeUrl) : base(routeUrl, HttpMethod.Delete) {}
+		public DELETEAttribute(string routeUrl) : base(routeUrl, HttpMethod.Delete, HttpMethod.Options) { }
     }
 }
