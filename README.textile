@@ -4,6 +4,11 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_v2.2.3_
+
+* #82 - added OPTIONS verb to GET/PUT/POST/DELETE attributes in web API attributes.
+* Removed references to MVC2, now using MVC3.
+
 _v2.2.2_
 
 * #71 - fixed bug in regex pattern matching when multiple url parameters existed for a single url segment.
