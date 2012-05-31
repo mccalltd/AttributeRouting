@@ -82,7 +82,7 @@ namespace AttributeRouting.Specs.Steps
             ScenarioContext.Current.SetFetchedRoutes(routes);
         }
 
-        [When(@"a(\s.*)? request for ""(.*)"" is made")]
+        [When(@"an?(\s.*)? request for ""(.*)"" is made")]
         public void WhenAMethodRequestForUrlIsMade(string method, string url)
         {
             var desiredMethod = (method.HasValue() ? method : "GET").Trim().ToUpperInvariant();
@@ -99,6 +99,8 @@ namespace AttributeRouting.Specs.Steps
                     {
                         { "X-HTTP-Method-Override", desiredMethod }
                     });
+
+                    r.SetupGet(x => x.HttpMethod).Returns(desiredMethod);
                 }
             });
 

@@ -43,8 +43,7 @@ namespace AttributeRouting.Logging
                         continue;
 
                     if (constraint.Value is IRestfulHttpMethodConstraint)
-                        item.HttpMethod = String.Join(", ",
-                                                      ((IRestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
+                        item.HttpMethod = String.Join(", ", ((IRestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
                     else if (constraint.Value is RegexRouteConstraintBase)
                         item.Constraints.Add(constraint.Key, ((RegexRouteConstraintBase)constraint.Value).Pattern);
                     else

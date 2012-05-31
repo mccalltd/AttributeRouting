@@ -33,7 +33,7 @@ namespace AttributeRouting.Logging
         /// <param name="routeInfo"> </param>
         public static void LogRoute(TextWriter writer, string name, AttributeRouteInfo routeInfo)
         {
-            writer.WriteLine("URL: {0}", routeInfo.Url);
+            writer.WriteLine("URL: {0} {1}", routeInfo.Url, routeInfo.HttpMethod);
 
             if (name != null)
                 writer.WriteLine("NAME: {0}", name);
