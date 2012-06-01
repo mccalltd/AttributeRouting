@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Web.Http.Routing;
 using AttributeRouting.Constraints;
 
-namespace AttributeRouting.Web.Http.SelfHost
+namespace AttributeRouting.Web.Http.SelfHost.Constraints
 {
     /// <summary>
     /// Constrains a route by the specified allowed HTTP methods.

@@ -8,6 +8,7 @@ using AttributeRouting.Framework;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Helpers;
 using AttributeRouting.Web.Http.Constraints;
+using AttributeRouting.Web.Http.SelfHost.Constraints;
 using OptionalRouteConstraintWrapper = AttributeRouting.Web.Http.SelfHost.Constraints.OptionalRouteConstraintWrapper;
 
 namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
