@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Helpers;
@@ -90,7 +91,7 @@ namespace AttributeRouting.Specs.Steps
 
             var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
             {
-                r.SetupGet(x => x.PathInfo).Returns(url);
+                r.SetupGet(x => x.AppRelativeCurrentExecutionFilePath).Returns("~/" + Regex.Replace(url, @"[{}]", ""));
                 r.SetupGet(x => x.HttpMethod).Returns(requestMethod);
                
                 if (desiredMethod != requestMethod)

@@ -12,6 +12,25 @@ namespace AttributeRouting.Framework
     public static class AttributeRouteExtensions
     {
         /// <summary>
+        /// Optimizes route matching by comparing the static left part of a route's URL with the requested path.
+        /// </summary>
+        /// <param name="route"></param>
+        /// <param name="requestedPath">The path of the requested URL.</param>
+        /// <returns>True if the requested URL path starts with the static left part of the route's URL.</returns>
+        /// <remarks>Thanks: http://samsaffron.com/archive/2011/10/13/optimising-asp-net-mvc3-routing </remarks>
+        public static bool IsLeftPartOfUrlMatched(this IAttributeRoute route, string requestedPath)
+        {
+            var routePath = route.Url;
+            var indexOfFirstParam = routePath.IndexOf("{", StringComparison.OrdinalIgnoreCase);
+            var leftPart = indexOfFirstParam == -1 ? routePath : routePath.Substring(0, indexOfFirstParam);
+            var comparableLeftPart = leftPart.TrimEnd('/');
+
+            // Compare the left part with the requested path
+            var comparableRequestedPath = requestedPath.TrimEnd('/');
+            return comparableRequestedPath.StartsWith(comparableLeftPart, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
         /// Tests whether the configured subdomain (if any) matches the current host.
         /// </summary>
         /// <param name="route"></param>

@@ -62,6 +62,11 @@ namespace AttributeRouting.Web.Framework
 
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
+            // Optimize matching by comparing the static left part of the route url with the requested path.
+            var requestedPath = httpContext.Request.AppRelativeCurrentExecutionFilePath.Substring(2) + httpContext.Request.PathInfo;
+            if (!this.IsLeftPartOfUrlMatched(requestedPath))
+                return null;
+
             // Let the underlying route match, and if it does, then add a few more constraints.
             var routeData = base.GetRouteData(httpContext);
             if (routeData == null)

@@ -31,10 +31,9 @@ namespace AttributeRouting.Specs.Tests.Localization
             var route = routes.Cast<Route>().SingleOrDefault();
             Assert.That(route, Is.Not.Null);
 
-            var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
-            {
-                r.SetupGet(x => x.PathInfo).Returns("Translate/Actions/Index");
-            });
+            var httpContextMock = MockBuilder.BuildMockHttpContext(
+                r => r.SetupGet(x => x.AppRelativeCurrentExecutionFilePath)
+                         .Returns("~/Translate/Actions/Index"));
             
             var routeData = route.GetRouteData(httpContextMock.Object);
             Assert.That(routeData, Is.Not.Null);
@@ -47,10 +46,9 @@ namespace AttributeRouting.Specs.Tests.Localization
 
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
 
-            var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
-            {
-                r.SetupGet(x => x.PathInfo).Returns("Translate/Actions/Index");
-            });
+            var httpContextMock = MockBuilder.BuildMockHttpContext(
+                r => r.SetupGet(x => x.AppRelativeCurrentExecutionFilePath)
+                         .Returns("~/Translate/Actions/Index"));
             
             var routeData = route.GetRouteData(httpContextMock.Object);
             Assert.That(routeData, Is.Not.Null);
@@ -63,10 +61,9 @@ namespace AttributeRouting.Specs.Tests.Localization
             
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
 
-            var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
-            {
-                r.SetupGet(x => x.PathInfo).Returns("Translate/Actions/Index");
-            });
+            var httpContextMock = MockBuilder.BuildMockHttpContext(
+                r => r.SetupGet(x => x.AppRelativeCurrentExecutionFilePath)
+                         .Returns("~/Translate/Actions/Index"));
             
             var routeData = route.GetRouteData(httpContextMock.Object);
             Assert.That(routeData, Is.Null);
@@ -79,10 +76,9 @@ namespace AttributeRouting.Specs.Tests.Localization
             
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-AR");
 
-            var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
-            {
-                r.SetupGet(x => x.PathInfo).Returns("Translate/Actions/Index");
-            });
+            var httpContextMock = MockBuilder.BuildMockHttpContext(
+                r => r.SetupGet(x => x.AppRelativeCurrentExecutionFilePath)
+                         .Returns("~/Translate/Actions/Index"));
             
             var routeData = route.GetRouteData(httpContextMock.Object);
             Assert.That(routeData, Is.Null);
@@ -95,10 +91,9 @@ namespace AttributeRouting.Specs.Tests.Localization
             
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
 
-            var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
-            {
-                r.SetupGet(x => x.PathInfo).Returns("Translate/Actions/HOLA!");
-            });
+            var httpContextMock = MockBuilder.BuildMockHttpContext(
+                r => r.SetupGet(x => x.AppRelativeCurrentExecutionFilePath)
+                         .Returns("~/Translate/Actions/HOLA!"));
             
             var routeData = route.GetRouteData(httpContextMock.Object);
             Assert.That(routeData, Is.Not.Null);
@@ -111,10 +106,9 @@ namespace AttributeRouting.Specs.Tests.Localization
             
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-AR");
 
-            var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
-            {
-                r.SetupGet(x => x.PathInfo).Returns("Translate/Actions/hola");
-            });
+            var httpContextMock = MockBuilder.BuildMockHttpContext(
+                r => r.SetupGet(x => x.AppRelativeCurrentExecutionFilePath)
+                         .Returns("~/Translate/Actions/hola"));
             
             var routeData = route.GetRouteData(httpContextMock.Object);
             Assert.That(routeData, Is.Not.Null);
@@ -127,10 +121,9 @@ namespace AttributeRouting.Specs.Tests.Localization
             
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("pt-BR");
 
-            var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
-            {
-                r.SetupGet(x => x.PathInfo).Returns("Translate/Actions/hola");
-            });
+            var httpContextMock = MockBuilder.BuildMockHttpContext(
+                r => r.SetupGet(x => x.AppRelativeCurrentExecutionFilePath)
+                         .Returns("~/Translate/Actions/hola"));
             
             var routeData = route.GetRouteData(httpContextMock.Object);
             Assert.That(routeData, Is.Null);
@@ -143,10 +136,9 @@ namespace AttributeRouting.Specs.Tests.Localization
             
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
 
-            var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
-            {
-                r.SetupGet(x => x.PathInfo).Returns("Translate/Actions/hola");
-            });
+            var httpContextMock = MockBuilder.BuildMockHttpContext(
+                r => r.SetupGet(x => x.AppRelativeCurrentExecutionFilePath)
+                         .Returns("~/Translate/Actions/hola"));
             
             var routeData = route.GetRouteData(httpContextMock.Object);
             Assert.That(routeData, Is.Null);
