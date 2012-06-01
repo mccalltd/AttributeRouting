@@ -6,6 +6,8 @@ h3. Changelog
 
 _v2.2.3_
 
+* Fixed bug in RestfulHttpMethodContraint for web projects. Was not honoring http method overrides in request headers, forms, or query collections.
+* Implemented one of Sam Saffron's performance enhancements for speeding up route table lookups.
 * #82 - added OPTIONS verb to GET/PUT/POST/DELETE attributes in web API attributes.
 * Removed references to MVC2, now using MVC3.
 
