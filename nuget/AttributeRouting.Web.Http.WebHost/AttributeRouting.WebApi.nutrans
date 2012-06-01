@@ -4,6 +4,7 @@
     <id xdt:Transform="Insert">AttributeRouting.WebApi</id>
     <title xdt:Transform="Insert">AttributeRouting (ASP.NET Web API)</title>
     <description xdt:Transform="Insert">AttributeRouting for ASP.NET Web API lets you specify routes using attributes on your API controllers and actions.</description>
+	<tags xdt:Transform="Insert">attribute, routing, route, asp.net, mvc, webapi, web, api</tags>
     <dependencies xdt:Transform="Insert">
       <dependency id="WebActivator" version="1.0.0.0" />
     </dependencies>

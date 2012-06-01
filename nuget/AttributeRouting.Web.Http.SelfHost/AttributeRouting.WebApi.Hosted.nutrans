@@ -3,7 +3,8 @@
   <metadata>
     <id xdt:Transform="Insert">AttributeRouting.WebApi.Hosted</id>
     <title xdt:Transform="Insert">AttributeRouting (Self-hosted Web API)</title>
-    <description xdt:Transform="Insert">AttributeRouting for self-hosted Web API lets you specify routes using attributes on your API controllers and actions.</description>
+    <tags xdt:Transform="Insert">attribute, routing, route, asp.net, webapi, web, api, selfhost, self, host</tags>
+	<description xdt:Transform="Insert">AttributeRouting for self-hosted Web API lets you specify routes using attributes on your API controllers and actions.</description>
   </metadata>
 
   <files xdt:Transform="Insert">
