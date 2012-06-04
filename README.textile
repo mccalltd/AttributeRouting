@@ -4,6 +4,10 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_v2.3_
+
+* #81 - Updated Web API references from Beta to RC. Fixed a few compilation erros due to switch.
+
 _v2.2.3_
 
 * Fixed bug in RestfulHttpMethodContraint for web projects. Was not honoring http method overrides in request headers, forms, or query collections.
