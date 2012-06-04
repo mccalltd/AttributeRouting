@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
-using System.Web.Http.Common;
 using System.Web.Http.Routing;
 using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
@@ -29,7 +29,8 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
 
         public IRestfulHttpMethodConstraint CreateRestfulHttpMethodConstraint(string[] httpMethods)
         {
-            return new RestfulHttpMethodConstraint(httpMethods.Select(HttpMethodHelper.GetHttpMethod).ToArray());
+            var allowedMethods = httpMethods.Select(m => new HttpMethod(m)).ToArray();
+            return new RestfulHttpMethodConstraint(allowedMethods);
         }
 
         public object CreateInlineRouteConstraint(string name, params object[] parameters)
