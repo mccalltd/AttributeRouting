@@ -51,5 +51,15 @@ namespace AttributeRouting.Helpers
             return Regex.Replace(type.Name, "Controller$", "");
         }
 
+		public static bool IsAsyncController(this Type type)
+		{
+			for (Type t = type.BaseType; t != typeof(object); t = t.BaseType)
+			{
+				if (String.Equals(t.FullName, "System.Web.Mvc.AsyncController", StringComparison.InvariantCultureIgnoreCase))
+					return true;
+			}
+			return false;
+		}
+
     }
 }

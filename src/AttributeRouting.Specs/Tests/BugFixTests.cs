@@ -71,5 +71,18 @@ namespace AttributeRouting.Specs.Tests
             Assert.That("~/pt/cms/home".Route(), Is.Null);
             "~/pt/cms/inicio".ShouldMapTo<CulturePrefixController>(x => x.Index());
         }
+
+		[Test]
+		public void Ensure_that_async_controller_action_can_be_mapped()
+		{
+			// re: issue #84
+			RouteTable.Routes.Clear();
+			RouteTable.Routes.MapAttributeRoutes(config => config.AddRoutesFromController<AsyncActionController>());
+
+			"~/WithAsync/Synchronous".ShouldMapTo<AsyncActionController>(x => x.Test1());
+			var asyncRouteData = "~/WithAsync/NotSynchronous".Route();
+			asyncRouteData.Values["controller"].ShouldEqual("AsyncAction", "Asynchronous route does not map to the AsyncActionController.");
+			asyncRouteData.Values["action"].ShouldEqual("Test2", "Asynchronous route does not map to the correct action method.");
+		}
     }
 }
