@@ -4,6 +4,10 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_v2.4_
+
+* #84 - fixed routing to asynchronous actions.
+
 _v2.3_
 
 * #81 - Updated Web API references from Beta to RC. Fixed a few compilation erros due to switch.
