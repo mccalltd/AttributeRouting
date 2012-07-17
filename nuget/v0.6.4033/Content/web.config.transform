@@ -1,7 +1,0 @@
-<configuration>
-    <system.web>
-        <httpHandlers>
-            <add verb="POST,GET,HEAD" path="routes.axd" type="AttributeRouting.LogRoutesHandler, AttributeRouting" />
-        </httpHandlers>
-    </system.web>
-</configuration>

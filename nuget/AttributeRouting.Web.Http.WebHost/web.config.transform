@@ -1,0 +1,12 @@
+<configuration>
+  <system.web>
+    <httpHandlers>
+      <add verb="*" path="routes.axd" type="AttributeRouting.Web.Logging.LogRoutesHandler, AttributeRouting.Web" />
+    </httpHandlers>
+  </system.web>
+  <system.webServer>
+    <handlers>
+      <add name="AttributeRouting" path="routes.axd" verb="*" type="AttributeRouting.Web.Logging.LogRoutesHandler, AttributeRouting.Web"/>
+    </handlers>
+  </system.webServer>
+</configuration>

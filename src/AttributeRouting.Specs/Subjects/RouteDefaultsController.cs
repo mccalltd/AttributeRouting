@@ -1,4 +1,6 @@
 using System.Web.Mvc;
+using AttributeRouting.Web;
+using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
 {
@@ -18,7 +20,7 @@ namespace AttributeRouting.Specs.Subjects
         }
 
         [GET("Optionals/{p1?}/{?p2}/{?p3?}")]
-        public ActionResult Optionals()
+        public ActionResult Optionals(string p1, string p2, string p3)
         {
             return Content("");
         }

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package inherits="../AttributeRouting.Shared.nuspec" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <metadata>
+    <id xdt:Transform="Insert">AttributeRouting</id>
+    <title xdt:Transform="Insert">AttributeRouting (ASP.NET MVC)</title>
+    <description xdt:Transform="Insert">AttributeRouting for ASP.NET MVC lets you specify routes using attributes on your MVC controllers and actions.</description>
+	<tags xdt:Transform="Insert">attribute, routing, route, asp.net, mvc</tags>
+    <dependencies xdt:Transform="Insert">
+      <dependency id="WebActivator" version="1.0.0.0" />
+    </dependencies>
+  </metadata>
+
+  <files xdt:Transform="Insert">
+    <file src="..\..\build\bin\AttributeRouting.dll" target="lib\net40" />
+    <file src="..\..\build\bin\AttributeRouting.xml" target="lib\net40" />
+    <file src="..\..\build\bin\AttributeRouting.Web.dll" target="lib\net40" />
+    <file src="..\..\build\bin\AttributeRouting.Web.xml" target="lib\net40" />
+    <file src="..\..\build\bin\AttributeRouting.Web.Mvc.dll" target="lib\net40" />
+    <file src="..\..\build\bin\AttributeRouting.Web.Mvc.xml" target="lib\net40" />
+    <file src="web.config.transform" target="content" />
+    <file src="AttributeRouting.cs.pp" target="content\App_Start" />
+  </files>
+</package>

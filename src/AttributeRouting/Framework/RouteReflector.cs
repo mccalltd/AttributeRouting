@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AttributeRouting.Extensions;
+using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
 {
+    /// <summary>
+    /// A reflector that inspects the assemblies provided in configuration to find AttributeRouting attributes.
+    /// </summary>    
     public class RouteReflector
     {
-        private readonly AttributeRoutingConfiguration _configuration;
+        private readonly AttributeRoutingConfigurationBase _configuration;
 
-        public RouteReflector(AttributeRoutingConfiguration configuration)
+        public RouteReflector(AttributeRoutingConfigurationBase configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
@@ -19,89 +22,117 @@ namespace AttributeRouting.Framework
 
         public IEnumerable<RouteSpecification> GenerateRouteSpecifications()
         {
-            var controllerRouteSpecs = GenerateRouteSpecifications(_configuration.PromotedControllerTypes);
+            var controllerRouteSpecs = GenerateRouteSpecifications(_configuration.PromotedControllerTypes, _configuration.InheritActionsFromBaseController);
             foreach (var spec in controllerRouteSpecs)
                 yield return spec;
 
             if (!_configuration.Assemblies.Any())
                 yield break;
 
-            var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes()).ToList();
+            var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes(_configuration.FrameworkControllerType)).ToList();
             var remainingControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
-
-            var remainingRouteSpecs = GenerateRouteSpecifications(remainingControllerTypes);
+            var remainingRouteSpecs = GenerateRouteSpecifications(remainingControllerTypes, _configuration.InheritActionsFromBaseController);
 
             foreach (var spec in remainingRouteSpecs)
                 yield return spec;
         }
 
-        private IEnumerable<RouteSpecification> GenerateRouteSpecifications(IEnumerable<Type> controllerTypes)
+        private IEnumerable<RouteSpecification> GenerateRouteSpecifications(IEnumerable<Type> controllerTypes, bool inheritActionsFromBaseController)
         {
             var controllerCount = 0;
 
             return (from controllerType in controllerTypes
                     let controllerIndex = controllerCount++
-                    let convention = controllerType.GetCustomAttribute<RouteConventionAttribute>(false)
-                    from actionMethod in controllerType.GetActionMethods()
+                    let convention = controllerType.GetCustomAttribute<RouteConventionAttributeBase>(false)
+                    let routeAreaAttribute = controllerType.GetCustomAttribute<RouteAreaAttribute>(true)
+                    let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
+                    from actionMethod in controllerType.GetActionMethods(inheritActionsFromBaseController)
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
-                    orderby controllerIndex , routeAttribute.Precedence
                     // precedence is within a controller
+                    orderby controllerIndex, routeAttribute.Precedence
                     let routeName = routeAttribute.RouteName
+                    let subdomain = GetAreaSubdomain(routeAreaAttribute)
+					let isAsyncController = controllerType.IsAsyncController()
                     select new RouteSpecification
                     {
-                        AreaName = GetAreaName(actionMethod),
-                        AreaUrl = GetAreaUrl(actionMethod),
-                        RoutePrefix = GetRoutePrefix(actionMethod, convention),
+                        AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
+                        AreaUrl = GetAreaUrl(routeAreaAttribute, subdomain),
+                        AreaUrlTranslationKey = routeAreaAttribute.SafeGet(a => a.TranslationKey),
+                        Subdomain = subdomain,
+                        RoutePrefixUrl = GetRoutePrefix(routePrefixAttribute, actionMethod, convention),
+                        RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
                         ControllerType = controllerType,
                         ControllerName = controllerType.GetControllerName(),
-                        ActionName = actionMethod.Name,
-                        ActionParameters = actionMethod.GetParameters(),
-                        Url = routeAttribute.Url,
+						ActionName = GetActionName(actionMethod, isAsyncController),
+                        RouteUrl = routeAttribute.RouteUrl,
+                        RouteUrlTranslationKey = routeAttribute.TranslationKey,
                         HttpMethods = routeAttribute.HttpMethods,
                         DefaultAttributes = GetDefaultAttributes(actionMethod, routeName, convention),
                         ConstraintAttributes = GetConstraintAttributes(actionMethod, routeName, convention),
                         RouteName = routeName,
-                        IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl
+                        IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl,
+                        UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
+                        PreserveCaseForUrlParameters = routeAttribute.PreserveCaseForUrlParametersFlag,
+                        AppendTrailingSlash = routeAttribute.AppendTrailingSlashFlag
                     }).ToList();
         }
 
-        private static IEnumerable<RouteAttribute> GetRouteAttributes(MethodInfo actionMethod,
-                                                                      RouteConventionAttribute convention)
+		private static string GetActionName(MethodInfo actionMethod, bool isAsyncController)
+		{
+			string actionName = actionMethod.Name;
+			if (isAsyncController && actionName.EndsWith("Async"))
+				actionName = actionName.Substring(0, actionName.Length - 5);
+			return actionName;
+		}
+
+        private static IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod, RouteConventionAttributeBase convention)
         {
-            var attributes = new List<RouteAttribute>();
+            var attributes = new List<IRouteAttribute>();
 
             // Add convention-based attributes
             if (convention != null)
                 attributes.AddRange(convention.GetRouteAttributes(actionMethod));
 
             // Add explicitly-defined attributes
-            attributes.AddRange(actionMethod.GetCustomAttributes<RouteAttribute>(false));
+            attributes.AddRange(actionMethod.GetCustomAttributes<IRouteAttribute>(false));
 
             return attributes.OrderBy(a => a.Order);
         }
 
-        private static string GetAreaName(MethodInfo actionMethod)
+        private static string GetAreaUrl(RouteAreaAttribute routeAreaAttribute, string subdomain)
         {
-            var routeAreaAttribute = actionMethod.DeclaringType.GetCustomAttribute<RouteAreaAttribute>(true);
             if (routeAreaAttribute == null)
                 return null;
 
-            return routeAreaAttribute.AreaName;
-        }
-
-        private static string GetAreaUrl(MethodInfo actionMethod)
-        {
-            var routeAreaAttribute = actionMethod.DeclaringType.GetCustomAttribute<RouteAreaAttribute>(true);
-            if (routeAreaAttribute == null)
+            // If a subdomain is specified for the area either in the RouteAreaAttribute 
+            // or via configuration, then assume the area url is blank; eg: admin.badass.com.
+            // However, our fearless coder can decide to explicitly specify an area url if desired;
+            // eg: internal.badass.com/admin.
+            if (subdomain.HasValue() && routeAreaAttribute.AreaUrl.HasNoValue())
                 return null;
 
             return routeAreaAttribute.AreaUrl ?? routeAreaAttribute.AreaName;
         }
 
-        private static string GetRoutePrefix(MethodInfo actionMethod, RouteConventionAttribute convention)
+        private string GetAreaSubdomain(RouteAreaAttribute routeAreaAttribute)
+        {
+            if (routeAreaAttribute == null)
+                return null;
+
+            // Check for a subdomain override specified via configuration object.
+            var subdomainOverride = (from o in _configuration.AreaSubdomainOverrides
+                                     where o.Key == routeAreaAttribute.AreaName
+                                     select o.Value).FirstOrDefault();
+
+            if (subdomainOverride != null)
+                return subdomainOverride;
+
+            return routeAreaAttribute.Subdomain;
+        }
+
+        private static string GetRoutePrefix(RoutePrefixAttribute routePrefixAttribute, MethodInfo actionMethod, RouteConventionAttributeBase convention)
         {
             // Return an explicitly defined route prefix, if defined
-            var routePrefixAttribute = actionMethod.DeclaringType.GetCustomAttribute<RoutePrefixAttribute>(true);
             if (routePrefixAttribute != null)
                 return routePrefixAttribute.Url;
 
@@ -109,11 +140,10 @@ namespace AttributeRouting.Framework
             if (convention != null)
                 return convention.GetDefaultRoutePrefix(actionMethod);
 
-            return "";
+            return null;
         }
 
-        private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName,
-                                                                               RouteConventionAttribute convention)
+        private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName, RouteConventionAttributeBase convention)
         {
             var defaultAttributes = new List<RouteDefaultAttribute>();
 
@@ -131,22 +161,20 @@ namespace AttributeRouting.Framework
             return defaultAttributes.ToList();
         }
 
-        private static ICollection<RouteConstraintAttribute> GetConstraintAttributes(MethodInfo actionMethod,
-                                                                                     string routeName,
-                                                                                     RouteConventionAttribute convention)
+        private static ICollection<RouteConstraintAttributeBase> GetConstraintAttributes(MethodInfo actionMethod, string routeName, RouteConventionAttributeBase convention)
         {
-            var constraintAttributes = new List<RouteConstraintAttribute>();
+            var constraintAttributes = new List<RouteConstraintAttributeBase>();
 
             // Yield explicitly defined constraint attributes first
             constraintAttributes.AddRange(
-                from constraintAttribute in actionMethod.GetCustomAttributes<RouteConstraintAttribute>(false)
+                from constraintAttribute in actionMethod.GetCustomAttributes<RouteConstraintAttributeBase>(false)
                 where !constraintAttribute.ForRouteNamed.HasValue() ||
                       constraintAttribute.ForRouteNamed == routeName
                 select constraintAttribute);
 
             // Yield convention-based constraints next
             if (convention != null)
-                constraintAttributes.AddRange(convention.GetRouteConstraintAtributes(actionMethod));
+                constraintAttributes.AddRange(convention.GetRouteConstraintAttributes(actionMethod));
 
             return constraintAttributes.ToList();
         }

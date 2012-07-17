@@ -1,5 +1,6 @@
 ﻿using System.Linq;
-using AttributeRouting.Framework;
+using AttributeRouting.Constraints;
+using AttributeRouting.Web.Constraints;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -11,25 +12,52 @@ namespace AttributeRouting.Specs.Steps
         [Then(@"the parameter ""(.*?)"" is constrained by the pattern ""(.*?)""")]
         public void ThenTheParameterIsContrainedBy(string key, object pattern)
         {
-            var route = ScenarioContext.Current.GetFetchedRoutes().First();
+            var routes = ScenarioContext.Current.GetFetchedRoutes();
 
-            Assert.That(route, Is.Not.Null);
-            Assert.That(route.Constraints[key], Is.TypeOf(typeof(RegexRouteConstraint)));
-            Assert.That(((RegexRouteConstraint)route.Constraints[key]).Pattern, Is.EqualTo(pattern));
+            foreach (var route in routes)
+            {
+                Assert.That(route, Is.Not.Null);
+                Assert.That(route.Constraints[key], Is.TypeOf(typeof(RegexRouteConstraint)));
+                Assert.That(((RegexRouteConstraint)route.Constraints[key]).Pattern, Is.EqualTo(pattern));
+            }
+        }
+
+        [Then(@"the parameter ""(.*?)"" is constrained by an inline (.*)")]
+        public void ThenTheParameterIsConstrainedByAnInline(string key, string type)
+        {
+            var routes = ScenarioContext.Current.GetFetchedRoutes();
+
+            foreach (var route in routes)
+            {
+                Assert.That(route, Is.Not.Null);
+
+                var constraint = route.Constraints[key];
+
+                Assert.That(constraint, Is.Not.Null);
+
+                var compoundRouteConstraint = constraint as ICompoundRouteConstraintWrapper;
+                if (compoundRouteConstraint != null)
+                    Assert.That(compoundRouteConstraint.Constraints.Any(c => c.GetType().FullName == type),
+                                Is.True);
+                else
+                    Assert.That(constraint.GetType().FullName, Is.EqualTo(type));
+            }
         }
 
         [Then(@"the route named ""(.*)"" has a constraint on ""(.*)"" of ""(.*)""")]
-        public void ThenTheRouteNamedHasAConstraintOnOf(string routeName, string key, string value)
-        {
-            var route = ScenarioContext.Current.GetFetchedRoutes().Cast<AttributeRoute>().SingleOrDefault(r => r.Name == routeName);
+        public void ThenTheRouteNamedHasAConstraintOnOf(string routeName, string key, string value) {
+            var routes = ScenarioContext.Current.GetFetchedRoutes().Where(r => r.RouteName == routeName);
 
-            Assert.That(route, Is.Not.Null);
+            foreach (var route in routes)
+            {
+                Assert.That(route, Is.Not.Null);
 
-            var constraint = route.Constraints[key];
+                var constraint = route.Constraints[key];
 
-            Assert.That(constraint, Is.Not.Null);
-            Assert.That(constraint, Is.TypeOf(typeof(RegexRouteConstraint)));
-            Assert.That(((RegexRouteConstraint)route.Constraints[key]).Pattern, Is.EqualTo(value));
+                Assert.That(constraint, Is.Not.Null);
+                Assert.That(constraint, Is.TypeOf(typeof(RegexRouteConstraint)));
+                Assert.That(((RegexRouteConstraint)route.Constraints[key]).Pattern, Is.EqualTo(value));
+            }
         }
     }
 }

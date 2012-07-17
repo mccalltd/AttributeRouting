@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using System.Web.Http;
 using System.Web.Mvc;
 using AttributeRouting.Framework;
+using AttributeRouting.Web.Mvc.Framework;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -12,23 +14,27 @@ namespace AttributeRouting.Specs.Steps
         [Then(@"the parameter ""(.*?)"" is optional")]
         public void ThenTheParameterIsOptional(string name)
         {
-            var route = ScenarioContext.Current.GetFetchedRoutes().First();
+            var routes = ScenarioContext.Current.GetFetchedRoutes();
 
-            Assert.That(route, Is.Not.Null);
-            Assert.That(route.Defaults[name], Is.EqualTo(UrlParameter.Optional));
+            foreach (var route in routes) {
+                Assert.That(route, Is.Not.Null);
+                Assert.That(route.Defaults[name], Is.EqualTo(UrlParameter.Optional).Or.EqualTo(RouteParameter.Optional));
+            }
         }
 
         [Then(@"the route named ""(.*)"" has a default for ""(.*)"" of ""?(.*?)""?")]
         public void ThenTheRouteNamedHasADefaultForOf(string routeName, string key, string value)
         {
-            var route = ScenarioContext.Current.GetFetchedRoutes().Cast<AttributeRoute>().SingleOrDefault(r => r.Name == routeName);
+            var routes = ScenarioContext.Current.GetFetchedRoutes().Where(c => c.RouteName == routeName);
 
-            Assert.That(route, Is.Not.Null);
+            foreach (var route in routes) {
+                Assert.That(route, Is.Not.Null);
 
-            var routeDefault = route.Defaults[key];
+                var routeDefault = route.Defaults[key];
 
-            Assert.That(routeDefault, Is.Not.Null);
-            Assert.That(routeDefault.ToString(), Is.EqualTo(value));
+                Assert.That(routeDefault, Is.Not.Null);
+                Assert.That(routeDefault.ToString(), Is.EqualTo(value));
+            }
         }
     }
 }

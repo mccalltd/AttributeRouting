@@ -1,10 +1,19 @@
+# Ignore build output
+build/
 bin/
 obj/
+
+# Ignore resharper settings
 _ReSharper.*
 *.ReSharper.user
+
+# Ignore project and solution settings
 *.csproj.user
 *.user
 *.suo
 *.cache
-nuget/*.nupkg
+
+** Ignore certain dirs in projects
 App_Data/
+packages/
+nuget/**/*.nuspec

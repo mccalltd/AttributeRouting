@@ -20,6 +20,8 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\src\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,7 +31,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\AttributeRouting.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,14 +42,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\AttributeRouting.xml</DocumentationFile>
+    <NoWarn>1591, 1587</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,44 +54,61 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\HttpRequestBaseExtensions.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Extensions\ReflectionExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="RestfulRouteConventionAttribute.cs" />
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="AreaConfiguration.cs" />
+    <Compile Include="AttributeRoutingConfigurationBase.cs" />
+    <Compile Include="Constraints\AlphaRouteConstraintBase.cs" />
+    <Compile Include="Constraints\ICompoundRouteConstraintWrapper.cs" />
+    <Compile Include="Constraints\EnumRouteConstraintBase.cs" />
+    <Compile Include="Constraints\IAttributeRouteConstraint.cs" />
+    <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />
+    <Compile Include="Constraints\MaxRouteConstraintBase.cs" />
+    <Compile Include="Constraints\MinRouteConstraintBase.cs" />
+    <Compile Include="Constraints\LengthRouteConstraintBase.cs" />
+    <Compile Include="Constraints\MinLengthRouteConstraintBase.cs" />
+    <Compile Include="Constraints\IOptionalRouteConstraintWrapper.cs" />
+    <Compile Include="Constraints\RangeRouteConstraintBase.cs" />
+    <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
+    <Compile Include="Constraints\MaxLengthRouteConstraintBase.cs" />
+    <Compile Include="Constraints\TypeOfRouteConstraintBase.cs" />
+    <Compile Include="Framework\AttributeRouteExtensions.cs" />
+    <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
+    <Compile Include="Framework\Factories\IRouteConstraintFactory.cs" />
+    <Compile Include="Framework\Factories\IParameterFactory.cs" />
+    <Compile Include="Framework\IAttributeRoute.cs" />
+    <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
+    <Compile Include="Helpers\ExpressionHelper.cs" />
+    <Compile Include="Helpers\ObjectExtensions.cs" />
+    <Compile Include="Helpers\ParsingExtensions.cs" />
+    <Compile Include="Helpers\ReflectionExtensions.cs" />
+    <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Framework\Localization\TranslationBuilder.cs" />
+    <Compile Include="Framework\Localization\FluentTranslationProvider.cs" />
+    <Compile Include="Framework\Localization\TranslationKeyGenerator.cs" />
+    <Compile Include="Framework\Localization\TranslationProviderBase.cs" />
+    <Compile Include="Framework\Localization\TranslationsDictionary.cs" />
     <Compile Include="Framework\RouteBuilder.cs" />
     <Compile Include="Framework\AttributeRoutingException.cs" />
-    <Compile Include="DELETEAttribute.cs" />
-    <Compile Include="Extensions\MvcExtensions.cs" />
-    <Compile Include="GETAttribute.cs" />
-    <Compile Include="Logging\LogRoutesHandler.cs" />
-    <Compile Include="RouteConventionAttribute.cs" />
+    <Compile Include="IRouteAttribute.cs" />
+    <Compile Include="Logging\AttributeRouteInfo.cs" />
+    <Compile Include="Logging\LogWriter.cs" />
+    <Compile Include="RouteConstraintAttributeBase.cs" />
+    <Compile Include="RouteConventionAttributeBase.cs" />
     <Compile Include="RoutePrefixAttribute.cs" />
-    <Compile Include="RegexRouteConstraint.cs" />
-    <Compile Include="RegexRouteConstraintAttribute.cs" />
     <Compile Include="RouteAreaAttribute.cs" />
-    <Compile Include="RouteConstraintAttribute.cs" />
     <Compile Include="RouteDefaultAttribute.cs" />
-    <Compile Include="AttributeRoutingConfiguration.cs" />
-    <Compile Include="POSTAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PUTAttribute.cs" />
-    <Compile Include="RestfulHttpMethodConstraint.cs" />
     <Compile Include="Framework\RouteSpecification.cs" />
-    <Compile Include="RouteAttribute.cs" />
-    <Compile Include="RouteCollectionExtensions.cs" />
-    <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\RouteReflector.cs" />
-    <Compile Include="Logging\LoggingExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Logging\LogRoutes.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
