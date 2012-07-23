@@ -67,13 +67,7 @@ namespace AttributeRouting.Tests.Web
                 config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
                 config.UseRouteHandler(() => new HttpCultureAwareRoutingHandler());
                 config.AddTranslationProvider(translationProvider);
-                config.ApiVersions = new List<SemanticVersion>()
-                                         {
-                                             new SemanticVersion("0.9"),
-                                             new SemanticVersion("1.0"),
-                                             new SemanticVersion("1.1"),
-                                             new SemanticVersion("1.2")
-                                         };
+                config.AddVersions("0.9","1.0","1.1","1.2");
                 config.UseLowercaseRoutes = true;
                 config.InheritActionsFromBaseController = true;
             });
@@ -83,13 +77,7 @@ namespace AttributeRouting.Tests.Web
                 config.ScanAssemblyOf<HomeController>();
                 config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
                 config.AddTranslationProvider(translationProvider);
-                config.ApiVersions = new List<SemanticVersion>()
-                                         {
-                                             new SemanticVersion("0.9"),
-                                             new SemanticVersion("1.0"),
-                                             new SemanticVersion("1.1"),
-                                             new SemanticVersion("1.2")
-                                         };
+                config.AddVersions("0.9", "1.0", "1.1", "1.2"); 
                 config.UseRouteHandler(() => new CultureAwareRouteHandler());
                 config.UseLowercaseRoutes = true;
                 config.InheritActionsFromBaseController = true;

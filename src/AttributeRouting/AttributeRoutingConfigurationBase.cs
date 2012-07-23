@@ -29,6 +29,8 @@ namespace AttributeRouting
             InlineRouteConstraints = new Dictionary<string, Type>();
 
             TranslationProviders = new List<TranslationProviderBase>();
+            
+            ApiVersions = new List<SemanticVersion>();
 
             AreaSubdomainOverrides = new Dictionary<string, string>();
             DefaultSubdomain = "www";
@@ -216,6 +218,25 @@ namespace AttributeRouting
             return (from provider in TranslationProviders
                     from cultureName in provider.CultureNames
                     select cultureName).Distinct().ToList();
+        }
+
+        /// <summary>
+        /// Adds to the list of supported <see cref="ApiVersions"/>.
+        /// </summary>
+        public void AddVersions(params string[] versions)
+        {
+            foreach (var version in versions)
+            {
+                ApiVersions.Add(SemanticVersion.Parse(version));
+            }
+        }
+
+        /// <summary>
+        /// Adds to the list of supported <see cref="ApiVersions"/>.
+        /// </summary>
+        public void AddVersions(params SemanticVersion[] versions)
+        {
+            ApiVersions.AddRange(versions);
         }
 
         protected void RegisterDefaultInlineRouteConstraints<TRouteConstraint>(Assembly assembly)
