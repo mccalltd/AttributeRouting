@@ -46,6 +46,10 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework
 
         public bool? AppendTrailingSlash { get; set; }
 
+        public SemanticVersion MinVersion { get; set; }
+
+        public SemanticVersion MaxVersion { get; set; }
+
         IDictionary<string, object> IAttributeRoute.DataTokens
         {
             get { return DataTokens; }
