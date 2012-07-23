@@ -77,6 +77,11 @@ namespace AttributeRouting
         public List<TranslationProviderBase> TranslationProviders { get; set; }
 
         /// <summary>
+        /// List of supported API versions
+        /// </summary>
+        public List<SemanticVersion> ApiVersions { get; set; }
+
+        /// <summary>
         /// When true, the generated routes will produce lowercase URLs.
         /// The default is false.
         /// </summary>

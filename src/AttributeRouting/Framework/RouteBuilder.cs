@@ -38,23 +38,47 @@ namespace AttributeRouting.Framework
 
             foreach (var routeSpec in routeSpecs)
             {
-                foreach (var route in Build(routeSpec))
+                foreach (var version in GenerateRouteVersions(routeSpec))
                 {
-                    route.MappedSubdomains = mappedSubdomains;
-                    yield return route;
+                    foreach (var route in Build(routeSpec, version))
+                    {
+                        route.MappedSubdomains = mappedSubdomains;
+                        yield return route;
+                    }
                 }
             }
         }
 
-        private IEnumerable<IAttributeRoute> Build(RouteSpecification routeSpec)
+        /// <summary>
+        /// Looks at _configuration.ApiVersions to see what versions are supported, and generates a list 
+        /// of versions for each between min and max.
+        /// If no versions are defined in configuration, always returns one null version.
+        /// </summary>
+        /// <param name="minVersion"></param>
+        /// <param name="maxVersion"></param>
+        /// <returns></returns>
+        private IEnumerable<SemanticVersion> GenerateRouteVersions(RouteSpecification routeSpec)
         {
-            var route = _routeFactory.CreateAttributeRoute(CreateRouteUrl(routeSpec),
+            if (!routeSpec.IsVersioned || (_configuration.ApiVersions == null) && (_configuration.ApiVersions.Count == 0))
+            {
+                return new List<SemanticVersion>() {null};
+            }
+
+            return (from version in _configuration.ApiVersions
+                    where (routeSpec.MinVersion == null || version >= routeSpec.MinVersion)
+                        && (routeSpec.MaxVersion == null || version <= routeSpec.MaxVersion)
+                    select version);
+        }
+
+        private IEnumerable<IAttributeRoute> Build(RouteSpecification routeSpec, SemanticVersion version)
+        {
+            var route = _routeFactory.CreateAttributeRoute(CreateRouteUrl(routeSpec, version),
                                                            CreateRouteDefaults(routeSpec),
-                                                           CreateRouteConstraints(routeSpec),
+                                                           CreateRouteConstraints(routeSpec, version),
                                                            CreateRouteDataTokens(routeSpec));
 
             route.RouteName = CreateRouteName(routeSpec);
-            route.Translations = CreateRouteTranslations(routeSpec);
+            route.Translations = CreateRouteTranslations(routeSpec, version);
             route.Subdomain = routeSpec.Subdomain;
             route.UseLowercaseRoute = routeSpec.UseLowercaseRoute;
             route.PreserveCaseForUrlParameters = routeSpec.PreserveCaseForUrlParameters;
@@ -89,17 +113,18 @@ namespace AttributeRouting.Framework
 
             return null;
         }
-
-        private string CreateRouteUrl(RouteSpecification routeSpec)
+        
+        private string CreateRouteUrl(RouteSpecification routeSpec, SemanticVersion version)
         {
             return CreateRouteUrl(routeSpec.RouteUrl,
                                   routeSpec.RoutePrefixUrl,
                                   routeSpec.AreaUrl,
+                                  version == null ? null : version.ToString(),
                                   routeSpec.IsAbsoluteUrl,
                                   routeSpec.UseLowercaseRoute);
         }
 
-        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, bool isAbsoluteUrl, bool? useLowercaseRoute)
+        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, string verisonPrefix, bool isAbsoluteUrl, bool? useLowercaseRoute)
         {
             var detokenizedUrl = DetokenizeUrl(routeUrl);
 
@@ -128,6 +153,13 @@ namespace AttributeRouting.Framework
                     var delimitedRoutePrefix = routePrefix + "/";
                     if (!delimitedRouteUrl.StartsWith(delimitedRoutePrefix))
                         urlBuilder.Insert(0, delimitedRoutePrefix);
+                }
+
+                if (verisonPrefix.HasValue())
+                {
+                    var delimitedVerisonPrefix = verisonPrefix + "/";
+                    if (!delimitedRouteUrl.StartsWith(delimitedVerisonPrefix))
+                        urlBuilder.Insert(0, delimitedVerisonPrefix);
                 }
 
                 if (areaUrl.HasValue())
@@ -212,7 +244,7 @@ namespace AttributeRouting.Framework
             return defaults;
         }
 
-        private IDictionary<string, object> CreateRouteConstraints(RouteSpecification routeSpec)
+        private IDictionary<string, object> CreateRouteConstraints(RouteSpecification routeSpec, SemanticVersion version)
         {
             var constraints = new Dictionary<string, object>();
 
@@ -305,7 +337,7 @@ namespace AttributeRouting.Framework
                 constraints.Add(constraintAttribute.Key, constraintAttribute.Constraint);
             }
 
-            var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec));
+            var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec, version));
             var urlParameterNames = GetUrlParameterContents(detokenizedUrl).ToList();
 
             // Globally configured constraints
@@ -355,7 +387,7 @@ namespace AttributeRouting.Framework
             return Regex.Replace(url, String.Join("|", patterns), "");
         }
 
-        private IEnumerable<IAttributeRoute> CreateRouteTranslations(RouteSpecification routeSpec)
+        private IEnumerable<IAttributeRoute> CreateRouteTranslations(RouteSpecification routeSpec, SemanticVersion version)
         {
             // If no translation provider, then get out of here.
             if (!_configuration.TranslationProviders.Any())
@@ -386,10 +418,11 @@ namespace AttributeRouting.Framework
                     _routeFactory.CreateAttributeRoute(CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
                                                                       translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
                                                                       translatedAreaUrl ?? routeSpec.AreaUrl,
+                                                                      version == null ? null : version.ToString(),
                                                                       routeSpec.IsAbsoluteUrl,
                                                                       routeSpec.UseLowercaseRoute),
                                                        CreateRouteDefaults(routeSpec),
-                                                       CreateRouteConstraints(routeSpec),
+                                                       CreateRouteConstraints(routeSpec, version),
                                                        CreateRouteDataTokens(routeSpec));
 
                 translatedRoute.CultureName = cultureName;

@@ -46,6 +46,7 @@ namespace AttributeRouting.Framework
                     let convention = controllerType.GetCustomAttribute<RouteConventionAttributeBase>(false)
                     let routeAreaAttribute = controllerType.GetCustomAttribute<RouteAreaAttribute>(true)
                     let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
+                    let routeVersionedAttribute = controllerType.GetCustomAttribute<RouteVersionedAttribute>(true)
                     from actionMethod in controllerType.GetActionMethods(inheritActionsFromBaseController)
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
                     // precedence is within a controller
@@ -73,7 +74,10 @@ namespace AttributeRouting.Framework
                         IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl,
                         UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
                         PreserveCaseForUrlParameters = routeAttribute.PreserveCaseForUrlParametersFlag,
-                        AppendTrailingSlash = routeAttribute.AppendTrailingSlashFlag
+                        AppendTrailingSlash = routeAttribute.AppendTrailingSlashFlag,
+                        IsVersioned = routeVersionedAttribute != null && routeVersionedAttribute.IsVersioned,
+                        MinVersion = routeAttribute.MinVersion ?? (routeVersionedAttribute != null ? routeVersionedAttribute.MinVersion : null),
+                        MaxVersion = routeAttribute.MaxVersion ?? (routeVersionedAttribute != null ? routeVersionedAttribute.MaxVersion : null)
                     }).ToList();
         }
 

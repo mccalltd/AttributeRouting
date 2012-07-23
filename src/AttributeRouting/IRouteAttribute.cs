@@ -74,5 +74,20 @@ namespace AttributeRouting
         /// Gets the tri-state value for AppendTrailingSlash.
         /// </summary>
         bool? AppendTrailingSlashFlag { get; }
+
+        /// <summary>
+        /// Indicates if this route is versioned. Is set by defining the [RouteVersioned] attribute on the class
+        /// </summary>
+        bool IsVersioned { get; set; }
+
+        /// <summary>
+        /// The minimum version required. 
+        /// </summary>
+        SemanticVersion MinVersion { get; set; }
+
+        /// <summary>
+        /// The maximum version required.
+        /// </summary>
+        SemanticVersion MaxVersion { get; set; }
     }
 }

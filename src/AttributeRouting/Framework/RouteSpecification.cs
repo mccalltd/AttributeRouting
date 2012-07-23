@@ -48,5 +48,11 @@ namespace AttributeRouting.Framework
         public bool? PreserveCaseForUrlParameters { get; set; }
 
         public bool? AppendTrailingSlash { get; set; }
+
+        public bool IsVersioned { get; set; }
+
+        public SemanticVersion MinVersion { get; set; }
+
+        public SemanticVersion MaxVersion { get; set; }
     }
 }
