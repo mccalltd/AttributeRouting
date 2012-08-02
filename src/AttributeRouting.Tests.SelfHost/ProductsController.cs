@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Web.Http;
 using AttributeRouting.Web.Http;
 
@@ -21,7 +22,7 @@ namespace AttributeRouting.Tests.SelfHost
         {
             if (id < 1 || id > 3)
             {
-                throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
+                throw new HttpResponseException(new HttpResponseMessage(System.Net.HttpStatusCode.NotFound));
             }
             return new Product()
             {
