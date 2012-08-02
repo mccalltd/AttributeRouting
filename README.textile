@@ -4,6 +4,10 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_2.4.1_
+
+* #73 - updated MVC 2 reference to MVC 3
+
 _v2.4_
 
 * #84 - fixed routing to asynchronous actions.
