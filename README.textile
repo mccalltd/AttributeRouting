@@ -4,6 +4,10 @@ h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRo
 
 h3. Changelog
 
+_2.4.2_
+
+# 99 - Fixed bug in subdomain routing due to not being able to parse a host from the current request.
+
 _2.4.1_
 
 * #73 - updated MVC 2 reference to MVC 3
