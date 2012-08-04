@@ -7,7 +7,7 @@ using AttributeRouting.Framework;
 namespace AttributeRouting.Web.Http.WebHost
 {
     /// <summary>
-    /// Extensions to the MVC RouteCollection.
+    /// Extensions to the System.Web.Routing.RouteCollection.
     /// </summary>
     public static class RouteCollectionExtensions
     {
