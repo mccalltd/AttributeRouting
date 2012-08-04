@@ -5,7 +5,7 @@ using AttributeRouting.Web.Mvc.Constraints;
 
 namespace AttributeRouting.Web.Mvc.Framework.Factories
 {
-    public class RouteConstraintFactory : WebRouteConstraintFactoryBase
+    internal class RouteConstraintFactory : WebRouteConstraintFactoryBase
     {
         public RouteConstraintFactory(AttributeRoutingConfiguration configuration) 
             : base(configuration)

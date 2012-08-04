@@ -56,8 +56,8 @@ namespace AttributeRouting.Web
         }
 
         /// <summary>
-        /// this delegate returns the current UI culture name.
-        /// This value is used when constraining inbound routes by culture.
+        /// This delegate returns the current UI culture name,
+        /// which is used when constraining inbound routes by culture.
         /// The default delegate returns the CurrentUICulture name of the current thread.
         /// </summary>
         public Func<HttpContextBase, RouteData, string> CurrentUICultureResolver { get; set; }

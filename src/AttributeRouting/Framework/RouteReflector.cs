@@ -30,10 +30,10 @@ namespace AttributeRouting.Framework
                 yield break;
 
             var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes(_configuration.FrameworkControllerType)).ToList();
-            var remainingControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
-            var remainingRouteSpecs = GenerateRouteSpecifications(remainingControllerTypes, _configuration.InheritActionsFromBaseController);
+            var unspecdControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
+            var scannedRouteSpecs = GenerateRouteSpecifications(unspecdControllerTypes, _configuration.InheritActionsFromBaseController);
 
-            foreach (var spec in remainingRouteSpecs)
+            foreach (var spec in scannedRouteSpecs)
                 yield return spec;
         }
 

@@ -1,22 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using AttributeRouting.Constraints;
-using AttributeRouting.Framework;
-using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Logging
 {
     public static class LogWriter
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="count"></param>
-        /// <param name="writer"></param>
         public static void LogNumberOfRoutes(int count, TextWriter writer)
         {
             writer.WriteLine("TOTAL ROUTES: {0}", count);
@@ -25,12 +13,6 @@ namespace AttributeRouting.Logging
             writer.WriteLine(" ");
         }
 
-        /// <summary>
-        /// Logs an AttributeRouteInfo object to a TextWriter
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="name"></param>
-        /// <param name="routeInfo"> </param>
         public static void LogRoute(TextWriter writer, string name, AttributeRouteInfo routeInfo)
         {
             writer.WriteLine("URL: {0} {1}", routeInfo.Url, routeInfo.HttpMethod);

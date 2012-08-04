@@ -33,8 +33,10 @@ namespace AttributeRouting.Framework
         {
             var routeReflector = new RouteReflector(_configuration);
             var routeSpecs = routeReflector.GenerateRouteSpecifications().ToList();
-            var mappedSubdomains =
-                routeSpecs.Where(s => s.Subdomain.HasValue()).Select(s => s.Subdomain).Distinct().ToList();
+
+            var mappedSubdomains = (from s in routeSpecs
+                                    where s.Subdomain.HasValue()
+                                    select s.Subdomain).Distinct().ToList();
 
             foreach (var routeSpec in routeSpecs)
             {
