@@ -69,5 +69,29 @@ namespace AttributeRouting.Specs.Tests.Subdomains
 
             Assert.That(data, Is.Null);
         }
+
+        [Test]
+        public void Route_is_matched_if_subdomain_is_not_mapped_and_parsed_subdomain_is_null()
+        {
+            var routes = RouteTable.Routes;
+            routes.Clear();
+            routes.MapAttributeRoutes(config =>
+            {
+                config.AddRoutesFromController<StandardUsageController>();
+                config.AddRoutesFromController<SubdomainController>();
+            });
+
+            const string host = "localhost";
+            var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
+            {
+                r.SetupGet(x => x.Url).Returns(new Uri("http://" + host, UriKind.Absolute));
+                r.SetupGet(x => x.Headers).Returns(new NameValueCollection { { "host", host } });
+            });
+
+            var route = routes.First();
+            var data = route.GetRouteData(httpContextMock.Object);
+
+            Assert.That(data, Is.Not.Null);
+        }
     }
 }

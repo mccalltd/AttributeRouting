@@ -46,6 +46,10 @@ namespace AttributeRouting.Framework
             // Get the subdomain from the requested hostname.
             var subdomain = configuration.SubdomainParser(host);
 
+            // Match if subdomain is null and this route has no subdomain.
+            if (subdomain.HasNoValue() && route.Subdomain.HasNoValue())
+                return true;
+
             // Match if this route is mapped to the requested host's subdomain
             if ((route.Subdomain ?? configuration.DefaultSubdomain).ValueEquals(subdomain))
                 return true;

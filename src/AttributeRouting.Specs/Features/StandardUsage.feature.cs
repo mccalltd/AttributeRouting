@@ -65,17 +65,17 @@ namespace AttributeRouting.Specs.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Generating routes for an action method")]
-        [NUnit.Framework.TestCaseAttribute("GET", "Index", "Index", new string[0])]
-        [NUnit.Framework.TestCaseAttribute("HEAD", "Index", "Index", new string[0])]
+        [NUnit.Framework.DescriptionAttribute("Generating routes for an MVC controller")]
+        [NUnit.Framework.TestCaseAttribute("GET", "Index", "", new string[0])]
+        [NUnit.Framework.TestCaseAttribute("HEAD", "Index", "", new string[0])]
         [NUnit.Framework.TestCaseAttribute("POST", "Create", "Create", new string[0])]
         [NUnit.Framework.TestCaseAttribute("PUT", "Update", "Update/{id}", new string[0])]
         [NUnit.Framework.TestCaseAttribute("DELETE", "Destroy", "Destroy/{id}", new string[0])]
         [NUnit.Framework.TestCaseAttribute("GET", "Wildcards", "Wildcards/{*pathInfo}", new string[0])]
         [NUnit.Framework.TestCaseAttribute("", "AnyVerb", "AnyVerb", new string[0])]
-        public virtual void GeneratingRoutesForAnActionMethod(string method, string action, string url, string[] exampleTags)
+        public virtual void GeneratingRoutesForAnMVCController(string method, string action, string url, string[] exampleTags)
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes for an action method", exampleTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes for an MVC controller", exampleTags);
 #line 3
 this.ScenarioSetup(scenarioInfo);
 #line 4

@@ -1,6 +1,6 @@
 ﻿Feature: Standard Usage
 
-Scenario Outline: Generating routes for an action method
+Scenario Outline: Generating routes for an MVC controller
 	Given I have registered the routes for the StandardUsageController
 	When I fetch the routes for the StandardUsageController's <action> action
 	Then the route is constrained to <method> requests
@@ -10,14 +10,14 @@ Scenario Outline: Generating routes for an action method
 	 And the namespace is "AttributeRouting.Specs.Subjects"
 	
 	Examples:
-		| method  | action    | url                   |
-		| GET     | Index     | Index                 |
-		| HEAD    | Index     | Index                 |
-		| POST    | Create    | Create                |
-		| PUT     | Update    | Update/{id}           |
-		| DELETE  | Destroy   | Destroy/{id}          |
-		| GET     | Wildcards | Wildcards/{*pathInfo} |
-		|         | AnyVerb   | AnyVerb               |
+		| method | action    | url                   |
+		| GET    | Index     |                       |
+		| HEAD   | Index     |                       |
+		| POST   | Create    | Create                |
+		| PUT    | Update    | Update/{id}           |
+		| DELETE | Destroy   | Destroy/{id}          |
+		| GET    | Wildcards | Wildcards/{*pathInfo} |
+		|        | AnyVerb   | AnyVerb               |
 
 Scenario Outline: Generating routes for an API controller
 	Given I have registered the routes for the HttpStandardUsageController
