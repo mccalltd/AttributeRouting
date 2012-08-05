@@ -6,19 +6,19 @@ namespace AttributeRouting.Tests.Web.Areas.Api.Controllers
     public class ConstraintsController : BaseApiController
     {
         [GET("Int/{x:int}")]
-        public string Int(int x)
+        public string GetInt(int x)
         {
             return x.ToString();
         }
 
         [GET("IntOptional/{x:int?}")]
-        public string IntOptional(int? x)
+        public string GetIntOptional(int? x)
         {
             return x.GetValueOrDefault(-1).ToString();
         }
 
         [GET("IntDefault/{x:int=123}")]
-        public string IntDefault(int x)
+        public string GetIntDefault(int x)
         {
             return x.ToString();
         }

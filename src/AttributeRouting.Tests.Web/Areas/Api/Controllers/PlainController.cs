@@ -8,7 +8,7 @@ namespace AttributeRouting.Tests.Web.Areas.Api.Controllers
     {
         // GET /api/plain
         [GET("")]
-        public IEnumerable<string> Get()
+        public IEnumerable<string> GetAll()
         {
             return new [] { "value1", "value2" };
         }
@@ -22,15 +22,13 @@ namespace AttributeRouting.Tests.Web.Areas.Api.Controllers
 
         // POST /api/plain
         [POST("")]
-        [POST("alt1")]
-        [RegexRouteConstraint("value", "somePattern")]
-        public void Post(string value)
+        public void Post()
         {
         }
 
         // PUT /api/plain/5
         [PUT("{id}")]
-        public void Put(int id, string value)
+        public void Put(int id)
         {
         }
 

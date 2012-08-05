@@ -8,7 +8,7 @@ using AttributeRouting.Framework;
 namespace AttributeRouting.Web.Http.SelfHost
 {
     /// <summary>
-    /// Extensions to the HttpRouteCollection
+    /// Extensions to the System.Web.Http.HttpRouteCollection
     /// </summary>
     public static class HttpRouteCollectionExtensions
     {

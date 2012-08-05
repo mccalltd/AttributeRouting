@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
@@ -25,7 +26,7 @@ namespace AttributeRouting.Tests.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            
             var translationProvider = new FluentTranslationProvider();
             var routePrefixDict = new Dictionary<string, string>
                                       {

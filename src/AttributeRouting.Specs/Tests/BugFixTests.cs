@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Web.Http;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
+using AttributeRouting.Logging;
 using AttributeRouting.Specs.Subjects;
+using AttributeRouting.Specs.Subjects.Http;
+using AttributeRouting.Web.Http.WebHost;
 using AttributeRouting.Web.Logging;
 using AttributeRouting.Web.Mvc;
 using MvcContrib.TestHelper;
@@ -14,6 +18,19 @@ namespace AttributeRouting.Specs.Tests
 {
     public class BugFixTests
     {
+        [Test]
+        public void Generating_two_routes_for_api_get_requests()
+        {
+            // re: issue #102
+
+            RouteTable.Routes.Clear();
+            RouteTable.Routes.MapHttpAttributeRoutes(config => config.AddRoutesFromController<Issue102TestController>());
+
+            var routes = RouteTable.Routes.Cast<Route>().ToList();
+            
+            Assert.That(routes.Count, Is.EqualTo(2));
+        }
+
         [Test]
         public void Ensure_that_incompletely_mocked_request_context_does_not_generate_error_in_determining_http_method()
         {

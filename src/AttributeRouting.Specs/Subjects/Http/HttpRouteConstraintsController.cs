@@ -20,8 +20,8 @@ namespace AttributeRouting.Specs.Subjects.Http
 
         [GET("MultipleConstraints/1/{p1}", RouteName = "ApiMultipleConstraints1")]
         [GET("MultipleConstraints/2/{p1}", RouteName = "ApiMultipleConstraints2")]
-        [RegexRouteConstraint("p1", @"\d+", ForRouteNamed = "ApiMultipleConstraints1")]
-        [RegexRouteConstraint("p1", @"\d{4}", ForRouteNamed = "ApiMultipleConstraints2")]
+        [Web.RegexRouteConstraint("p1", @"\d+", ForRouteNamed = "ApiMultipleConstraints1")]
+        [Web.RegexRouteConstraint("p1", @"\d{4}", ForRouteNamed = "ApiMultipleConstraints2")]
         public string MultipleRoutes()
         {
             return "";
