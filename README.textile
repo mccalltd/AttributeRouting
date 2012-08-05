@@ -6,7 +6,7 @@ h3. Changelog
 
 _2.4.2_
 
-# 99 - Fixed bug in subdomain routing due to not being able to parse a host from the current request.
+* #99 - Fixed bug in subdomain routing due to not being able to parse a host from the current request.
 
 _2.4.1_
 
