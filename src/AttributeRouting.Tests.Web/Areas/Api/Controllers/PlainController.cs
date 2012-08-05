@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AttributeRouting.Web;
 using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Tests.Web.Areas.Api.Controllers

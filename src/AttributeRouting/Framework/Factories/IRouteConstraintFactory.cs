@@ -4,23 +4,24 @@ using AttributeRouting.Constraints;
 namespace AttributeRouting.Framework.Factories
 {
     /// <summary>
-    /// A factory interface for generate AR constraints that implement framework interfaces (IRouteConstraint, IHttpRouteConstraint)
+    /// Abstraction used by <see cref="RouteBuilder"/>
+    /// to generate route constraints for routes.
     /// </summary>
+    /// <remarks>
+    /// Due to 
+    /// System.Web.Routing.IRouteConstraint (used in web-hosted scenarios) and 
+    /// System.Web.Http.Routing.IHttpRouteConstraint (used in self-hosted scenarios).    
+    /// </remarks>
     public interface IRouteConstraintFactory
     {
         /// <summary>
         /// Creates a new RegexRouteConstraint
         /// </summary>
-        /// <param name="pattern"></param>
-        /// <param name="options"></param>
-        /// <returns></returns>
         RegexRouteConstraintBase CreateRegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None);
 
         /// <summary>
         /// Creates a new RestfulHttpMethodConstraint
         /// </summary>
-        /// <param name="httpMethods"></param>
-        /// <returns></returns>
         IRestfulHttpMethodConstraint CreateRestfulHttpMethodConstraint(string[] httpMethods);
 
         /// <summary>
@@ -28,21 +29,18 @@ namespace AttributeRouting.Framework.Factories
         /// </summary>
         /// <param name="name">The short name of the inline constraint</param>
         /// <param name="parameters">The paramters with which to construct the constraint</param>
-        /// <returns></returns>
         object CreateInlineRouteConstraint(string name, params object[] parameters);
 
         /// <summary>
         /// Creates a compound route constraint wrapper to allow anding of individual inline constraints.
         /// </summary>
         /// <param name="constraints">The constraints to apply together</param>
-        /// <returns></returns>
         ICompoundRouteConstraintWrapper CreateCompoundRouteConstraint(params object[] constraints);
 
         /// <summary>
         /// Creates an optional route constraint wrapper to allow inline constraints to be optional.
         /// </summary>
         /// <param name="constraint">The constraint</param>
-        /// <returns></returns>
         IOptionalRouteConstraintWrapper CreateOptionalRouteConstraint(object constraint);
     }
 }

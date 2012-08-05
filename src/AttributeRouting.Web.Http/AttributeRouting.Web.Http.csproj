@@ -82,6 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PUTAttribute.cs" />
     <Compile Include="HttpRouteAttribute.cs" />
+    <Compile Include="RegexRouteConstraintAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">

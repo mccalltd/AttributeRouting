@@ -8,7 +8,7 @@ namespace AttributeRouting.Web.Mvc
     public class AttributeRoutingConfiguration : WebAttributeRoutingConfigurationBase
     {
         private readonly IAttributeRouteFactory _attributeFactory;
-        private readonly IParameterFactory _parameterFactory;
+        private readonly IRouteDefaultFactory _parameterFactory;
         private readonly RouteConstraintFactory _routeConstraintFactory;
 
         public AttributeRoutingConfiguration()
@@ -35,7 +35,7 @@ namespace AttributeRouting.Web.Mvc
         /// <summary>
         /// Parameter factory
         /// </summary>
-        public override IParameterFactory ParameterFactory
+        public override IRouteDefaultFactory ParameterFactory
         {
             get { return _parameterFactory; }
         }

@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using AttributeRouting.Framework.Factories;
 
 namespace AttributeRouting.Constraints
 {
     /// <summary>
-    /// Wraps compound constraints speicifed inline to allow for anding.
+    /// Abstraction used by <see cref="IRouteConstraintFactory"/> 
+    /// when handling compound inline route constraints.
     /// </summary>
     /// <remarks>
-    /// Supports constraints specified like: param:constraint1:constraint2.
+    /// Due to 
+    /// System.Web.Routing.IRouteConstraint (used in web-hosted scenarios) and 
+    /// System.Web.Http.Routing.IHttpRouteConstraint (used in self-hosted scenarios).    
     /// </remarks>
     public interface ICompoundRouteConstraintWrapper
     {

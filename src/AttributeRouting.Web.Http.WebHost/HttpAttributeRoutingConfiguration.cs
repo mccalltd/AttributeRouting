@@ -9,7 +9,7 @@ namespace AttributeRouting.Web.Http.WebHost
     public class HttpAttributeRoutingConfiguration : WebAttributeRoutingConfigurationBase
     {
         private readonly IAttributeRouteFactory _attributeFactory;
-        private readonly IParameterFactory _parameterFactory;
+        private readonly IRouteDefaultFactory _parameterFactory;
         private readonly RouteConstraintFactory _routeConstraintFactory;
 
         public HttpAttributeRoutingConfiguration()
@@ -36,7 +36,7 @@ namespace AttributeRouting.Web.Http.WebHost
         /// <summary>
         /// Parameter factory
         /// </summary>
-        public override IParameterFactory ParameterFactory
+        public override IRouteDefaultFactory ParameterFactory
         {
             get { return _parameterFactory; }
         }

@@ -12,7 +12,7 @@ namespace AttributeRouting.Web.Http.SelfHost
     {
         private readonly IAttributeRouteFactory _attributeFactory;
         private readonly IRouteConstraintFactory _routeConstraintFactory;
-        private readonly IParameterFactory _parameterFactory;
+        private readonly IRouteDefaultFactory _parameterFactory;
 
         public HttpAttributeRoutingConfiguration()
         {
@@ -49,7 +49,7 @@ namespace AttributeRouting.Web.Http.SelfHost
         /// <summary>
         /// Parameter factory
         /// </summary>
-        public override IParameterFactory ParameterFactory
+        public override IRouteDefaultFactory ParameterFactory
         {
             get { return _parameterFactory; }
         }

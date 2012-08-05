@@ -1,5 +1,4 @@
 using System.Web.Http;
-using AttributeRouting.Web;
 using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Specs.Subjects.Http

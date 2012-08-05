@@ -1,8 +1,7 @@
 using System.Text.RegularExpressions;
 using AttributeRouting.Web.Http.Constraints;
-using AttributeRouting.Web.Http.SelfHost.Constraints;
 
-namespace AttributeRouting.Web.Http.SelfHost
+namespace AttributeRouting.Web.Http
 {
     /// <summary>
     /// Constrains a url parameter by a regex pattern.

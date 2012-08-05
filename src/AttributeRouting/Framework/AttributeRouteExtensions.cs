@@ -7,8 +7,14 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Mixins for use in implementations of IAttributeRoute.
+    /// Shared logic for use in implementations of <see cref="IAttributeRoute"/>.
     /// </summary>
+    /// <remarks>
+    /// Due to different route implementations in
+    /// System.Web.Routing (used for mvc controller routes),
+    /// System.Web.Http.Routing (used for self-hosted api controller routes), and 
+    /// System.Web.Http.WebHost.Routing (used for web-hosted api controller routes).
+    /// </remarks>
     public static class AttributeRouteExtensions
     {
         /// <summary>

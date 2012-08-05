@@ -3,8 +3,15 @@ using System.Collections.Generic;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Generic interface for AttributeRoutes (logging, etc.) that doesn't require a Route type
+    /// Abstraction used by <see cref="RouteBuilder"/> 
+    /// to generate routes with custom functionality.
     /// </summary>
+    /// <remarks>
+    /// Due to different route implementations in
+    /// System.Web.Routing (used for mvc controller routes),
+    /// System.Web.Http.Routing (used for self-hosted api controllers), and 
+    /// System.Web.Http.WebHost.Routing (used for web-hosted api controllers).
+    /// </remarks>
     public interface IAttributeRoute
     {
         /// <summary>

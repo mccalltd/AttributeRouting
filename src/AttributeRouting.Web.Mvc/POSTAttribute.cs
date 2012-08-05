@@ -3,7 +3,7 @@ using System.Web.Mvc;
 namespace AttributeRouting.Web.Mvc
 {
     /// <summary>
-    /// Defines a route for an action constrained to requests providing an httpMethod value of POST.
+    /// Defines a POST route for an action in Mvc Controllers.
     /// </summary>
     public class POSTAttribute : RouteAttribute
     {

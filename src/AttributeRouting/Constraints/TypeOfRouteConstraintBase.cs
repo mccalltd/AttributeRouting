@@ -3,6 +3,9 @@ using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Constraints
 {
+    /// <summary>
+    /// Constraints a url parameter to be parsable as the given type.
+    /// </summary>
     public abstract class TypeOfRouteConstraintBase<T> : IAttributeRouteConstraint
         where T : struct
     {
