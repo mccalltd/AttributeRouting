@@ -13,11 +13,11 @@ using OptionalRouteConstraintWrapper = AttributeRouting.Web.Http.SelfHost.Constr
 
 namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
 {
-    public class HttpRouteConstraintFactory : IRouteConstraintFactory
+    public class RouteConstraintFactory : IRouteConstraintFactory
     {
         private readonly HttpAttributeRoutingConfiguration _configuration;
 
-        public HttpRouteConstraintFactory(HttpAttributeRoutingConfiguration configuration)
+        public RouteConstraintFactory(HttpAttributeRoutingConfiguration configuration)
         {
             _configuration = configuration;
         }

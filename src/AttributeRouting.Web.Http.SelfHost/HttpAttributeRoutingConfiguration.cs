@@ -16,9 +16,9 @@ namespace AttributeRouting.Web.Http.SelfHost
 
         public HttpAttributeRoutingConfiguration()
         {
-            _attributeFactory = new HttpAttributeRouteFactory(this);
-            _routeConstraintFactory = new HttpRouteConstraintFactory(this);
-            _parameterFactory = new HttpRouteParameterFactory();
+            _attributeFactory = new AttributeRouteFactory(this);
+            _routeConstraintFactory = new RouteConstraintFactory(this);
+            _parameterFactory = new RouteParameterFactory();
 
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
 

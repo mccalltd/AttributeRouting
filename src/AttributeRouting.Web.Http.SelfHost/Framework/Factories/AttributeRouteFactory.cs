@@ -5,11 +5,11 @@ using AttributeRouting.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
 {
-    public class HttpAttributeRouteFactory : IAttributeRouteFactory
+    internal class AttributeRouteFactory : IAttributeRouteFactory
     {
         private readonly HttpAttributeRoutingConfiguration _configuration;
 
-        public HttpAttributeRouteFactory(HttpAttributeRoutingConfiguration configuration)
+        public AttributeRouteFactory(HttpAttributeRoutingConfiguration configuration)
         {
             _configuration = configuration;
         }

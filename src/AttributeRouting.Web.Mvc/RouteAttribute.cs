@@ -7,7 +7,7 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Web.Mvc
 {
     /// <summary>
-    /// The route information for an action.
+    /// The route information for an action in Mvc Controllers.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class RouteAttribute : ActionMethodSelectorAttribute, IRouteAttribute

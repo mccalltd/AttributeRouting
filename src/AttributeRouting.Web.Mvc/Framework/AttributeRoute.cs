@@ -5,8 +5,11 @@ using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
-namespace AttributeRouting.Web.Framework
+namespace AttributeRouting.Web.Mvc.Framework
 {
+    /// <summary>
+    /// Route to use for Mvc-hosted routes.
+    /// </summary>
     public class AttributeRoute : Route, IAttributeRoute
     {
         private readonly WebAttributeRoutingConfigurationBase _configuration;
