@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Http.WebHost.Routing;
 using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
@@ -11,7 +10,7 @@ namespace AttributeRouting.Web.Http.WebHost.Framework
     /// <summary>
     /// Route to use for Web API web-hosted routes.
     /// </summary>
-    public class HttpWebAttributeRoute : HttpWebRoute, IAttributeRoute
+    public class HttpWebAttributeRoute : Route, IAttributeRoute
     {
         private readonly WebAttributeRoutingConfigurationBase _configuration;
 

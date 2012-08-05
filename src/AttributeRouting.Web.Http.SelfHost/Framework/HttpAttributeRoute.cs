@@ -88,10 +88,10 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework
             return routeData;
         }
 
-        public override IHttpVirtualPathData GetVirtualPath(HttpControllerContext controllerContext, IDictionary<string, object> values)
+        public override IHttpVirtualPathData GetVirtualPath(HttpRequestMessage request, IDictionary<string, object> values)
         {
             // Let the underlying route do its thing, and if it does, then add some functionality on top.
-            var virtualPathData = base.GetVirtualPath(controllerContext, values);
+            var virtualPathData = base.GetVirtualPath(request, values);
             if (virtualPathData == null)
                 return null;
 
@@ -99,7 +99,7 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework
             if (_configuration.TranslationProviders.Any())
             {
                 virtualPathData =
-                    this.GetTranslatedVirtualPath(t => ((HttpRoute)t).GetVirtualPath(controllerContext, values))
+                    this.GetTranslatedVirtualPath(t => ((HttpRoute)t).GetVirtualPath(request, values))
                     ?? virtualPathData;
             }
 

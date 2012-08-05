@@ -1,0 +1,34 @@
+﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
+
+using System;
+using System.Collections.Generic;
+using System.Web.Http.Routing;
+using System.Web.Routing;
+
+namespace AttributeRouting.Web.Http.WebHost.Framework.HostedHttpRouteHack
+{
+    internal class HostedHttpRouteData : IHttpRouteData
+    {
+        public HostedHttpRouteData(RouteData routeData)
+        {
+            if (routeData == null)
+            {
+                throw new ArgumentNullException("routeData");
+            }
+
+            OriginalRouteData = routeData;
+
+            HttpWebRoute route = routeData.Route as HttpWebRoute;
+            Route = route == null ? null : route.HttpRoute;
+        }
+
+        public IHttpRoute Route { get; private set; }
+
+        public IDictionary<string, object> Values
+        {
+            get { return OriginalRouteData.Values; }
+        }
+
+        internal RouteData OriginalRouteData { get; private set; }
+    }
+}
