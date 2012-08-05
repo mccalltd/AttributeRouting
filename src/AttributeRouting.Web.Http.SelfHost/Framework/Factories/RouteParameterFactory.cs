@@ -3,7 +3,7 @@ using AttributeRouting.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
 {
-    internal class RouteParameterFactory : IRouteDefaultFactory
+    internal class RouteParameterFactory : IParameterFactory
     {
         /// <summary>
         /// Optional parameter

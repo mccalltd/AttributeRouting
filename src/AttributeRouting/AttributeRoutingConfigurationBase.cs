@@ -64,7 +64,7 @@ namespace AttributeRouting
         /// <summary>
         /// Parameter factory
         /// </summary>
-        public abstract IRouteDefaultFactory ParameterFactory { get; }
+        public abstract IParameterFactory ParameterFactory { get; }
 
         internal List<Assembly> Assemblies { get; set; }
         internal List<Type> PromotedControllerTypes { get; set; }

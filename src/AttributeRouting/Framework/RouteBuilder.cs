@@ -17,7 +17,7 @@ namespace AttributeRouting.Framework
         private readonly AttributeRoutingConfigurationBase _configuration;
         private readonly IAttributeRouteFactory _routeFactory;
         private readonly IRouteConstraintFactory _routeConstraintFactory;
-        private readonly IRouteDefaultFactory _parameterFactory;
+        private readonly IParameterFactory _parameterFactory;
 
         public RouteBuilder(AttributeRoutingConfigurationBase configuration)
         {

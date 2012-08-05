@@ -3,7 +3,7 @@ using AttributeRouting.Framework.Factories;
 
 namespace AttributeRouting.Web.Mvc.Framework.Factories
 {
-    internal class RouteParameterFactory : IRouteDefaultFactory
+    internal class RouteParameterFactory : IParameterFactory
     {
         public object Optional()
         {

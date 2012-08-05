@@ -76,7 +76,7 @@
     <Compile Include="Framework\AttributeRouteExtensions.cs" />
     <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\IRouteConstraintFactory.cs" />
-    <Compile Include="Framework\Factories\IRouteDefaultFactory.cs" />
+    <Compile Include="Framework\Factories\IParameterFactory.cs" />
     <Compile Include="Framework\IAttributeRoute.cs" />
     <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
