@@ -11,7 +11,7 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting
 {
     /// <summary>
-    /// Configuration options to use when mapping AttributeRoutes.
+    /// Configuration options to use when generating AttributeRoutes.
     /// </summary>
     public abstract class AttributeRoutingConfigurationBase
     {

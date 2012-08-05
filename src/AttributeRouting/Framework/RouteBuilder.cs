@@ -9,8 +9,8 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Creates all the routes from attributes and AR configuration. 
-    /// Relies on RouteReflector to inspect types.
+    /// Creates <see cref="IAttributeRoute"/> objects according to the 
+    /// options set in implementations of <see cref="AttributeRoutingConfigurationBase"/>.
     /// </summary>    
     public class RouteBuilder
     {
@@ -29,10 +29,13 @@ namespace AttributeRouting.Framework
             _parameterFactory = configuration.ParameterFactory;
         }
 
+        /// <summary>
+        /// Yields all the routes to register in the route table.
+        /// </summary>
         public IEnumerable<IAttributeRoute> BuildAllRoutes()
         {
             var routeReflector = new RouteReflector(_configuration);
-            var routeSpecs = routeReflector.GenerateRouteSpecifications().ToList();
+            var routeSpecs = routeReflector.BuildRouteSpecifications().ToList();
 
             var mappedSubdomains = (from s in routeSpecs
                                     where s.Subdomain.HasValue()

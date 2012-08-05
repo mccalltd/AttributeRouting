@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace AttributeRouting.Framework
 {
+    /// <summary>
+    /// Contains all the information <see cref="RouteBuilder"/> needs to create a route.
+    /// </summary>
     public class RouteSpecification
     {
         public RouteSpecification()

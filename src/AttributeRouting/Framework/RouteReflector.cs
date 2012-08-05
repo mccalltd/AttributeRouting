@@ -7,7 +7,8 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// A reflector that inspects the assemblies provided in configuration to find AttributeRouting attributes.
+    /// Creates <see cref="RouteSpecification"/> objects according to the 
+    /// options set in implementations of <see cref="AttributeRoutingConfigurationBase"/>.
     /// </summary>    
     public class RouteReflector
     {
@@ -20,9 +21,12 @@ namespace AttributeRouting.Framework
             _configuration = configuration;
         }
 
-        public IEnumerable<RouteSpecification> GenerateRouteSpecifications()
+        /// <summary>
+        /// Yields all the information needed by <see cref="RouteBuilder"/> to build routes.
+        /// </summary>
+        public IEnumerable<RouteSpecification> BuildRouteSpecifications()
         {
-            var controllerRouteSpecs = GenerateRouteSpecifications(_configuration.PromotedControllerTypes, _configuration.InheritActionsFromBaseController);
+            var controllerRouteSpecs = BuildRouteSpecifications(_configuration.PromotedControllerTypes, _configuration.InheritActionsFromBaseController);
             foreach (var spec in controllerRouteSpecs)
                 yield return spec;
 
@@ -31,13 +35,13 @@ namespace AttributeRouting.Framework
 
             var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes(_configuration.FrameworkControllerType)).ToList();
             var unspecdControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
-            var scannedRouteSpecs = GenerateRouteSpecifications(unspecdControllerTypes, _configuration.InheritActionsFromBaseController);
+            var scannedRouteSpecs = BuildRouteSpecifications(unspecdControllerTypes, _configuration.InheritActionsFromBaseController);
 
             foreach (var spec in scannedRouteSpecs)
                 yield return spec;
         }
 
-        private IEnumerable<RouteSpecification> GenerateRouteSpecifications(IEnumerable<Type> controllerTypes, bool inheritActionsFromBaseController)
+        private IEnumerable<RouteSpecification> BuildRouteSpecifications(IEnumerable<Type> controllerTypes, bool inheritActionsFromBaseController)
         {
             var controllerCount = 0;
 

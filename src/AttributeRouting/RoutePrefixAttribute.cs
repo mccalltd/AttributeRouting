@@ -3,13 +3,13 @@
 namespace AttributeRouting
 {
     /// <summary>
-    /// Defines a prefix to be used before all routes defined in this controller.
+    /// Defines a prefix shared by all the routes defined in this controller.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class RoutePrefixAttribute : Attribute
     {
         /// <summary>
-        /// Specify a prefix to be used before all routes defined in this controller.
+        /// Defines a prefix shared by all the routes defined in this controller.
         /// </summary>
         /// <param name="url">The url prefix to apply to the routes</param>
         public RoutePrefixAttribute(string url)

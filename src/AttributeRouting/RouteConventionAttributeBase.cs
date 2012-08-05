@@ -5,7 +5,7 @@ using System.Reflection;
 namespace AttributeRouting
 {
     /// <summary>
-    /// Base class implementors can use to define a custom controller-level route convention.
+    /// Base class that implementors can use to define a custom controller-level route convention.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public abstract class RouteConventionAttributeBase : Attribute
