@@ -63,6 +63,7 @@
     <Compile Include="Constraints\RangeRouteConstraint.cs" />
     <Compile Include="Constraints\RegexRouteConstraint.cs" />
     <Compile Include="Constraints\TypeOfRouteConstraints.cs" />
+    <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="RegexRouteConstraintAttribute.cs" />
     <Compile Include="Constraints\RestfulHttpMethodConstraint.cs" />
     <Compile Include="Logging\LoggingExtensions.cs" />

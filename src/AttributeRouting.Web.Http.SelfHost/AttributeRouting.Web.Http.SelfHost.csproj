@@ -65,8 +65,8 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Constraints\OptionalRouteConstraintWrapper.cs" />
-    <Compile Include="HttpAttributeRoutingConfiguration.cs" />
     <Compile Include="Framework\HttpAttributeRoute.cs" />
+    <Compile Include="HttpAttributeRoutingConfiguration.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteConstraintFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />

@@ -14,13 +14,13 @@ namespace AttributeRouting.Specs.Steps
     public class RoutePrecedenceSteps
     {
         private AttributeRoutingConfiguration _configuration;
-        private HttpAttributeRoutingConfiguration _httpConfiguration;
+        private HttpWebAttributeRoutingConfiguration _httpWebConfiguration;
 
         [Given(@"I have a new configuration object")]
         public void GivenIHaveANewConfigurationObject()
         {
             _configuration = new AttributeRoutingConfiguration();
-            _httpConfiguration = new HttpAttributeRoutingConfiguration();
+            _httpWebConfiguration = new HttpWebAttributeRoutingConfiguration();
         }
 
         [Given(@"I add the routes from the (.*) controller")]
@@ -30,7 +30,7 @@ namespace AttributeRouting.Specs.Steps
             _configuration.AddRoutesFromController(controllerType);
 
             if (controllerName.StartsWith("Http"))
-                _httpConfiguration.AddRoutesFromController(controllerType);
+                _httpWebConfiguration.AddRoutesFromController(controllerType);
         }
 
         [Given(@"I add the routes from controllers derived from the (.*) controller")]
@@ -40,7 +40,7 @@ namespace AttributeRouting.Specs.Steps
             _configuration.AddRoutesFromControllersOfType(baseControllerType);
 
             if (baseControllerName.StartsWith("Http"))
-                _httpConfiguration.AddRoutesFromControllersOfType(baseControllerType);
+                _httpWebConfiguration.AddRoutesFromControllersOfType(baseControllerType);
         }
 
         [When(@"I generate the routes with this configuration")]
@@ -48,7 +48,7 @@ namespace AttributeRouting.Specs.Steps
         {
             RouteTable.Routes.Clear();
             RouteTable.Routes.MapAttributeRoutes(_configuration);
-            RouteTable.Routes.MapHttpAttributeRoutes(_httpConfiguration);
+            RouteTable.Routes.MapHttpAttributeRoutes(_httpWebConfiguration);
         }
 
         [Then(@"the routes from the (.*) controller precede those from the (.*) controller")]

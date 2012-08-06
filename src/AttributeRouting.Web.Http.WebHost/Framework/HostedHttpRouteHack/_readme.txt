@@ -1,2 +1,0 @@
-﻿This folder is a hack to account for MS's decision to mark the HostedHttpRoute as sealed.
-Ideally AR would piggyback on this object, since the HostedHttpRoute is what's added to the route table under the covers.

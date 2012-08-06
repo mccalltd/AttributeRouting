@@ -73,25 +73,15 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Constraints\OptionalRouteConstraintWrapper.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\Constants.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\DictionaryExtensions.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\HostedHttpRoute.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\HostedHttpRouteCollection.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\HostedHttpRouteData.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\HostedHttpVirtualPathData.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\HttpContextBaseExtensions.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\HttpRequestMessageContextWrapper.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\HttpRequestMessageWrapper.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\HttpRouteDataExtensions.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\HttpRouteExtensions.cs" />
-    <Compile Include="Framework\HostedHttpRouteHack\HttpWebRoute.cs" />
     <Compile Include="Framework\HttpWebAttributeRoute.cs" />
     <Compile Include="Framework\Factories\RouteConstraintFactory.cs" />
-    <Compile Include="HttpAttributeRoutingConfiguration.cs" />
+    <Compile Include="HttpWebAttributeRoutingConfiguration.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteCollectionExtensions.cs" />
+    <Compile Include="Routing\HttpContextBaseExtensions.cs" />
+    <Compile Include="Routing\HttpMethodHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -109,9 +99,6 @@
       <Project>{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}</Project>
       <Name>AttributeRouting</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Framework\HostedHttpRouteHack\_readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

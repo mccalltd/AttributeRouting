@@ -4,7 +4,7 @@ using System;
 using System.Net.Http;
 using System.Web;
 
-namespace AttributeRouting.Web.Http.WebHost.Framework.HostedHttpRouteHack
+namespace AttributeRouting.Web.Http.WebHost.Routing
 {
     internal static class HttpContextBaseExtensions
     {
