@@ -17,7 +17,8 @@ namespace AttributeRouting.Web.Http.WebHost.Framework
     /// </summary>
     /// <remarks>
     /// This class is intended to mimic the functionality of System.Web.Http.WebHost.Routing.HttpWebRoute,
-    /// which is internal to the framework.
+    /// which is internal to the framework. Ideally, both HttpWebRoute and HostedHttpRoute would be public
+    /// so I could simply use them and not recreate the wheel.
     /// </remarks>
     public class HttpWebAttributeRoute : AttributeRoute
     {
@@ -47,7 +48,7 @@ namespace AttributeRouting.Web.Http.WebHost.Framework
         /// <summary>
         /// Gets the <see cref="IHttpRoute"/> associated with this <see cref="HttpWebAttributeRoute"/>.
         /// </summary>
-        public IHttpRoute HttpRoute { get; private set; }
+        public IHttpRoute HttpRoute { get; internal set; }
 
         protected override bool ProcessConstraint(HttpContextBase httpContext, object constraint, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
         {
