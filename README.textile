@@ -6,61 +6,61 @@ h3. Changelog
 
 _2.4.3_
 
-* Updated Web API RC integration, seems to help with #86. 
+* Updated Web API RC integration, seems to help with mccalltd/AttributeRouting#86. 
 
 _2.4.2_
 
-* #99 - Fixed bug in subdomain routing due to not being able to parse a host from the current request.
+* mccalltd/AttributeRouting#99 - Fixed bug in subdomain routing due to not being able to parse a host from the current request.
 
 _2.4.1_
 
-* #73 - updated MVC 2 reference to MVC 3
+* mccalltd/AttributeRouting#73 - updated MVC 2 reference to MVC 3
 
 _v2.4_
 
-* #84 - fixed routing to asynchronous actions.
+* mccalltd/AttributeRouting#84 - fixed routing to asynchronous actions.
 
 _v2.3_
 
-* #81 - Updated Web API references from Beta to RC. Fixed a few compilation erros due to switch.
+* mccalltd/AttributeRouting#81 - Updated Web API references from Beta to RC. Fixed a few compilation erros due to switch.
 
 _v2.2.3_
 
 * Fixed bug in RestfulHttpMethodContraint for web projects. Was not honoring http method overrides in request headers, forms, or query collections.
 * Implemented one of Sam Saffron's performance enhancements for speeding up route table lookups.
-* #82 - added OPTIONS verb to GET/PUT/POST/DELETE attributes in web API attributes.
+* mccalltd/AttributeRouting#82 - added OPTIONS verb to GET/PUT/POST/DELETE attributes in web API attributes.
 * Removed references to MVC2, now using MVC3.
 
 _v2.2.2_
 
-* #71 - fixed bug in regex pattern matching when multiple url parameters existed for a single url segment.
+* mccalltd/AttributeRouting#71 - fixed bug in regex pattern matching when multiple url parameters existed for a single url segment.
 
 _v2.2.1_
 
-* #65 - fixed bug introduced in v2.* that arises when using the RouteAttribute on actions without specifying a verb.
+* mccalltd/AttributeRouting#65 - fixed bug introduced in v2.* that arises when using the RouteAttribute on actions without specifying a verb.
 
 _v2.2_
 
-* #61 - Sexy inline route constraints. See "the wiki for inline constraints":https://github.com/mccalltd/AttributeRouting/wiki/Route-Constraints/
+* mccalltd/AttributeRouting#61 - Sexy inline route constraints. See "the wiki for inline constraints":https://github.com/mccalltd/AttributeRouting/wiki/Route-Constraints/
 
 _v2.1.1_
 
-* #63 - BREAKING CHANGE! Fixed issue with ambigous routes in MVC controllers. All prior versions worked from AttributeRouting.VERBAttribute, and these have moved into MVC and Web API specific versions to handle disambiguation: AttributeRouting.Web.Mvc.VERBAttribute and AttributeRouting.Web.Http.VERBAttribute.
+* mccalltd/AttributeRouting#63 - BREAKING CHANGE! Fixed issue with ambigous routes in MVC controllers. All prior versions worked from AttributeRouting.VERBAttribute, and these have moved into MVC and Web API specific versions to handle disambiguation: AttributeRouting.Web.Mvc.VERBAttribute and AttributeRouting.Web.Http.VERBAttribute.
 
 _v2.1_
 
-* #60 - can now override global configuration settings for UseLowercaseRoutes, PreserveCaseForUrlParameters, and AppendTrailingSlash via similarly named properties on the route attributes (GET, POST, PUT, DELETE, and Route).
+* mccalltd/AttributeRouting#60 - can now override global configuration settings for UseLowercaseRoutes, PreserveCaseForUrlParameters, and AppendTrailingSlash via similarly named properties on the route attributes (GET, POST, PUT, DELETE, and Route).
 
 _v2.0_
 
-* #57, #52 Added support for Web API, both Web-hosted and Self-hosted  
+* mccalltd/AttributeRouting#57, mccalltd/AttributeRouting#52 Added support for Web API, both Web-hosted and Self-hosted  
   - Added new Nuget packages, *AttributeRouting.WebApi* and *AttributeRouting.WebApi.Hosted*  
 
 _v1.7_
 
-* #53 - added config setting for resolving the current UI culture name when constraining inbound requests.
-* #56 - Added Configuration to inherit actions defined on a base controller
-* #54 - fixed null ref exception when hitting routes.axd
+* mccalltd/AttributeRouting#53 - added config setting for resolving the current UI culture name when constraining inbound requests.
+* mccalltd/AttributeRouting#56 - Added Configuration to inherit actions defined on a base controller
+* mccalltd/AttributeRouting#54 - fixed null ref exception when hitting routes.axd
 
 _v1.6_
 
