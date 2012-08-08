@@ -126,10 +126,9 @@ namespace AttributeRouting.Framework
             // If this is not an absolute url, prefix with a route prefix or area name
             if (!isAbsoluteUrl)
             {
-                var delimitedRouteUrl = routeUrl + "/";
-
                 if (routePrefix.HasValue())
                 {
+                    var delimitedRouteUrl = urlBuilder + "/";
                     var delimitedRoutePrefix = routePrefix + "/";
                     if (!delimitedRouteUrl.StartsWith(delimitedRoutePrefix))
                         urlBuilder.Insert(0, delimitedRoutePrefix);
@@ -137,6 +136,7 @@ namespace AttributeRouting.Framework
 
                 if (areaUrl.HasValue())
                 {
+                    var delimitedRouteUrl = urlBuilder + "/";
                     var delimitedAreaUrl = areaUrl + "/";
                     if (!delimitedRouteUrl.StartsWith(delimitedAreaUrl))
                         urlBuilder.Insert(0, delimitedAreaUrl);

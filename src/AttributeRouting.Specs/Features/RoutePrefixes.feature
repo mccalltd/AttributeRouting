@@ -44,3 +44,9 @@ Scenario: Generating absolute routes when a route area and route prefix is defin
 	Then the route url is "AreaPrefixAbsolute"
 	When I fetch the routes for the HttpAreaRoutePrefixes controller's Absolute action
 	Then the route url is "ApiAreaPrefixAbsolute"
+	
+Scenario: Generating routes when a route area and route prefix are defined and the action respecifies the area url
+	When I fetch the routes for the AreaRoutePrefixes controller's RelativeUrlIsAreaUrl action
+	Then the route url is "Area/Prefix/Area"
+	When I fetch the routes for the HttpAreaRoutePrefixes controller's RelativeUrlIsAreaUrl action
+	Then the route url is "ApiArea/ApiPrefix/ApiArea"
