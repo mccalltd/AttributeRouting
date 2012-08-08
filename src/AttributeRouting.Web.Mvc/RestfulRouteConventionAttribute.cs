@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AttributeRouting.Framework;
@@ -50,7 +51,7 @@ namespace AttributeRouting.Web.Mvc
                 case "DELETE":
                     return new DELETEAttribute(convention.Url);
                 default:
-                    throw new AttributeRoutingException(StringExtensions.FormatWith("Unknown HTTP method \"{0}\".", convention.HttpMethod));
+                    throw new AttributeRoutingException("Unknown HTTP method \"{0}\".".FormatWith(convention.HttpMethod));
             }
         }
 

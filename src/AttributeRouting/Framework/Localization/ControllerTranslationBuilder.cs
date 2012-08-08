@@ -16,7 +16,7 @@ namespace AttributeRouting.Framework.Localization
         /// <summary>
         /// Fluent helper for adding translations for the route components of a controller.
         /// </summary>
-        /// <param name="builder">The translation builder to use to utlimately add translations to the <see cref="FluentTranslationProvider"/></param>
+        /// <param name="builder">The translation builder that will add translations to the <see cref="FluentTranslationProvider"/></param>
         public ControllerTranslationBuilder(TranslationBuilder builder)
         {
             _builder = builder;
@@ -24,7 +24,7 @@ namespace AttributeRouting.Framework.Localization
         }
 
         /// <summary>
-        /// Add translations for the area url specified via the <see cref="RouteAreaAttribute"/> applied to this controller.
+        /// Add translations for the area url applied on this controller.
         /// </summary>
         /// <param name="cultureTranslationPairs">Dictionary using cultureName as a key and a translation as the value</param>
         public ControllerTranslationBuilder<TController> AreaUrl(Dictionary<string, string> cultureTranslationPairs)
@@ -36,7 +36,7 @@ namespace AttributeRouting.Framework.Localization
         }
 
         /// <summary>
-        /// Add translations for the route prefix url specified via the <see cref="RoutePrefixAttribute"/> applied to this controller.
+        /// Add translations for the route prefix url applied on this controller.
         /// </summary>
         /// <param name="cultureTranslationPairs">Dictionary using cultureName as a key and a translation as the value</param>
         public ControllerTranslationBuilder<TController> RoutePrefixUrl(Dictionary<string, string> cultureTranslationPairs)
@@ -48,7 +48,7 @@ namespace AttributeRouting.Framework.Localization
         }
 
         /// <summary>
-        /// Add translations for the route url specified via the route attribute applied to the specified action in this controller.
+        /// Add translations for the route url for an action in this controller.
         /// </summary>
         /// <param name="action">Expression pointing to an action method on the controller</param>
         /// <param name="cultureTranslationPairs">Dictionary using cultureName as a key and a translation as the value</param>
