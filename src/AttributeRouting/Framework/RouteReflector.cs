@@ -56,7 +56,7 @@ namespace AttributeRouting.Framework
                     orderby controllerIndex, routeAttribute.Precedence
                     let routeName = routeAttribute.RouteName
                     let subdomain = GetAreaSubdomain(routeAreaAttribute)
-					let isAsyncController = controllerType.IsAsyncController()
+                    let isAsyncController = controllerType.IsAsyncController()
                     select new RouteSpecification
                     {
                         AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
@@ -67,7 +67,7 @@ namespace AttributeRouting.Framework
                         RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
                         ControllerType = controllerType,
                         ControllerName = controllerType.GetControllerName(),
-						ActionName = GetActionName(actionMethod, isAsyncController),
+                        ActionName = GetActionName(actionMethod, isAsyncController),
                         RouteUrl = routeAttribute.RouteUrl,
                         RouteUrlTranslationKey = routeAttribute.TranslationKey,
                         HttpMethods = routeAttribute.HttpMethods,
@@ -81,13 +81,13 @@ namespace AttributeRouting.Framework
                     }).ToList();
         }
 
-		private static string GetActionName(MethodInfo actionMethod, bool isAsyncController)
-		{
-			string actionName = actionMethod.Name;
-			if (isAsyncController && actionName.EndsWith("Async"))
-				actionName = actionName.Substring(0, actionName.Length - 5);
-			return actionName;
-		}
+        private static string GetActionName(MethodInfo actionMethod, bool isAsyncController)
+        {
+            string actionName = actionMethod.Name;
+            if (isAsyncController && actionName.EndsWith("Async"))
+                actionName = actionName.Substring(0, actionName.Length - 5);
+            return actionName;
+        }
 
         private static IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod, RouteConventionAttributeBase convention)
         {
