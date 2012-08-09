@@ -64,30 +64,24 @@ namespace AttributeRouting.Specs.Features
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void FeatureBackground()
-        {
-#line 3
-#line 4
- testRunner.Given("I generate the routes defined in the subject controllers");
-#line hidden
-        }
-        
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Inheriting actions in a derived controller")]
         public virtual void InheritingActionsInADerivedController()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inheriting actions in a derived controller", ((string[])(null)));
-#line 6
-this.ScenarioSetup(scenarioInfo);
 #line 3
-this.FeatureBackground();
-#line 7
+this.ScenarioSetup(scenarioInfo);
+#line 4
+ testRunner.Given("I have registered the routes for the SuperController");
+#line 5
  testRunner.When("I fetch the routes for the SuperController\'s Index action");
-#line 8
+#line 6
  testRunner.Then("the route url is \"InheritedActions/Index\"");
-#line 9
+#line 7
+ testRunner.Given("I have registered the routes for the DerivedController");
+#line 8
  testRunner.When("I fetch the routes for the DerivedController\'s Index action");
-#line 10
+#line 9
  testRunner.Then("the route url is \"InheritedActions/Index\"");
 #line hidden
             this.ScenarioCleanup();
@@ -98,17 +92,19 @@ this.FeatureBackground();
         public virtual void InheritingActionsInADerivedControllerOverridingTheUrlOfAnAction()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inheriting actions in a derived controller overriding the url of an action", ((string[])(null)));
-#line 12
+#line 11
 this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
+#line 12
+ testRunner.Given("I have registered the routes for the SuperController");
 #line 13
  testRunner.When("I fetch the routes for the SuperController\'s Index action");
 #line 14
  testRunner.Then("the route url is \"InheritedActions/Index\"");
 #line 15
- testRunner.When("I fetch the routes for the DerivedWithOverrideController\'s Index action");
+ testRunner.Given("I have registered the routes for the DerivedWithOverrideController");
 #line 16
+ testRunner.When("I fetch the routes for the DerivedWithOverrideController\'s Index action");
+#line 17
  testRunner.Then("the route url is \"InheritedActions/IndexDerived\"");
 #line hidden
             this.ScenarioCleanup();
@@ -119,17 +115,19 @@ this.FeatureBackground();
         public virtual void InheritingActionsInADerivedControllerThatSpecifiesAnArea()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inheriting actions in a derived controller that specifies an area", ((string[])(null)));
-#line 18
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
 #line 19
- testRunner.When("I fetch the routes for the SuperWithAreaController\'s Index action");
+this.ScenarioSetup(scenarioInfo);
 #line 20
- testRunner.Then("the route url is \"Super/InheritedActions/Index\"");
+ testRunner.Given("I have registered the routes for the SuperWithAreaController");
 #line 21
- testRunner.When("I fetch the routes for the DerivedWithAreaController\'s Index action");
+ testRunner.When("I fetch the routes for the SuperWithAreaController\'s Index action");
 #line 22
+ testRunner.Then("the route url is \"Super/InheritedActions/Index\"");
+#line 23
+ testRunner.Given("I have registered the routes for the DerivedWithAreaController");
+#line 24
+ testRunner.When("I fetch the routes for the DerivedWithAreaController\'s Index action");
+#line 25
  testRunner.Then("the route url is \"Derived/InheritedActions/Index\"");
 #line hidden
             this.ScenarioCleanup();
@@ -140,17 +138,19 @@ this.FeatureBackground();
         public virtual void InheritingActionsInADerivedControllerThatSpecifiesAPrefix()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inheriting actions in a derived controller that specifies a prefix", ((string[])(null)));
-#line 24
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 25
- testRunner.When("I fetch the routes for the SuperWithPrefixController\'s Index action");
-#line 26
- testRunner.Then("the route url is \"InheritedActions/Super/Index\"");
 #line 27
- testRunner.When("I fetch the routes for the DerivedWithPrefixController\'s Index action");
+this.ScenarioSetup(scenarioInfo);
 #line 28
+ testRunner.Given("I have registered the routes for the SuperWithPrefixController");
+#line 29
+ testRunner.When("I fetch the routes for the SuperWithPrefixController\'s Index action");
+#line 30
+ testRunner.Then("the route url is \"InheritedActions/Super/Index\"");
+#line 31
+ testRunner.Given("I have registered the routes for the DerivedWithPrefixController");
+#line 32
+ testRunner.When("I fetch the routes for the DerivedWithPrefixController\'s Index action");
+#line 33
  testRunner.Then("the route url is \"InheritedActions/Derived/Index\"");
 #line hidden
             this.ScenarioCleanup();

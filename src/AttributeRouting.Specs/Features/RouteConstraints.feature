@@ -1,20 +1,26 @@
 ﻿Feature: Route Constraints
 
 Scenario: Regex route constraints specified with an attribute
-	Given I generate the routes defined in the subject controllers
+	# MVC
+	Given I have registered the routes for the RouteConstraintsController
 	When I fetch the routes for the RouteConstraints controller's Index action
 	Then the parameter "p1" is constrained by the pattern "\d+"
+	# Web API Selfhost
+	Given I have registered the routes for the ApiRouteConstraintsController
 	When I fetch the routes for the ApiRouteConstraints controller's Get action
 	Then the parameter "p1" is constrained by the pattern "\d+"
 
 Scenario: Regex route constraints specified inline
-	Given I generate the routes defined in the subject controllers
+	# MVC
+	Given I have registered the routes for the RouteConstraintsController
 	When I fetch the routes for the RouteConstraints controller's InlineConstraints action
 	Then the route url is "InlineConstraints/{number}/{word}/{alphanum}/{capture}"
 	Then the parameter "number" is constrained by the pattern "\d+"
 	Then the parameter "word" is constrained by the pattern "\w{2}"
 	Then the parameter "alphanum" is constrained by the pattern "[A-Za-z0-9]*"
 	Then the parameter "capture" is constrained by the pattern "(gotcha)"
+	# Web API
+	Given I have registered the routes for the HttpRouteConstraintsController
 	When I fetch the routes for the HttpRouteConstraints controller's InlineConstraints action
 	Then the route url is "InlineConstraints/{number}/{word}/{alphanum}/{capture}"
 	Then the parameter "number" is constrained by the pattern "\d+"
@@ -23,12 +29,13 @@ Scenario: Regex route constraints specified inline
 	Then the parameter "capture" is constrained by the pattern "(gotcha)"
 
 Scenario Outline: Inline constraints
-	Given I generate the routes defined in the subject controllers
 	# MVC
+	Given I have registered the routes for the InlineRouteConstraintsController
 	When I fetch the routes for the InlineRouteConstraints controller's <actionName> action
 	Then the route url is "Inline-Constraints/<actionName>/{x}"
 	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.<constraintTypeName>
 	# Web API
+	Given I have registered the routes for the HttpInlineRouteConstraintsController
 	When I fetch the routes for the HttpInlineRouteConstraints controller's <actionName> action
 	Then the route url is "Http-Inline-Constraints/<actionName>/{x}"
 	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.<constraintTypeName>
@@ -129,12 +136,15 @@ Scenario Outline: Matching inline route constraints
 	| WithDefault                               | WithDefault  | is        |
 
 Scenario: Multiple routes with different constraints
-	Given I generate the routes defined in the subject controllers
+	# MVC
+	Given I have registered the routes for the RouteConstraintsController
 	When I fetch the routes for the RouteConstraints controller's MultipleRoutes action
 	Then the route named "MultipleConstraints1" has a constraint on "p1" of "\d+"
 	And the route named "MultipleConstraints2" has a constraint on "p1" of "\d{4}" 
 	And the route named "ApiMultipleConstraints1" has a constraint on "p1" of "\d+"
 	And the route named "ApiMultipleConstraints2" has a constraint on "p1" of "\d{4}"
+	# Web API
+	Given I have registered the routes for the HttpRouteConstraintsController
 	When I fetch the routes for the HttpRouteConstraints controller's MultipleRoutes action
 	Then the route named "MultipleConstraints1" has a constraint on "p1" of "\d+"
 	And the route named "MultipleConstraints2" has a constraint on "p1" of "\d{4}" 

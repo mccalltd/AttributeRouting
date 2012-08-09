@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -18,6 +19,9 @@ namespace AttributeRouting.Specs.Steps
     [Binding]
     public class SharedSteps
     {
+        private AttributeRoutingConfiguration _configuration;
+        private HttpAttributeRoutingConfiguration _httpConfiguration;
+        
         [Given(@"I generate the routes defined in the subject controllers")]
         public void GivenIGenerateTheRoutesDefinedInTheSubjectControllers()
         {
@@ -58,6 +62,42 @@ namespace AttributeRouting.Specs.Steps
                 x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
                 x.InheritActionsFromBaseController = true;
             });
+        }
+
+        [Given(@"I have a new configuration object")]
+        public void GivenIHaveANewConfigurationObject()
+        {
+            _configuration = new AttributeRoutingConfiguration();
+            _httpConfiguration = new HttpAttributeRoutingConfiguration();
+        }
+
+        [Given(@"I add the routes from the (.*) controller")]
+        public void GivenIAddTheRoutesFromTheController(string controllerName)
+        {
+            var controllerType = GetControllerType(controllerName);
+            _configuration.AddRoutesFromController(controllerType);
+
+            if (controllerName.StartsWith("Http"))
+                _httpConfiguration.AddRoutesFromController(controllerType);
+        }
+
+        [Given(@"I add the routes from controllers derived from the (.*) controller")]
+        public void GivenIAddTheRoutesFromControllersOfTypeBaseController(string baseControllerName)
+        {
+            var baseControllerType = GetControllerType(baseControllerName);
+            _configuration.AddRoutesFromControllersOfType(baseControllerType);
+
+            if (baseControllerName.StartsWith("Http"))
+                _httpConfiguration.AddRoutesFromControllersOfType(baseControllerType);
+        }
+
+        [Given(@"I generate the routes with this configuration")]
+        [When(@"I generate the routes with this configuration")]
+        public void WhenIGenerateTheRoutesWithThisConfiguration()
+        {
+            RouteTable.Routes.Clear();
+            RouteTable.Routes.MapAttributeRoutes(_configuration);
+            RouteTable.Routes.MapHttpAttributeRoutes(_httpConfiguration);
         }
 
         [When(@"I fetch the routes for the (.*?) controller's (.*?) action")]
@@ -147,6 +187,21 @@ namespace AttributeRouting.Specs.Steps
             var routeData = routeForAction.GetRouteData(currentHttpContext);
 
             Assert.That(routeData, isNot.HasValue() ? Is.Null : Is.Not.Null);
+        }
+
+        private Type GetControllerType(string controllerName)
+        {
+            if (controllerName.StartsWith("Http"))
+                controllerName = "Http." + controllerName;
+
+            var typeName = String.Format("AttributeRouting.Specs.Subjects.{0}Controller, AttributeRouting.Specs",
+                                         controllerName);
+
+            var type = Type.GetType(typeName);
+
+            Assert.That(type, Is.Not.Null, "The controller type \"{0}\" could not be resolved.", typeName);
+
+            return type;
         }
     }
 }

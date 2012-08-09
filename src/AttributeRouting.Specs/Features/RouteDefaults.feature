@@ -1,7 +1,10 @@
 ﻿Feature: Route Defaults
 
 Background: 
-	Given I generate the routes defined in the subject controllers
+	Given I have a new configuration object
+	And I add the routes from the RouteDefaults controller
+	And I add the routes from the HttpRouteDefaults controller
+	And I generate the routes with this configuration
 
 Scenario: Route default specified with an attribute
 	When I fetch the routes for the RouteDefaults controller's Index action
