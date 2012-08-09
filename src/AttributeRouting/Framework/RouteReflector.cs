@@ -52,8 +52,8 @@ namespace AttributeRouting.Framework
                     let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
                     from actionMethod in controllerType.GetActionMethods(inheritActionsFromBaseController)
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
-                    // precedence is within a controller
-                    orderby controllerIndex, routeAttribute.Precedence
+                    // SitePrecedence > controllerIndex > Precedence
+                    orderby routeAttribute.SitePrecedence, controllerIndex, routeAttribute.Precedence
                     let routeName = routeAttribute.RouteName
                     let subdomain = GetAreaSubdomain(routeAreaAttribute)
                     let isAsyncController = controllerType.IsAsyncController()

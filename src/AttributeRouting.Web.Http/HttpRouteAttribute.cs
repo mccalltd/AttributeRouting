@@ -21,6 +21,7 @@ namespace AttributeRouting.Web.Http
             RouteUrl = routeUrl;
             Order = int.MaxValue;
             Precedence = int.MaxValue;
+            SitePrecedence = int.MaxValue;
             HttpMethods = new string[0];
         }
 
@@ -42,6 +43,8 @@ namespace AttributeRouting.Web.Http
         public int Order { get; set; }
 
         public int Precedence { get; set; }
+
+        public int SitePrecedence { get; set; }
 
         public string RouteName { get; set; }
 

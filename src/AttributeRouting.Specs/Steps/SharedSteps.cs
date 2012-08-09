@@ -72,6 +72,14 @@ namespace AttributeRouting.Specs.Steps
             ScenarioContext.Current.SetFetchedRoutes(routes);
         }
 
+        [When(@"I fetch all the routes")]
+        public void WhenIFetchAllTheRoutes()
+        {
+            var routes = RouteTable.Routes.Cast<Route>();
+
+            ScenarioContext.Current.SetFetchedRoutes(routes);
+        }
+
         [When(@"I fetch the routes for the (.*?) controller")]
         [When(@"I fetch the routes for the (.*?)Controller")]
         public void WhenIFetchTheRoutesFor(string controllerName)
