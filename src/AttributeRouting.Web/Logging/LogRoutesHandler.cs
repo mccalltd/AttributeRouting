@@ -57,41 +57,6 @@ namespace AttributeRouting.Web.Logging
             return outputBuilder.ToString();
         }
 
-/*
-        private static string GetRouteInfoOutput()
-        {
-            var outputBuilder = new StringBuilder();
-
-            var routeInfo = GetRouteInfo();
-            var row = 0;
-            foreach (var info in routeInfo)
-            {
-                outputBuilder.AppendFormat("<tr class=\"{0}\">", (++row % 2 == 0) ? "even" : "odd");
-                outputBuilder.AppendFormat("<td>{0}</td>", info.HttpMethods);
-                outputBuilder.AppendFormat("<td class=\"url\">{0}</td>", info.Url);
-
-                BuildCollectionOutput(outputBuilder, info.Defaults);
-                BuildCollectionOutput(outputBuilder, info.Constraints);
-                BuildCollectionOutput(outputBuilder, info.DataTokens);
-
-                outputBuilder.Append("</tr>");
-            }
-
-            return outputBuilder.ToString();
-        }
-
-        private static void BuildCollectionOutput(StringBuilder builder, IDictionary<string, string> dictionary)
-        {
-            builder.Append("<td>");
-            if (dictionary.Count == 0)
-                builder.Append("&nbsp;");
-            else
-                foreach (var pair in dictionary)
-                    builder.AppendFormat("<i>{0}</i>: {1}<br />", pair.Key, pair.Value);
-            builder.Append("</td>");
-        }
-*/
-
         private static IEnumerable<object> GetRouteInfo()
         {
             return from r in RouteTable.Routes.Cast<Route>()
