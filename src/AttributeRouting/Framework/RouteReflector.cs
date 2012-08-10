@@ -26,7 +26,7 @@ namespace AttributeRouting.Framework
         /// </summary>
         public IEnumerable<RouteSpecification> BuildRouteSpecifications()
         {
-            var controllerRouteSpecs = BuildRouteSpecifications(_configuration.PromotedControllerTypes, _configuration.InheritActionsFromBaseController);
+            var controllerRouteSpecs = BuildRouteSpecifications(_configuration.PromotedControllerTypes);
             foreach (var spec in controllerRouteSpecs)
                 yield return spec;
 
@@ -35,15 +35,16 @@ namespace AttributeRouting.Framework
 
             var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes(_configuration.FrameworkControllerType)).ToList();
             var unspecdControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
-            var scannedRouteSpecs = BuildRouteSpecifications(unspecdControllerTypes, _configuration.InheritActionsFromBaseController);
+            var scannedRouteSpecs = BuildRouteSpecifications(unspecdControllerTypes);
 
             foreach (var spec in scannedRouteSpecs)
                 yield return spec;
         }
 
-        private IEnumerable<RouteSpecification> BuildRouteSpecifications(IEnumerable<Type> controllerTypes, bool inheritActionsFromBaseController)
+        private IEnumerable<RouteSpecification> BuildRouteSpecifications(IEnumerable<Type> controllerTypes)
         {
             var controllerCount = 0;
+            var inheritActionsFromBaseController = _configuration.InheritActionsFromBaseController;
 
             return (from controllerType in controllerTypes
                     let controllerIndex = controllerCount++
