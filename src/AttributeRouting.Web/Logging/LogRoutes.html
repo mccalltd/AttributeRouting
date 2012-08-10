@@ -4,35 +4,182 @@
 <head>
     <title>Routes</title>
     <style type="text/css">
-        body { font: 12pt Helvetica, Arial, Sans-Serif; }
-        table { border-collapse: collapse; border: solid 1px #ccc; }
-        table th,
-        table td { padding: 4px 8px; border: 1px solid #ccc; border-width: 0 1px; white-space: nowrap; }
-        table th { text-align: left; background-color: #ddd; }
-        table tbody td { vertical-align: top; }
-        table tbody td.url { font-weight: bold; }
-        table tbody tr.odd td { background-color: #eee; }
-        table tbody tr:hover td { cursor: default; background-color: #ff9; }
+        body { font: 14px "Segoe UI", Verdana, Helvetica, Sans-Serif;margin: 0;padding: 0; }
+        table { border-collapse: collapse; width: 100%; }
+        
+        #header { margin: 10px 10px 15px; }
+        #header h1 { margin: 0;font-size: 32px;line-height: 36px; }
+        #header .note { float: right;color: #999;font-weight: bold;line-height: 36px; }
+
+        .loading { margin: 10px;font-weight: bold; }
+        
+        table.routes { border: solid 1px #ccc;}
+        table.routes th,
+        table.routes td { padding: 4px 8px; border: 1px solid #ccc; border-width: 0 1px; }
+        table.routes th { text-align: left; background-color: #ddd; }
+        table.routes tbody td { vertical-align: top; }
+        table.routes tbody td.url { white-space: nowrap;font-weight: bold; }
+        table.routes tbody td.url a {color: #048DC8; text-decoration: none; }
+        table.routes tbody td.url a:hover { text-decoration: underline; }
+        table.routes tbody tr.odd td { background-color: #eee; }
+        table.routes tbody tr:hover td { cursor: default; background-color: #ffd; }
+        
+        #modal-frame { position: fixed;z-index: 10; top: 0; right: 0; bottom: 0; left: 0; opacity: 0.5; background-color: #000; }
+        #modal-content { position: fixed;z-index: 20; top: 20%; left: 50%;width: 400px;margin-left: -200px;padding: 10px; background-color: #fff;border: solid 3px #ccc; }
+        #modal-content h2 { margin: -10px -10px 10px;padding: 10px;border-bottom: solid 1px #ccc; }
+        #modal-content table.url-params td { padding: 4px 8px; }
+        #modal-content table.url-params .label { width: 1%;padding: 4px 8px 4px 0; }
+        #modal-content p.dynamic-url { font-weight: bold;color: #999;font-size: 1.25em;}
+        #modal-content .actions { margin: 10px -10px -10px;border-top: solid 1px #ddd;padding: 10px; background-color: #eee;  }
+        #modal-content .actions button { }
+        #modal-content .actions .close { float: right;text-decoration: none;color: #999;line-height: 24px; }
     </style>
 </head>
 <body>
-    <div>
-        <h2>Routes</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Method</th>
-                    <th>Url</th>
-                    <th>Defaults</th>
-                    <th>Constraints</th>
-                    <th>DataTokens</th>
-                </tr>
-            </thead>
-            <tbody>
-                {items}
-            </tbody>
-        </table>
+    <div id="header">
+        <span class="note">ctrl+F is your friend</span>
+        <h1>Routes</h1>
     </div>
+    
+    <p class="loading" data-bind="visible: false">Loading...</p>
+    <table class="routes" data-bind="visible: true" style="display: none;">
+        <thead>
+            <tr>
+                <th>Methods</th>
+                <th>Url</th>
+                <th>Defaults</th>
+                <th>Constraints</th>
+                <th>DataTokens</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: routes">
+            <tr data-bind="css: { 'odd': $index() % 2 == 1 }">
+                <td data-bind="text: methods"></td>
+                <td class="url">
+                    <!-- ko if: canNavigate -->
+                    <a data-bind="text: url, attr: { href: url }, click: $root.navigate" target="_blank"></a>
+                    <!-- /ko -->
+                    <!-- ko ifnot: canNavigate -->
+                    <span data-bind="text: url"></span>
+                    <!-- /ko -->
+                </td>
+                <td data-bind="template: { name: 'key-value-template', foreach: defaults }"></td>
+                <td data-bind="template: { name: 'key-value-template', foreach: constraints }"></td>
+                <td data-bind="template: { name: 'key-value-template', foreach: dataTokens }"></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div id="modal-frame" data-bind="visible: showUrlBuilder" style="display: none;"></div>
+    <div id="modal-content" data-bind="visible: showUrlBuilder" style="display: none">
+        <h2>URL Builder</h2>
+        <form action="#" method="GET" data-bind="submit: navigateDynamic">
+            <table class="url-params">
+                <tbody data-bind="foreach: dynamicUrlParams">
+                    <tr>
+                        <td class="label"><label data-bind="text: key"></label></td>
+                        <td><input type="text" data-bind="value: value, valueUpdate: 'afterkeydown'" /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="dynamic-url" data-bind="text: '/' + dynamicUrl()"></p>
+            <div class="actions">
+                <a href="#" class="close" data-bind="click: hideUrlBuilder" tabindex="-1">Close</a>
+                <button type="submit" data-bind="enable: navigationEnabled">Go &rarr;</button>
+            </div>            
+        </form>
+    </div>
+
+    <script id="key-value-template" type="text/html">
+        <div class="key-value-pair">
+            <strong data-bind="text: key"></strong>:
+            <span data-bind="text: value"></span>        
+        </div>
+    </script>
+
+    <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/knockout/knockout-2.1.0.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        
+        function ViewModel(data) {
+            var self = this;
+
+            self.routes = $.map(data.routes, function(r) { return new Route(r); });
+            
+            self.parameterizedUrl = '';
+            
+            self.dynamicUrl = ko.observable();
+            
+            self.dynamicUrlParams = ko.observableArray();
+            
+            self.navigationEnabled = ko.computed(function () {
+                var dynamicUrl = self.dynamicUrl();
+                return dynamicUrl && !dynamicUrl.match( /{.*}/ );
+            });
+            
+            self.showUrlBuilder = ko.observable(false);
+            self.hideUrlBuilder = function() {
+                self.showUrlBuilder(false);
+            };
+
+            self.navigate = function (route) {
+                // If the url for this route is static, then go now
+                var url = route.url;
+                var params = url.match(/({.*?})/g);
+                if (!params) return true;
+
+                // Otherwise, show a modal to enter values for the params
+                self.parameterizedUrl = url;
+                self.dynamicUrl(url);
+                self.dynamicUrlParams($.map(params, function (p) { return new DynamicUrlParam(p); }));
+                self.showUrlBuilder(true);
+                $('#modal-content').find(':input:first').focus();
+            };
+
+            self.navigateDynamic = function() {
+                window.open(self.dynamicUrl()).focus();
+            };
+        };
+
+        function Route(data) {
+            var self = this;
+            self.methods = data.methods;
+            self.url = data.url;
+            self.defaults = data.defaults;
+            self.constraints = data.constraints;
+            self.dataTokens = data.dataTokens;
+            self.canNavigate = !data.methods || data.methods.match( /GET/ );
+        }
+
+        function DynamicUrlParam(key) {
+            var self = this;
+            self.key = key;
+            self.value = ko.observable();
+
+            self.value.subscribe(function (value) {
+                var originalUrl = viewModel.parameterizedUrl;
+                var injectedUrl = originalUrl;
+                $.each(viewModel.dynamicUrlParams(), function () {
+                    var parameterValue = this.value() || this.key;
+                    injectedUrl = injectedUrl.replace(this.key, parameterValue);
+                });
+                viewModel.dynamicUrl(injectedUrl);
+            });
+        }
+
+        var routeData = eval("{data}");
+        var viewModel = new ViewModel(routeData);
+        
+        ko.applyBindings(viewModel);
+
+        $(function () {
+            // Hide url builder on escape
+            $(window).on('keypress', function(evt) {
+                if (evt.keyCode === 27) {
+                    viewModel.hideUrlBuilder();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

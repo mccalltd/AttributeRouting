@@ -15,7 +15,7 @@ namespace AttributeRouting.Logging
 
         public static void LogRoute(TextWriter writer, string name, AttributeRouteInfo routeInfo)
         {
-            writer.WriteLine("URL: {0} {1}", routeInfo.Url, routeInfo.HttpMethod);
+            writer.WriteLine("URL: {0} {1}", routeInfo.Url, routeInfo.HttpMethods);
 
             if (name != null)
                 writer.WriteLine("NAME: {0}", name);

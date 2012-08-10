@@ -64,35 +64,29 @@ namespace AttributeRouting.Specs.Features
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void FeatureBackground()
-        {
-#line 3
-#line 4
- testRunner.Given("I generate the routes defined in the subject controllers");
-#line hidden
-        }
-        
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating area routes")]
         public virtual void GeneratingAreaRoutes()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating area routes", ((string[])(null)));
-#line 6
-this.ScenarioSetup(scenarioInfo);
 #line 3
-this.FeatureBackground();
-#line 7
+this.ScenarioSetup(scenarioInfo);
+#line 5
+ testRunner.Given("I have registered the routes for the AreasController");
+#line 6
  testRunner.When("I fetch the routes for the Areas controller\'s Index action");
-#line 8
+#line 7
  testRunner.Then("the route url is \"Area/Index\"");
-#line 9
-  testRunner.And("the data token for \"area\" is \"Area\"");
+#line 8
+ testRunner.And("the data token for \"area\" is \"Area\"");
 #line 10
- testRunner.When("I fetch the routes for the HttpAreas controller\'s Get action");
+ testRunner.Given("I have registered the routes for the HttpAreasController");
 #line 11
- testRunner.Then("the route url is \"ApiArea/Get\"");
+ testRunner.When("I fetch the routes for the HttpAreas controller\'s Get action");
 #line 12
-  testRunner.And("the data token for \"area\" is \"ApiArea\"");
+ testRunner.Then("the route url is \"ApiArea/Get\"");
+#line 13
+ testRunner.And("the data token for \"area\" is \"ApiArea\"");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -102,17 +96,19 @@ this.FeatureBackground();
         public virtual void GeneratingAreaRoutesWhenRouteUrlsSpecifyADuplicateAreaPrefix()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating area routes when route urls specify a duplicate area prefix", ((string[])(null)));
-#line 14
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
 #line 15
- testRunner.When("I fetch the routes for the Areas controller\'s DuplicatePrefix action");
-#line 16
- testRunner.Then("the route url is \"Area/DuplicatePrefix\"");
+this.ScenarioSetup(scenarioInfo);
 #line 17
- testRunner.When("I fetch the routes for the HttpAreas controller\'s DuplicatePrefix action");
+ testRunner.Given("I have registered the routes for the AreasController");
 #line 18
+ testRunner.When("I fetch the routes for the Areas controller\'s DuplicatePrefix action");
+#line 19
+ testRunner.Then("the route url is \"Area/DuplicatePrefix\"");
+#line 21
+ testRunner.Given("I have registered the routes for the HttpAreasController");
+#line 22
+ testRunner.When("I fetch the routes for the HttpAreas controller\'s DuplicatePrefix action");
+#line 23
  testRunner.Then("the route url is \"ApiArea/DuplicatePrefix\"");
 #line hidden
             this.ScenarioCleanup();
@@ -123,17 +119,19 @@ this.FeatureBackground();
         public virtual void GeneratingAbsoluteRoutesWhenARouteAreaIsDefined()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating absolute routes when a route area is defined", ((string[])(null)));
-#line 20
+#line 25
 this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 21
+#line 27
+ testRunner.Given("I have registered the routes for the AreasController");
+#line 28
  testRunner.When("I fetch the routes for the Areas controller\'s Absolute action");
-#line 22
+#line 29
  testRunner.Then("the route url is \"AreaAbsolute\"");
-#line 23
+#line 31
+ testRunner.Given("I have registered the routes for the HttpAreasController");
+#line 32
  testRunner.When("I fetch the routes for the HttpAreas controller\'s Absolute action");
-#line 24
+#line 33
  testRunner.Then("the route url is \"ApiAreaAbsolute\"");
 #line hidden
             this.ScenarioCleanup();
@@ -144,17 +142,19 @@ this.FeatureBackground();
         public virtual void GeneratingAreaRoutesWhenRouteUrlStartsWithTheAreaPrefix()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating area routes when route url starts with the area prefix", ((string[])(null)));
-#line 26
+#line 35
 this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 27
+#line 37
+ testRunner.Given("I have registered the routes for the AreasController");
+#line 38
  testRunner.When("I fetch the routes for the Areas controller\'s RouteBeginsWithAreaName action");
-#line 28
+#line 39
  testRunner.Then("the route url is \"Area/Areas\"");
-#line 29
+#line 41
+ testRunner.Given("I have registered the routes for the HttpAreasController");
+#line 42
  testRunner.When("I fetch the routes for the HttpAreas controller\'s RouteBeginsWithAreaName action");
-#line 30
+#line 43
  testRunner.Then("the route url is \"ApiArea/ApiAreas\"");
 #line hidden
             this.ScenarioCleanup();
@@ -165,22 +165,24 @@ this.FeatureBackground();
         public virtual void GeneratingAreaRoutesWithAnExplicitAreaUrl()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating area routes with an explicit area url", ((string[])(null)));
-#line 32
+#line 45
 this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 33
+#line 47
+ testRunner.Given("I have registered the routes for the ExplicitAreaUrlController");
+#line 48
  testRunner.When("I fetch the routes for the ExplicitAreaUrl controller\'s Index action");
-#line 34
+#line 49
  testRunner.Then("the route url is \"ExplicitArea/Index\"");
-#line 35
-  testRunner.And("the data token for \"area\" is \"Area\"");
-#line 36
+#line 50
+ testRunner.And("the data token for \"area\" is \"Area\"");
+#line 52
+ testRunner.Given("I have registered the routes for the HttpExplicitAreaUrlController");
+#line 53
  testRunner.When("I fetch the routes for the HttpExplicitAreaUrl controller\'s Get action");
-#line 37
+#line 54
  testRunner.Then("the route url is \"ApiExplicitArea/Get\"");
-#line 38
-  testRunner.And("the data token for \"area\" is \"ApiArea\"");
+#line 55
+ testRunner.And("the data token for \"area\" is \"ApiArea\"");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -192,23 +194,25 @@ this.FeatureBackground();
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating area routes with an explicit area url when route urls specify a duplic" +
                     "ate area prefix", ((string[])(null)));
-#line 40
+#line 57
 this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 41
+#line 59
+ testRunner.Given("I have registered the routes for the ExplicitAreaUrlController");
+#line 60
  testRunner.When("I fetch the routes for the ExplicitAreaUrl controller\'s DuplicatePrefix action");
-#line 42
+#line 61
  testRunner.Then("the route url is \"ExplicitArea/DuplicatePrefix\"");
-#line 43
-  testRunner.And("the data token for \"area\" is \"Area\"");
-#line 44
+#line 62
+ testRunner.And("the data token for \"area\" is \"Area\"");
+#line 64
+ testRunner.Given("I have registered the routes for the HttpExplicitAreaUrlController");
+#line 65
  testRunner.When("I fetch the routes for the HttpExplicitAreaUrl controller\'s DuplicatePrefix actio" +
                     "n");
-#line 45
+#line 66
  testRunner.Then("the route url is \"ApiExplicitArea/DuplicatePrefix\"");
-#line 46
-  testRunner.And("the data token for \"area\" is \"ApiArea\"");
+#line 67
+ testRunner.And("the data token for \"area\" is \"ApiArea\"");
 #line hidden
             this.ScenarioCleanup();
         }

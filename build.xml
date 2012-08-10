@@ -27,14 +27,14 @@
     
     <Target Name="NugetPack" DependsOnTargets="Build">
         <ItemGroup>
-            <MainNuspec Include="nuget\AttributeRouting.Web.Mvc\AttributeRouting.nuspec"/>
-            <MainNuspec Include="nuget\AttributeRouting.Web.Http.WebHost\AttributeRouting.WebApi.nuspec"/>            
-            <MainNuspec Include="nuget\AttributeRouting.Web.Http.SelfHost\AttributeRouting.WebApi.Hosted.nuspec"/>
-            <SymbolsNuspec Include="nuget\AttributeRouting.Web.Mvc\AttributeRouting.symbols.nuspec"/>   
-            <SymbolsNuspec Include="nuget\AttributeRouting.Web.Http.WebHost\AttributeRouting.WebApi.symbols.nuspec"/>
-            <SymbolsNuspec Include="nuget\AttributeRouting.Web.Http.SelfHost\AttributeRouting.WebApi.Hosted.symbols.nuspec"/>
+            <MainNuspec Include="nuget\AttributeRouting\AttributeRouting.nuspec"/>
+            <MainNuspec Include="nuget\AttributeRouting.Core\AttributeRouting.Core.nuspec"/>
+            <MainNuspec Include="nuget\AttributeRouting.Core.Web\AttributeRouting.Core.Web.nuspec"/>
+            <MainNuspec Include="nuget\AttributeRouting.Core.Http\AttributeRouting.Core.Http.nuspec"/>
+            <MainNuspec Include="nuget\AttributeRouting.WebAPI\AttributeRouting.WebApi.nuspec"/>            
+            <MainNuspec Include="nuget\AttributeRouting.WebAPI.Hosted\AttributeRouting.WebApi.Hosted.nuspec"/>
             <Transforms Include="nuget\**\*.nutrans" />
-        </ItemGroup>        
+        </ItemGroup>
         <PropertyGroup>
             <OutputDir>build\nuget</OutputDir>
         </PropertyGroup>
@@ -54,14 +54,6 @@
 
         <MakeDir Directories="$(OutputDir)"/>
         <Exec Command="src\.nuget\nuget pack %(MainNuspec.Identity) -Version $(Version) -OutputDirectory $(OutputDir)"/>
-        <Exec Command="src\.nuget\nuget pack %(SymbolsNuspec.Identity) -Version $(Version) -Symbols -OutputDirectory $(OutputDir)"/>
-    </Target>
-
-    <Target Name="NugetPush" DependsOnTargets="NugetPack">
-        <ItemGroup>
-            <Packages Include="build\nuget\*.nupkg" Exclude="build\nuget\*.symbols.nupkg"/>
-        </ItemGroup>
-        <Exec Command="nuget push %(Packages.Identity)" />
     </Target>
     
 </Project>

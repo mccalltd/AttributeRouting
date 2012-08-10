@@ -6,15 +6,13 @@
     <description xdt:Transform="Insert">AttributeRouting for ASP.NET MVC lets you specify routes using attributes on your MVC controllers and actions.</description>
 	<tags xdt:Transform="Insert">attribute, routing, route, asp.net, mvc</tags>
     <dependencies xdt:Transform="Insert">
+      <dependency id="AttributeRouting.Core" version="$version$" />
+      <dependency id="AttributeRouting.Core.Web" version="$version$" />
       <dependency id="WebActivator" version="1.0.0.0" />
     </dependencies>
   </metadata>
 
   <files xdt:Transform="Insert">
-    <file src="..\..\build\bin\AttributeRouting.dll" target="lib\net40" />
-    <file src="..\..\build\bin\AttributeRouting.xml" target="lib\net40" />
-    <file src="..\..\build\bin\AttributeRouting.Web.dll" target="lib\net40" />
-    <file src="..\..\build\bin\AttributeRouting.Web.xml" target="lib\net40" />
     <file src="..\..\build\bin\AttributeRouting.Web.Mvc.dll" target="lib\net40" />
     <file src="..\..\build\bin\AttributeRouting.Web.Mvc.xml" target="lib\net40" />
     <file src="web.config.transform" target="content" />

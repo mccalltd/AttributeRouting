@@ -28,6 +28,11 @@ namespace AttributeRouting
         int Precedence { get; set; }
 
         /// <summary>
+        /// The order of this route among all the routes in the site.
+        /// </summary>
+        int SitePrecedence { get; set; }
+
+        /// <summary>
         /// The name this route will be registered with in the RouteTable.
         /// </summary>
         string RouteName { get; set; }

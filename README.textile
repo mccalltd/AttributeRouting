@@ -1,6 +1,8 @@
-h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRouting/ for documentation.
+h2. Please refer to the "wiki pages":http://wiki.github.com// for documentation.
 
-*If you encounter any issues using this library, please log them in the "issue tracker":https://github.com/mccalltd/AttributeRouting/issues. Thanks.*
+*If you encounter any issues using this library, please log them in the "issue tracker":https://github.com//issues. Thanks.*
+
+h3. NOTE: AttributeRouting WILL NOT WORK with Web API RTM! But I am working with Microsoft on fixing the issues, and AR will, one day soon, fully support it. In the meantime, everything’s still peachy with MVC.
 
 h3. Changelog
 
@@ -41,7 +43,7 @@ _v2.2.1_
 
 _v2.2_
 
-* #61 - Sexy inline route constraints. See "the wiki for inline constraints":https://github.com/mccalltd/AttributeRouting/wiki/Route-Constraints/
+* #61 - Sexy inline route constraints. See "the wiki for inline constraints":https://github.com//wiki/Route-Constraints/
 
 _v2.1.1_
 

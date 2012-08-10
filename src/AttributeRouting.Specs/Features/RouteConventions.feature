@@ -1,14 +1,12 @@
 ﻿Feature: Route Conventions
 
-Background: 
-	Given I generate the routes defined in the subject controllers
-
 Scenario Outline: Generating routes using the RestfulRouteConvention
+	Given I have registered the routes for the RestfulRouteConventionController
 	When I fetch the routes for the RestfulRouteConvention controller's <action> action
 	Then the route url is "<url>"
-	 And the default for "controller" is "RestfulRouteConvention"
-	 And the default for "action" is "<action>"
-	 And the route for <action> is constrained to <method> requests
+	And the default for "controller" is "RestfulRouteConvention"
+	And the default for "action" is "<action>"
+	And the route for <action> is constrained to <method> requests
 
 	Examples:
 		| action	| method	| url									|
@@ -23,11 +21,12 @@ Scenario Outline: Generating routes using the RestfulRouteConvention
 		| Custom	| GET		| RestfulRouteConvention/Custom			|
 
 Scenario Outline: Generating routes using the RestfulRouteConvention on controllers with a RoutePrefix attribute
+	Given I have registered the routes for the RestfulRouteConventionPrefixController
 	When I fetch the routes for the RestfulRouteConventionPrefix controller's <action> action
 	Then the route url is "<url>"
-	 And the default for "controller" is "RestfulRouteConventionPrefix"
-	 And the default for "action" is "<action>"
-	 And the route for <action> is constrained to <method> requests
+	And the default for "controller" is "RestfulRouteConventionPrefix"
+	And the default for "action" is "<action>"
+	And the route for <action> is constrained to <method> requests
 
 	Examples:
 		| action	| method	| url					|
@@ -41,11 +40,12 @@ Scenario Outline: Generating routes using the RestfulRouteConvention on controll
 		| Destroy	| DELETE	| Prefix/{id}			|	
 		
 Scenario Outline: Generating routes using the DefaultHttpRouteConvention
+	Given I have registered the routes for the DefaultHttpRouteConventionController
 	When I fetch the routes for the DefaultHttpRouteConvention controller's <action> action
 	Then the route url is "<url>"
-	 And the default for "controller" is "DefaultHttpRouteConvention"
-	 And the default for "action" is "<action>"
-	 And the route for <action> is constrained to <method> requests
+	And the default for "controller" is "DefaultHttpRouteConvention"
+	And the default for "action" is "<action>"
+	And the route for <action> is constrained to <method> requests
 
 	Examples:
 		| action	| method	| url									|
@@ -57,11 +57,12 @@ Scenario Outline: Generating routes using the DefaultHttpRouteConvention
 		| Custom	| GET		| DefaultHttpRouteConvention/Custom		|	
 		
 Scenario Outline: Generating routes using the DefaultHttpRouteConventionPrefix on controllers with a RoutePrefix attribute
+	Given I have registered the routes for the DefaultHttpRouteConventionPrefixController
 	When I fetch the routes for the DefaultHttpRouteConventionPrefix controller's <action> action
 	Then the route url is "<url>"
-	 And the default for "controller" is "DefaultHttpRouteConventionPrefix"
-	 And the default for "action" is "<action>"
-	 And the route for <action> is constrained to <method> requests
+	And the default for "controller" is "DefaultHttpRouteConventionPrefix"
+	And the default for "action" is "<action>"
+	And the route for <action> is constrained to <method> requests
 
 	Examples:	
 		| action	| method	| url				|
@@ -73,21 +74,25 @@ Scenario Outline: Generating routes using the DefaultHttpRouteConventionPrefix o
 		| Custom	| GET		| Prefix/Custom		|						
 
 Scenario: Generating routes using the RestfulRouteConvention on actions with an explicit route defined
+	Given I have registered the routes for the RestfulRouteConventionWithExplicitRouteController
 	When I fetch the routes for the RestfulRouteConventionWithExplicitRoute controller's Index action
 	Then the 1st route url is "RestfulRouteConventionWithExplicitRoute"
-	 And the 2nd route url is "Legacy"
+	And the 2nd route url is "Legacy"
 
 Scenario: Generating routes using the RestfulRouteConvention on actions with an explicit ordered route defined
+	Given I have registered the routes for the RestfulRouteConventionWithExplicitOrderedRouteController
 	When I fetch the routes for the RestfulRouteConventionWithExplicitOrderedRoute controller's Index action
 	Then the 1st route url is "RestfulRouteConventionWithExplicitOrderedRoute/Primary"
-	 And the 2nd route url is "RestfulRouteConventionWithExplicitOrderedRoute"
+	And the 2nd route url is "RestfulRouteConventionWithExplicitOrderedRoute"
 
 Scenario: Generating routes using the DefaultHttpRouteConvention on actions with an explicit route defined
+	Given I have registered the routes for the DefaultHttpRouteConventionWithExplicitRouteController
 	When I fetch the routes for the DefaultHttpRouteConventionWithExplicitRoute controller's Get action
 	Then the 1st route url is "DefaultHttpRouteConventionWithExplicitRoute"
-	 And the 2nd route url is "Legacy"
+	And the 2nd route url is "Legacy"
 
 Scenario: Generating routes using the DefaultHttpRouteConvention on actions with an explicit ordered route defined
+	Given I have registered the routes for the DefaultHttpRouteConventionWithExplicitOrderedRouteController
 	When I fetch the routes for the DefaultHttpRouteConventionWithExplicitOrderedRoute controller's Get action
 	Then the 1st route url is "DefaultHttpRouteConventionWithExplicitOrderedRoute/Primary"
-	 And the 2nd route url is "DefaultHttpRouteConventionWithExplicitOrderedRoute"
+	And the 2nd route url is "DefaultHttpRouteConventionWithExplicitOrderedRoute"

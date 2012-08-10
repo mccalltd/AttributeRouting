@@ -53,5 +53,11 @@ namespace AttributeRouting.Specs.Subjects
         {
             return Content("");
         }
+
+        [GET("Area")]
+        public string RelativeUrlIsAreaUrl()
+        {
+            return "";
+        }
     }
 }

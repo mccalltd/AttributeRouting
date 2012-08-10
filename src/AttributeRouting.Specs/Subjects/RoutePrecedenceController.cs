@@ -66,6 +66,15 @@ namespace AttributeRouting.Specs.Subjects
         }
     }
 
+    public class RoutePrecedenceAmongTheSitesRoutesController : Controller
+    {
+        [GET("I-Am-The-First-Route", SitePrecedence = 1)]
+        public string IAmTheFirstRoute()
+        {
+            return "yay!";
+        }
+    }
+
     public abstract class RoutePrecedenceAmongDerivedControllersBaseController : Controller { }
     
     public class RoutePrecedenceAmongDerivedControllers1 : RoutePrecedenceAmongDerivedControllersBaseController

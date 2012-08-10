@@ -24,5 +24,11 @@ namespace AttributeRouting.Specs.Subjects.Http
         {
             return "";
         }
+
+        [GET("ApiArea")]
+        public string RelativeUrlIsAreaUrl()
+        {
+            return "";
+        }
     }
 }
