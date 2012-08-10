@@ -20,7 +20,7 @@ namespace AttributeRouting.Specs.Steps
     public class SharedSteps
     {
         private AttributeRoutingConfiguration _configuration;
-        private HttpAttributeRoutingConfiguration _httpConfiguration;
+        private HttpWebAttributeRoutingConfiguration _httpConfiguration;
         
         [Given(@"I generate the routes defined in the subject controllers")]
         public void GivenIGenerateTheRoutesDefinedInTheSubjectControllers()
@@ -68,7 +68,7 @@ namespace AttributeRouting.Specs.Steps
         public void GivenIHaveANewConfigurationObject()
         {
             _configuration = new AttributeRoutingConfiguration();
-            _httpConfiguration = new HttpAttributeRoutingConfiguration();
+            _httpConfiguration = new HttpWebAttributeRoutingConfiguration();
         }
 
         [Given(@"I add the routes from the (.*) controller")]
