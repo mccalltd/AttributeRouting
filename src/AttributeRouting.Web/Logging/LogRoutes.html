@@ -9,6 +9,7 @@
         
         #header { margin: 10px 10px 15px; }
         #header h1 { margin: 0;font-size: 32px;line-height: 36px; }
+        #header h1 span { font-size: 24px; }
         #header .note { float: right;color: #999;font-weight: bold;line-height: 36px; }
 
         .loading { margin: 10px;font-weight: bold; }
@@ -21,15 +22,18 @@
         table.routes tbody td.url { white-space: nowrap;font-weight: bold; }
         table.routes tbody td.url a {color: #048DC8; text-decoration: none; }
         table.routes tbody td.url a:hover { text-decoration: underline; }
-        table.routes tbody tr.odd td { background-color: #eee; }
+        table.routes tbody tr.odd td { background-color: #f3f3f3; }
         table.routes tbody tr:hover td { cursor: default; background-color: #ffd; }
         
         #modal-frame { position: fixed;z-index: 10; top: 0; right: 0; bottom: 0; left: 0; opacity: 0.5; background-color: #000; }
-        #modal-content { position: fixed;z-index: 20; top: 20%; left: 50%;width: 400px;margin-left: -200px;padding: 10px; background-color: #fff;border: solid 3px #ccc; }
+        #modal-content { position: fixed;z-index: 20; top: 20%; left: 50%;width: 400px;margin-left: -200px;padding: 10px; background-color: #fff;border: solid 4px #ccc;border-radius: 4px;}
         #modal-content h2 { margin: -10px -10px 10px;padding: 10px;border-bottom: solid 1px #ccc; }
         #modal-content table.url-params td { padding: 4px 8px; }
-        #modal-content table.url-params .label { width: 1%;padding: 4px 8px 4px 0; }
-        #modal-content p.dynamic-url { font-weight: bold;color: #999;font-size: 1.25em;}
+        #modal-content table.url-params .label { width: 1%; padding: 4px 8px 4px 0;font-weight: bold; color: #999; }
+        #modal-content .urls { margin: 10px 0; } 
+        #modal-content .urls p.parameterized-url, 
+        #modal-content .urls p.dynamic-url {margin: 0;color: #999; font-weight: bold; }
+        #modal-content .urls p.dynamic-url { color: #333;}
         #modal-content .actions { margin: 10px -10px -10px;border-top: solid 1px #ddd;padding: 10px; background-color: #eee;  }
         #modal-content .actions button { }
         #modal-content .actions .close { float: right;text-decoration: none;color: #999;line-height: 24px; }
@@ -38,7 +42,7 @@
 <body>
     <div id="header">
         <span class="note">ctrl+F is your friend</span>
-        <h1>Routes</h1>
+        <h1>Routes <span data-bind="text: '(' + routes.length + ')'"></span></h1>
     </div>
     
     <p class="loading" data-bind="visible: false">Loading...</p>
@@ -82,7 +86,10 @@
                     </tr>
                 </tbody>
             </table>
-            <p class="dynamic-url" data-bind="text: '/' + dynamicUrl()"></p>
+            <div class="urls">
+                <p class="parameterized-url" data-bind="text: parameterizedUrl"></p>
+                <p class="dynamic-url" data-bind="text: dynamicUrl"></p>                
+            </div>
             <div class="actions">
                 <a href="#" class="close" data-bind="click: hideUrlBuilder" tabindex="-1">Close</a>
                 <button type="submit" data-bind="enable: navigationEnabled">Go &rarr;</button>
@@ -106,7 +113,7 @@
 
             self.routes = $.map(data.routes, function(r) { return new Route(r); });
             
-            self.parameterizedUrl = '';
+            self.parameterizedUrl = ko.observable();
             
             self.dynamicUrl = ko.observable();
             
@@ -118,6 +125,7 @@
             });
             
             self.showUrlBuilder = ko.observable(false);
+            
             self.hideUrlBuilder = function() {
                 self.showUrlBuilder(false);
             };
@@ -129,8 +137,8 @@
                 if (!params) return true;
 
                 // Otherwise, show a modal to enter values for the params
-                self.parameterizedUrl = url;
-                self.dynamicUrl(url);
+                self.parameterizedUrl('/' + url);
+                self.dynamicUrl('/' + url);
                 self.dynamicUrlParams($.map(params, function (p) { return new DynamicUrlParam(p); }));
                 self.showUrlBuilder(true);
                 $('#modal-content').find(':input:first').focus();
@@ -156,8 +164,8 @@
             self.key = key;
             self.value = ko.observable();
 
-            self.value.subscribe(function (value) {
-                var originalUrl = viewModel.parameterizedUrl;
+            self.value.subscribe(function () {
+                var originalUrl = viewModel.parameterizedUrl();
                 var injectedUrl = originalUrl;
                 $.each(viewModel.dynamicUrlParams(), function () {
                     var parameterValue = this.value() || this.key;
