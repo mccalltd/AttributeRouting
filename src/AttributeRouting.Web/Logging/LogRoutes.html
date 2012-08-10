@@ -5,9 +5,12 @@
     <title>Routes</title>
     <style type="text/css">
         body { font: 14px "Segoe UI", Verdana, Helvetica, Sans-Serif;margin: 0;padding: 0; }
-        h1 { margin: 10px; }
         table { border-collapse: collapse; width: 100%; }
         
+        #header { margin: 10px 10px 15px; }
+        #header h1 { margin: 0;font-size: 32px;line-height: 36px; }
+        #header .note { float: right;color: #999;font-weight: bold;line-height: 36px; }
+
         .loading { margin: 10px;font-weight: bold; }
         
         table.routes { border: solid 1px #ccc;}
@@ -33,7 +36,10 @@
     </style>
 </head>
 <body>
-    <h1>Routes</h1>
+    <div id="header">
+        <span class="note">ctrl+F is your friend</span>
+        <h1>Routes</h1>
+    </div>
     
     <p class="loading" data-bind="visible: false">Loading...</p>
     <table class="routes" data-bind="visible: true" style="display: none;">
