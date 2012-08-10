@@ -15,9 +15,9 @@
         table.routes td { padding: 4px 8px; border: 1px solid #ccc; border-width: 0 1px; }
         table.routes th { text-align: left; background-color: #ddd; }
         table.routes tbody td { vertical-align: top; }
-        table.routes tbody td.url { white-space: nowrap; }
-        table.routes tbody td.url a {font-weight: bold; color: inherit; text-decoration: none; }
-        table.routes tbody td.url a:hover {color: #048DC8; text-decoration: underline; }
+        table.routes tbody td.url { white-space: nowrap;font-weight: bold; }
+        table.routes tbody td.url a {color: #048DC8; text-decoration: none; }
+        table.routes tbody td.url a:hover { text-decoration: underline; }
         table.routes tbody tr.odd td { background-color: #eee; }
         table.routes tbody tr:hover td { cursor: default; background-color: #ffd; }
         
@@ -50,7 +50,12 @@
             <tr data-bind="css: { 'odd': $index() % 2 == 1 }">
                 <td data-bind="text: methods"></td>
                 <td class="url">
+                    <!-- ko if: canNavigate -->
                     <a data-bind="text: url, attr: { href: url }, click: $root.navigate" target="_blank"></a>
+                    <!-- /ko -->
+                    <!-- ko ifnot: canNavigate -->
+                    <span data-bind="text: url"></span>
+                    <!-- /ko -->
                 </td>
                 <td data-bind="template: { name: 'key-value-template', foreach: defaults }"></td>
                 <td data-bind="template: { name: 'key-value-template', foreach: constraints }"></td>
@@ -93,7 +98,7 @@
         function ViewModel(data) {
             var self = this;
 
-            self.routes = data.routes;
+            self.routes = $.map(data.routes, function(r) { return new Route(r); });
             
             self.parameterizedUrl = '';
             
@@ -129,6 +134,16 @@
                 window.open(self.dynamicUrl()).focus();
             };
         };
+
+        function Route(data) {
+            var self = this;
+            self.methods = data.methods;
+            self.url = data.url;
+            self.defaults = data.defaults;
+            self.constraints = data.constraints;
+            self.dataTokens = data.dataTokens;
+            self.canNavigate = !data.methods || data.methods.match( /GET/ );
+        }
 
         function DynamicUrlParam(key) {
             var self = this;
