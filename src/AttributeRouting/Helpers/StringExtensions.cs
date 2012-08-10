@@ -25,6 +25,14 @@ namespace AttributeRouting.Helpers
             return String.IsNullOrWhiteSpace(s);
         }
 
+        public static string ValueOr(this string s, string otherValue)
+        {
+            if (s.HasValue())
+                return s;
+
+            return otherValue;
+        }
+
         public static string FormatWith(this string s, params object[] args)
         {
             return String.Format(s, args);

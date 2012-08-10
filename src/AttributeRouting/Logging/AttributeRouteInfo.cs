@@ -16,7 +16,7 @@ namespace AttributeRouting.Logging
         }
 
         public string Url { get; set; }
-        public string HttpMethod { get; set; }
+        public string HttpMethods { get; set; }
         public IDictionary<string, string> Defaults { get; set; }
         public IDictionary<string, string> Constraints { get; set; }
         public IDictionary<string, string> DataTokens { get; set; }
@@ -29,11 +29,20 @@ namespace AttributeRouting.Logging
 
             var item = new AttributeRouteInfo { Url = url };
 
+            //************************
+            // Defaults
+
             if (defaults != null)
             {
                 foreach (var @default in defaults)
-                    item.Defaults.Add(@default.Key, @default.Value.ToString());
+                {
+                    var defaultValue = @default.Value.ToString();
+                    item.Defaults.Add(@default.Key, defaultValue.ValueOr("Optional"));
+                }
             }
+
+            //************************
+            // Constraints
 
             if (constraints != null)
             {
@@ -43,13 +52,55 @@ namespace AttributeRouting.Logging
                         continue;
 
                     if (constraint.Value is IRestfulHttpMethodConstraint)
-                        item.HttpMethod = String.Join(", ", ((IRestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
+                    {
+                        item.HttpMethods = String.Join(", ", ((IRestfulHttpMethodConstraint)constraint.Value).AllowedMethods);
+                    }
                     else if (constraint.Value is RegexRouteConstraintBase)
+                    {
                         item.Constraints.Add(constraint.Key, ((RegexRouteConstraintBase)constraint.Value).Pattern);
+                    }
                     else
-                        item.Constraints.Add(constraint.Key, constraint.Value.ToString());
+                    {
+                        var constraintValue = constraint.Value;
+                        var constraintType = constraint.Value.GetType();
+                        string constraintAsString;
+
+                        // Simple string regex constraint - from ASP.NET routing features
+                        if (constraintValue is string)
+                        {
+                            constraintAsString = constraintValue.ToString();
+                        }
+                        else
+                        {
+                            // Optional constraint - unwrap it and continue
+                            var optionalConstraint = constraintValue as IOptionalRouteConstraintWrapper;
+                            if (optionalConstraint != null)
+                            {
+                                constraintValue = optionalConstraint.Constraint;
+                                constraintType = optionalConstraint.Constraint.GetType();
+                            }
+
+                            // Compound constraint - join type names of the inner constraints
+                            var compoundConstraint = constraintValue as ICompoundRouteConstraintWrapper;
+                            if (compoundConstraint != null)
+                            {
+                                var innerConstraintTypeNames = compoundConstraint.Constraints.Select(x => x.GetType().Name);
+                                constraintAsString = String.Join(", ", innerConstraintTypeNames);
+                            }
+                            else
+                            {
+                                // Single constraint type
+                                constraintAsString = constraintType.Name;
+                            }                            
+                        }
+
+                        item.Constraints.Add(constraint.Key, constraintAsString);
+                    }
                 }
             }
+
+            //************************
+            // DataTokens
 
             if (dataTokens != null)
             {
