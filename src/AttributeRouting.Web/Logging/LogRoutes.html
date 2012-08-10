@@ -9,6 +9,7 @@
         
         #header { margin: 10px 10px 15px; }
         #header h1 { margin: 0;font-size: 32px;line-height: 36px; }
+        #header h1 span { font-size: 24px; }
         #header .note { float: right;color: #999;font-weight: bold;line-height: 36px; }
 
         .loading { margin: 10px;font-weight: bold; }
@@ -41,7 +42,7 @@
 <body>
     <div id="header">
         <span class="note">ctrl+F is your friend</span>
-        <h1>Routes</h1>
+        <h1>Routes <span data-bind="text: '(' + routes.length + ')'"></span></h1>
     </div>
     
     <p class="loading" data-bind="visible: false">Loading...</p>
@@ -87,7 +88,7 @@
             </table>
             <div class="urls">
                 <p class="parameterized-url" data-bind="text: parameterizedUrl"></p>
-                <p class="dynamic-url" data-bind="text: dynamicUrl()"></p>                
+                <p class="dynamic-url" data-bind="text: dynamicUrl"></p>                
             </div>
             <div class="actions">
                 <a href="#" class="close" data-bind="click: hideUrlBuilder" tabindex="-1">Close</a>
@@ -124,6 +125,7 @@
             });
             
             self.showUrlBuilder = ko.observable(false);
+            
             self.hideUrlBuilder = function() {
                 self.showUrlBuilder(false);
             };
@@ -154,7 +156,7 @@
             self.defaults = data.defaults;
             self.constraints = data.constraints;
             self.dataTokens = data.dataTokens;
-            self.canNavigate = !data.methods || data.methods.match(/GET/);
+            self.canNavigate = !data.methods || data.methods.match( /GET/ );
         }
 
         function DynamicUrlParam(key) {
