@@ -4,6 +4,13 @@ h2. Please refer to the "wiki pages":http://wiki.github.com// for documentation.
 
 h3. Changelog
 
+_2.5.0-pre_
+
+* #90 - implemented workaround for runtime exception when running agains Web API nightlies. Will flip switch to 2.5.0.0 whenthe Web API RTM drops.
+* #105 - can now use SitePrecedence property on the route attributes to set the precedence of a single URL in the route table.
+* Revised nuget package structure to help the various packages paly nice with shared assemblies (ASP.NET MVC and Web API especially).
+* #104 - much improved routes.axd, allowing direct navigation to static urls and giving you a handy url builder to jump to dynamic urls.
+
 _2.4.3_
 
 * Updated Web API RC integration, seems to help with #86. 

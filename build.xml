@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
-<Project DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">    
+<Project DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
     <Import Project="AttributeRouting.targets" />
     <PropertyGroup>
-        <Configuration>Release</Configuration>        
+        <Configuration>Release</Configuration>
     </PropertyGroup>
 
     <Target Name="Default" DependsOnTargets="Test;NugetPack"></Target>
 
     <Target Name="Build">
         <ItemGroup>
-            <Tests Include="src\AttributeRouting.Specs\AttributeRouting.Specs.csproj"/>            
+            <Tests Include="src\AttributeRouting.Specs\AttributeRouting.Specs.csproj"/>
         </ItemGroup>
         <PropertyGroup>
             <OutputPath>..\..\build\bin</OutputPath>
         </PropertyGroup>
 
         <!-- Only need to build test projects as dependent projects will be automatically built. -->
-        <MSBuild Projects="@(Tests)" Targets="Clean;Build" 
+        <MSBuild Projects="@(Tests)" Targets="Clean;Build"
             Properties="Configuration=$(Configuration);OutputPath=$(OutputPath)"/>
 
     </Target>
@@ -24,14 +24,14 @@
     <Target Name="Test" DependsOnTargets="Build">
         <Exec Command="tools\nunit-console-x86.exe build\bin\AttributeRouting.Specs.dll /noresult" />
     </Target>
-    
+
     <Target Name="NugetPack" DependsOnTargets="Build">
         <ItemGroup>
             <MainNuspec Include="nuget\AttributeRouting\AttributeRouting.nuspec"/>
             <MainNuspec Include="nuget\AttributeRouting.Core\AttributeRouting.Core.nuspec"/>
             <MainNuspec Include="nuget\AttributeRouting.Core.Web\AttributeRouting.Core.Web.nuspec"/>
             <MainNuspec Include="nuget\AttributeRouting.Core.Http\AttributeRouting.Core.Http.nuspec"/>
-            <MainNuspec Include="nuget\AttributeRouting.WebAPI\AttributeRouting.WebApi.nuspec"/>            
+            <MainNuspec Include="nuget\AttributeRouting.WebAPI\AttributeRouting.WebApi.nuspec"/>
             <MainNuspec Include="nuget\AttributeRouting.WebAPI.Hosted\AttributeRouting.WebApi.Hosted.nuspec"/>
             <Transforms Include="nuget\**\*.nutrans" />
         </ItemGroup>
@@ -55,5 +55,11 @@
         <MakeDir Directories="$(OutputDir)"/>
         <Exec Command="src\.nuget\nuget pack %(MainNuspec.Identity) -Version $(Version) -OutputDirectory $(OutputDir)"/>
     </Target>
-    
+
+    <Target Name="NugetPush" DependsOnTargets="NugetPack">
+        <ItemGroup>
+            <Packages Include="build\nuget\*.nupkg" Exclude="build\nuget\*.symbols.nupkg"/>
+        </ItemGroup>
+        <Exec Command="nuget push %(Packages.Identity)" />
+    </Target>
 </Project>
