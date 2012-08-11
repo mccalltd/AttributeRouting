@@ -1,4 +1,4 @@
-h2. Please refer to the "wiki pages":http://wiki.github.com// for documentation.
+h2. Please refer to the "wiki pages":https://github.com/mccalltd/AttributeRouting/wiki for documentation.
 
 *If you encounter any issues using this library, please log them in the "issue tracker":https://github.com//issues. Thanks.*
 
