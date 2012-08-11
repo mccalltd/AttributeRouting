@@ -42,19 +42,32 @@ namespace AttributeRouting
         }
 
         /// <summary>
-        /// Type of the framework controller (IController, IHttpController)
+        /// Type of the framework controller (IController, IHttpController).
         /// </summary>
         public abstract Type FrameworkControllerType { get; }
 
         /// <summary>
-        /// Attribute factory
+        /// Factory for generating routes used by AttributeRouting.
         /// </summary>
         public abstract IAttributeRouteFactory AttributeFactory { get; }
 
         /// <summary>
-        /// Constraint factory
+        /// Factory for generating route constraints.
         /// </summary>
         public abstract IRouteConstraintFactory RouteConstraintFactory { get; }
+
+        /// <summary>
+        /// Factory for generating optional route parameters.
+        /// </summary>
+        public abstract IParameterFactory ParameterFactory { get; }
+        
+        internal List<Assembly> Assemblies { get; set; }
+        
+        internal List<Type> PromotedControllerTypes { get; set; }
+        
+        internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
+        
+        internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
 
         /// <summary>
         /// Collection of available inline route constraint definitions.
@@ -62,17 +75,7 @@ namespace AttributeRouting
         public IDictionary<string, Type> InlineRouteConstraints { get; private set; }
 
         /// <summary>
-        /// Parameter factory
-        /// </summary>
-        public abstract IParameterFactory ParameterFactory { get; }
-
-        internal List<Assembly> Assemblies { get; set; }
-        internal List<Type> PromotedControllerTypes { get; set; }
-        internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
-        internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
-
-        /// <summary>
-        /// Translation providers
+        /// Translation providers.
         /// </summary>
         public List<TranslationProviderBase> TranslationProviders { get; set; }
 

@@ -43,7 +43,7 @@ namespace AttributeRouting.Framework
 
         private IEnumerable<RouteSpecification> BuildRouteSpecifications(IEnumerable<Type> controllerTypes)
         {
-            var controllerCount = 0;
+            var controllerCount = 0; // needed to increment controller index
             var inheritActionsFromBaseController = _configuration.InheritActionsFromBaseController;
 
             return (from controllerType in controllerTypes
@@ -53,11 +53,11 @@ namespace AttributeRouting.Framework
                     let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
                     from actionMethod in controllerType.GetActionMethods(inheritActionsFromBaseController)
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
-                    // SitePrecedence > controllerIndex > Precedence
-                    orderby routeAttribute.SitePrecedence, controllerIndex, routeAttribute.Precedence
                     let routeName = routeAttribute.RouteName
                     let subdomain = GetAreaSubdomain(routeAreaAttribute)
                     let isAsyncController = controllerType.IsAsyncController()
+                    // SitePrecedence > controllerIndex > Precedence
+                    orderby routeAttribute.SitePrecedence, controllerIndex, routeAttribute.Precedence
                     select new RouteSpecification
                     {
                         AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),

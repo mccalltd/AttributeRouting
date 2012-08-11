@@ -18,7 +18,8 @@ namespace AttributeRouting.Framework
         private readonly IAttributeRouteFactory _routeFactory;
         private readonly IRouteConstraintFactory _routeConstraintFactory;
         private readonly IParameterFactory _parameterFactory;
-
+        private List<string> _registeredRouteNames = new List<string>();
+ 
         public RouteBuilder(AttributeRoutingConfigurationBase configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -58,7 +59,13 @@ namespace AttributeRouting.Framework
                                                            CreateRouteConstraints(routeSpec),
                                                            CreateRouteDataTokens(routeSpec));
 
-            route.RouteName = CreateRouteName(routeSpec);
+            var routeName = CreateRouteName(routeSpec);
+            if (routeName.HasValue())
+            {
+                route.RouteName = routeName;
+                route.DataTokens.Add("routeName", routeName);
+            }
+
             route.Translations = CreateRouteTranslations(routeSpec);
             route.Subdomain = routeSpec.Subdomain;
             route.UseLowercaseRoute = routeSpec.UseLowercaseRoute;
@@ -88,8 +95,14 @@ namespace AttributeRouting.Framework
 
             if (_configuration.AutoGenerateRouteNames)
             {
-                var area = (routeSpec.AreaName.HasValue()) ? routeSpec.AreaName + "_" : null;
-                return "{0}{1}_{2}".FormatWith(area, routeSpec.ControllerName, routeSpec.ActionName);
+                var routeNameBuilder = new StringBuilder();
+                
+                if (routeSpec.AreaName.HasValue()) 
+                    routeNameBuilder.AppendFormat("{0}_", routeSpec.AreaName);
+                
+                routeNameBuilder.AppendFormat("{0}_{1}", routeSpec.ControllerName, routeSpec.ActionName);
+                
+                return routeNameBuilder.ToString();
             }
 
             return null;
@@ -384,21 +397,25 @@ namespace AttributeRouting.Framework
                     translatedAreaUrl = translatedAreaUrl ?? provider.TranslateAreaUrl(cultureName, routeSpec);
                 }
 
+                // If nothing is translated, then bail.
                 if (translatedRouteUrl == null && translatedRoutePrefix == null && translatedAreaUrl == null)
                     continue;
 
-                var translatedRoute =
-                    _routeFactory.CreateAttributeRoute(CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
-                                                                      translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
-                                                                      translatedAreaUrl ?? routeSpec.AreaUrl,
-                                                                      routeSpec.IsAbsoluteUrl,
-                                                                      routeSpec.UseLowercaseRoute),
-                                                       CreateRouteDefaults(routeSpec),
-                                                       CreateRouteConstraints(routeSpec),
-                                                       CreateRouteDataTokens(routeSpec));
+                //*********************************************
+                // Otherwise, build a translated route
+
+                var routeUrl = CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
+                                              translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
+                                              translatedAreaUrl ?? routeSpec.AreaUrl,
+                                              routeSpec.IsAbsoluteUrl,
+                                              routeSpec.UseLowercaseRoute);
+
+                var translatedRoute = _routeFactory.CreateAttributeRoute(routeUrl,
+                                                                         CreateRouteDefaults(routeSpec),
+                                                                         CreateRouteConstraints(routeSpec),
+                                                                         CreateRouteDataTokens(routeSpec));
 
                 translatedRoute.CultureName = cultureName;
-
                 translatedRoute.DataTokens.Add("cultureName", cultureName);
 
                 yield return translatedRoute;

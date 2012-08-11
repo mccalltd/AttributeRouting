@@ -6,7 +6,7 @@ using System.Web.Http.Dispatcher;
 namespace AttributeRouting.Web.Http.WebHost.Routing
 {
     /// <summary>
-    /// cf: Issue #90 - https://github.com/mccalltd/AttributeRouting/issues/90
+    /// see Issue #90 - https://github.com/mccalltd/AttributeRouting/issues/90
     /// Workaround for a bug in System.Web.Http.Dispatcher.HttpRoutingDispatcher.
     /// Thanks HongMei Ge!
     /// </summary>

@@ -1,4 +1,4 @@
-﻿using AttributeRouting.Web.Mvc;
+﻿using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Tests.Web.Areas.Api.Controllers
 {
