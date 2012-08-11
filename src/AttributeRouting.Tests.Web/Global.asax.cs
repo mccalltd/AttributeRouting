@@ -69,6 +69,7 @@ namespace AttributeRouting.Tests.Web
                 config.AddTranslationProvider(translationProvider);                
                 config.UseLowercaseRoutes = true;
                 config.InheritActionsFromBaseController = true;
+                config.AutoGenerateRouteNames = true;
             });
 
             routes.MapAttributeRoutes(config =>
@@ -79,6 +80,7 @@ namespace AttributeRouting.Tests.Web
                 config.UseRouteHandler(() => new CultureAwareRouteHandler());
                 config.UseLowercaseRoutes = true;
                 config.InheritActionsFromBaseController = true;
+                config.AutoGenerateRouteNames = true;
             });
 
             routes.MapRoute("CatchAll",

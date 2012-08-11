@@ -18,6 +18,7 @@ namespace AttributeRouting.Framework
         private readonly IAttributeRouteFactory _routeFactory;
         private readonly IRouteConstraintFactory _routeConstraintFactory;
         private readonly IParameterFactory _parameterFactory;
+        private List<string> _registeredRouteNames = new List<string>();
 
         public RouteBuilder(AttributeRoutingConfigurationBase configuration)
         {
@@ -94,14 +95,16 @@ namespace AttributeRouting.Framework
 
             if (_configuration.AutoGenerateRouteNames)
             {
-                var routeNameBuilder = new StringBuilder();
-                
-                if (routeSpec.AreaName.HasValue()) 
-                    routeNameBuilder.AppendFormat("{0}_", routeSpec.AreaName);
-                
-                routeNameBuilder.AppendFormat("{0}_{1}", routeSpec.ControllerName, routeSpec.ActionName);
-                
-                return routeNameBuilder.ToString();
+                var areaPart = routeSpec.AreaName.HasValue()  ? "{0}_".FormatWith(routeSpec.AreaName) : null;
+                var routeName = "{0}{1}_{2}".FormatWith(areaPart, routeSpec.ControllerName, routeSpec.ActionName);
+             
+                // Only register route names once, so first in wins.
+                // TODO: Make this logic configurable so user can do what they want.
+                if (!_registeredRouteNames.Contains(routeName))
+                {
+                    _registeredRouteNames.Add(routeName);
+                    return routeName;
+                }
             }
 
             return null;
