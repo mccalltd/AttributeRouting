@@ -18,8 +18,7 @@ namespace AttributeRouting.Framework
         private readonly IAttributeRouteFactory _routeFactory;
         private readonly IRouteConstraintFactory _routeConstraintFactory;
         private readonly IParameterFactory _parameterFactory;
-        private List<string> _registeredRouteNames = new List<string>();
- 
+
         public RouteBuilder(AttributeRoutingConfigurationBase configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
