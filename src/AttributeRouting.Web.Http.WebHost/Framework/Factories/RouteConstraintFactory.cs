@@ -7,7 +7,7 @@ namespace AttributeRouting.Web.Http.WebHost.Framework.Factories
 {
     public class RouteConstraintFactory : WebRouteConstraintFactoryBase
     {
-        public RouteConstraintFactory(HttpAttributeRoutingConfiguration configuration) 
+        public RouteConstraintFactory(HttpWebAttributeRoutingConfiguration configuration) 
             : base(configuration)
         { }
 

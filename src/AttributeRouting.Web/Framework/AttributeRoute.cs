@@ -5,10 +5,10 @@ using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
-namespace AttributeRouting.Web.Mvc.Framework
+namespace AttributeRouting.Web.Framework
 {
     /// <summary>
-    /// Route to use for Mvc-hosted routes.
+    /// Route to use for ASP.NET Mvc or Web API web-hosted routes.
     /// </summary>
     public class AttributeRoute : Route, IAttributeRoute
     {

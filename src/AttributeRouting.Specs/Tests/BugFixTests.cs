@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Web.Http;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Logging;

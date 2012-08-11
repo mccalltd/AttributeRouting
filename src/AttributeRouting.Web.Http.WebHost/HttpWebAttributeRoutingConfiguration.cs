@@ -6,13 +6,13 @@ using AttributeRouting.Web.Http.WebHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.WebHost
 {
-    public class HttpAttributeRoutingConfiguration : WebAttributeRoutingConfigurationBase
+    public class HttpWebAttributeRoutingConfiguration : WebAttributeRoutingConfigurationBase
     {
         private readonly IAttributeRouteFactory _attributeFactory;
         private readonly IParameterFactory _parameterFactory;
         private readonly RouteConstraintFactory _routeConstraintFactory;
 
-        public HttpAttributeRoutingConfiguration()
+        public HttpWebAttributeRoutingConfiguration()
             : base(() => HttpControllerRouteHandler.Instance)
         {
             _attributeFactory = new AttributeRouteFactory(this);
