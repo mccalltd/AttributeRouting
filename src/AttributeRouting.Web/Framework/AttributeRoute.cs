@@ -8,7 +8,7 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Web.Framework
 {
     /// <summary>
-    /// Route to use for Mvc or Web API web-hosted routes.
+    /// Route to use for ASP.NET Mvc or Web API web-hosted routes.
     /// </summary>
     public class AttributeRoute : Route, IAttributeRoute
     {

@@ -82,6 +82,7 @@
     <Compile Include="RouteCollectionExtensions.cs" />
     <Compile Include="Routing\HttpContextBaseExtensions.cs" />
     <Compile Include="Routing\HttpMethodHelper.cs" />
+    <Compile Include="Routing\RouteBypassingHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

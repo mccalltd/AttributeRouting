@@ -222,7 +222,9 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>StandardUsage.feature.cs</LastGenOutput>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AttributeRouting.Web.Http.SelfHost\AttributeRouting.Web.Http.SelfHost.csproj">

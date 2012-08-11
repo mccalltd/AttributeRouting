@@ -9,7 +9,7 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Web.Http.SelfHost.Framework
 {
     /// <summary>
-    /// Route to use for Web API self-hosted routes.
+    /// Route to use for self-hosted Web API routes.
     /// </summary>
     public class HttpAttributeRoute : HttpRoute, IAttributeRoute
     {

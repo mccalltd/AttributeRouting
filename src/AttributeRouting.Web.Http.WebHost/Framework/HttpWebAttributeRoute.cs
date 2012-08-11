@@ -58,7 +58,7 @@ namespace AttributeRouting.Web.Http.WebHost.Framework
                 HttpRequestMessage request = httpContext.GetHttpRequestMessage();
                 if (request == null)
                 {
-                    // Seeing how it goes without re-implementing .ConvertRequest
+                    // Seeing how it goes without re-implementing .ConvertRequest: below is what MS does in HttpWebRoute
                     // request = HttpControllerHandler.ConvertRequest(httpContext);
                     // httpContext.SetHttpRequestMessage(request);
 

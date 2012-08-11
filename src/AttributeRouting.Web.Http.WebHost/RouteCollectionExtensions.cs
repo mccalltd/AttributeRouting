@@ -6,6 +6,7 @@ using System.Web.Http.Routing;
 using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Web.Http.WebHost.Framework;
+using AttributeRouting.Web.Http.WebHost.Routing;
 
 namespace AttributeRouting.Web.Http.WebHost
 {
@@ -53,6 +54,9 @@ namespace AttributeRouting.Web.Http.WebHost
 
         private static void MapAttributeRoutesInternal(this RouteCollection routes, HttpWebAttributeRoutingConfiguration configuration)
         {
+            // workaround a problem with default routing dispatcher
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new RouteBypassingHandler());
+
             var generatedRoutes = new RouteBuilder(configuration).BuildAllRoutes().ToList();
             var globalConfigRoutes = GlobalConfiguration.Configuration.Routes;
 
@@ -68,8 +72,6 @@ namespace AttributeRouting.Web.Http.WebHost
                 route.HttpRoute = httpRoute;
                 routes.Add(route.RouteName, route);
             }
-
-            //generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, (Route)r));
         }
     }
 }
