@@ -69,7 +69,6 @@ namespace AttributeRouting.Tests.Web
                 config.AddTranslationProvider(translationProvider);                
                 config.UseLowercaseRoutes = true;
                 config.InheritActionsFromBaseController = true;
-                config.AutoGenerateRouteNames = true;
             });
 
             routes.MapAttributeRoutes(config =>
