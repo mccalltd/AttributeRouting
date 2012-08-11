@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using AttributeRouting.Constraints;
+using AttributeRouting.Framework;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Helpers;
@@ -15,6 +16,8 @@ namespace AttributeRouting
     /// </summary>
     public abstract class AttributeRoutingConfigurationBase
     {
+        private readonly List<string> _registeredRouteNames = new List<string>();
+
         /// <summary>
         /// Creates and initializes a new configuration object.
         /// </summary>
@@ -25,11 +28,14 @@ namespace AttributeRouting
 
             InheritActionsFromBaseController = false;
 
+            // Constraint setting initialization
             DefaultRouteConstraints = new Dictionary<string, object>();
             InlineRouteConstraints = new Dictionary<string, Type>();
 
+            // Translation setting initialization
             TranslationProviders = new List<TranslationProviderBase>();
 
+            // Subdomain config setting initialization
             AreaSubdomainOverrides = new Dictionary<string, string>();
             DefaultSubdomain = "www";
             SubdomainParser = host =>
@@ -38,6 +44,22 @@ namespace AttributeRouting
                 return sections.Length < 3
                            ? null
                            : String.Join(".", sections.Take(sections.Length - 2));
+            };
+
+            // AutoGenerateRouteNames config setting initialization
+            RouteNameBuilder = routeSpec =>
+            {
+                var areaPart = routeSpec.AreaName.HasValue() ? "{0}_".FormatWith(routeSpec.AreaName) : null;
+                var routeName = "{0}{1}_{2}".FormatWith(areaPart, routeSpec.ControllerName, routeSpec.ActionName);
+
+                // Only register route names once, so first in wins.
+                if (!_registeredRouteNames.Contains(routeName))
+                {
+                    _registeredRouteNames.Add(routeName);
+                    return routeName;
+                }
+
+                return null;
             };
         }
 
@@ -102,6 +124,12 @@ namespace AttributeRouting
         /// The default is false.
         /// </summary>
         public bool AutoGenerateRouteNames { get; set; }
+
+        /// <summary>
+        /// Given a route specification, this delegate returns the route name 
+        /// to use when <see cref="AutoGenerateRouteNames"/> is true;
+        /// </summary>
+        public Func<RouteSpecification, string> RouteNameBuilder { get; set; }
 
         /// <summary>
         /// Given the requested hostname, this delegate parses the subdomain.
