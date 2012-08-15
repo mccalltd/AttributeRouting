@@ -4,6 +4,10 @@ h2. Please refer to the "wiki pages":https://github.com/mccalltd/AttributeRoutin
 
 h3. Changelog
 
+_2.5.0.0_
+
+* #106 - improved the logic used to auto-generate route names: no longer will two routes be added with the same; added configuration hook for defining your own route convention. "Docs here":https://github.com/mccalltd/AttributeRouting/wiki/Generating-Conventional-Route-Names
+
 _2.5.0-pre_
 
 * #90 - implemented workaround for runtime exception when running agains Web API nightlies. Will flip switch to 2.5.0.0 whenthe Web API RTM drops.
