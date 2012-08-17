@@ -132,7 +132,8 @@ namespace AttributeRouting.Framework
                 if (routePrefix.HasValue())
                 {
                     var delimitedRouteUrl = urlBuilder + "/";
-                    var delimitedRoutePrefix = routePrefix + "/";
+                    var detokenizedRoutePrefix = DetokenizeUrl(routePrefix);
+                    var delimitedRoutePrefix = detokenizedRoutePrefix + "/";
                     if (!delimitedRouteUrl.StartsWith(delimitedRoutePrefix))
                         urlBuilder.Insert(0, delimitedRoutePrefix);
                 }
@@ -228,7 +229,9 @@ namespace AttributeRouting.Framework
             if (routeSpec.HttpMethods.Any())
                 constraints.Add("httpMethod", _routeConstraintFactory.CreateRestfulHttpMethodConstraint(routeSpec.HttpMethods));
 
-            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).ToList();
+            // Work from a prefixed url, as the RoutePrefixAttribute accepts a parameterized (and possibly constrained) url.
+            var prefixedUrl = "{0}/{1}".FormatWith(routeSpec.RoutePrefixUrl, routeSpec.RouteUrl).Trim('/');
+            var urlParameters = GetUrlParameterContents(prefixedUrl).ToList();
 
             // Inline constraints (legacy)
             foreach (var parameter in urlParameters.Where(p => !p.Contains(":") && Regex.IsMatch(p, @"^.*\(.*\)$")))

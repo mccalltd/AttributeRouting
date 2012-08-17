@@ -1,11 +1,21 @@
 using System;
-using System.Web.Http;
-using AttributeRouting.Web.Http;
+using System.Web.Mvc;
+using AttributeRouting.Web.Mvc;
 
-namespace AttributeRouting.Specs.Subjects.Http
+namespace AttributeRouting.Specs.Subjects
 {
-    [RoutePrefix("Http-Inline-Constraints")]
-    public class HttpInlineRouteConstraintsController : ApiController
+    [RoutePrefix("Prefixed-Inline-Constraints/{id:int}")]
+    public class PrefixedInlineRouteConstraintsController : Controller
+    {
+        [GET("Howdy")]
+        public string Index()
+        {
+            return "howdy-do!";
+        }
+    }
+
+    [RoutePrefix("Inline-Constraints")]
+    public class InlineRouteConstraintsController : Controller
     {
         [GET("Alpha/{x:alpha}")]
         public string Alpha(string x)
@@ -110,9 +120,9 @@ namespace AttributeRouting.Specs.Subjects.Http
         }
 
         [GET(@"Regex/{x:regex(^Howdy$)}")]
-        public string Regex(int x)
+        public string Regex(string x)
         {
-            return "";
+            return x;
         }
 
         [GET("Compound/{x:int:max(10)}")]
