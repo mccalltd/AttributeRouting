@@ -25,7 +25,10 @@
         <Exec Command="tools\nunit-console-x86.exe build\bin\AttributeRouting.Specs.dll /noresult" />
     </Target>
 
-    <Target Name="NugetPack" DependsOnTargets="Build">
+    <Target Name="NugetPack" DependsOnTargets="Test">
+        <PropertyGroup>
+            <OutputDir>build\nuget</OutputDir>
+        </PropertyGroup>
         <ItemGroup>
             <MainNuspec Include="nuget\AttributeRouting\AttributeRouting.nuspec"/>
             <MainNuspec Include="nuget\AttributeRouting.Core\AttributeRouting.Core.nuspec"/>
@@ -35,9 +38,9 @@
             <MainNuspec Include="nuget\AttributeRouting.WebAPI.Hosted\AttributeRouting.WebApi.Hosted.nuspec"/>
             <Transforms Include="nuget\**\*.nutrans" />
         </ItemGroup>
-        <PropertyGroup>
-            <OutputDir>build\nuget</OutputDir>
-        </PropertyGroup>
+
+        <!-- Clean up from last time. This helps with the NugetPush. -->
+        <RemoveDir Directories="$(OutputDir)" />
 
         <!-- Get shared assembly version -->
         <GetAssemblyInformationalVersion Assembly="build\bin\AttributeRouting.dll">
