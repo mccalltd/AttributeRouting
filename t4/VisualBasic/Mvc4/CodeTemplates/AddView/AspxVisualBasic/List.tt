@@ -1,0 +1,299 @@
+﻿<#@ template language="VB" HostSpecific="True" #>
+<#@ assembly name="System.ComponentModel.DataAnnotations" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data.Entity" #>
+<#@ assembly name="System.Data.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.ComponentModel.DataAnnotations" #>
+<#@ import namespace="System.Data.Linq.Mapping" #>
+<#@ import namespace="System.Data.Objects.DataClasses" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="Microsoft.VisualStudio.Web.Mvc.Scaffolding.BuiltIn" #>
+<#
+Dim mvcHost As MvcTextTemplateHost = DirectCast(Host, MvcTextTemplateHost)
+Dim mvcViewDataTypeGenericString As String = "(Of IEnumerable (Of " & mvcHost.ViewDataTypeName & "))"
+Dim CPHCounter As Integer = 1
+#>
+<#
+' The following chained if-statement outputs the user-control needed for a partial view, or opens the asp:Content tag or html tags used in the case of a master page or regular view page
+If mvcHost.IsPartialView Then
+#>
+<%@ Control Language="VB" Inherits="System.Web.Mvc.ViewUserControl<#= mvcViewDataTypeGenericString #>" %>
+
+<#
+ElseIf mvcHost.IsContentPage Then
+#>
+<%@ Page Title="" Language="VB" MasterPageFile="<#= mvcHost.MasterPageFile #>" Inherits="System.Web.Mvc.ViewPage<#= mvcViewDataTypeGenericString #>" %>
+
+<#
+    For Each cphid As String In mvcHost.ContentPlaceHolderIDs 
+        If cphid.Equals("TitleContent", StringComparison.OrdinalIgnoreCase) Then
+#>
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= cphid #>" runat="server">
+    <#= mvcHost.ViewName #>
+</asp:Content>
+
+<#
+            CPHCounter += 1
+        End If
+    Next
+#>
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= mvcHost.PrimaryContentPlaceHolderID #>" runat="server">
+
+<h2><#= mvcHost.ViewName #></h2>
+
+<#
+Else
+#>
+<%@ Page Language="VB" Inherits="System.Web.Mvc.ViewPage<#= mvcViewDataTypeGenericString #>" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta name="viewport" content="width=device-width" />
+    <title><#= mvcHost.ViewName #></title>
+</head>
+<body>
+<#
+    PushIndent("    ")
+End If
+#>
+<p>
+    <%: Html.ActionLink("Create New", "Create") %>
+</p>
+<table>
+    <tr>
+<#
+Dim properties As List(Of ModelProperty) = GetModelProperties(mvcHost.ViewDataType)
+For Each modelProp As ModelProperty In properties
+    If (Not modelProp.IsPrimaryKey) AndAlso (modelProp.Scaffold) Then
+#>
+        <th>
+            <%: Html.DisplayNameFor(Function(model) model.<#= modelProp.ValueExpression #>) %>
+        </th>
+<#
+    End If
+Next
+#>
+        <th></th>
+    </tr>
+
+<% For Each item In Model %>
+    <% Dim currentItem = item %>
+    <tr>
+<#
+For Each modelProp As ModelProperty In properties
+    If (Not modelProp.IsPrimaryKey) AndAlso (modelProp.Scaffold) Then
+#>
+        <td>
+            <%: Html.DisplayFor(Function(modelItem) <#= modelProp.ItemValueExpression #>) %>
+        </td>
+<#
+    End If
+Next
+
+Dim pkName As String = GetPrimaryKeyName(mvcHost.ViewDataType)
+If (Not pkName Is Nothing) Then
+#>
+        <td>
+            <%: Html.ActionLink("Edit", "Edit", New With {.id = currentItem.<#= pkName #>}) %> |
+            <%: Html.ActionLink("Details", "Details", New With {.id = currentItem.<#= pkName #>}) %> |
+            <%: Html.ActionLink("Delete", "Delete", New With {.id = currentItem.<#= pkName #>}) %>
+        </td>
+<#
+Else
+#>
+        <td>
+            <%--<%: Html.ActionLink("Edit", "Edit", New With {.id = currentItem.PrimaryKey}) %> |
+            <%: Html.ActionLink("Details", "Details", New With {.id = currentItem.PrimaryKey}) %> |
+            <%: Html.ActionLink("Delete", "Delete", New With {.id = currentItem.PrimaryKey}) %>--%>
+        </td>
+<#
+End If
+#>
+    </tr>
+<% Next %>
+
+</table>
+<#
+' The following code closes the asp:Content tag used in the case of a master page and the body and html tags in the case of a regular view page
+#>
+<#
+If mvcHost.IsContentPage
+#>
+
+</asp:Content>
+<#
+    For Each cphid As String In mvcHost.ContentPlaceHolderIDs 
+        If Not cphid.Equals("TitleContent", StringComparison.OrdinalIgnoreCase) And Not cphid.Equals(mvcHost.PrimaryContentPlaceHolderID, StringComparison.OrdinalIgnoreCase) Then
+            CPHCounter +=1
+#>
+
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= cphid #>" runat="server">
+</asp:Content>
+<#
+        End If
+    Next
+#>
+<#
+Else If ((Not mvcHost.IsPartialView) And (Not mvcHost.IsContentPage)) Then
+    ClearIndent()
+#>
+</body>
+</html>
+<#
+End If
+#>
+<#+
+' Describes the information about a property on the model
+Private Class ModelProperty
+    Public IsReadOnly As Boolean
+    Public IsPrimaryKey As Boolean
+    Public IsForeignKey As Boolean
+    Public Name As String
+    Public AssociationName As String
+    Public UnderlyingType As Type
+    Public ValueExpression As String
+    Public ModelValueExpression As String
+    Public ItemValueExpression As String
+    Public Scaffold As String
+End Class
+
+' Change this list to include any non-primitive types you think should be eligible for display/edit
+Private Shared bindableNonPrimitiveTypes As Type() = New Type() {
+    GetType(String),
+    GetType(Decimal),
+    GetType(Guid),
+    GetType(DateTime),
+    GetType(DateTimeOffset),
+    GetType(TimeSpan)
+}
+
+' Call this to get the list of properties in the model. Change this to modify or add your
+' own default formatting for display values.
+Private Function GetModelProperties(ByVal type As Type) As List(Of ModelProperty)
+    Dim results As List(Of ModelProperty) = GetEligibleProperties(type)
+    
+    For Each modelProp As ModelProperty In results
+        If ((modelProp.UnderlyingType Is GetType(Double)) OrElse (modelProp.UnderlyingType Is GetType(Decimal))) Then
+            modelProp.ModelValueExpression = ("String.Format(""{0:F}"", " & modelProp.ModelValueExpression & ")")
+        ElseIf (modelProp.UnderlyingType Is GetType(DateTime)) Then
+            modelProp.ModelValueExpression = ("String.Format(""{0:g}"", " & modelProp.ModelValueExpression & ")")
+        End If
+    Next
+
+    Return results
+End Function
+
+' Call this to determine if property has scaffolding enabled
+Private Function Scaffold(ByVal modelProp As PropertyInfo) As Boolean
+    For Each attribute As Object in modelProp.GetCustomAttributes(true)
+        Dim scaffoldColumn As ScaffoldColumnAttribute = TryCast(attribute, ScaffoldColumnAttribute)
+        If ((Not scaffoldColumn Is Nothing) AndAlso Not scaffoldColumn.Scaffold) 
+            Return False
+        End If
+    Next
+    Return True
+End Function
+
+' Call this to determine if the modelProp represents a primary key. Change the
+' code to change the definition of primary key.
+Private Function IsPrimaryKey(ByVal modelProp As PropertyInfo) As Boolean
+    If String.Equals(modelProp.Name, "id", StringComparison.OrdinalIgnoreCase) Then
+        Return True
+    End If
+    If String.Equals(modelProp.Name, modelProp.DeclaringType.Name & "id", StringComparison.OrdinalIgnoreCase) Then
+        Return True
+    End If 
+    For Each attribute as Object In modelProp.GetCustomAttributes(True)
+        If TypeOf attribute Is KeyAttribute Then
+            Return True
+        End If
+        Dim edmScalar As EdmScalarPropertyAttribute = TryCast(attribute, EdmScalarPropertyAttribute)
+        If ((Not edmScalar Is Nothing) AndAlso edmScalar.EntityKeyProperty) Then
+            Return True
+        End If
+        Dim column As ColumnAttribute = TryCast(attribute, ColumnAttribute)
+        If ((Not column Is Nothing) AndAlso column.IsPrimaryKey) Then
+            Return True
+        End If
+    Next
+    Return False
+End Function
+
+' This will return the primary key property name, if and only if there is exactly
+' one primary key. Returns null if there is no PK, or the PK is composite.
+Private Function GetPrimaryKeyName(ByVal type As Type) As String
+    Dim pkNames As IEnumerable(Of String) = GetPrimaryKeyNames(type)
+    Return If(pkNames.Count() = 1, pkNames.First(), Nothing)
+End Function
+
+' This will return all the primary key names. Will return an empty list if there are none.
+Private Function GetPrimaryKeyNames(ByVal type As Type) As IEnumerable(Of String)
+    Return From mp In GetEligibleProperties(type)
+           Where mp.IsPrimaryKey
+           Select mp.Name
+End Function
+
+' Call this to determine if the property represents a foreign key.
+Private Function IsForeignKey(ByVal prop As PropertyInfo) As Boolean
+    return MvcTemplateHost.RelatedProperties.ContainsKey(prop.Name)
+End Function
+
+' A foreign key, e.g. CategoryID, will have a value expression of Category.CategoryID
+Private Function GetValueExpressionSuffix(ByVal prop As PropertyInfo)
+    Dim propertyModel As RelatedModel = Nothing
+    MvcTemplateHost.RelatedProperties.TryGetValue(prop.Name, propertyModel)
+
+    return If(Not propertyModel Is Nothing, propertyModel.PropertyName & "." & propertyModel.DisplayPropertyName, prop.Name)
+End Function
+
+' A foreign key, e.g. CategoryID, will have an association name of Category
+Private Function GetAssociationName(ByVal prop As PropertyInfo)
+    Dim propertyModel As RelatedModel = Nothing
+    MvcTemplateHost.RelatedProperties.TryGetValue(prop.Name, propertyModel)
+
+    return If(Not propertyModel Is Nothing, propertyModel.PropertyName, prop.Name)
+End Function
+
+' Helper
+Private Function GetEligibleProperties(ByVal type As Type) As List(Of ModelProperty)
+    Dim results As New List(Of ModelProperty)
+
+    For Each prop As PropertyInfo In type.GetProperties(BindingFlags.Public Or BindingFlags.Instance)
+        Dim underlyingType As Type = If(Nullable.GetUnderlyingType(prop.PropertyType) <> Nothing, Nullable.GetUnderlyingType(prop.PropertyType), prop.PropertyType)
+        If (prop.GetGetMethod() <> Nothing AndAlso prop.GetIndexParameters().Length = 0 AndAlso IsBindableType(underlyingType)) Then
+            Dim valueExpression As String = GetValueExpressionSuffix(prop)
+            
+            results.Add(New ModelProperty() With { _
+                .Name = prop.Name, _
+                .AssociationName = GetAssociationName(prop), _
+                .ValueExpression = valueExpression, _
+                .ModelValueExpression = ("Model." & valueExpression), _
+                .ItemValueExpression = ("currentItem." & valueExpression), _
+                .UnderlyingType = underlyingType, _
+                .IsPrimaryKey = IsPrimaryKey(prop), _
+                .IsForeignKey = IsForeignKey(prop), _
+                .IsReadOnly = prop.GetSetMethod() = Nothing, _
+                .Scaffold = Scaffold(prop) _
+            })
+        End If
+    Next
+
+    Return results
+End Function
+
+' Helper
+Private Function IsBindableType(ByVal type As Type) As Boolean
+    Return (type.IsPrimitive OrElse bindableNonPrimitiveTypes.Contains(type))
+End Function
+
+Private ReadOnly Property MvcTemplateHost As MvcTextTemplateHost
+    Get
+        return DirectCast(Host, MvcTextTemplateHost)
+    End Get
+End Property
+#>

@@ -1,0 +1,88 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#
+MvcTextTemplateHost mvcHost = (MvcTextTemplateHost)(Host);
+string mvcViewDataTypeGenericString = (!String.IsNullOrEmpty(mvcHost.ViewDataTypeName)) ? "<" + mvcHost.ViewDataTypeName + ">" : "<dynamic>";
+int CPHCounter = 1;
+#>
+<#
+// The following chained if-statement outputs the user-control needed for a partial view, or opens the asp:Content tag or html tags used in the case of a master page or regular view page
+if(mvcHost.IsPartialView) {
+#>
+<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<#= mvcViewDataTypeGenericString #>" %>
+
+<#
+} else if(mvcHost.IsContentPage) {
+#>
+<%@ Page Title="" Language="C#" MasterPageFile="<#= mvcHost.MasterPageFile #>" Inherits="System.Web.Mvc.ViewPage<#= mvcViewDataTypeGenericString #>" %>
+
+<#
+    foreach(string cphid in mvcHost.ContentPlaceHolderIDs) {
+        if(cphid.Equals("TitleContent", StringComparison.OrdinalIgnoreCase)) {
+#>
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= cphid #>" runat="server">
+    <#= mvcHost.ViewName #>
+</asp:Content>
+
+<#
+            CPHCounter++;
+        }
+    }
+#>
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= mvcHost.PrimaryContentPlaceHolderID #>" runat="server">
+
+<h2><#= mvcHost.ViewName #></h2>
+
+<#
+} else {
+#>
+<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<#= mvcViewDataTypeGenericString #>" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta name="viewport" content="width=device-width" />
+    <title><#= mvcHost.ViewName #></title>
+</head>
+<body>
+<#
+    PushIndent("    ");
+}
+#>
+<#
+if(!mvcHost.IsPartialView && !mvcHost.IsContentPage) {
+#>
+<div>
+    
+</div>
+<#
+}
+#>
+<#
+// The following code closes the asp:Content tag used in the case of a master page and the body and html tags in the case of a regular view page
+#>
+<#
+if(mvcHost.IsContentPage) {
+#>
+</asp:Content>
+<#
+    foreach(string cphid in mvcHost.ContentPlaceHolderIDs) {
+        if(!cphid.Equals("TitleContent", StringComparison.OrdinalIgnoreCase) && !cphid.Equals(mvcHost.PrimaryContentPlaceHolderID, StringComparison.OrdinalIgnoreCase)) {
+            CPHCounter++;
+#>
+
+<asp:Content ID="Content<#= CPHCounter #>" ContentPlaceHolderID="<#= cphid #>" runat="server">
+</asp:Content>
+<#
+        }
+    }
+#>
+<#
+} else if(!mvcHost.IsPartialView && !mvcHost.IsContentPage) {
+    ClearIndent();
+#>
+</body>
+</html>
+<#
+}
+#>

@@ -1,0 +1,66 @@
+﻿<#@ template language="VB" HostSpecific="True" #>
+<#@ output extension=".vbhtml" #>
+<#
+Dim mvcHost As MvcTextTemplateHost = DirectCast(Host, MvcTextTemplateHost)
+If Not String.IsNullOrEmpty(mvcHost.ViewDataTypeName) Then
+    #>
+@ModelType <#= mvcHost.ViewDataTypeName #>
+
+<#
+End If
+
+' The following chained if-statement outputs the file header code and markup for a partial view, a content page, or a regular view.
+If mvcHost.IsPartialView Then
+#>
+<#
+ElseIf mvcHost.IsContentPage Then
+#>
+@Code
+    ViewData("Title") = "<#= mvcHost.ViewName#>"
+<#
+If Not String.IsNullOrEmpty(mvcHost.MasterPageFile)
+#>
+    Layout = "<#= mvcHost.MasterPageFile#>"
+<#
+End If
+#>
+End Code
+
+<h2><#= mvcHost.ViewName#></h2>
+<#
+Else
+#>
+@Code
+    Layout = Nothing
+End Code
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta name="viewport" content="width=device-width" />
+    <title><#= mvcHost.ViewName #></title>
+</head>
+<body>
+<#
+    PushIndent("    ")
+End If
+#>
+<#
+If ((Not mvcHost.IsPartialView) And (Not mvcHost.IsContentPage)) Then
+#>
+<div>
+    
+</div>
+<#
+End If
+#>
+<#
+If ((Not mvcHost.IsPartialView) And (Not mvcHost.IsContentPage)) Then
+    ClearIndent()
+#>
+</body>
+</html>
+<#
+End If
+#>

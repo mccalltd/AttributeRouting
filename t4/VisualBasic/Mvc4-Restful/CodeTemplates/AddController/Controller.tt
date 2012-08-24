@@ -1,0 +1,89 @@
+﻿<#@ template language="VB" HostSpecific="True" #>
+<#
+Dim mvcHost As MvcTextTemplateHost = CType(Host, MvcTextTemplateHost)
+
+Dim routeComment As String
+If String.IsNullOrEmpty(mvcHost.AreaName) Then
+    routeComment = "/" + mvcHost.ControllerRootName
+Else
+    routeComment = "/" + mvcHost.AreaName + "/" + mvcHost.ControllerRootName
+End If
+#>
+Imports AttributeRouting.Web.Mvc
+
+Namespace <#= mvcHost.Namespace #>
+<#
+If Not String.IsNullOrEmpty(mvcHost.AreaName) Then
+#>
+	<RouteArea("<#= mvcHost.AreaName #>")> _
+<#
+End If
+#>
+	<RoutePrefix("<#= mvcHost.ControllerRootName #>")> _
+    Public Class <#= mvcHost.ControllerName #>
+        Inherits System.Web.Mvc.Controller
+
+		<[GET]("")> _
+        Function Index() As ActionResult
+            Return View()
+        End Function
+
+<#
+If mvcHost.AddActionMethods Then
+#>
+		<[GET]("New")> _
+        Function [New]() As ActionResult
+            Return View()
+        End Function
+
+		<POST("")> _
+        Function Create(ByVal collection As FormCollection) As ActionResult
+            Try
+                ' TODO: Add insert logic here
+                Return RedirectToAction("Index")
+            Catch
+                Return View("New")
+            End Try
+        End Function
+        
+		<[GET]("{id}")> _
+        Function Show(ByVal id As Integer) As ActionResult
+            Return View()
+        End Function
+
+		<[GET]("{id}/Edit")> _
+        Function Edit(ByVal id As Integer) As ActionResult
+            Return View()
+        End Function
+
+		<PUT("{id}")> _
+        Function Update(ByVal id As Integer, ByVal collection As FormCollection) As ActionResult
+            Try
+                ' TODO: Add update logic here
+
+                Return RedirectToAction("Index")
+            Catch
+                Return View("Edit")
+            End Try
+        End Function
+
+		<[GET]("{id}/Delete")> _
+        Function Delete(ByVal id As Integer) As ActionResult
+            Return View()
+        End Function
+
+		<DELETE("{id}")> _
+        Function Destroy(ByVal id As Integer, ByVal collection As FormCollection) As ActionResult
+            Try
+                ' TODO: Add delete logic here
+
+                Return RedirectToAction("Index")
+            Catch
+                Return View("Delete")
+            End Try
+        End Function     
+<#
+End If
+#>
+    End Class
+End Namespace
