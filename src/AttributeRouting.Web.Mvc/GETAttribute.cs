@@ -11,6 +11,6 @@ namespace AttributeRouting.Web.Mvc
         /// Specify a route for a GET request.
         /// </summary>
         /// <param name="routeUrl">The url that is associated with this action</param>
-        public GETAttribute(string routeUrl) : base(routeUrl, HttpVerbs.Get | HttpVerbs.Head) {}
+        public GETAttribute(string routeUrl) : base(routeUrl, HttpVerbs.Get, HttpVerbs.Head) {}
     }
 }

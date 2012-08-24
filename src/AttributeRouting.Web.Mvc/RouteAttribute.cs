@@ -32,10 +32,10 @@ namespace AttributeRouting.Web.Mvc
         /// </summary>
         /// <param name="routeUrl">The url that is associated with this action</param>
         /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
-        public RouteAttribute(string routeUrl, HttpVerbs allowedMethods)
+        public RouteAttribute(string routeUrl, params HttpVerbs[] allowedMethods)
             : this(routeUrl)
         {
-            HttpMethods = allowedMethods.ToString().ToUpper().SplitAndTrim(new[] { "," });
+            HttpMethods = allowedMethods.Select(m => m.ToString().ToUpperInvariant()).ToArray();
         }
 
         public string RouteUrl { get; private set; }
