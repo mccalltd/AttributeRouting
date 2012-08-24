@@ -134,7 +134,6 @@
     <Compile Include="Subjects\AsyncActionController.cs" />
     <Compile Include="Subjects\BugFixesController.cs" />
     <Compile Include="Subjects\Color.cs" />
-    <Compile Include="Subjects\Http\HttpRouteConstraintsController.cs" />
     <Compile Include="Subjects\Http\Issue102TestController.cs" />
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionController.cs" />
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionPrefixController.cs" />
@@ -152,7 +151,6 @@
     <Compile Include="Subjects\InlineRouteConstraintsControllers.cs" />
     <Compile Include="Subjects\LowercaseUrlController.cs" />
     <Compile Include="Subjects\RouteAreasControllers.cs" />
-    <Compile Include="Subjects\RouteConstraintsController.cs" />
     <Compile Include="Subjects\RoutePrefixesControllers.cs" />
     <Compile Include="Subjects\RouteConventionsController.cs" />
     <Compile Include="Subjects\RouteDefaultsController.cs" />

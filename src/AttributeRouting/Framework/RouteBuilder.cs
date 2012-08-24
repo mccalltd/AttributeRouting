@@ -224,20 +224,7 @@ namespace AttributeRouting.Framework
             var prefixedUrl = "{0}/{1}".FormatWith(routeSpec.RoutePrefixUrl, routeSpec.RouteUrl).Trim('/');
             var urlParameters = GetUrlParameterContents(prefixedUrl).ToList();
 
-            // Inline constraints (legacy)
-            foreach (var parameter in urlParameters.Where(p => !p.Contains(":") && Regex.IsMatch(p, @"^.*\(.*\)$")))
-            {
-                var indexOfOpenParen = parameter.IndexOf('(');
-                var parameterName = parameter.Substring(0, indexOfOpenParen);
-
-                if (constraints.ContainsKey(parameterName))
-                    continue;
-
-                var regexPattern = parameter.Substring(indexOfOpenParen + 1, parameter.Length - indexOfOpenParen - 2);
-                constraints.Add(parameterName, _routeConstraintFactory.CreateRegexRouteConstraint(regexPattern));
-            }
-
-            // Inline constraints of the form urlParam:constraintDefinition(param1, ...)
+            // Inline constraints
             var constraintFactory = _configuration.RouteConstraintFactory;
             foreach (var parameter in urlParameters.Where(p => p.Contains(":")))
             {
@@ -298,10 +285,9 @@ namespace AttributeRouting.Framework
                     constraints.Add(parameterName, finalConstraint);
             }
 
-            var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec));
-            var urlParameterNames = GetUrlParameterContents(detokenizedUrl).ToList();
-
             // Globally configured constraints
+            var detokenizedPrefixedUrl = DetokenizeUrl(prefixedUrl);
+            var urlParameterNames = GetUrlParameterContents(detokenizedPrefixedUrl).ToList();
             foreach (var defaultConstraint in _configuration.DefaultRouteConstraints)
             {
                 var pattern = defaultConstraint.Key;
