@@ -119,23 +119,15 @@ this.FeatureBackground();
 #line 20
  testRunner.When("I fetch the routes for the RouteDefaults controller\'s Optionals action");
 #line 21
- testRunner.Then("the route url is \"Optionals/{p1}/{p2}/{p3}\"");
+ testRunner.Then("the route url is \"Optionals/{p1}\"");
 #line 22
  testRunner.And("the parameter \"p1\" is optional");
 #line 23
- testRunner.And("the parameter \"p2\" is optional");
-#line 24
- testRunner.And("the parameter \"p3\" is optional");
-#line 25
  testRunner.When("I fetch the routes for the HttpRouteDefaults controller\'s Optionals action");
-#line 26
- testRunner.Then("the route url is \"Optionals/{p1}/{p2}/{p3}\"");
-#line 27
+#line 24
+ testRunner.Then("the route url is \"Optionals/{p1}\"");
+#line 25
  testRunner.And("the parameter \"p1\" is optional");
-#line 28
- testRunner.And("the parameter \"p2\" is optional");
-#line 29
- testRunner.And("the parameter \"p3\" is optional");
 #line hidden
             this.ScenarioCleanup();
         }

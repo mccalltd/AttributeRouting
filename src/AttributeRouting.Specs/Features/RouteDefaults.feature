@@ -18,12 +18,8 @@ Scenario: Route default specified inline
 
 Scenario: Optional parameters specified with a url parameter token
 	When I fetch the routes for the RouteDefaults controller's Optionals action
-	Then the route url is "Optionals/{p1}/{p2}/{p3}"
+	Then the route url is "Optionals/{p1}"
 	And the parameter "p1" is optional
-	And the parameter "p2" is optional
-	And the parameter "p3" is optional
 	When I fetch the routes for the HttpRouteDefaults controller's Optionals action
-	Then the route url is "Optionals/{p1}/{p2}/{p3}"
+	Then the route url is "Optionals/{p1}"
 	And the parameter "p1" is optional
-	And the parameter "p2" is optional
-	And the parameter "p3" is optional

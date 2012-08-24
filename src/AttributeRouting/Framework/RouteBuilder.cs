@@ -179,10 +179,10 @@ namespace AttributeRouting.Framework
 
             var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).ToList();
 
-            // Inspect the url for optional parameters, specified with a leading or trailing (or both) ?
-            foreach (var parameter in urlParameters.Where(p => p.StartsWith("?") || p.EndsWith("?")))
+            // Inspect the url for optional parameters, specified with a trailing ?
+            foreach (var parameter in urlParameters.Where(p => p.EndsWith("?")))
             {
-                var parameterName = parameter.Trim('?');
+                var parameterName = parameter.TrimEnd('?');
                 
                 if (parameterName.Contains(':'))
                     parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
@@ -230,10 +230,10 @@ namespace AttributeRouting.Framework
             {
                 // Keep track of whether this param is optional, 
                 // because we wrap the final constraint if so.
-                var parameterIsOptional = parameter.StartsWith("?") || parameter.EndsWith("?");
+                var parameterIsOptional = parameter.EndsWith("?");
 
                 // Strip off everything related to defaults.
-                var cleanParameter = parameter.Trim('?').Split('=').FirstOrDefault();
+                var cleanParameter = parameter.TrimEnd('?').Split('=').FirstOrDefault();
 
                 var sections = cleanParameter.SplitAndTrim(":");
                 var parameterName = sections.First();

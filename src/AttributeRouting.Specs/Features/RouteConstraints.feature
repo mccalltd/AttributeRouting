@@ -1,23 +1,5 @@
 ﻿Feature: Route Constraints
 
-Scenario: Regex route constraints specified inline
-	# MVC
-	Given I have registered the routes for the RouteConstraintsController
-	When I fetch the routes for the RouteConstraints controller's InlineConstraints action
-	Then the route url is "InlineConstraints/{number}/{word}/{alphanum}/{capture}"
-	Then the parameter "number" is constrained by the pattern "\d+"
-	Then the parameter "word" is constrained by the pattern "\w{2}"
-	Then the parameter "alphanum" is constrained by the pattern "[A-Za-z0-9]*"
-	Then the parameter "capture" is constrained by the pattern "(gotcha)"
-	# Web API
-	Given I have registered the routes for the HttpRouteConstraintsController
-	When I fetch the routes for the HttpRouteConstraints controller's InlineConstraints action
-	Then the route url is "InlineConstraints/{number}/{word}/{alphanum}/{capture}"
-	Then the parameter "number" is constrained by the pattern "\d+"
-	Then the parameter "word" is constrained by the pattern "\w{2}"
-	Then the parameter "alphanum" is constrained by the pattern "[A-Za-z0-9]*"
-	Then the parameter "capture" is constrained by the pattern "(gotcha)"
-
 Scenario Outline: Inline constraints
 	# MVC
 	Given I have registered the routes for the InlineRouteConstraintsController
