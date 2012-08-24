@@ -1,0 +1,172 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#
+var Model = (MvcTextTemplateHost)Host;
+var routePrefix = "api/" + Model.ControllerRootName;
+#>
+<#@ assembly name="System.Data.Entity.Design" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data.Objects" #>
+<#@ import namespace="System.Linq" #>
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web;
+using System.Web.Http;
+using AttributeRouting;
+using AttributeRouting.Web.Http;
+<# if (MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ModelType.Namespace))
+ { #>
+using <#= Model.ModelType.Namespace #>;
+<# } #>
+<# if (Model.ContextType.Namespace != Model.ModelType.Namespace && MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ContextType.Namespace))
+ { #>
+using <#= Model.ContextType.Namespace #>;
+<# } #>
+
+namespace <#= Model.Namespace #>
+{
+<#
+    var modelName = Model.ModelType.Name;
+    var entitySetName = Model.EntitySetName;
+    var modelVariable = modelName.ToLower();
+    var entitySetVariable = entitySetName.ToLower();
+    var primaryKey = Model.PrimaryKeys[0];
+    var lambdaVar = modelVariable[0];
+    var isObjectContext = typeof(ObjectContext).IsAssignableFrom(Model.ContextType);
+    var pluralizer = Model.Pluralizer;
+#>
+	[RoutePrefix("Api/<#= Model.ControllerRootName #>")]
+    public class <#= Model.ControllerName #> : ApiController
+    {
+        private <#= Model.ContextType.Name #> db = new <#= Model.ContextType.Name #>();
+
+        [GET("")]
+        public IEnumerable<<#= modelName #>> Get<#= pluralizer.Pluralize(modelName) #>()
+        {
+<#  var includeExpressions = "";
+    if(isObjectContext) {
+        includeExpressions = String.Join("", Model.RelatedProperties.Values.Select(property => String.Format(".Include(\"{0}\")", property.PropertyName)));
+    }
+    else {
+        includeExpressions = String.Join("", Model.RelatedProperties.Values.Select(property => String.Format(".Include({0} => {0}.{1})", lambdaVar, property.PropertyName)));
+    }
+#>
+<# if(!String.IsNullOrEmpty(includeExpressions)) { #>
+            var <#= entitySetVariable #> = db.<#= entitySetName #><#= includeExpressions #>;
+            return <#= entitySetVariable #>.AsEnumerable();
+<# } else { #>
+            return db.<#= entitySetName #><#= includeExpressions #>.AsEnumerable();
+<# } #>
+        }
+
+        [GET("{id}")]
+        public <#= modelName #> Get<#= modelName #>(<#= primaryKey.ShortTypeName #> id)
+        {
+<# if(isObjectContext) { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Single(<#= lambdaVar #> => <#= lambdaVar #>.<#= primaryKey.Name #> == id);
+<# } else { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Find(id);
+<# } #>
+            if (<#= modelVariable #> == null)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            }
+
+            return <#= modelVariable #>;
+        }
+
+        [PUT("{id}")]
+        public HttpResponseMessage Put<#= modelName #>(<#= primaryKey.ShortTypeName #> id, <#= modelName #> <#= modelVariable #>)
+        {
+            if (ModelState.IsValid && id == <#= modelVariable #>.<#= primaryKey.Name #>)
+            {
+<# if(isObjectContext) { #>
+                db.<#= entitySetName #>.Attach(<#= modelVariable #>);
+                db.ObjectStateManager.ChangeObjectState(<#= modelVariable #>, EntityState.Modified);
+<# } else { #>
+                db.Entry(<#= modelVariable #>).State = EntityState.Modified;
+<# } #>
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [POST("")]
+        public HttpResponseMessage Post<#= modelName #>(<#= modelName #> <#= modelVariable #>)
+        {
+            if (ModelState.IsValid)
+            {
+<# if(isObjectContext) { #>
+                db.<#= entitySetName #>.AddObject(<#= modelVariable #>);
+<# } else { #>
+                db.<#= entitySetName #>.Add(<#= modelVariable #>);
+<# } #>
+                db.SaveChanges();
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, <#= modelVariable #>);
+                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = <#= modelVariable #>.<#= primaryKey.Name #> }));
+                return response;
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [DELETE("{id}")]
+        public HttpResponseMessage Delete<#= modelName #>(<#= primaryKey.ShortTypeName #> id)
+        {
+<# if(isObjectContext) { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Single(<#= lambdaVar #> => <#= lambdaVar #>.<#= primaryKey.Name #> == id);
+<# } else { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Find(id);
+<# } #>
+            if (<#= modelVariable #> == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+<# if(isObjectContext) { #>
+            db.<#= entitySetName #>.DeleteObject(<#= modelVariable #>);
+<# } else { #>
+            db.<#= entitySetName #>.Remove(<#= modelVariable #>);
+<# } #>
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, <#= modelVariable #>);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
+        }
+    }
+}
