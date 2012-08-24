@@ -26,25 +26,5 @@ namespace AttributeRouting
         {
             return "";
         }
-
-        /// <summary>
-        /// Gets the route defaults to be applied against the given action method.
-        /// </summary>
-        /// <param name="actionMethod"></param>
-        /// <returns></returns>
-        public virtual IEnumerable<RouteDefaultAttribute> GetRouteDefaultAttributes(MethodInfo actionMethod)
-        {
-            yield break;
-        }
-
-        /// <summary>
-        /// Gets the route constraints to be applied against the given action method.
-        /// </summary>
-        /// <param name="actionMethod"></param>
-        /// <returns></returns>
-        public virtual IEnumerable<RouteConstraintAttributeBase> GetRouteConstraintAttributes(MethodInfo actionMethod)
-        {
-            yield break;
-        }
     }
 }

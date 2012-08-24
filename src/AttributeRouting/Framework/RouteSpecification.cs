@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace AttributeRouting.Framework
 {
@@ -8,12 +7,6 @@ namespace AttributeRouting.Framework
     /// </summary>
     public class RouteSpecification
     {
-        public RouteSpecification()
-        {
-            DefaultAttributes = new List<RouteDefaultAttribute>();
-            ConstraintAttributes = new List<RouteConstraintAttributeBase>();
-        }
-
         public string AreaName { get; set; }
 
         public string AreaUrl { get; set; }
@@ -35,10 +28,6 @@ namespace AttributeRouting.Framework
         public string RouteUrlTranslationKey { get; set; }
 
         public string[] HttpMethods { get; set; }
-
-        public ICollection<RouteDefaultAttribute> DefaultAttributes { get; set; }
-
-        public ICollection<RouteConstraintAttributeBase> ConstraintAttributes { get; set; }
 
         public string RouteName { get; set; }
 

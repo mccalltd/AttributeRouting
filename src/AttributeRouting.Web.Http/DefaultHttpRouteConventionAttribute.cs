@@ -72,11 +72,6 @@ namespace AttributeRouting.Web.Http
             return actionMethod.DeclaringType.GetControllerName();
         }
 
-        public override IEnumerable<RouteDefaultAttribute> GetRouteDefaultAttributes(MethodInfo actionMethod)
-        {
-            yield break;
-        }
-
         private IRouteAttribute BuildRouteAttribute(HttpRouteConventionInfo convention)
         {
             switch (convention.HttpMethod.Method)

@@ -209,15 +209,6 @@ namespace AttributeRouting.Framework
                 defaults.Add(parameterName, defaultValue);
             }
 
-            // Attribute-based defaults
-            foreach (var defaultAttribute in routeSpec.DefaultAttributes)
-            {
-                if (defaults.ContainsKey(defaultAttribute.Key))
-                    continue;
-
-                defaults.Add(defaultAttribute.Key, defaultAttribute.Value);
-            }
-
             return defaults;
         }
 
@@ -305,15 +296,6 @@ namespace AttributeRouting.Framework
                     constraints.Add(parameterName, constraintFactory.CreateOptionalRouteConstraint(finalConstraint));
                 else
                     constraints.Add(parameterName, finalConstraint);
-            }
-
-            // Attribute-based constraints
-            foreach (var constraintAttribute in routeSpec.ConstraintAttributes)
-            {
-                if (constraints.ContainsKey(constraintAttribute.Key))
-                    continue;
-
-                constraints.Add(constraintAttribute.Key, constraintAttribute.Constraint);
             }
 
             var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec));

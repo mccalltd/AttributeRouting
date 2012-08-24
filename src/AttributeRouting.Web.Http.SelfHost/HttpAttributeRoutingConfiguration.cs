@@ -4,6 +4,7 @@ using System.Threading;
 using System.Web.Http.Controllers;
 using System.Web.Http.Routing;
 using AttributeRouting.Framework.Factories;
+using AttributeRouting.Web.Http.Constraints;
 using AttributeRouting.Web.Http.SelfHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.SelfHost
@@ -22,7 +23,7 @@ namespace AttributeRouting.Web.Http.SelfHost
 
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
 
-            RegisterDefaultInlineRouteConstraints<IHttpRouteConstraint>(typeof(RegexRouteConstraintAttribute).Assembly);
+            RegisterDefaultInlineRouteConstraints<IHttpRouteConstraint>(typeof(RegexRouteConstraint).Assembly);
         }
 
         public override Type FrameworkControllerType

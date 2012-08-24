@@ -1,15 +1,5 @@
 ﻿Feature: Route Constraints
 
-Scenario: Regex route constraints specified with an attribute
-	# MVC
-	Given I have registered the routes for the RouteConstraintsController
-	When I fetch the routes for the RouteConstraints controller's Index action
-	Then the parameter "p1" is constrained by the pattern "\d+"
-	# Web API Selfhost
-	Given I have registered the routes for the ApiRouteConstraintsController
-	When I fetch the routes for the ApiRouteConstraints controller's Get action
-	Then the parameter "p1" is constrained by the pattern "\d+"
-
 Scenario: Regex route constraints specified inline
 	# MVC
 	Given I have registered the routes for the RouteConstraintsController
@@ -146,19 +136,3 @@ Scenario Outline: Matching inline route constraints
 	| Enum/taupe                                | Enum         | is not    |
 	| WithOptional                              | WithOptional | is        |
 	| WithDefault                               | WithDefault  | is        |
-
-Scenario: Multiple routes with different constraints
-	# MVC
-	Given I have registered the routes for the RouteConstraintsController
-	When I fetch the routes for the RouteConstraints controller's MultipleRoutes action
-	Then the route named "MultipleConstraints1" has a constraint on "p1" of "\d+"
-	And the route named "MultipleConstraints2" has a constraint on "p1" of "\d{4}" 
-	And the route named "ApiMultipleConstraints1" has a constraint on "p1" of "\d+"
-	And the route named "ApiMultipleConstraints2" has a constraint on "p1" of "\d{4}"
-	# Web API
-	Given I have registered the routes for the HttpRouteConstraintsController
-	When I fetch the routes for the HttpRouteConstraints controller's MultipleRoutes action
-	Then the route named "MultipleConstraints1" has a constraint on "p1" of "\d+"
-	And the route named "MultipleConstraints2" has a constraint on "p1" of "\d{4}" 
-	And the route named "ApiMultipleConstraints1" has a constraint on "p1" of "\d+"
-	And the route named "ApiMultipleConstraints2" has a constraint on "p1" of "\d{4}"

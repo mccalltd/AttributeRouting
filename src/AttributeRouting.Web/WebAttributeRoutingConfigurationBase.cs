@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading;
 using System.Web;
 using System.Web.Routing;
+using AttributeRouting.Web.Constraints;
 
 namespace AttributeRouting.Web
 {
@@ -12,7 +14,7 @@ namespace AttributeRouting.Web
             RouteHandlerFactory = handlerFactory;
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
 
-            RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(RegexRouteConstraintAttribute).Assembly);
+            RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(RegexRouteConstraint).Assembly);
         }
 
         public Func<IRouteHandler> RouteHandlerFactory { get; set; }

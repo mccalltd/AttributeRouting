@@ -72,8 +72,6 @@ namespace AttributeRouting.Framework
                         RouteUrl = routeAttribute.RouteUrl,
                         RouteUrlTranslationKey = routeAttribute.TranslationKey,
                         HttpMethods = routeAttribute.HttpMethods,
-                        DefaultAttributes = GetDefaultAttributes(actionMethod, routeName, convention),
-                        ConstraintAttributes = GetConstraintAttributes(actionMethod, routeName, convention),
                         RouteName = routeName,
                         IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl,
                         UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
@@ -146,42 +144,6 @@ namespace AttributeRouting.Framework
                 return convention.GetDefaultRoutePrefix(actionMethod);
 
             return null;
-        }
-
-        private static ICollection<RouteDefaultAttribute> GetDefaultAttributes(MethodInfo actionMethod, string routeName, RouteConventionAttributeBase convention)
-        {
-            var defaultAttributes = new List<RouteDefaultAttribute>();
-
-            // Yield explicitly defined default attributes first
-            defaultAttributes.AddRange(
-                from defaultAttribute in actionMethod.GetCustomAttributes<RouteDefaultAttribute>(false)
-                where !defaultAttribute.ForRouteNamed.HasValue() ||
-                      defaultAttribute.ForRouteNamed == routeName
-                select defaultAttribute);
-
-            // Yield convention-based defaults next
-            if (convention != null)
-                defaultAttributes.AddRange(convention.GetRouteDefaultAttributes(actionMethod));
-
-            return defaultAttributes.ToList();
-        }
-
-        private static ICollection<RouteConstraintAttributeBase> GetConstraintAttributes(MethodInfo actionMethod, string routeName, RouteConventionAttributeBase convention)
-        {
-            var constraintAttributes = new List<RouteConstraintAttributeBase>();
-
-            // Yield explicitly defined constraint attributes first
-            constraintAttributes.AddRange(
-                from constraintAttribute in actionMethod.GetCustomAttributes<RouteConstraintAttributeBase>(false)
-                where !constraintAttribute.ForRouteNamed.HasValue() ||
-                      constraintAttribute.ForRouteNamed == routeName
-                select constraintAttribute);
-
-            // Yield convention-based constraints next
-            if (convention != null)
-                constraintAttributes.AddRange(convention.GetRouteConstraintAttributes(actionMethod));
-
-            return constraintAttributes.ToList();
         }
     }
 }

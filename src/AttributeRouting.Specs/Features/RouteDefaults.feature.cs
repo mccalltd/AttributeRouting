@@ -79,50 +79,29 @@ namespace AttributeRouting.Specs.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Route default specified with an attribute")]
-        public virtual void RouteDefaultSpecifiedWithAnAttribute()
+        [NUnit.Framework.DescriptionAttribute("Route default specified inline")]
+        public virtual void RouteDefaultSpecifiedInline()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route default specified with an attribute", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route default specified inline", ((string[])(null)));
 #line 9
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 10
- testRunner.When("I fetch the routes for the RouteDefaults controller\'s Index action");
-#line 11
- testRunner.Then("the default for \"p1\" is \"variable\"");
-#line 12
- testRunner.When("I fetch the routes for the HttpRouteDefaults controller\'s Get action");
-#line 13
- testRunner.Then("the default for \"p1\" is \"variable\"");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Route default specified inline")]
-        public virtual void RouteDefaultSpecifiedInline()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route default specified inline", ((string[])(null)));
-#line 15
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 16
  testRunner.When("I fetch the routes for the RouteDefaults controller\'s InlineDefaults action");
-#line 17
+#line 11
  testRunner.Then("the route url is \"InlineDefaults/{hello}/{goodnight}\"");
-#line 18
+#line 12
  testRunner.Then("the default for \"hello\" is \"sun\"");
-#line 19
+#line 13
  testRunner.Then("the default for \"goodnight\" is \"moon\"");
-#line 20
+#line 14
  testRunner.When("I fetch the routes for the HttpRouteDefaults controller\'s InlineDefaults action");
-#line 21
+#line 15
  testRunner.Then("the route url is \"InlineDefaults/{hello}/{goodnight}\"");
-#line 22
+#line 16
  testRunner.Then("the default for \"hello\" is \"sun\"");
-#line 23
+#line 17
  testRunner.Then("the default for \"goodnight\" is \"moon\"");
 #line hidden
             this.ScenarioCleanup();
@@ -133,63 +112,30 @@ this.FeatureBackground();
         public virtual void OptionalParametersSpecifiedWithAUrlParameterToken()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Optional parameters specified with a url parameter token", ((string[])(null)));
-#line 25
+#line 19
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 26
+#line 20
  testRunner.When("I fetch the routes for the RouteDefaults controller\'s Optionals action");
-#line 27
+#line 21
  testRunner.Then("the route url is \"Optionals/{p1}/{p2}/{p3}\"");
-#line 28
+#line 22
  testRunner.And("the parameter \"p1\" is optional");
-#line 29
+#line 23
  testRunner.And("the parameter \"p2\" is optional");
-#line 30
+#line 24
  testRunner.And("the parameter \"p3\" is optional");
-#line 31
+#line 25
  testRunner.When("I fetch the routes for the HttpRouteDefaults controller\'s Optionals action");
-#line 32
+#line 26
  testRunner.Then("the route url is \"Optionals/{p1}/{p2}/{p3}\"");
-#line 33
+#line 27
  testRunner.And("the parameter \"p1\" is optional");
-#line 34
+#line 28
  testRunner.And("the parameter \"p2\" is optional");
-#line 35
+#line 29
  testRunner.And("the parameter \"p3\" is optional");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Multiple routes with different defaults")]
-        public virtual void MultipleRoutesWithDifferentDefaults()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple routes with different defaults", ((string[])(null)));
-#line 37
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 38
- testRunner.When("I fetch the routes for the RouteDefaults controller\'s MultipleRoutes action");
-#line 39
- testRunner.Then("the route named \"MultipleDefaults1\" has a default for \"p1\" of \"first\"");
-#line 40
- testRunner.And("the route named \"MultipleDefaults2\" has a default for \"p1\" of \"second\"");
-#line 41
- testRunner.And("the route named \"ApiMultipleDefaults1\" has a default for \"p1\" of \"first\"");
-#line 42
- testRunner.And("the route named \"ApiMultipleDefaults2\" has a default for \"p1\" of \"second\"");
-#line 43
- testRunner.When("I fetch the routes for the HttpRouteDefaults controller\'s MultipleRoutes action");
-#line 44
- testRunner.Then("the route named \"MultipleDefaults1\" has a default for \"p1\" of \"first\"");
-#line 45
- testRunner.And("the route named \"MultipleDefaults2\" has a default for \"p1\" of \"second\"");
-#line 46
- testRunner.And("the route named \"ApiMultipleDefaults1\" has a default for \"p1\" of \"first\"");
-#line 47
- testRunner.And("the route named \"ApiMultipleDefaults2\" has a default for \"p1\" of \"second\"");
 #line hidden
             this.ScenarioCleanup();
         }

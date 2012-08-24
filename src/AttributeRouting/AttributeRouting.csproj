@@ -94,11 +94,9 @@
     <Compile Include="IRouteAttribute.cs" />
     <Compile Include="Logging\AttributeRouteInfo.cs" />
     <Compile Include="Logging\LogWriter.cs" />
-    <Compile Include="RouteConstraintAttributeBase.cs" />
     <Compile Include="RouteConventionAttributeBase.cs" />
     <Compile Include="RoutePrefixAttribute.cs" />
     <Compile Include="RouteAreaAttribute.cs" />
-    <Compile Include="RouteDefaultAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\RouteSpecification.cs" />
     <Compile Include="Framework\RouteReflector.cs" />
