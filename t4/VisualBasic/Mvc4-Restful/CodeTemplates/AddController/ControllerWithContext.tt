@@ -23,6 +23,7 @@ Dim lambdaVar = modelVariable(0)
 Dim isObjectContext = GetType(ObjectContext).IsAssignableFrom(Model.ContextType)
 #>
 Imports System.Data.Entity
+Imports AttributeRouting
 Imports AttributeRouting.Web.Mvc
 <# If MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ModelType.Namespace) Then #>
 Imports <#= Model.ModelType.Namespace #>
@@ -33,13 +34,13 @@ Imports <#= Model.ContextType.Namespace #>
 
 Namespace <#= Model.Namespace #>
 <#
-If Not String.IsNullOrEmpty(mvcHost.AreaName) Then
+If Not String.IsNullOrEmpty(Model.AreaName) Then
 #>
-	<RouteArea("<#= mvcHost.AreaName #>")> _
+	<RouteArea("<#= Model.AreaName #>")> _
 <#
 End If
 #>
-	<RoutePrefix("<#= mvcHost.ControllerRootName #>")> _
+	<RoutePrefix("<#= Model.ControllerRootName #>")> _
     Public Class <#= Model.ControllerName #>
         Inherits System.Web.Mvc.Controller
 

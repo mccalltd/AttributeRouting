@@ -5,6 +5,7 @@ Dim pathFragment As String = mvcHost.ControllerRootName.ToLowerInvariant()
 #>
 Imports System.Net
 Imports System.Web.Http
+Imports AttributeRouting
 Imports AttributeRouting.Web.Http
 
 <RoutePrefix("Api/<#= mvcHost.ControllerRootName #>")> _

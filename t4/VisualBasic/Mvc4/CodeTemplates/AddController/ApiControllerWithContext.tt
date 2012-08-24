@@ -25,6 +25,7 @@ Imports System.Data.Entity.Infrastructure
 Imports System.Net
 Imports System.Net.Http
 Imports System.Web.Http
+Imports AttributeRouting
 Imports AttributeRouting.Web.Http
 <# If MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ModelType.Namespace) Then #>
 Imports <#= Model.ModelType.Namespace #>

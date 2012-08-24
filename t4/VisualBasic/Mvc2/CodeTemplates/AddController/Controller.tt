@@ -9,6 +9,7 @@ Else
     routeComment = "/" + mvcHost.AreaName + "/" + mvcHost.ControllerRootName
 End If
 #>
+Imports AttributeRouting
 Imports AttributeRouting.Web.Mvc
 
 Namespace <#= mvcHost.Namespace #>

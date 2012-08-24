@@ -18,6 +18,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 <# if(MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ModelType.Namespace)) { #>
 using <#= Model.ModelType.Namespace #>;
@@ -37,15 +38,14 @@ namespace <#= Model.Namespace #>
     var lambdaVar = modelVariable[0];
     var isObjectContext = typeof(ObjectContext).IsAssignableFrom(Model.ContextType);
 #>
-
 <#
-if(!String.IsNullOrEmpty(mvcHost.AreaName)) {
+if(!String.IsNullOrEmpty(Model.AreaName)) {
 #>
-	[RouteArea("<#= mvcHost.AreaName #>")]
+	[RouteArea("<#= Model.AreaName #>")]
 <# 
 }
 #>
-	[RoutePrefix("<#= mvcHost.ControllerRootName #>")]	
+	[RoutePrefix("<#= Model.ControllerRootName #>")]	
     public class <#= Model.ControllerName #> : Controller
     {
         private <#= Model.ContextType.Name #> db = new <#= Model.ContextType.Name #>();
