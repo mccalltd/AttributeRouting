@@ -206,13 +206,6 @@ namespace AttributeRouting
                 PromotedControllerTypes.Add(controllerType);
         }
 
-        /// <summary>
-        /// When using AddRoutesFromControllersOfType or AddRoutesFromController to set the precendence of the routes,
-        /// you must explicitly specify that you want to include the remaining routes discoved while scanning assemblies.
-        /// </summary>
-        [Obsolete("This is a vestigial workaround for an old assembly scanning issue.")]
-        public void AddTheRemainingScannedRoutes() {}
-
         protected void AddDefaultRouteConstraint(string keyRegex, object constraint)
         {
             if (!DefaultRouteConstraints.ContainsKey(keyRegex))
