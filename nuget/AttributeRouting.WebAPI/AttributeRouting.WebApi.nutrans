@@ -9,6 +9,7 @@
       <dependency id="AttributeRouting.Core" version="$version$" />
       <dependency id="AttributeRouting.Core.Web" version="$version$" />
       <dependency id="AttributeRouting.Core.Http" version="$version$" />
+      <dependency id="Microsoft.AspNet.WebApi.WebHost" version="4.0.20710.0" />
       <dependency id="WebActivator" version="1.0.0.0" />
     </dependencies>
   </metadata>
