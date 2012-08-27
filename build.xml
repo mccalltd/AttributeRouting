@@ -25,7 +25,7 @@
         <Exec Command="tools\nunit-console-x86.exe build\bin\AttributeRouting.Specs.dll /noresult" />
     </Target>
 
-    <Target Name="NugetPack" DependsOnTargets="Test">
+    <Target Name="NugetPack" DependsOnTargets="Build">
         <PropertyGroup>
             <OutputDir>build\nuget</OutputDir>
         </PropertyGroup>
@@ -36,6 +36,7 @@
             <MainNuspec Include="nuget\AttributeRouting.Core.Http\AttributeRouting.Core.Http.nuspec"/>
             <MainNuspec Include="nuget\AttributeRouting.WebAPI\AttributeRouting.WebApi.nuspec"/>
             <MainNuspec Include="nuget\AttributeRouting.WebAPI.Hosted\AttributeRouting.WebApi.Hosted.nuspec"/>
+            <MainNuspec Include="nuget\AttributeRouting.CodeTemplates.MVC4\AttributeRouting.CodeTemplates.MVC4.nuspec"/>
             <Transforms Include="nuget\**\*.nutrans" />
         </ItemGroup>
 

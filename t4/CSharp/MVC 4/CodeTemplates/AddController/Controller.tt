@@ -1,0 +1,107 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#
+MvcTextTemplateHost mvcHost = (MvcTextTemplateHost)(Host);
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using AttributeRouting;
+using AttributeRouting.Web.Mvc;
+
+namespace <#= mvcHost.Namespace #>
+{
+<# 
+if(!String.IsNullOrEmpty(mvcHost.AreaName)) 
+{ 
+#>
+	[RouteArea("<#= mvcHost.AreaName #>")] 
+<# 
+} 
+#>
+	[RoutePrefix("<#= mvcHost.ControllerRootName #>")]
+    public class <#= mvcHost.ControllerName #> : Controller
+    {
+		[GET("")]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+<#
+if(mvcHost.AddActionMethods) {
+#>
+        [GET("Details/{id}")]
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        [GET("Create")]
+        public ActionResult Create()
+        {
+            return View();
+        } 
+
+        [POST("Create")]
+        public ActionResult Create(FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        
+        [GET("Edit/{id}")]
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        [POST("Edit/{id}")]
+        public ActionResult Edit(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+ 
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [GET("Delete/{id}")]
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        [POST("Delete/{id}")]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+ 
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+<#
+}
+#>
+    }
+}
