@@ -4,6 +4,12 @@ h2. Please refer to the "wiki pages":https://github.com/mccalltd/AttributeRoutin
 
 h3. Changelog
 
+_2.5.2_
+
+* #118 - added dependencies to web api projects in web and self host AR projects.
+* #79 - added MVC 4 t4 templates for visual studio add controller tooling which generates controllers that use AR. Also released new nuget package for sucking those templates into a project.
+* #116 - now supporting VB.NET projects! App_Start file drop and CodeTemplates drop will add cs/vb specific files, depending on the type of the host project.
+
 _2.5.1_
 
 * #111 - route prefixes now honor inline url constraints.
