@@ -12,12 +12,13 @@ using AttributeRouting.Web.Mvc;
 
 namespace <#= mvcHost.Namespace #>
 {
-<#
-if(!String.IsNullOrEmpty(mvcHost.AreaName)) {
-#>
-	[RouteArea("<#= mvcHost.AreaName #>")]
 <# 
-}
+if(!String.IsNullOrEmpty(mvcHost.AreaName)) 
+{ 
+#>
+	[RouteArea("<#= mvcHost.AreaName #>")] 
+<# 
+} 
 #>
 	[RoutePrefix("<#= mvcHost.ControllerRootName #>")]
     public class <#= mvcHost.ControllerName #> : Controller

@@ -20,18 +20,18 @@ using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
-<# if(MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ModelType.Namespace)) { #>
+<# if(!String.IsNullOrEmpty(Model.ModelType.Namespace)) { #>
 using <#= Model.ModelType.Namespace #>;
 <# } #>
-<# if(Model.ContextType.Namespace != Model.ModelType.Namespace && MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ContextType.Namespace)) { #>
+<# if(!String.IsNullOrEmpty(Model.ContextType.Namespace) && Model.ContextType.Namespace != Model.ModelType.Namespace) { #>
 using <#= Model.ContextType.Namespace #>;
 <# } #>
 
 namespace <#= Model.Namespace #>
-{
-<#
-    var modelName = Model.ModelType.Name;
-    var entitySetName = Model.EntitySetName;
+{ 
+<#  
+    var modelName = Model.ModelType.Name; 
+    var entitySetName = Model.EntitySetName; 
     var modelVariable = modelName.ToLower();
     var entitySetVariable = entitySetName.ToLower();
     var primaryKey = Model.PrimaryKeys[0];
@@ -42,17 +42,17 @@ namespace <#= Model.Namespace #>
 if(!String.IsNullOrEmpty(Model.AreaName)) 
 { 
 #>
-	[RouteArea("<#= Model.AreaName #>")]
-<# 
+	[RouteArea("<#= Model.AreaName #>")] 
+<#  
 } 
 #>
-	[RoutePrefix("<#= Model.ControllerRootName #>")]	
+	[RoutePrefix("<#= Model.ControllerRootName #>")]
     public class <#= Model.ControllerName #> : Controller
     {
         private <#= Model.ContextType.Name #> db = new <#= Model.ContextType.Name #>();
 
         [GET("")]
-        public ActionResult Index()
+        public ViewResult Index()
         {
 <#  var includeExpressions = "";
     if(isObjectContext) {
@@ -70,18 +70,14 @@ if(!String.IsNullOrEmpty(Model.AreaName))
 <# } #>
         }
 
-        [GET("Details/{id}")]
-        public ActionResult Details(<#= primaryKey.ShortTypeName #> id = <#= primaryKey.DefaultValue #>)
+		[GET("Details/{id}")]
+        public ViewResult Details(<#= primaryKey.ShortTypeName #> id)
         {
 <# if(isObjectContext) { #>
             <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Single(<#= lambdaVar #> => <#= lambdaVar #>.<#= primaryKey.Name #> == id);
 <# } else { #>
             <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Find(id);
 <# } #>
-            if (<#= modelVariable #> == null)
-            {
-                return HttpNotFound();
-            }
             return View(<#= modelVariable #>);
         }
 
@@ -92,7 +88,7 @@ if(!String.IsNullOrEmpty(Model.AreaName))
             ViewBag.<#= property.ForeignKeyPropertyName #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKey #>", "<#= property.DisplayPropertyName #>");
 <# } #>
             return View();
-        }
+        } 
 
         [POST("Create")]
         public ActionResult Create(<#= modelName #> <#= modelVariable #>)
@@ -108,7 +104,7 @@ if(!String.IsNullOrEmpty(Model.AreaName))
                 db.<#= entitySetName #>.Add(<#= modelVariable #>);
 <# } #>
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index");  
             }
 
 <# foreach (var property in Model.RelatedProperties.Values) { #>
@@ -116,19 +112,15 @@ if(!String.IsNullOrEmpty(Model.AreaName))
 <# } #>
             return View(<#= modelVariable #>);
         }
-
+        
         [GET("Edit/{id}")]
-        public ActionResult Edit(<#= primaryKey.ShortTypeName #> id = <#= primaryKey.DefaultValue #>)
+        public ActionResult Edit(<#= primaryKey.ShortTypeName #> id)
         {
 <# if(isObjectContext) { #>
             <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Single(<#= lambdaVar #> => <#= lambdaVar #>.<#= primaryKey.Name #> == id);
 <# } else { #>
             <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Find(id);
 <# } #>
-            if (<#= modelVariable #> == null)
-            {
-                return HttpNotFound();
-            }
 <# foreach (var property in Model.RelatedProperties.Values) { #>
             ViewBag.<#= property.ForeignKeyPropertyName #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKey #>", "<#= property.DisplayPropertyName #>", <#= modelVariable #>.<#= property.ForeignKeyPropertyName #>);
 <# } #>
@@ -156,23 +148,19 @@ if(!String.IsNullOrEmpty(Model.AreaName))
         }
 
         [GET("Delete/{id}")]
-        public ActionResult Delete(<#= primaryKey.ShortTypeName #> id = <#= primaryKey.DefaultValue #>)
+        public ActionResult Delete(<#= primaryKey.ShortTypeName #> id)
         {
 <# if(isObjectContext) { #>
             <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Single(<#= lambdaVar #> => <#= lambdaVar #>.<#= primaryKey.Name #> == id);
 <# } else { #>
             <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Find(id);
 <# } #>
-            if (<#= modelVariable #> == null)
-            {
-                return HttpNotFound();
-            }
             return View(<#= modelVariable #>);
         }
 
-        [POST("Delete/{id}")]
+		[POST("Delete/{id}")]
         public ActionResult DeleteConfirmed(<#= primaryKey.ShortTypeName #> id)
-        {
+        {            
 <# if(isObjectContext) { #>
             <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Single(<#= lambdaVar #> => <#= lambdaVar #>.<#= primaryKey.Name #> == id);
             db.<#= entitySetName #>.DeleteObject(<#= modelVariable #>);
