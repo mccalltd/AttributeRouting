@@ -12,8 +12,8 @@
   </metadata>
 
   <files xdt:Transform="Insert">
-    <file src="..\..\t4\CSharp\MVC 4\CodeTemplates\**\*.tt" target="content\CodeTemplates\CSharp" />
-    <file src="..\..\t4\VisualBasic\MVC 4\CodeTemplates\**\*.tt" target="content\CodeTemplates\VisualBasic" />
+    <file src="..\..\t4\CSharp\MVC 4\CodeTemplates\AddController\*.tt" target="content\CodeTemplates\AddController-CSharp" />
+    <file src="..\..\t4\VisualBasic\MVC 4\CodeTemplates\AddController\*.tt" target="content\CodeTemplates\AddController-VisualBasic" />
     <file src="install.ps1" target="tools" />
   </files>
 </package>

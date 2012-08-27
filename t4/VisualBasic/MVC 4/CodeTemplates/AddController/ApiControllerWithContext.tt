@@ -70,7 +70,7 @@ Namespace <#= Model.Namespace #>
             Return <#= modelVariable #>
         End Function
 
-        <[PUT]("{id}")> _
+        <PUT("{id}")> _
         Function Put<#= modelName #>(ByVal id As <#= primaryKey.ShortTypeName #>, ByVal <#= modelVariable #> As <#= modelName #>) As HttpResponseMessage
             If ModelState.IsValid And id = <#= modelVariable #>.<#= primaryKey.Name #> Then
 <# If isObjectContext Then #>
@@ -92,7 +92,7 @@ Namespace <#= Model.Namespace #>
             End If
         End Function
 
-        <[POST]("")> _
+        <POST("")> _
         Function Post<#= modelName #>(ByVal <#= modelVariable #> As <#= modelName #>) As HttpResponseMessage
             If ModelState.IsValid Then
 <# If isObjectContext #>
@@ -110,7 +110,7 @@ Namespace <#= Model.Namespace #>
             End If
         End Function
 
-        <[DELETE]("{id}")> _
+        <DELETE("{id}")> _
         Function Delete<#= modelName #>(ByVal id As <#= primaryKey.ShortTypeName #>) As HttpResponseMessage
 <# If isObjectContext #>
             Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Single(Function(<#= lambdaVar #>) <#= lambdaVar #>.<#= primaryKey.Name #> = id)
