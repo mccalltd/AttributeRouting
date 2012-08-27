@@ -19,5 +19,7 @@
     <file src="..\..\build\bin\AttributeRouting.Web.Http.WebHost.xml" target="lib\net40" />
     <file src="web.config.transform" target="content" />
     <file src="AttributeRoutingHttp.cs.pp" target="content\App_Start" />
+    <file src="AttributeRoutingHttp.vb.pp" target="content\App_Start" />
+    <file src="install.ps1" target="tools" />
   </files>
 </package>
