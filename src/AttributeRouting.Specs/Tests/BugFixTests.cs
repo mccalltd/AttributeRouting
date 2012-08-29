@@ -18,6 +18,19 @@ namespace AttributeRouting.Specs.Tests
     public class BugFixTests
     {
         [Test]
+        public void OData_style_http_url_bonks()
+        {
+            // re: issue #120
+            RouteTable.Routes.Clear();
+            RouteTable.Routes.MapHttpAttributeRoutes(config => config.AddRoutesFromController<HttpBugFixesController>());
+
+            var routes = RouteTable.Routes.Cast<Route>().ToList();
+
+            // Just make sure we don't get an exception
+            Assert.That(routes.Count, Is.EqualTo(1));
+        }
+
+        [Test]
         public void Generating_two_routes_for_api_get_requests()
         {
             // re: issue #102

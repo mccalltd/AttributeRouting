@@ -134,7 +134,7 @@
     <Compile Include="Subjects\AsyncActionController.cs" />
     <Compile Include="Subjects\BugFixesController.cs" />
     <Compile Include="Subjects\Color.cs" />
-    <Compile Include="Subjects\Http\Issue102TestController.cs" />
+    <Compile Include="Subjects\Http\HttpBugFixesController.cs" />
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionController.cs" />
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionPrefixController.cs" />
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionWithExplicitOrderedRouteController.cs" />
