@@ -1,29 +1,29 @@
 ﻿using System;
-using System.Web.Http.Controllers;
 using System.Web.Http.WebHost;
+using System.Web.Routing;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Web.Http.WebHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.WebHost
 {
-    public class HttpWebAttributeRoutingConfiguration : WebAttributeRoutingConfigurationBase
+    public class HttpWebAttributeRoutingConfiguration : HttpAttributeRoutingConfigurationBase
     {
         private readonly IAttributeRouteFactory _attributeFactory;
         private readonly IParameterFactory _parameterFactory;
         private readonly RouteConstraintFactory _routeConstraintFactory;
 
         public HttpWebAttributeRoutingConfiguration()
-            : base(() => HttpControllerRouteHandler.Instance)
         {
             _attributeFactory = new AttributeRouteFactory(this);
             _parameterFactory = new RouteParameterFactory();
             _routeConstraintFactory = new RouteConstraintFactory(this);
+
+            RouteHandlerFactory = () => HttpControllerRouteHandler.Instance;
+
+            RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(Web.Constraints.RegexRouteConstraint).Assembly);
         }
 
-        public override Type FrameworkControllerType
-        {
-            get { return typeof(IHttpController); }
-        }
+        public Func<IRouteHandler> RouteHandlerFactory { get; set; }
 
         /// <summary>
         /// Attribute factory
@@ -50,31 +50,24 @@ namespace AttributeRouting.Web.Http.WebHost
         }
 
         /// <summary>
-        /// Scans the assembly of the specified controller for routes to register.
+        /// Specifies a function that returns an alternate route handler.
+        /// By default, the route handler is the default HttpControllerRouteHandler.
         /// </summary>
-        /// <typeparam name="T">The type of the controller used to specify the assembly</typeparam>
-        public void ScanAssemblyOf<T>() where T : IHttpController
+        /// <param name="routeHandlerFactory">The route handler to use.</param>
+        public void UseRouteHandler(Func<IRouteHandler> routeHandlerFactory)
         {
-            ScanAssembly(typeof(T).Assembly);
+            RouteHandlerFactory = routeHandlerFactory;
         }
 
         /// <summary>
-        /// Adds all the routes for the specified controller type to the end of the route collection.
+        /// Automatically applies the specified constaint against url parameters
+        /// with names that match the given regular expression.
         /// </summary>
-        /// <typeparam name="T"> </typeparam>
-        public void AddRoutesFromController<T>() where T : IHttpController
+        /// <param name="keyRegex">The regex used to match url parameter names</param>
+        /// <param name="constraint">The constraint to apply to matched parameters</param>
+        public void AddDefaultRouteConstraint(string keyRegex, IRouteConstraint constraint)
         {
-            AddRoutesFromController(typeof(T));
-        }
-
-        /// <summary>
-        /// Adds all the routes for all the controllers that derive from the specified controller
-        /// to the end of the route collection.
-        /// </summary>
-        /// <typeparam name="T">The base controller type</typeparam>
-        public void AddRoutesFromControllersOfType<T>() where T : IHttpController
-        {
-            AddRoutesFromControllersOfType(typeof(T));
+            base.AddDefaultRouteConstraint(keyRegex, constraint);
         }
     }
 }

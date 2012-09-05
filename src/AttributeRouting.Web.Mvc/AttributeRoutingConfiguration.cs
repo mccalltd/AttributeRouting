@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using System.Web.Routing;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Web.Mvc.Framework.Factories;
 
@@ -12,12 +13,15 @@ namespace AttributeRouting.Web.Mvc
         private readonly RouteConstraintFactory _routeConstraintFactory;
 
         public AttributeRoutingConfiguration()
-            : base(() => new MvcRouteHandler())
         {
             _attributeFactory = new AttributeRouteFactory(this);
             _parameterFactory = new RouteParameterFactory();
             _routeConstraintFactory = new RouteConstraintFactory(this);
+
+            RouteHandlerFactory = () => new MvcRouteHandler();
         }
+
+        public Func<IRouteHandler> RouteHandlerFactory { get; set; }
 
         public override Type FrameworkControllerType
         {
@@ -46,6 +50,16 @@ namespace AttributeRouting.Web.Mvc
         public override IRouteConstraintFactory RouteConstraintFactory
         {
             get { return _routeConstraintFactory; }
+        }
+
+        /// <summary>
+        /// Specifies a function that returns an alternate route handler.
+        /// By default, the route handler is the default MvcRouteHandler.
+        /// </summary>
+        /// <param name="routeHandlerFactory">The route hanlder to use.</param>
+        public void UseRouteHandler(Func<IRouteHandler> routeHandlerFactory)
+        {
+            RouteHandlerFactory = routeHandlerFactory;
         }
 
         /// <summary>

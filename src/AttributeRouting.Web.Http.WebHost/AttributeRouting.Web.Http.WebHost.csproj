@@ -73,16 +73,12 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Constraints\OptionalRouteConstraintWrapper.cs" />
-    <Compile Include="Framework\HttpWebAttributeRoute.cs" />
     <Compile Include="Framework\Factories\RouteConstraintFactory.cs" />
+    <Compile Include="HttpRouteCollectionExtensions.cs" />
     <Compile Include="HttpWebAttributeRoutingConfiguration.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RouteCollectionExtensions.cs" />
-    <Compile Include="Routing\HttpContextBaseExtensions.cs" />
-    <Compile Include="Routing\HttpMethodHelper.cs" />
-    <Compile Include="Routing\RouteBypassingHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AttributeRouting.Web\AttributeRouting.Web.csproj">

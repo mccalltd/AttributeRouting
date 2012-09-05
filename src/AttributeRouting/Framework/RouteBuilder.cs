@@ -324,11 +324,11 @@ namespace AttributeRouting.Framework
         {
             var patterns = new List<string>
             {
-                @"(?<=\{)\?",       // leading question mark (used to specify optional param)
-                @"\?(?=\})",        // trailing question mark (used to specify optional param)
-                @"\(.*?\)(?=\})",   // stuff inside parens (used to specify inline regex route constraint)
-                @"\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))", // new inline constraint syntax
-                @"=.*?(?=\})",      // equals and value (used to specify inline parameter default value)
+                @"(?<=\{)\?",                           // leading question mark (used to specify optional param)
+                @"\?(?=\})",                            // trailing question mark (used to specify optional param)
+                @"\(.*?\)(?=\})",                       // stuff inside parens (used to specify inline regex route constraint)
+                @"\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))",  // new inline constraint syntax
+                @"(?<=\{.*)=.*?(?=\})",                 // equals and value (used to specify inline parameter default value)
             };
 
             return Regex.Replace(url, String.Join("|", patterns), "");

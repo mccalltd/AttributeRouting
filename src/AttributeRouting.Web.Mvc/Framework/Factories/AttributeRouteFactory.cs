@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Framework.Factories;
-using AttributeRouting.Web.Framework;
 
 namespace AttributeRouting.Web.Mvc.Framework.Factories
 {

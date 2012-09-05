@@ -4,6 +4,10 @@ h2. Please refer to the "wiki pages":https://github.com/mccalltd/AttributeRoutin
 
 h3. Changelog
 
+_2.5.3_
+
+* #120 - fixed bug caused by OData-style urls like "devices(ua={id})"; the url wasn't being detokenized properly.
+
 _2.5.2_
 
 * #118 - added dependencies to web api projects in web and self host AR projects.

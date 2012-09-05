@@ -2,8 +2,11 @@
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web.Http;
+using System.Web.Http.Routing;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 using AttributeRouting.Specs.Subjects;
 using AttributeRouting.Specs.Subjects.Http;
@@ -34,7 +37,7 @@ namespace AttributeRouting.Specs.Steps
                 x.InheritActionsFromBaseController = true;
             });
 
-            RouteTable.Routes.MapHttpAttributeRoutes(x =>
+            GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(x =>
             {
                 x.ScanAssemblyOf<HttpStandardUsageController>();
                 x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
@@ -49,19 +52,24 @@ namespace AttributeRouting.Specs.Steps
 
             var type = typeof(StandardUsageController).Assembly.GetTypes().FirstOrDefault(t => t.Name == controllerName);
 
-            RouteTable.Routes.MapAttributeRoutes(x =>
+            if (controllerName.Contains("Http"))
             {
-                x.AddRoutesFromController(type);
-                x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
-                x.InheritActionsFromBaseController = true;
-            });
-
-            RouteTable.Routes.MapHttpAttributeRoutes(x =>
+                GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(x =>
+                {
+                    x.AddRoutesFromController(type);
+                    x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                    x.InheritActionsFromBaseController = true;
+                });                
+            }
+            else
             {
-                x.AddRoutesFromController(type);
-                x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
-                x.InheritActionsFromBaseController = true;
-            });
+                RouteTable.Routes.MapAttributeRoutes(x =>
+                {
+                    x.AddRoutesFromController(type);
+                    x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                    x.InheritActionsFromBaseController = true;
+                });
+            }
         }
 
         [Given(@"I have a new configuration object")]
@@ -97,7 +105,7 @@ namespace AttributeRouting.Specs.Steps
         {
             RouteTable.Routes.Clear();
             RouteTable.Routes.MapAttributeRoutes(_configuration);
-            RouteTable.Routes.MapHttpAttributeRoutes(_httpConfiguration);
+            GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(_httpConfiguration);
         }
 
         [When(@"I fetch the routes for the (.*?) controller's (.*?) action")]
@@ -116,7 +124,7 @@ namespace AttributeRouting.Specs.Steps
         public void WhenIFetchAllTheRoutes()
         {
             var routes = RouteTable.Routes.Cast<Route>();
-
+            
             ScenarioContext.Current.SetFetchedRoutes(routes);
         }
 

@@ -66,6 +66,7 @@
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml.Linq" />
@@ -134,7 +135,7 @@
     <Compile Include="Subjects\AsyncActionController.cs" />
     <Compile Include="Subjects\BugFixesController.cs" />
     <Compile Include="Subjects\Color.cs" />
-    <Compile Include="Subjects\Http\Issue102TestController.cs" />
+    <Compile Include="Subjects\Http\HttpBugFixesController.cs" />
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionController.cs" />
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionPrefixController.cs" />
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionWithExplicitOrderedRouteController.cs" />
