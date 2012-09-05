@@ -25,7 +25,9 @@ namespace AttributeRouting.Specs.Steps
         [Then(@"the route named ""(.*)"" has a default for ""(.*)"" of ""?(.*?)""?")]
         public void ThenTheRouteNamedHasADefaultForOf(string routeName, string key, string value)
         {
-            var routes = ScenarioContext.Current.GetFetchedRoutes().Where(c => c.RouteName == routeName);
+            var routes = ScenarioContext.Current.GetFetchedRoutes()
+                .Cast<IAttributeRoute>()
+                .Where(c => c.RouteName == routeName);
 
             foreach (var route in routes) {
                 Assert.That(route, Is.Not.Null);

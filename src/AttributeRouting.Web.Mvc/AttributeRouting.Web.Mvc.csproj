@@ -56,6 +56,7 @@
     <Compile Include="AttributeRoutingConfiguration.cs" />
     <Compile Include="Constraints\OptionalRouteConstraintWrapper.cs" />
     <Compile Include="DELETEAttribute.cs" />
+    <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
     <Compile Include="Framework\Factories\RouteConstraintFactory.cs" />

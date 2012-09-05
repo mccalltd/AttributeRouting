@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Web.Http;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Logging;
@@ -21,22 +22,23 @@ namespace AttributeRouting.Specs.Tests
         public void OData_style_http_url_bonks()
         {
             // re: issue #120
-            RouteTable.Routes.Clear();
-            RouteTable.Routes.MapHttpAttributeRoutes(config => config.AddRoutesFromController<HttpBugFixesController>());
-
-            var routes = RouteTable.Routes.Cast<Route>().ToList();
+            
+            var httpRoutes = GlobalConfiguration.Configuration.Routes;
+            httpRoutes.Clear();
+            httpRoutes.MapHttpAttributeRoutes(config => config.AddRoutesFromController<HttpBugFixesController>());
 
             // Just make sure we don't get an exception
-            Assert.That(routes.Count, Is.EqualTo(1));
+            Assert.That(httpRoutes.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void Generating_two_routes_for_api_get_requests()
         {
             // re: issue #102
-
-            RouteTable.Routes.Clear();
-            RouteTable.Routes.MapHttpAttributeRoutes(config => config.AddRoutesFromController<Issue102TestController>());
+            
+            var httpRoutes = GlobalConfiguration.Configuration.Routes;
+            httpRoutes.Clear();
+            httpRoutes.MapHttpAttributeRoutes(config => config.AddRoutesFromController<Issue102TestController>());
 
             var routes = RouteTable.Routes.Cast<Route>().ToList();
             

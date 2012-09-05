@@ -77,7 +77,9 @@
     <Compile Include="Constraints\TypeOfRouteConstraints.cs" />
     <Compile Include="DefaultHttpRouteConventionAttribute.cs" />
     <Compile Include="DELETEAttribute.cs" />
+    <Compile Include="Framework\HttpAttributeRoute.cs" />
     <Compile Include="GETAttribute.cs" />
+    <Compile Include="HttpAttributeRoutingConfigurationBase.cs" />
     <Compile Include="POSTAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PUTAttribute.cs" />

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Routing;
 using AttributeRouting.Framework;
+using AttributeRouting.Web.Mvc.Framework;
 
 namespace AttributeRouting.Web.Mvc
 {
@@ -52,7 +53,7 @@ namespace AttributeRouting.Web.Mvc
         {
             var generatedRoutes = new RouteBuilder(configuration).BuildAllRoutes();
 
-            generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, (Route)r));
+            generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, (AttributeRoute)r));
         }
     }
 }

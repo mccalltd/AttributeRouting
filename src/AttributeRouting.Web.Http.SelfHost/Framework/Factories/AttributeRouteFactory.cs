@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Web.Http.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Framework.Factories;
+using AttributeRouting.Web.Http.Framework;
 
 namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
 {

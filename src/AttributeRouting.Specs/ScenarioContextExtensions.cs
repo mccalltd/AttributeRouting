@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Http.Routing;
 using System.Web.Routing;
-using AttributeRouting.Framework;
 using TechTalk.SpecFlow;
 
 namespace AttributeRouting.Specs
@@ -15,11 +14,9 @@ namespace AttributeRouting.Specs
             context.Set(routes.ToList(), "FetchedRoutes");
         }
 
-        public static IEnumerable<IAttributeRoute> GetFetchedRoutes(this ScenarioContext context)
+        public static IEnumerable<Route> GetFetchedRoutes(this ScenarioContext context)
         {
-            var routes = context.Get<IEnumerable<Route>>("FetchedRoutes");
-
-            return routes.OfType<IAttributeRoute>();
+            return context.Get<IEnumerable<Route>>("FetchedRoutes");
         }
 
         public static void SetCurrentHttpContext(this ScenarioContext context, HttpContextBase httpContext)

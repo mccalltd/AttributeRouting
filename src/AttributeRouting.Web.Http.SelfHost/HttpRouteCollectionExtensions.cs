@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Web.Http;
-using System.Web.Http.Routing;
 using AttributeRouting.Framework;
+using AttributeRouting.Web.Http.Framework;
 
 namespace AttributeRouting.Web.Http.SelfHost
 {
@@ -53,7 +53,7 @@ namespace AttributeRouting.Web.Http.SelfHost
         {
             var generatedRoutes = new RouteBuilder(configuration).BuildAllRoutes();
 
-            generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, (HttpRoute)r));
+            generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, (HttpAttributeRoute)r));
         }
     }
 }

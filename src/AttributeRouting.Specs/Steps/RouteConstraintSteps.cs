@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using AttributeRouting.Constraints;
+using AttributeRouting.Framework;
 using AttributeRouting.Web.Constraints;
+using AttributeRouting.Web.Mvc.Framework;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -45,8 +47,11 @@ namespace AttributeRouting.Specs.Steps
         }
 
         [Then(@"the route named ""(.*)"" has a constraint on ""(.*)"" of ""(.*)""")]
-        public void ThenTheRouteNamedHasAConstraintOnOf(string routeName, string key, string value) {
-            var routes = ScenarioContext.Current.GetFetchedRoutes().Where(r => r.RouteName == routeName);
+        public void ThenTheRouteNamedHasAConstraintOnOf(string routeName, string key, string value) 
+        {
+            var routes = ScenarioContext.Current.GetFetchedRoutes()
+                .Cast<IAttributeRoute>()
+                .Where(r => r.RouteName == routeName);
 
             foreach (var route in routes)
             {

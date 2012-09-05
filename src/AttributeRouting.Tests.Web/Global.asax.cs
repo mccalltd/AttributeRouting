@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
@@ -61,7 +62,7 @@ namespace AttributeRouting.Tests.Web
                     .RouteUrl(c => c.GetLocalized(), indexRouteUrlDict);
 
             // Web API (WebHost)
-            routes.MapHttpAttributeRoutes(config =>
+            GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(config =>
             {
                 config.ScanAssemblyOf<PlainController>();
                 config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
