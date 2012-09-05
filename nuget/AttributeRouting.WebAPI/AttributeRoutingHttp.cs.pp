@@ -1,5 +1,4 @@
 ﻿using System.Web.Http;
-using System.Web.Routing;
 using AttributeRouting.Web.Http.WebHost;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof($rootnamespace$.App_Start.AttributeRoutingHttp), "Start")]
