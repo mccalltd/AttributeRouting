@@ -1,5 +1,7 @@
 # Ignore build output
-build/
+build/bin
+build/nuget
+build/out
 bin/
 obj/
 
