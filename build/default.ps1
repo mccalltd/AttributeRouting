@@ -3,7 +3,7 @@
 #========================================
 
 Properties {
-    $base_dir = Resolve-Path ..
+    $base_dir = Resolve-path ..
     $build_dir = "$base_dir\build"
     $tools_dir = "$build_dir\tools"
     $bin_dir = "$build_dir\bin"
@@ -11,7 +11,7 @@ Properties {
     $nupkg_dir = "$build_dir\nuget"
     $nuspec_dir = "$base_dir\nuget"
     $source_dir = "$base_dir\src"
-    $version = $v
+    $version = "0.0"
     $now = Get-Date
     $nuget = "$source_dir\.nuget\nuget.exe"
 }
@@ -56,29 +56,15 @@ using System.Runtime.InteropServices;
 
 Task Rebuild {
     $solution_file = "$source_dir\AttributeRouting.sln"
-    
     Write-Host "Building $solution_file" -ForegroundColor Green
-
-    Exec { 
-        msbuild $solution_file /v:minimal /nologo `
-            /t:Rebuild `
-            /p:Configuration=Release `
-            /p:OutDir=$bin_dir 
-    } 
+    Exec { msbuild $solution_file /t:Rebuild /p:Configuration=Release /p:OutDir=$bin_dir /v:minimal /nologo } 
 }
 
 Task Test {
     $nunit = "$tools_dir\NUnit\nunit-console-x86.exe"
     $test_assemblies = "$bin_dir\AttributeRouting.Specs.dll"
-
     Write-Host "Running tests in $test_assemblies" -ForegroundColor Green
-    
-    Exec { 
-        &$nunit $test_assemblies /nologo /nodots `
-            /work:$out_dir `
-            /out:TestResults.txt `
-            /result:TestResults.xml 
-    }
+    Exec { &$nunit $test_assemblies /work:$out_dir /out:TestResults.txt /result:TestResults.xml /nologo /nodots }
 }
 
 Task NugetPack {
@@ -102,38 +88,25 @@ Task NugetPush {
 
 function Clean-Directory ($dir) {
     Write-Host "Cleaning $dir" -ForegroundColor Green
-
-    if (Test-Path $dir) {
-        Remove-Item $dir -Force -Recurse | Out-Null
-    }
-
+    if (Test-Path $dir) { Remove-Item $dir -Force -Recurse | Out-Null }
     New-Item $dir -ItemType Directory | Out-Null
 }
 
 function Create-Nupkg ($name) {
     $nuspec = Create-Nuspec $name
-
     Write-Host "Creating nupkg for $name" -ForegroundColor Green
-
-    Exec {
-        &$nuget pack $nuspec `
-            -Version $version `
-            -OutputDirectory $nupkg_dir
-    }
+    Exec { &$nuget pack $nuspec -Version $version -OutputDirectory $nupkg_dir }
 }
 
 function Create-Nuspec ($name) {
     $nuspec = "$nuspec_dir\$name\$name.nuspec"
-        
     Write-Host "Creating nuspec for $name" -ForegroundColor Green
-
     Exec { 
         msbuild .\TransformXml.proj /v:minimal /nologo `
             /p:Source=$nuspec_dir\AttributeRouting.Shared.nuspec `
             /p:Transform=$nuspec_dir\$name\$name.nutrans `
             /p:Destination=$nuspec 
     } 
-
     $nuspec
 }
 
