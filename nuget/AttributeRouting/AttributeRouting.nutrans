@@ -18,6 +18,7 @@
     <file src="web.config.transform" target="content" />
     <file src="AttributeRouting.cs.pp" target="content\App_Start" />
     <file src="AttributeRouting.vb.pp" target="content\App_Start" />
+    <file src="readme.txt" target="" />
     <file src="install.ps1" target="tools" />
   </files>
 </package>

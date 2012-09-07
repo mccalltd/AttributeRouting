@@ -20,6 +20,7 @@
     <file src="web.config.transform" target="content" />
     <file src="AttributeRoutingHttp.cs.pp" target="content\App_Start" />
     <file src="AttributeRoutingHttp.vb.pp" target="content\App_Start" />
+    <file src="readme.txt" target="" />
     <file src="install.ps1" target="tools" />
   </files>
 </package>

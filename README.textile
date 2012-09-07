@@ -4,6 +4,15 @@ h2. Please refer to the "wiki pages":https://github.com/mccalltd/AttributeRoutin
 
 h3. Changelog
 
+_3.0.0.0_
+* See "Upgrading to v3":https://github.com/mccalltd/AttributeRouting/wiki/Upgrading-to-v3
+* #122 - WebHost package now uses HttpRouteCollection to register routes, as it should!
+* #109 - nuked AddRemainingScannedRoutes method ont he config object; was obsolete for some time now.
+* #109 - removed old ctor method of specifying verbs in RouteAttribute from a bitwise or operation to a param array of HttpVerbs.
+* #109 - removed support for specifying optional params with a leading question mark.
+* #109 - removed support for legacy inline regex route constraint syntax.
+* #109 - nuked RouteDefaultAttribute and RouteConstraintAttribute support. Superceded by inline expression.
+
 _2.5.3_
 
 * #120 - fixed bug caused by OData-style urls like "devices(ua={id})"; the url wasn't being detokenized properly.
