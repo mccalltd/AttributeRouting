@@ -3,14 +3,13 @@
 #========================================
 
 Properties {
-    $base_dir = Resolve-path ..
-    $build_dir = "$base_dir\build"
-    $tools_dir = "$build_dir\tools"
-    $bin_dir = "$build_dir\bin"
-    $out_dir = "$build_dir\out"
-    $nupkg_dir = "$build_dir\nuget"
-    $nuspec_dir = "$base_dir\nuget"
+    $base_dir = Resolve-path .
     $source_dir = "$base_dir\src"
+    $tools_dir = "$base_dir\tools"
+    $nuspec_dir = "$base_dir\nuget"
+    $build_dir = "$base_dir\build"
+    $bin_dir = "$build_dir\bin"
+    $nupkg_dir = "$build_dir\nuget"
     $version = "0.0"
     $now = Get-Date
     $nuget = "$source_dir\.nuget\nuget.exe"
@@ -28,30 +27,12 @@ Task Build -depends Clean, CreateSharedAssemblyInfo, Rebuild, Test
 Task Publish -depends Build, NugetPack, NugetPush
 
 Task Clean {
-    Clean-Directory $bin_dir
-    Clean-Directory $out_dir
+    Clean-Directory $build_dir
 }
 
 Task CreateSharedAssemblyInfo {
     $file_name = "$source_dir\SharedAssemblyInfo.cs"
-    $non_prerelease_version = ($version -split "-")[0]
-    
-    Write-Host "Creating $file_name for $version" -ForegroundColor Green
-    
-    "using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
-
-[assembly: ComVisible(false)]
-[assembly: AssemblyCompany("""")]
-[assembly: AssemblyProduct(""AttributeRouting"")]
-[assembly: AssemblyCopyright(""Copyright Tim McCall 2010-" + $now.Year + """)]
-[assembly: AssemblyTrademark("""")]
-[assembly: AssemblyVersion(""$non_prerelease_version"")]
-[assembly: AssemblyFileVersion(""$non_prerelease_version"")]
-[assembly: AssemblyInformationalVersion(""$version"")]
-[assembly: AssemblyConfiguration(""Release"")]" | 
-    Out-File $file_name -Encoding ascii
+    Create-SharedAssemblyInfo $file_name $version
 }
 
 Task Rebuild {
@@ -61,10 +42,10 @@ Task Rebuild {
 }
 
 Task Test {
-    $nunit = "$tools_dir\NUnit\nunit-console-x86.exe"
+    $nunit = "$tools_dir\nunit\nunit-console-x86.exe"
     $test_assemblies = "$bin_dir\AttributeRouting.Specs.dll"
     Write-Host "Running tests in $test_assemblies" -ForegroundColor Green
-    Exec { &$nunit $test_assemblies /work:$out_dir /out:TestResults.txt /result:TestResults.xml /nologo /nodots }
+    Exec { &$nunit $test_assemblies /work:$build_dir /out:TestResults.txt /result:TestResults.xml /nologo /nodots }
 }
 
 Task NugetPack {
@@ -73,12 +54,7 @@ Task NugetPack {
 }
 
 Task NugetPush {
-    Get-ChildItem $nupkg_dir | foreach { 
-		$file_name = $_.Name
-		$path = (Join-Path $_.Directory $file_name)
-		Write-Host "Pushing $file_name to nuget server" -ForegroundColor Green
-	} 
-        #| Exec { &$nuget push (Join-Path $_.Directory $_.Name) }
+    Get-ChildItem "$nupkg_dir\*" -Include "*.nupkg" -Exclude "*.symbols.nupkg" | foreach { Push-Nupkg $_ }
 }
 
 
@@ -99,14 +75,35 @@ function Create-Nupkg ($name) {
 }
 
 function Create-Nuspec ($name) {
+    $transform_xml = "$tools_dir\TransformXml.proj"
+    $shared_nuspec = "$nuspec_dir\AttributeRouting.Shared.nuspec"
+    $nutrans = "$nuspec_dir\$name\$name.nutrans"
     $nuspec = "$nuspec_dir\$name\$name.nuspec"
     Write-Host "Creating nuspec for $name" -ForegroundColor Green
-    Exec { 
-        msbuild .\TransformXml.proj /v:minimal /nologo `
-            /p:Source=$nuspec_dir\AttributeRouting.Shared.nuspec `
-            /p:Transform=$nuspec_dir\$name\$name.nutrans `
-            /p:Destination=$nuspec 
-    } 
+    Exec { msbuild $transform_xml /p:Source=$shared_nuspec /p:Transform=$nutrans /p:Destination=$nuspec /v:minimal /nologo } 
     $nuspec
 }
 
+function Push-Nupkg ($nupkg) {
+    Write-Host "Pushing $nupkg to Nuget gallery" -ForegroundColor Green
+    Exec { &$nuget push $nupkg }
+}
+
+function Create-SharedAssemblyInfo ($file, $version) {
+    $non_prerelease_version = ($version -split "-")[0]
+    Write-Host "Creating $file for $version" -ForegroundColor Green
+    "using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
+
+[assembly: ComVisible(false)]
+[assembly: AssemblyCompany("""")]
+[assembly: AssemblyProduct(""AttributeRouting"")]
+[assembly: AssemblyCopyright(""Copyright 2010-" + $now.Year + " Tim McCall"")]
+[assembly: AssemblyTrademark("""")]
+[assembly: AssemblyVersion(""$non_prerelease_version"")]
+[assembly: AssemblyFileVersion(""$non_prerelease_version"")]
+[assembly: AssemblyInformationalVersion(""$version"")]
+[assembly: AssemblyConfiguration(""Release"")]" | 
+    Out-File $file_name -Encoding ascii
+}

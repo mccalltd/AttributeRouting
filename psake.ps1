@@ -1,6 +1,6 @@
 param(
-    $version,
-    $tasks = "Default"
+    $tasks = "Default",
+    $version
 )
 
 
@@ -8,8 +8,8 @@ param(
 # Ensure we have required params
 #========================================
 
-while (-not $version) { $version = Read-Host "Version" }
 while (-not $tasks) { $tasks = Read-Host "Tasks" }
+while (-not $version) { $version = Read-Host "Version" }
 
 
 #========================================
