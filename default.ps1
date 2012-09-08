@@ -92,18 +92,19 @@ function Push-Nupkg ($nupkg) {
 function Create-SharedAssemblyInfo ($file, $version) {
     $non_prerelease_version = ($version -split "-")[0]
     Write-Host "Creating $file for $version" -ForegroundColor Green
-    "using System;
+    @"
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
-[assembly: AssemblyCompany("""")]
-[assembly: AssemblyProduct(""AttributeRouting"")]
-[assembly: AssemblyCopyright(""Copyright 2010-" + $now.Year + " Tim McCall"")]
-[assembly: AssemblyTrademark("""")]
-[assembly: AssemblyVersion(""$non_prerelease_version"")]
-[assembly: AssemblyFileVersion(""$non_prerelease_version"")]
-[assembly: AssemblyInformationalVersion(""$version"")]
-[assembly: AssemblyConfiguration(""Release"")]" | 
-    Out-File $file_name -Encoding ascii
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("AttributeRouting")]
+[assembly: AssemblyCopyright("Copyright 2010-$($now.Year) Tim McCall")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyVersion("$non_prerelease_version")]
+[assembly: AssemblyFileVersion("$non_prerelease_version")]
+[assembly: AssemblyInformationalVersion("$version")]
+[assembly: AssemblyConfiguration("Release")]
+"@ | Out-File $file_name -Encoding ascii
 }
