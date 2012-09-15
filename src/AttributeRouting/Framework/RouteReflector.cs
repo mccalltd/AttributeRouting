@@ -41,6 +41,11 @@ namespace AttributeRouting.Framework
                 yield return spec;
         }
 
+        /// <summary>
+        /// Builds the reoute specifications for the given controller types.
+        /// </summary>
+        /// <param name="controllerTypes">The controller type.</param>
+        /// <returns>An enumerable of <see cref="RouteSpecification"/>.</returns>
         private IEnumerable<RouteSpecification> BuildRouteSpecifications(IEnumerable<Type> controllerTypes)
         {
             var controllerCount = 0; // needed to increment controller index
@@ -82,6 +87,12 @@ namespace AttributeRouting.Framework
                     }).ToList();
         }
 
+        /// <summary>
+        /// Gets the action name.
+        /// </summary>
+        /// <param name="actionMethod">The <see cref="MethodInfo"/> for the action.</param>
+        /// <param name="isAsyncController">True if the action's controller is an async controller.</param>
+        /// <returns>The name of the action.</returns>
         private static string GetActionName(MethodInfo actionMethod, bool isAsyncController)
         {
             var actionName = actionMethod.Name;
@@ -92,6 +103,12 @@ namespace AttributeRouting.Framework
             return actionName;
         }
 
+        /// <summary>
+        /// Gets the route attributes for an action.
+        /// </summary>
+        /// <param name="actionMethod">The <see cref="MethodInfo"/> for the action.</param>
+        /// <param name="convention">The <see cref="RouteConventionAttributeBase"/> applied to the action's controller.</param>
+        /// <returns>The route attributes for the action.</returns>
         private static IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod, RouteConventionAttributeBase convention)
         {
             var attributes = new List<IRouteAttribute>();
@@ -106,6 +123,12 @@ namespace AttributeRouting.Framework
             return attributes.OrderBy(a => GetSortableOrder(a.Order));
         }
 
+        /// <summary>
+        /// Gets the area URL prefix.
+        /// </summary>
+        /// <param name="routeAreaAttribute">The <see cref="RouteAreaAttribute"/> for the controller.</param>
+        /// <param name="subdomain">The configured subdomain for the area.</param>
+        /// <returns>The URL prefix for the area.</returns>
         private static string GetAreaUrl(RouteAreaAttribute routeAreaAttribute, string subdomain)
         {
             if (routeAreaAttribute == null)
@@ -121,6 +144,11 @@ namespace AttributeRouting.Framework
             return routeAreaAttribute.AreaUrl ?? routeAreaAttribute.AreaName;
         }
 
+        /// <summary>
+        /// Gets the configured subdomain for an area.
+        /// </summary>
+        /// <param name="routeAreaAttribute">The <see cref="RouteAreaAttribute"/> for the controller.</param>
+        /// <returns>The subdomain name configured for the area.</returns>
         private string GetAreaSubdomain(RouteAreaAttribute routeAreaAttribute)
         {
             if (routeAreaAttribute == null)
@@ -137,6 +165,13 @@ namespace AttributeRouting.Framework
             return routeAreaAttribute.Subdomain;
         }
 
+        /// <summary>
+        /// Gets a controller's route prefix URL.
+        /// </summary>
+        /// <param name="routePrefixAttribute">The <see cref="RoutePrefixAttribute"/> for the controller.</param>
+        /// <param name="actionMethod">The <see cref="MethodInfo"/> for an action.</param>
+        /// <param name="convention">The <see cref="RouteConventionAttributeBase"/> for the controller.</param>
+        /// <returns>The route prefix URL to apply against the action.</returns>
         private static string GetRoutePrefix(RoutePrefixAttribute routePrefixAttribute, MethodInfo actionMethod, RouteConventionAttributeBase convention)
         {
             // Return an explicitly defined route prefix, if defined
@@ -150,6 +185,11 @@ namespace AttributeRouting.Framework
             return null;
         }
 
+        /// <summary>
+        /// Gets the sortable order for the given value.
+        /// </summary>
+        /// <param name="value">An integer sort order, where 0 is undefined, positive N is Nth, and negative N is Nth from last.</param>
+        /// <returns>The sortable order corresponding to the given value.</returns>
         private static int GetSortableOrder(int value)
         {
             return value == 0 ? 0 : (value > 0 ? int.MinValue : int.MaxValue) + value;
