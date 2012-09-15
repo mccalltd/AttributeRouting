@@ -57,35 +57,38 @@ namespace AttributeRouting.Framework
                     let subdomain = GetAreaSubdomain(routeAreaAttribute)
                     let isAsyncController = controllerType.IsAsyncController()
                     // SitePrecedence > controllerIndex > Precedence
-                    let precedence = GetSortableOrder(routeAttribute.Precedence)
-                    orderby routeAttribute.SitePrecedence , controllerIndex , precedence
+                    let sitePrecedence = GetSortableOrder(routeAttribute.SitePrecedence)
+                    let controllerPrecedence = GetSortableOrder(routeAttribute.Precedence)
+                    orderby sitePrecedence , controllerIndex , controllerPrecedence
                     select new RouteSpecification
-                               {
-                                   AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
-                                   AreaUrl = GetAreaUrl(routeAreaAttribute, subdomain),
-                                   AreaUrlTranslationKey = routeAreaAttribute.SafeGet(a => a.TranslationKey),
-                                   Subdomain = subdomain,
-                                   RoutePrefixUrl = GetRoutePrefix(routePrefixAttribute, actionMethod, convention),
-                                   RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
-                                   ControllerType = controllerType,
-                                   ControllerName = controllerType.GetControllerName(),
-                                   ActionName = GetActionName(actionMethod, isAsyncController),
-                                   RouteUrl = routeAttribute.RouteUrl,
-                                   RouteUrlTranslationKey = routeAttribute.TranslationKey,
-                                   HttpMethods = routeAttribute.HttpMethods,
-                                   RouteName = routeName,
-                                   IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl,
-                                   UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
-                                   PreserveCaseForUrlParameters = routeAttribute.PreserveCaseForUrlParametersFlag,
-                                   AppendTrailingSlash = routeAttribute.AppendTrailingSlashFlag
-                               }).ToList();
+                    {
+                        AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
+                        AreaUrl = GetAreaUrl(routeAreaAttribute, subdomain),
+                        AreaUrlTranslationKey = routeAreaAttribute.SafeGet(a => a.TranslationKey),
+                        Subdomain = subdomain,
+                        RoutePrefixUrl = GetRoutePrefix(routePrefixAttribute, actionMethod, convention),
+                        RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
+                        ControllerType = controllerType,
+                        ControllerName = controllerType.GetControllerName(),
+                        ActionName = GetActionName(actionMethod, isAsyncController),
+                        RouteUrl = routeAttribute.RouteUrl,
+                        RouteUrlTranslationKey = routeAttribute.TranslationKey,
+                        HttpMethods = routeAttribute.HttpMethods,
+                        RouteName = routeName,
+                        IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl,
+                        UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
+                        PreserveCaseForUrlParameters = routeAttribute.PreserveCaseForUrlParametersFlag,
+                        AppendTrailingSlash = routeAttribute.AppendTrailingSlashFlag
+                    }).ToList();
         }
 
         private static string GetActionName(MethodInfo actionMethod, bool isAsyncController)
         {
-            string actionName = actionMethod.Name;
+            var actionName = actionMethod.Name;
+            
             if (isAsyncController && actionName.EndsWith("Async"))
                 actionName = actionName.Substring(0, actionName.Length - 5);
+            
             return actionName;
         }
 

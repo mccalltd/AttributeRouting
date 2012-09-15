@@ -72,6 +72,35 @@ namespace AttributeRouting.Specs.Subjects.Http
         }
     }
 
+    public class HttpRoutePrecedenceAmongTheSitesRoutesController : ApiController
+    {
+        [GET("The-First-Route", SitePrecedence = 1)]
+        public string TheFirstRoute() { return "yay!"; }
+
+        [GET("The-Last-Route", SitePrecedence = -1)]
+        public string TheLastRoute() { return "nay!"; }
+    }
+
+    public class HttpRoutePrecedenceViaRoutePropertiesController : ApiController
+    {
+        [GET("ApiRoute3", Order = 1)]
+        [GET("ApiRoute5", Order = -1)]
+        [GET("ApiRoute4")]
+        public string RouteWhatever() { return ""; }
+
+        [GET("ApiRoute1", SitePrecedence = 1)]
+        public string Route1() { return ""; }
+
+        [GET("ApiRoute7", SitePrecedence = -1)]
+        public string Route7() { return ""; }
+
+        [GET("ApiRoute2", Precedence = 1)]
+        public string Route2() { return ""; }
+
+        [GET("ApiRoute6", Precedence = -1)]
+        public string Route6() { return ""; }
+    }
+
     public abstract class HttpRoutePrecedenceAmongDerivedControllersBaseController : ApiController { }
 
     public class HttpRoutePrecedenceAmongDerivedControllers1 : HttpRoutePrecedenceAmongDerivedControllersBaseController

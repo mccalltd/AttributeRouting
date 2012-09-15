@@ -74,11 +74,31 @@ namespace AttributeRouting.Specs.Subjects
 
     public class RoutePrecedenceAmongTheSitesRoutesController : Controller
     {
-        [GET("I-Am-The-First-Route", SitePrecedence = 1)]
-        public string IAmTheFirstRoute()
-        {
-            return "yay!";
-        }
+        [GET("The-First-Route", SitePrecedence = 1)]
+        public string TheFirstRoute() { return "yay!"; }
+
+        [GET("The-Last-Route", SitePrecedence = -1)]
+        public string TheLastRoute() { return "nay!"; }
+    }
+
+    public class RoutePrecedenceViaRoutePropertiesController : Controller
+    {
+        [GET("Route3", Order = 1)]
+        [GET("Route5", Order = -1)]
+        [GET("Route4")]
+        public string RouteWhatever() { return ""; }
+
+        [GET("Route1", SitePrecedence = 1)]
+        public string Route1() { return ""; }
+
+        [GET("Route7", SitePrecedence = -1)]
+        public string Route7() { return ""; }
+        
+        [GET("Route2", Precedence = 1)]
+        public string Route2() { return ""; }
+
+        [GET("Route6", Precedence = -1)]
+        public string Route6() { return ""; }
     }
 
     public abstract class RoutePrecedenceAmongDerivedControllersBaseController : Controller { }
