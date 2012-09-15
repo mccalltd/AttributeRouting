@@ -3,10 +3,14 @@
 Scenario: Route precedence among routes for an action using the Order property
 	Given I have registered the routes for the RoutePrecedenceAmongRoutesController
 	When I fetch the routes for the RoutePrecedenceAmongRoutes controller's Index action
-	Then 3 routes are found
+	Then 7 routes are found
 	And the 1st route's url is "Index/First"
 	And the 2nd route's url is "Index/Second"
 	And the 3rd route's url is "Index/Third"
+	And the 4th route's url is "Index/Fourth"
+	And the 5th route's url is "Index/Fifth"
+	And the 6th route's url is "Index/Sixth"
+	And the 7th route's url is "Index/Seventh"
 
 Scenario: Route precedence among actions within a controller using the Precedence property
 	Given I have registered the routes for the RoutePrecedenceAmongActionsController
@@ -46,10 +50,14 @@ Scenario: Route precedence set for the site using the SitePrecedence property
 Scenario: Web API route precedence among routes for an action using the Order property
 	Given I have registered the routes for the HttpRoutePrecedenceAmongRoutesController
 	When I fetch the routes for the HttpRoutePrecedenceAmongRoutes controller's Get action
-	Then 3 routes are found
+	Then 7 routes are found
 	And the 1st route's url is "Get/First"
 	And the 2nd route's url is "Get/Second"
 	And the 3rd route's url is "Get/Third"
+	And the 4th route's url is "Get/Fourth"
+	And the 5th route's url is "Get/Fifth"
+	And the 6th route's url is "Get/Sixth"
+	And the 7th route's url is "Get/Seventh"
 
 Scenario: Web API route precedence among actions within a controller using the Precedence property
 	Given I have registered the routes for the HttpRoutePrecedenceAmongActionsController

@@ -99,7 +99,7 @@ namespace AttributeRouting.Framework
             // Add explicitly-defined attributes
             attributes.AddRange(actionMethod.GetCustomAttributes<IRouteAttribute>(false));
 
-            return attributes.OrderBy(a => a.Order);
+            return attributes.OrderBy(a => a.Order == 0 ? 0 : (a.Order > 0 ? int.MinValue : int.MaxValue) + a.Order);
         }
 
         private static string GetAreaUrl(RouteAreaAttribute routeAreaAttribute, string subdomain)

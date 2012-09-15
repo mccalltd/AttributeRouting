@@ -1,5 +1,4 @@
 using System.Web.Mvc;
-using AttributeRouting.Web;
 using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
@@ -9,6 +8,10 @@ namespace AttributeRouting.Specs.Subjects
         [GET("Index/Second", Order = 2)]
         [GET("Index/Third", Order = 3)]
         [GET("Index/First", Order = 1)]
+        [GET("Index/Fourth")]
+        [GET("Index/Seventh", Order = -1)]
+        [GET("Index/Fifth", Order = -3)]
+        [GET("Index/Sixth", Order = -2)]
         public ActionResult Index()
         {
             return Content("");

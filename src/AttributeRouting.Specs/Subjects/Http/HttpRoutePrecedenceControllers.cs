@@ -8,6 +8,11 @@ namespace AttributeRouting.Specs.Subjects.Http
         [GET("Get/Second", Order = 2)]
         [GET("Get/Third", Order = 3)]
         [GET("Get/First", Order = 1)]
+        [GET("Get/Fourth")]
+        [GET("Get/Seventh", Order = -1)]
+        [GET("Get/Fifth", Order = -3)]
+        [GET("Get/Sixth", Order = -2)]
+
         public string Get()
         {
             return "";
