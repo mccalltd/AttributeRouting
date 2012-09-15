@@ -12,34 +12,37 @@ namespace AttributeRouting.Specs.Subjects
         [GET("Index/Seventh", Order = -1)]
         [GET("Index/Fifth", Order = -3)]
         [GET("Index/Sixth", Order = -2)]
-        public ActionResult Index()
+        public string Index()
         {
-            return Content("");
+            return "";
         }    
     }
 
     public partial class RoutePrecedenceAmongActionsController : Controller
     {
         [GET("Route1", Precedence = 1)]
-        public ActionResult Route1()
-        {
-            return Content("");
-        }
+        public string Route1() { return ""; }
 
-        [GET("Route3")]
-        public ActionResult Route3()
-        {
-            return Content("");
-        }
+        [GET("Route3", Precedence = 3)]
+        public string Route3() { return ""; }
+
+        [GET("Route5", Precedence = -3)]
+        public string Route5() { return ""; }
+
+        [GET("Route7", Precedence = -1)]
+        public string Route7() { return ""; }
     }
 
     public partial class RoutePrecedenceAmongActionsController
     {
         [GET("Route2", Precedence = 2)]
-        public ActionResult Route2()
-        {
-            return Content("");
-        }
+        public string Route2() { return ""; }
+        
+        [GET("Route4")]
+        public string Route4() { return ""; }
+        
+        [GET("Route6", Precedence = -2)]
+        public string Route6() { return ""; }
     }
 
     public class RoutePrecedenceAmongControllers3Controller : Controller

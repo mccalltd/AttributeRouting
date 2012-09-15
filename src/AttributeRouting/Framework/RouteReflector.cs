@@ -57,27 +57,28 @@ namespace AttributeRouting.Framework
                     let subdomain = GetAreaSubdomain(routeAreaAttribute)
                     let isAsyncController = controllerType.IsAsyncController()
                     // SitePrecedence > controllerIndex > Precedence
-                    orderby routeAttribute.SitePrecedence, controllerIndex, routeAttribute.Precedence
+                    let precedence = GetSortableOrder(routeAttribute.Precedence)
+                    orderby routeAttribute.SitePrecedence , controllerIndex , precedence
                     select new RouteSpecification
-                    {
-                        AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
-                        AreaUrl = GetAreaUrl(routeAreaAttribute, subdomain),
-                        AreaUrlTranslationKey = routeAreaAttribute.SafeGet(a => a.TranslationKey),
-                        Subdomain = subdomain,
-                        RoutePrefixUrl = GetRoutePrefix(routePrefixAttribute, actionMethod, convention),
-                        RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
-                        ControllerType = controllerType,
-                        ControllerName = controllerType.GetControllerName(),
-                        ActionName = GetActionName(actionMethod, isAsyncController),
-                        RouteUrl = routeAttribute.RouteUrl,
-                        RouteUrlTranslationKey = routeAttribute.TranslationKey,
-                        HttpMethods = routeAttribute.HttpMethods,
-                        RouteName = routeName,
-                        IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl,
-                        UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
-                        PreserveCaseForUrlParameters = routeAttribute.PreserveCaseForUrlParametersFlag,
-                        AppendTrailingSlash = routeAttribute.AppendTrailingSlashFlag
-                    }).ToList();
+                               {
+                                   AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
+                                   AreaUrl = GetAreaUrl(routeAreaAttribute, subdomain),
+                                   AreaUrlTranslationKey = routeAreaAttribute.SafeGet(a => a.TranslationKey),
+                                   Subdomain = subdomain,
+                                   RoutePrefixUrl = GetRoutePrefix(routePrefixAttribute, actionMethod, convention),
+                                   RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
+                                   ControllerType = controllerType,
+                                   ControllerName = controllerType.GetControllerName(),
+                                   ActionName = GetActionName(actionMethod, isAsyncController),
+                                   RouteUrl = routeAttribute.RouteUrl,
+                                   RouteUrlTranslationKey = routeAttribute.TranslationKey,
+                                   HttpMethods = routeAttribute.HttpMethods,
+                                   RouteName = routeName,
+                                   IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl,
+                                   UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
+                                   PreserveCaseForUrlParameters = routeAttribute.PreserveCaseForUrlParametersFlag,
+                                   AppendTrailingSlash = routeAttribute.AppendTrailingSlashFlag
+                               }).ToList();
         }
 
         private static string GetActionName(MethodInfo actionMethod, bool isAsyncController)
@@ -99,7 +100,7 @@ namespace AttributeRouting.Framework
             // Add explicitly-defined attributes
             attributes.AddRange(actionMethod.GetCustomAttributes<IRouteAttribute>(false));
 
-            return attributes.OrderBy(a => a.Order == 0 ? 0 : (a.Order > 0 ? int.MinValue : int.MaxValue) + a.Order);
+            return attributes.OrderBy(a => GetSortableOrder(a.Order));
         }
 
         private static string GetAreaUrl(RouteAreaAttribute routeAreaAttribute, string subdomain)
@@ -144,6 +145,11 @@ namespace AttributeRouting.Framework
                 return convention.GetDefaultRoutePrefix(actionMethod);
 
             return null;
+        }
+
+        private static int GetSortableOrder(int value)
+        {
+            return value == 0 ? 0 : (value > 0 ? int.MinValue : int.MaxValue) + value;
         }
     }
 }

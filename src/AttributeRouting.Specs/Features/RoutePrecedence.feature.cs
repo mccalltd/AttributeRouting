@@ -71,14 +71,12 @@ namespace AttributeRouting.Specs.Features
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route precedence among routes for an action using the Order property", ((string[])(null)));
 #line 3
 this.ScenarioSetup(scenarioInfo);
-#line 4
- testRunner.Given("I have registered the routes for the RoutePrecedenceAmongRoutesController");
 #line 5
- testRunner.When("I fetch the routes for the RoutePrecedenceAmongRoutes controller\'s Index action");
+ testRunner.Given("I have registered the routes for the RoutePrecedenceAmongRoutesController");
 #line 6
- testRunner.Then("7 routes are found");
+ testRunner.When("I fetch the routes for the RoutePrecedenceAmongRoutes controller\'s Index action");
 #line 7
- testRunner.And("the 1st route\'s url is \"Index/First\"");
+ testRunner.Then("the 1st route\'s url is \"Index/First\"");
 #line 8
  testRunner.And("the 2nd route\'s url is \"Index/Second\"");
 #line 9
@@ -91,6 +89,25 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.And("the 6th route\'s url is \"Index/Sixth\"");
 #line 13
  testRunner.And("the 7th route\'s url is \"Index/Seventh\"");
+#line 15
+ testRunner.Given("I have registered the routes for the HttpRoutePrecedenceAmongRoutesController");
+#line 16
+ testRunner.When("I fetch the routes for the HttpRoutePrecedenceAmongRoutes controller\'s Get action" +
+                    "");
+#line 17
+ testRunner.Then("the 1st route\'s url is \"Get/First\"");
+#line 18
+ testRunner.And("the 2nd route\'s url is \"Get/Second\"");
+#line 19
+ testRunner.And("the 3rd route\'s url is \"Get/Third\"");
+#line 20
+ testRunner.And("the 4th route\'s url is \"Get/Fourth\"");
+#line 21
+ testRunner.And("the 5th route\'s url is \"Get/Fifth\"");
+#line 22
+ testRunner.And("the 6th route\'s url is \"Get/Sixth\"");
+#line 23
+ testRunner.And("the 7th route\'s url is \"Get/Seventh\"");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -100,18 +117,44 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void RoutePrecedenceAmongActionsWithinAControllerUsingThePrecedenceProperty()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route precedence among actions within a controller using the Precedence property", ((string[])(null)));
-#line 15
+#line 25
 this.ScenarioSetup(scenarioInfo);
-#line 16
+#line 27
  testRunner.Given("I have registered the routes for the RoutePrecedenceAmongActionsController");
-#line 17
+#line 28
  testRunner.When("I fetch the routes for the RoutePrecedenceAmongActions controller");
-#line 18
+#line 29
  testRunner.Then("the 1st route\'s url is \"Route1\"");
-#line 19
+#line 30
  testRunner.And("the 2nd route\'s url is \"Route2\"");
-#line 20
+#line 31
  testRunner.And("the 3rd route\'s url is \"Route3\"");
+#line 32
+ testRunner.And("the 4th route\'s url is \"Route4\"");
+#line 33
+ testRunner.And("the 5th route\'s url is \"Route5\"");
+#line 34
+ testRunner.And("the 6th route\'s url is \"Route6\"");
+#line 35
+ testRunner.And("the 7th route\'s url is \"Route7\"");
+#line 37
+ testRunner.Given("I have registered the routes for the HttpRoutePrecedenceAmongActionsController");
+#line 38
+ testRunner.When("I fetch the routes for the HttpRoutePrecedenceAmongActions controller");
+#line 39
+ testRunner.Then("the 1st route\'s url is \"ApiRoute1\"");
+#line 40
+ testRunner.And("the 2nd route\'s url is \"ApiRoute2\"");
+#line 41
+ testRunner.And("the 3rd route\'s url is \"ApiRoute3\"");
+#line 42
+ testRunner.And("the 4th route\'s url is \"ApiRoute4\"");
+#line 43
+ testRunner.And("the 5th route\'s url is \"ApiRoute5\"");
+#line 44
+ testRunner.And("the 6th route\'s url is \"ApiRoute6\"");
+#line 45
+ testRunner.And("the 7th route\'s url is \"ApiRoute7\"");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -123,22 +166,22 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route precedence among controllers added individually using the configuration api" +
                     "", ((string[])(null)));
-#line 22
+#line 47
 this.ScenarioSetup(scenarioInfo);
-#line 23
+#line 48
  testRunner.Given("I have a new configuration object");
-#line 24
+#line 49
  testRunner.And("I add the routes from the RoutePrecedenceAmongControllers1 controller");
-#line 25
+#line 50
  testRunner.And("I add the routes from the RoutePrecedenceAmongControllers2 controller");
-#line 26
+#line 51
  testRunner.And("I add the routes from the RoutePrecedenceAmongControllers3 controller");
-#line 27
+#line 52
  testRunner.When("I generate the routes with this configuration");
-#line 28
+#line 53
  testRunner.Then("the routes from the RoutePrecedenceAmongControllers1 controller precede those fro" +
                     "m the RoutePrecedenceAmongControllers2 controller");
-#line 29
+#line 54
  testRunner.And("the routes from the RoutePrecedenceAmongControllers2 controller precede those fro" +
                     "m the RoutePrecedenceAmongControllers3 controller");
 #line hidden
@@ -152,21 +195,21 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route precedence among controllers added by base type using the configuration api" +
                     "", ((string[])(null)));
-#line 31
+#line 56
 this.ScenarioSetup(scenarioInfo);
-#line 32
+#line 57
  testRunner.Given("I have a new configuration object");
-#line 33
+#line 58
  testRunner.And("I add the routes from controllers derived from the RoutePrecedenceAmongDerivedCon" +
                     "trollersBase controller");
-#line 34
+#line 59
  testRunner.And("I add the routes from the RoutePrecedenceAmongControllers1 controller");
-#line 35
+#line 60
  testRunner.When("I generate the routes with this configuration");
-#line 36
+#line 61
  testRunner.Then("the routes from the RoutePrecedenceAmongDerivedControllers1 controller precede th" +
                     "ose from the RoutePrecedenceAmongControllers1 controller");
-#line 37
+#line 62
  testRunner.And("the routes from the RoutePrecedenceAmongDerivedControllers2 controller precede th" +
                     "ose from the RoutePrecedenceAmongControllers1 controller");
 #line hidden
@@ -178,75 +221,20 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void RoutePrecedenceSetForTheSiteUsingTheSitePrecedenceProperty()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route precedence set for the site using the SitePrecedence property", ((string[])(null)));
-#line 39
-this.ScenarioSetup(scenarioInfo);
-#line 41
- testRunner.Given("I have a new configuration object");
-#line 42
- testRunner.And("I add the routes from the RoutePrecedenceAmongControllers1 controller");
-#line 43
- testRunner.And("I add the routes from the RoutePrecedenceAmongTheSitesRoutes controller");
-#line 44
- testRunner.When("I generate the routes with this configuration");
-#line 45
- testRunner.And("I fetch all the routes");
-#line 46
- testRunner.Then("the 1st route\'s url is \"I-Am-The-First-Route\"");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Web API route precedence among routes for an action using the Order property")]
-        public virtual void WebAPIRoutePrecedenceAmongRoutesForAnActionUsingTheOrderProperty()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Web API route precedence among routes for an action using the Order property", ((string[])(null)));
-#line 50
-this.ScenarioSetup(scenarioInfo);
-#line 51
- testRunner.Given("I have registered the routes for the HttpRoutePrecedenceAmongRoutesController");
-#line 52
- testRunner.When("I fetch the routes for the HttpRoutePrecedenceAmongRoutes controller\'s Get action" +
-                    "");
-#line 53
- testRunner.Then("7 routes are found");
-#line 54
- testRunner.And("the 1st route\'s url is \"Get/First\"");
-#line 55
- testRunner.And("the 2nd route\'s url is \"Get/Second\"");
-#line 56
- testRunner.And("the 3rd route\'s url is \"Get/Third\"");
-#line 57
- testRunner.And("the 4th route\'s url is \"Get/Fourth\"");
-#line 58
- testRunner.And("the 5th route\'s url is \"Get/Fifth\"");
-#line 59
- testRunner.And("the 6th route\'s url is \"Get/Sixth\"");
-#line 60
- testRunner.And("the 7th route\'s url is \"Get/Seventh\"");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Web API route precedence among actions within a controller using the Precedence p" +
-            "roperty")]
-        public virtual void WebAPIRoutePrecedenceAmongActionsWithinAControllerUsingThePrecedenceProperty()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Web API route precedence among actions within a controller using the Precedence p" +
-                    "roperty", ((string[])(null)));
-#line 62
-this.ScenarioSetup(scenarioInfo);
-#line 63
- testRunner.Given("I have registered the routes for the HttpRoutePrecedenceAmongActionsController");
 #line 64
- testRunner.When("I fetch the routes for the HttpRoutePrecedenceAmongActions controller");
-#line 65
- testRunner.Then("the 1st route\'s url is \"ApiRoute1\"");
+this.ScenarioSetup(scenarioInfo);
 #line 66
- testRunner.And("the 2nd route\'s url is \"ApiRoute2\"");
+ testRunner.Given("I have a new configuration object");
 #line 67
- testRunner.And("the 3rd route\'s url is \"ApiRoute3\"");
+ testRunner.And("I add the routes from the RoutePrecedenceAmongControllers1 controller");
+#line 68
+ testRunner.And("I add the routes from the RoutePrecedenceAmongTheSitesRoutes controller");
+#line 69
+ testRunner.When("I generate the routes with this configuration");
+#line 70
+ testRunner.And("I fetch all the routes");
+#line 71
+ testRunner.Then("the 1st route\'s url is \"I-Am-The-First-Route\"");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -258,22 +246,22 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Web API route precedence among controllers added individually using the configura" +
                     "tion api", ((string[])(null)));
-#line 69
-this.ScenarioSetup(scenarioInfo);
-#line 70
- testRunner.Given("I have a new configuration object");
-#line 71
- testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers1 controller");
-#line 72
- testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers2 controller");
-#line 73
- testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers3 controller");
-#line 74
- testRunner.When("I generate the routes with this configuration");
 #line 75
+this.ScenarioSetup(scenarioInfo);
+#line 76
+ testRunner.Given("I have a new configuration object");
+#line 77
+ testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers1 controller");
+#line 78
+ testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers2 controller");
+#line 79
+ testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers3 controller");
+#line 80
+ testRunner.When("I generate the routes with this configuration");
+#line 81
  testRunner.Then("the routes from the HttpRoutePrecedenceAmongControllers1 controller precede those" +
                     " from the HttpRoutePrecedenceAmongControllers2 controller");
-#line 76
+#line 82
  testRunner.And("the routes from the HttpRoutePrecedenceAmongControllers2 controller precede those" +
                     " from the HttpRoutePrecedenceAmongControllers3 controller");
 #line hidden
@@ -287,21 +275,21 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Web API route precedence among controllers added by base type using the configura" +
                     "tion api", ((string[])(null)));
-#line 78
+#line 84
 this.ScenarioSetup(scenarioInfo);
-#line 79
+#line 85
  testRunner.Given("I have a new configuration object");
-#line 80
+#line 86
  testRunner.And("I add the routes from controllers derived from the HttpRoutePrecedenceAmongDerive" +
                     "dControllersBase controller");
-#line 81
+#line 87
  testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers1 controller");
-#line 82
+#line 88
  testRunner.When("I generate the routes with this configuration");
-#line 83
+#line 89
  testRunner.Then("the routes from the HttpRoutePrecedenceAmongDerivedControllers1 controller preced" +
                     "e those from the HttpRoutePrecedenceAmongControllers1 controller");
-#line 84
+#line 90
  testRunner.And("the routes from the HttpRoutePrecedenceAmongDerivedControllers2 controller preced" +
                     "e those from the HttpRoutePrecedenceAmongControllers1 controller");
 #line hidden

@@ -19,7 +19,6 @@ namespace AttributeRouting.Web.Http
             if (routeUrl == null) throw new ArgumentNullException("routeUrl");
 
             RouteUrl = routeUrl;
-            Precedence = int.MaxValue;
             SitePrecedence = int.MaxValue;
             HttpMethods = new string[0];
         }
