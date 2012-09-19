@@ -1,3 +1,5 @@
+using System;
+
 namespace AttributeRouting
 {
     /// <remarks>
@@ -19,16 +21,22 @@ namespace AttributeRouting
 
         /// <summary>
         /// The order of this route among all the routes defined against this action.
+        /// Positive integers denote top routes: 1 is first, 2 is second, etc....
+        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
         /// </summary>
         int Order { get; set; }
 
         /// <summary>
         /// The order of this route among all the routes defined against this controller.
+        /// Positive integers denote top routes: 1 is first, 2 is second, etc....
+        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
         /// </summary>
         int Precedence { get; set; }
 
         /// <summary>
         /// The order of this route among all the routes in the site.
+        /// Positive integers denote top routes: 1 is first, 2 is second, etc....
+        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
         /// </summary>
         int SitePrecedence { get; set; }
 
