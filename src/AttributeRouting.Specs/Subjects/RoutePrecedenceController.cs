@@ -48,28 +48,31 @@ namespace AttributeRouting.Specs.Subjects
     public class RoutePrecedenceAmongControllers3Controller : Controller
     {
         [GET("Controller3/Index")]
-        public ActionResult Index()
-        {
-            return Content("");
-        }
+        public string Index() { return ""; }
     }
 
     public class RoutePrecedenceAmongControllers1Controller : Controller
     {
         [GET("Controller1/Index")]
-        public ActionResult Index()
-        {
-            return Content("");
-        }
+        public string Index() { return ""; }
     }
 
     public class RoutePrecedenceAmongControllers2Controller : Controller
     {
         [GET("Controller2/Index")]
-        public ActionResult Index()
-        {
-            return Content("");
-        }
+        public string Index() { return ""; }
+    }
+
+    public class RoutePrecedenceAmongControllers5Controller : Controller
+    {
+        [GET("Controller5/Index")]
+        public string Index() { return ""; }
+    }
+
+    public class RoutePrecedenceAmongControllers4Controller : Controller
+    {
+        [GET("Controller4/Index")]
+        public string Index() { return ""; }
     }
 
     public class RoutePrecedenceAmongTheSitesRoutesController : Controller

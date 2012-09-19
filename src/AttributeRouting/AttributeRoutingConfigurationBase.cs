@@ -24,7 +24,7 @@ namespace AttributeRouting
         protected AttributeRoutingConfigurationBase()
         {
             Assemblies = new List<Assembly>();
-            PromotedControllerTypes = new List<Type>();
+            OrderedControllerTypes = new List<Type>();
 
             InheritActionsFromBaseController = false;
 
@@ -85,7 +85,7 @@ namespace AttributeRouting
         
         internal List<Assembly> Assemblies { get; set; }
         
-        internal List<Type> PromotedControllerTypes { get; set; }
+        internal List<Type> OrderedControllerTypes { get; set; }
         
         internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
         
@@ -167,9 +167,20 @@ namespace AttributeRouting
         }
 
         /// <summary>
+        /// Scans the assembly of the specified controller for routes to register.
+        /// </summary>
+        /// <typeparam name="T">The type used to specify the assembly.</typeparam>
+        [Obsolete("Prefer using AddRoutesFromController, AddRoutesFromControllersOfType, and AddRoutesFromAssembly.")]
+        public void ScanAssemblyOf<T>()
+        {
+            ScanAssembly(typeof(T).Assembly);
+        }
+
+        /// <summary>
         /// Scans the specified assembly for routes to register.
         /// </summary>
-        /// <param name="assembly">The assembly</param>
+        /// <param name="assembly">The assembly.</param>
+        [Obsolete("Prefer using AddRoutesFromController, AddRoutesFromControllersOfType, and AddRoutesFromAssembly.")]
         public void ScanAssembly(Assembly assembly)
         {
             if (!Assemblies.Contains(assembly))
@@ -177,10 +188,30 @@ namespace AttributeRouting
         }
 
         /// <summary>
-        /// Adds all the routes for all the controllers that derive from the specified controller
-        /// to the end of the route collection.
+        /// Appends the routes from all controllers in the specified assembly to the route collection.
         /// </summary>
-        /// <param name="baseControllerType">The base controller type</param>
+        /// <typeparam name="T">The type denoting the assembly.</typeparam>
+        public void AddRoutesFromAssemblyOf<T>()
+        {
+            AddRoutesFromAssembly(typeof(T).Assembly);
+        }
+
+        /// <summary>
+        /// Appends the routes from all controllers in the specified assembly to the route collection.
+        /// </summary>
+        /// <param name="assembly">The assembly.</param>
+        public void AddRoutesFromAssembly(Assembly assembly)
+        {
+            var controllerTypes = assembly.GetControllerTypes(FrameworkControllerType);
+
+            foreach (var controllerType in controllerTypes)
+                AddRoutesFromControllerInternal(controllerType);
+        }
+
+        /// <summary>
+        /// Appends the routes from all controllers that derive from the specified controller type to the route collection.
+        /// </summary>
+        /// <param name="baseControllerType">The base controller type.</param>
         public void AddRoutesFromControllersOfType(Type baseControllerType)
         {
             var assembly = baseControllerType.Assembly;
@@ -190,20 +221,38 @@ namespace AttributeRouting
                                   select controllerType;
 
             foreach (var controllerType in controllerTypes)
-                AddRoutesFromController(controllerType);
+                AddRoutesFromControllerInternal(controllerType, true);
         }
 
         /// <summary>
-        /// Adds all the routes for the specified controller type to the end of the route collection.
+        /// Appends the routes from the specified controller type to the end of route collection.
         /// </summary>
-        /// <param name="controllerType">The controller type</param>
+        /// <param name="controllerType">The controller type.</param>
         public void AddRoutesFromController(Type controllerType)
+        {
+            AddRoutesFromControllerInternal(controllerType, true);
+        }
+
+        /// <summary>
+        /// Appends the routes from the controller to the promoted controller type list,
+        /// optionally removing an already added type in order to add it to the end of the list.
+        /// </summary>
+        /// <param name="controllerType">The controller type.</param>
+        /// <param name="reorderTypes">Whether to remove and re-add already added controller types.</param>
+        private void AddRoutesFromControllerInternal(Type controllerType, bool reorderTypes = false)
         {
             if (!FrameworkControllerType.IsAssignableFrom(controllerType))
                 return;
 
-            if (!PromotedControllerTypes.Contains(controllerType))
-                PromotedControllerTypes.Add(controllerType);
+            if (!OrderedControllerTypes.Contains(controllerType))
+            {
+                OrderedControllerTypes.Add(controllerType);
+            }
+            else if (reorderTypes)
+            {
+                OrderedControllerTypes.Remove(controllerType);
+                OrderedControllerTypes.Add(controllerType);
+            }
         }
 
         protected void AddDefaultRouteConstraint(string keyRegex, object constraint)
@@ -239,7 +288,6 @@ namespace AttributeRouting
 
         protected void RegisterDefaultInlineRouteConstraints<TRouteConstraint>(Assembly assembly)
         {
-            // Register default inline route constraints
             var inlineConstraintTypes = from t in assembly.GetTypes()
                                         where typeof(TRouteConstraint).IsAssignableFrom(t)
                                               && typeof(IAttributeRouteConstraint).IsAssignableFrom(t)

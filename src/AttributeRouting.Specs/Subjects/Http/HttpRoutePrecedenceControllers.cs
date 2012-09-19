@@ -48,28 +48,31 @@ namespace AttributeRouting.Specs.Subjects.Http
     public class HttpRoutePrecedenceAmongControllers3Controller : ApiController
     {
         [GET("ApiController3/Get")]
-        public string Get()
-        {
-            return "";
-        }
+        public string Get() { return ""; }
     }
 
     public class HttpRoutePrecedenceAmongControllers1Controller : ApiController
     {
         [GET("ApiController1/Get")]
-        public string Get()
-        {
-            return "";
-        }
+        public string Get() { return ""; }
     }
 
     public class HttpRoutePrecedenceAmongControllers2Controller : ApiController
     {
         [GET("ApiController2/Get")]
-        public string Get()
-        {
-            return "";
-        }
+        public string Get() { return ""; }
+    }
+
+    public class HttpRoutePrecedenceAmongControllers5Controller : ApiController
+    {
+        [GET("ApiController5/Get")]
+        public string Get() { return ""; }
+    }
+
+    public class HttpRoutePrecedenceAmongControllers4Controller : ApiController
+    {
+        [GET("ApiController4/Get")]
+        public string Get() { return ""; }
     }
 
     public class HttpRoutePrecedenceAmongTheSitesRoutesController : ApiController

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web.Http;
-using System.Web.Http.Routing;
-using System.Web.Mvc;
 using System.Web.Routing;
-using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 using AttributeRouting.Specs.Subjects;
 using AttributeRouting.Specs.Subjects.Http;
@@ -76,27 +74,43 @@ namespace AttributeRouting.Specs.Steps
         public void GivenIHaveANewConfigurationObject()
         {
             _configuration = new AttributeRoutingConfiguration();
+            _configuration.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+
             _httpConfiguration = new HttpWebAttributeRoutingConfiguration();
+            _httpConfiguration.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
         }
 
         [Given(@"I add the routes from the (.*) controller")]
         public void GivenIAddTheRoutesFromTheController(string controllerName)
         {
             var controllerType = GetControllerType(controllerName);
-            _configuration.AddRoutesFromController(controllerType);
-
+            
             if (controllerName.StartsWith("Http"))
                 _httpConfiguration.AddRoutesFromController(controllerType);
+            else
+                _configuration.AddRoutesFromController(controllerType);
         }
 
         [Given(@"I add the routes from controllers derived from the (.*) controller")]
         public void GivenIAddTheRoutesFromControllersOfTypeBaseController(string baseControllerName)
         {
             var baseControllerType = GetControllerType(baseControllerName);
-            _configuration.AddRoutesFromControllersOfType(baseControllerType);
-
+            
             if (baseControllerName.StartsWith("Http"))
                 _httpConfiguration.AddRoutesFromControllersOfType(baseControllerType);
+            else
+                _configuration.AddRoutesFromControllersOfType(baseControllerType);
+        }
+
+        [Given(@"I add the (.*) routes from the executing assembly")]
+        public void GivenIAddTheRoutesFromTheExecutingAssembly(string type)
+        {
+            var executingAssembly = Assembly.GetExecutingAssembly();
+
+            if (type.ValueEquals("Mvc"))
+                _configuration.AddRoutesFromAssembly(executingAssembly);
+            else
+                _httpConfiguration.AddRoutesFromAssembly(executingAssembly);
         }
 
         [Given(@"I generate the routes with this configuration")]

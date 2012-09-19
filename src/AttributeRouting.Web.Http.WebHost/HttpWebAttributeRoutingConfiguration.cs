@@ -19,7 +19,6 @@ namespace AttributeRouting.Web.Http.WebHost
             _routeConstraintFactory = new RouteConstraintFactory(this);
 
             RouteHandlerFactory = () => HttpControllerRouteHandler.Instance;
-
             RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(Web.Constraints.RegexRouteConstraint).Assembly);
         }
 

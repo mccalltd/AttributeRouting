@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Web.Routing;
-using AttributeRouting.Web.Http.WebHost;
-using AttributeRouting.Web.Mvc;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -26,6 +21,38 @@ namespace AttributeRouting.Specs.Steps
             var firstControllerRouteInRange = secondControllerRange.Any(r => r.Defaults["controller"].ToString() == firstControllerName);
             
             Assert.That(firstControllerRouteInRange, Is.False);
+        }
+
+        [Then(@"no routes follow the routes from the (.*) controller")]
+        public void ThenNoRoutesFollowTheRoutesFromTheController(string controllerName)
+        {
+            var count = 0;
+            var indexOfLastRouteForController = 0;
+            var routes = RouteTable.Routes.Cast<Route>();
+
+            foreach (var route in routes.ToList())
+            {
+                var routeControllerName = route.Defaults["controller"].ToString();
+                var skipControllerNames = new[]
+                {
+                    "RoutePrecedenceAmongTheSitesRoutes",
+                    "RoutePrecedenceViaRouteProperties"
+                };
+
+                if (skipControllerNames.Any(routeControllerName.EndsWith))
+                {
+                    // Skip the controllers that will come after controllers registered through the config object
+                    // due to have actions that specify a SitePrecedence property.
+                    continue;
+                }
+
+                if (routeControllerName == controllerName)
+                    indexOfLastRouteForController = count;
+
+                count++;
+            }
+
+            Assert.That(indexOfLastRouteForController, Is.EqualTo(count - 1));
         }
     }
 }

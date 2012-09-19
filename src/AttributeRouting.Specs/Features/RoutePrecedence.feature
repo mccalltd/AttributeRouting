@@ -93,17 +93,30 @@ Scenario: Route precedence among controllers added individually using the config
 	And I add the routes from the RoutePrecedenceAmongControllers1 controller
 	And I add the routes from the RoutePrecedenceAmongControllers2 controller
 	And I add the routes from the RoutePrecedenceAmongControllers3 controller
+	And I add the Mvc routes from the executing assembly
+	And I add the routes from the RoutePrecedenceAmongControllers4 controller
+	And I add the routes from the RoutePrecedenceAmongControllers5 controller
 	When I generate the routes with this configuration
 	Then the routes from the RoutePrecedenceAmongControllers1 controller precede those from the RoutePrecedenceAmongControllers2 controller
 	And the routes from the RoutePrecedenceAmongControllers2 controller precede those from the RoutePrecedenceAmongControllers3 controller
+	And the routes from the RoutePrecedenceAmongControllers3 controller precede those from the StandardUsage controller
+	And the routes from the StandardUsage controller precede those from the RoutePrecedenceAmongControllers4 controller
+	And the routes from the RoutePrecedenceAmongControllers4 controller precede those from the RoutePrecedenceAmongControllers5 controller
+	And no routes follow the routes from the RoutePrecedenceAmongControllers5 controller
 	# Web API
 	Given I have a new configuration object
 	And I add the routes from the HttpRoutePrecedenceAmongControllers1 controller
 	And I add the routes from the HttpRoutePrecedenceAmongControllers2 controller
 	And I add the routes from the HttpRoutePrecedenceAmongControllers3 controller
+	And I add the Http routes from the executing assembly
+	And I add the routes from the HttpRoutePrecedenceAmongControllers4 controller
+	And I add the routes from the HttpRoutePrecedenceAmongControllers5 controller
 	When I generate the routes with this configuration
 	Then the routes from the HttpRoutePrecedenceAmongControllers1 controller precede those from the HttpRoutePrecedenceAmongControllers2 controller
 	And the routes from the HttpRoutePrecedenceAmongControllers2 controller precede those from the HttpRoutePrecedenceAmongControllers3 controller
+	And the routes from the HttpStandardUsage controller precede those from the HttpRoutePrecedenceAmongControllers4 controller
+	And the routes from the HttpRoutePrecedenceAmongControllers4 controller precede those from the HttpRoutePrecedenceAmongControllers5 controller
+	And no routes follow the routes from the HttpRoutePrecedenceAmongControllers5 controller
 
 Scenario: Route precedence among controllers added by base type using the configuration api
 	# MVC

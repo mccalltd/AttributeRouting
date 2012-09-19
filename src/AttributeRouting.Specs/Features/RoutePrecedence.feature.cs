@@ -268,29 +268,61 @@ this.ScenarioSetup(scenarioInfo);
 #line 95
  testRunner.And("I add the routes from the RoutePrecedenceAmongControllers3 controller");
 #line 96
- testRunner.When("I generate the routes with this configuration");
+ testRunner.And("I add the Mvc routes from the executing assembly");
 #line 97
+ testRunner.And("I add the routes from the RoutePrecedenceAmongControllers4 controller");
+#line 98
+ testRunner.And("I add the routes from the RoutePrecedenceAmongControllers5 controller");
+#line 99
+ testRunner.When("I generate the routes with this configuration");
+#line 100
  testRunner.Then("the routes from the RoutePrecedenceAmongControllers1 controller precede those fro" +
                     "m the RoutePrecedenceAmongControllers2 controller");
-#line 98
+#line 101
  testRunner.And("the routes from the RoutePrecedenceAmongControllers2 controller precede those fro" +
                     "m the RoutePrecedenceAmongControllers3 controller");
-#line 100
- testRunner.Given("I have a new configuration object");
-#line 101
- testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers1 controller");
 #line 102
- testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers2 controller");
+ testRunner.And("the routes from the RoutePrecedenceAmongControllers3 controller precede those fro" +
+                    "m the StandardUsage controller");
 #line 103
- testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers3 controller");
+ testRunner.And("the routes from the StandardUsage controller precede those from the RoutePreceden" +
+                    "ceAmongControllers4 controller");
 #line 104
- testRunner.When("I generate the routes with this configuration");
+ testRunner.And("the routes from the RoutePrecedenceAmongControllers4 controller precede those fro" +
+                    "m the RoutePrecedenceAmongControllers5 controller");
 #line 105
+ testRunner.And("no routes follow the routes from the RoutePrecedenceAmongControllers5 controller");
+#line 107
+ testRunner.Given("I have a new configuration object");
+#line 108
+ testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers1 controller");
+#line 109
+ testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers2 controller");
+#line 110
+ testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers3 controller");
+#line 111
+ testRunner.And("I add the Http routes from the executing assembly");
+#line 112
+ testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers4 controller");
+#line 113
+ testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers5 controller");
+#line 114
+ testRunner.When("I generate the routes with this configuration");
+#line 115
  testRunner.Then("the routes from the HttpRoutePrecedenceAmongControllers1 controller precede those" +
                     " from the HttpRoutePrecedenceAmongControllers2 controller");
-#line 106
+#line 116
  testRunner.And("the routes from the HttpRoutePrecedenceAmongControllers2 controller precede those" +
                     " from the HttpRoutePrecedenceAmongControllers3 controller");
+#line 117
+ testRunner.And("the routes from the HttpStandardUsage controller precede those from the HttpRoute" +
+                    "PrecedenceAmongControllers4 controller");
+#line 118
+ testRunner.And("the routes from the HttpRoutePrecedenceAmongControllers4 controller precede those" +
+                    " from the HttpRoutePrecedenceAmongControllers5 controller");
+#line 119
+ testRunner.And("no routes follow the routes from the HttpRoutePrecedenceAmongControllers5 control" +
+                    "ler");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -302,36 +334,36 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Route precedence among controllers added by base type using the configuration api" +
                     "", ((string[])(null)));
-#line 108
+#line 121
 this.ScenarioSetup(scenarioInfo);
-#line 110
+#line 123
  testRunner.Given("I have a new configuration object");
-#line 111
+#line 124
  testRunner.And("I add the routes from controllers derived from the RoutePrecedenceAmongDerivedCon" +
                     "trollersBase controller");
-#line 112
+#line 125
  testRunner.And("I add the routes from the RoutePrecedenceAmongControllers1 controller");
-#line 113
+#line 126
  testRunner.When("I generate the routes with this configuration");
-#line 114
+#line 127
  testRunner.Then("the routes from the RoutePrecedenceAmongDerivedControllers1 controller precede th" +
                     "ose from the RoutePrecedenceAmongControllers1 controller");
-#line 115
+#line 128
  testRunner.And("the routes from the RoutePrecedenceAmongDerivedControllers2 controller precede th" +
                     "ose from the RoutePrecedenceAmongControllers1 controller");
-#line 117
+#line 130
  testRunner.Given("I have a new configuration object");
-#line 118
+#line 131
  testRunner.And("I add the routes from controllers derived from the HttpRoutePrecedenceAmongDerive" +
                     "dControllersBase controller");
-#line 119
+#line 132
  testRunner.And("I add the routes from the HttpRoutePrecedenceAmongControllers1 controller");
-#line 120
+#line 133
  testRunner.When("I generate the routes with this configuration");
-#line 121
+#line 134
  testRunner.Then("the routes from the HttpRoutePrecedenceAmongDerivedControllers1 controller preced" +
                     "e those from the HttpRoutePrecedenceAmongControllers1 controller");
-#line 122
+#line 135
  testRunner.And("the routes from the HttpRoutePrecedenceAmongDerivedControllers2 controller preced" +
                     "e those from the HttpRoutePrecedenceAmongControllers1 controller");
 #line hidden

@@ -26,7 +26,7 @@ namespace AttributeRouting.Framework
         /// </summary>
         public IEnumerable<RouteSpecification> BuildRouteSpecifications()
         {
-            var controllerRouteSpecs = BuildRouteSpecifications(_configuration.PromotedControllerTypes);
+            var controllerRouteSpecs = BuildRouteSpecifications(_configuration.OrderedControllerTypes);
             foreach (var spec in controllerRouteSpecs)
                 yield return spec;
 
@@ -34,7 +34,7 @@ namespace AttributeRouting.Framework
                 yield break;
 
             var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes(_configuration.FrameworkControllerType)).ToList();
-            var unspecdControllerTypes = scannedControllerTypes.Except(_configuration.PromotedControllerTypes);
+            var unspecdControllerTypes = scannedControllerTypes.Except(_configuration.OrderedControllerTypes);
             var scannedRouteSpecs = BuildRouteSpecifications(unspecdControllerTypes);
 
             foreach (var spec in scannedRouteSpecs)
