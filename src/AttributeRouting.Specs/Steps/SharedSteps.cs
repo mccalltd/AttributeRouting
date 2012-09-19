@@ -30,14 +30,14 @@ namespace AttributeRouting.Specs.Steps
 
             RouteTable.Routes.MapAttributeRoutes(x =>
             {
-                x.ScanAssemblyOf<StandardUsageController>();
+                x.AddRoutesFromAssemblyOf<StandardUsageController>();
                 x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
                 x.InheritActionsFromBaseController = true;
             });
 
             GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(x =>
             {
-                x.ScanAssemblyOf<HttpStandardUsageController>();
+                x.AddRoutesFromAssemblyOf<HttpStandardUsageController>();
                 x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
                 x.InheritActionsFromBaseController = true;
             });

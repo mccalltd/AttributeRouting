@@ -64,7 +64,7 @@ namespace AttributeRouting.Tests.Web
             // Web API (WebHost)
             GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(config =>
             {
-                config.ScanAssemblyOf<PlainController>();
+                config.AddRoutesFromAssemblyOf<MvcApplication>();
                 config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
                 config.UseRouteHandler(() => new HttpCultureAwareRoutingHandler());
                 config.AddTranslationProvider(translationProvider);                
@@ -75,7 +75,7 @@ namespace AttributeRouting.Tests.Web
 
             routes.MapAttributeRoutes(config =>
             {
-                config.ScanAssemblyOf<HomeController>();
+                config.AddRoutesFromAssemblyOf<MvcApplication>();
                 config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
                 config.AddTranslationProvider(translationProvider);
                 config.UseRouteHandler(() => new CultureAwareRouteHandler());

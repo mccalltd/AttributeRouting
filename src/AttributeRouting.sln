@@ -14,12 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{DE34F7
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{01EC4F0A-A27A-45B8-9DB5-BA447A9F4A6F}"
-	ProjectSection(SolutionItems) = preProject
-		..\build.bat = ..\build.bat
-		..\build.xml = ..\build.xml
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting", "AttributeRouting\AttributeRouting.csproj", "{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Specs", "AttributeRouting.Specs\AttributeRouting.Specs.csproj", "{E832A82B-2302-4113-83E3-261446E22C87}"

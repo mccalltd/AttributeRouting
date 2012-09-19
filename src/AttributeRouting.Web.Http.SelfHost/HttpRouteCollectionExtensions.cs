@@ -19,7 +19,7 @@ namespace AttributeRouting.Web.Http.SelfHost
         public static void MapHttpAttributeRoutes(this HttpRouteCollection routes)
         {
             var configuration = new HttpAttributeRoutingConfiguration();
-            configuration.ScanAssembly(Assembly.GetCallingAssembly());
+            configuration.AddRoutesFromAssembly(Assembly.GetCallingAssembly());
 
             routes.MapHttpAttributeRoutesInternal(configuration);
         }

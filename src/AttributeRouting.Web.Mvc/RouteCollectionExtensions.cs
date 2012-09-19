@@ -19,7 +19,7 @@ namespace AttributeRouting.Web.Mvc
         public static void MapAttributeRoutes(this RouteCollection routes)
         {
             var configuration = new AttributeRoutingConfiguration();
-            configuration.ScanAssembly(Assembly.GetCallingAssembly());
+            configuration.AddRoutesFromAssembly(Assembly.GetCallingAssembly());
 
             routes.MapAttributeRoutesInternal(configuration);
         }

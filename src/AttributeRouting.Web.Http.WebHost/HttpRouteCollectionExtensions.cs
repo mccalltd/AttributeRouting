@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Web.Http;
-using System.Web.Http.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Web.Http.Framework;
 
@@ -20,7 +19,7 @@ namespace AttributeRouting.Web.Http.WebHost
         public static void MapHttpAttributeRoutes(this HttpRouteCollection routes)
         {
             var configuration = new HttpWebAttributeRoutingConfiguration();
-            configuration.ScanAssembly(Assembly.GetCallingAssembly());
+            configuration.AddRoutesFromAssembly(Assembly.GetCallingAssembly());
 
             routes.MapHttpAttributeRoutesInternal(configuration);
         }

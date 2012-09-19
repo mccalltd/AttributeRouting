@@ -18,7 +18,7 @@ namespace AttributeRouting.Tests.SelfHost
             // Attribute Routing
             config.Routes.MapHttpAttributeRoutes(cfg =>
             {
-                cfg.ScanAssemblyOf<ProductsController>();
+                cfg.AddRoutesFromAssemblyOf<Program>();
 
                 // Must have this on, otherwise you need to specify RouteName in your attributes
                 cfg.AutoGenerateRouteNames = true;
