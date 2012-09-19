@@ -18,7 +18,7 @@ namespace $rootnamespace$ {
             // Attribute Routing
             config.Routes.MapHttpAttributeRoutes(cfg =>
             {
-                cfg.ScanAssembly(Assembly.GetExecutingAssembly());
+                cfg.AddRoutesFromAssembly(Assembly.GetExecutingAssembly());
 
                 // Must have this on, otherwise you need to specify RouteName in your attributes
                 cfg.AutoGenerateRouteNames = true;

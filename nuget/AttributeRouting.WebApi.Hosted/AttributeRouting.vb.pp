@@ -17,7 +17,7 @@ Namespace $rootnamespace$
 
             ' Attribute Routing
 			Dim arConfig As New HttpAttributeRoutingConfiguration
-            arConfig.ScanAssembly(Assembly.GetExecutingAssembly())
+            arConfig.AddRoutesFromAssembly(Assembly.GetExecutingAssembly())
             ' Must have this on, otherwise you need to specify RouteName in your attributes
             arConfig.AutoGenerateRouteNames = true
 			

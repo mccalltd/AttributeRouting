@@ -24,7 +24,8 @@ FormatTaskName (("-" * 25) + " [{0}] " + ("-" * 25))
 
 Task Default -depends Build
 Task Build -depends Clean, CreateSharedAssemblyInfo, Rebuild, Test
-Task Publish -depends Build, NugetPack, NugetPush
+Task Package -depends Build, NugetPack
+Task Publish -depends Package, NugetPush
 
 Task Clean {
     Clean-Directory $build_dir
