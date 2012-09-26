@@ -1,5 +1,4 @@
 using System.Web.Mvc;
-using AttributeRouting.Web;
 using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
@@ -103,7 +102,7 @@ namespace AttributeRouting.Specs.Subjects
     [RestfulRouteConvention]
     public class RestfulRouteConventionWithExplicitOrderedRouteController : Controller
     {
-        [GET("Primary", Order = 1)]
+        [GET("Primary", ActionPrecedence = 1)]
         public ActionResult Index()
         {
             return Content("");

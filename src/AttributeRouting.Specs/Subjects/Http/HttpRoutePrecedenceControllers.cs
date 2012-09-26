@@ -5,13 +5,13 @@ namespace AttributeRouting.Specs.Subjects.Http
 {
     public class HttpRoutePrecedenceAmongRoutesController : ApiController
     {
-        [GET("Get/Second", Order = 2)]
-        [GET("Get/Third", Order = 3)]
-        [GET("Get/First", Order = 1)]
+        [GET("Get/Second", ActionPrecedence = 2)]
+        [GET("Get/Third", ActionPrecedence = 3)]
+        [GET("Get/First", ActionPrecedence = 1)]
         [GET("Get/Fourth")]
-        [GET("Get/Seventh", Order = -1)]
-        [GET("Get/Fifth", Order = -3)]
-        [GET("Get/Sixth", Order = -2)]
+        [GET("Get/Seventh", ActionPrecedence = -1)]
+        [GET("Get/Fifth", ActionPrecedence = -3)]
+        [GET("Get/Sixth", ActionPrecedence = -2)]
         public string Get()
         {
             return "";
@@ -20,28 +20,28 @@ namespace AttributeRouting.Specs.Subjects.Http
 
     public partial class HttpRoutePrecedenceAmongActionsController
     {
-        [GET("ApiRoute1", Precedence = 1)]
+        [GET("ApiRoute1", ControllerPrecedence = 1)]
         public string Route1() { return ""; }
 
-        [GET("ApiRoute3", Precedence = 3)]
+        [GET("ApiRoute3", ControllerPrecedence = 3)]
         public string Route3() { return ""; }
 
-        [GET("ApiRoute5", Precedence = -3)]
+        [GET("ApiRoute5", ControllerPrecedence = -3)]
         public string Route5() { return ""; }
 
-        [GET("ApiRoute7", Precedence = -1)]
+        [GET("ApiRoute7", ControllerPrecedence = -1)]
         public string Route7() { return ""; }
     }
 
     public partial class HttpRoutePrecedenceAmongActionsController : ApiController
     {
-        [GET("ApiRoute2", Precedence = 2)]
+        [GET("ApiRoute2", ControllerPrecedence = 2)]
         public string Route2() { return ""; }
 
         [GET("ApiRoute4")]
         public string Route4() { return ""; }
 
-        [GET("ApiRoute6", Precedence = -2)]
+        [GET("ApiRoute6", ControllerPrecedence = -2)]
         public string Route6() { return ""; }
     }
 
@@ -86,8 +86,8 @@ namespace AttributeRouting.Specs.Subjects.Http
 
     public class HttpRoutePrecedenceViaRoutePropertiesController : ApiController
     {
-        [GET("ApiRoute3", Order = 1)]
-        [GET("ApiRoute5", Order = -1)]
+        [GET("ApiRoute3", ActionPrecedence = 1)]
+        [GET("ApiRoute5", ActionPrecedence = -1)]
         [GET("ApiRoute4")]
         public string RouteWhatever() { return ""; }
 
@@ -97,10 +97,10 @@ namespace AttributeRouting.Specs.Subjects.Http
         [GET("ApiRoute7", SitePrecedence = -1)]
         public string Route7() { return ""; }
 
-        [GET("ApiRoute2", Precedence = 1)]
+        [GET("ApiRoute2", ControllerPrecedence = 1)]
         public string Route2() { return ""; }
 
-        [GET("ApiRoute6", Precedence = -1)]
+        [GET("ApiRoute6", ControllerPrecedence = -1)]
         public string Route6() { return ""; }
     }
 

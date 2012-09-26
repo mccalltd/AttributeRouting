@@ -6,7 +6,7 @@ namespace AttributeRouting.Specs.Subjects.Http
     [DefaultHttpRouteConvention]
     public class DefaultHttpRouteConventionWithExplicitOrderedRouteController : ApiController
     {
-        [GET("Primary", Order = 1)]
+        [GET("Primary", ActionPrecedence = 1)]
         public string Get()
         {
             return "";

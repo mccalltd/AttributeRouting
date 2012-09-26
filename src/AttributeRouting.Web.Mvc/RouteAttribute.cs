@@ -22,6 +22,9 @@ namespace AttributeRouting.Web.Mvc
 
             RouteUrl = routeUrl;
             HttpMethods = new string[0];
+            ActionPrecedence = int.MaxValue;
+            ControllerPrecedence = int.MaxValue;
+            SitePrecedence = int.MaxValue;
         }
 
         /// <summary>
@@ -39,9 +42,23 @@ namespace AttributeRouting.Web.Mvc
 
         public string[] HttpMethods { get; protected set; }
 
-        public int Order { get; set; }
+        [Obsolete("Prefer ActionPrecedence for clarity of intent.")]
+        public int Order
+        {
+            get { return ActionPrecedence; }
+            set { ActionPrecedence = value; }
+        }
+        
+        public int ActionPrecedence { get; set; }
 
-        public int Precedence { get; set; }
+        [Obsolete("Prefer ControllerPrecedence for clarity of intent.")]
+        public int Precedence
+        {
+            get { return ControllerPrecedence; }
+            set { ControllerPrecedence = value; }
+        }
+
+        public int ControllerPrecedence { get; set; }
 
         public int SitePrecedence { get; set; }
 

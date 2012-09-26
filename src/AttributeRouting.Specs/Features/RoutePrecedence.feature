@@ -5,6 +5,7 @@ Scenario: Route precedence among routes for an action using the Order property
 	Given I have registered the routes for the RoutePrecedenceAmongRoutesController
 	When I fetch the routes for the RoutePrecedenceAmongRoutes controller's Index action
 	Then the 1st route's url is "Index/First"
+	Then the 1st route's url is "Index/First"
 	And the 2nd route's url is "Index/Second"
 	And the 3rd route's url is "Index/Third"
 	And the 4th route's url is "Index/Fourth"
@@ -26,13 +27,14 @@ Scenario: Route precedence among actions within a controller using the Precedenc
 	# MVC
 	Given I have registered the routes for the RoutePrecedenceAmongActionsController
 	When I fetch the routes for the RoutePrecedenceAmongActions controller
-	Then the 1st route's url is "Route1"
-	And the 2nd route's url is "Route2"
-	And the 3rd route's url is "Route3"
-	And the 4th route's url is "Route4"
-	And the 5th route's url is "Route5"
-	And the 6th route's url is "Route6"
-	And the 7th route's url is "Route7"
+	Then the 1st route's url is "Route0"
+	Then the 2st route's url is "Route1"
+	And the 3nd route's url is "Route2"
+	And the 4rd route's url is "Route3"
+	And the 5th route's url is "Route4"
+	And the 6th route's url is "Route5"
+	And the 7th route's url is "Route6"
+	And the 8th route's url is "Route7"
 	# Web API
 	Given I have registered the routes for the HttpRoutePrecedenceAmongActionsController
 	When I fetch the routes for the HttpRoutePrecedenceAmongActions controller

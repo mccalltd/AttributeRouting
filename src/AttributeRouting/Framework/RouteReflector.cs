@@ -61,10 +61,16 @@ namespace AttributeRouting.Framework
                     let routeName = routeAttribute.RouteName
                     let subdomain = GetAreaSubdomain(routeAreaAttribute)
                     let isAsyncController = controllerType.IsAsyncController()
-                    // SitePrecedence > controllerIndex > Precedence
+                    /* controlling precedence: 
+                     * site precedence of route > 
+                     * controller index > 
+                     * controller precedence of route > 
+                     * action precedence of route
+                     */
                     let sitePrecedence = GetSortableOrder(routeAttribute.SitePrecedence)
-                    let controllerPrecedence = GetSortableOrder(routeAttribute.Precedence)
-                    orderby sitePrecedence , controllerIndex , controllerPrecedence
+                    let controllerPrecedence = GetSortableOrder(routeAttribute.ControllerPrecedence)
+                    let actionPrecedence = GetSortableOrder(routeAttribute.ActionPrecedence)
+                    orderby sitePrecedence , controllerIndex , controllerPrecedence , actionPrecedence
                     select new RouteSpecification
                     {
                         AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
@@ -120,7 +126,7 @@ namespace AttributeRouting.Framework
             // Add explicitly-defined attributes
             attributes.AddRange(actionMethod.GetCustomAttributes<IRouteAttribute>(false));
 
-            return attributes.OrderBy(a => GetSortableOrder(a.Order));
+            return attributes;
         }
 
         /// <summary>
@@ -188,11 +194,11 @@ namespace AttributeRouting.Framework
         /// <summary>
         /// Gets the sortable order for the given value.
         /// </summary>
-        /// <param name="value">An integer sort order, where 0 is undefined, positive N is Nth, and negative N is Nth from last.</param>
+        /// <param name="value">An integer sort order, where positive N is Nth, and negative N is Nth from last.</param>
         /// <returns>The sortable order corresponding to the given value.</returns>
-        private static int GetSortableOrder(int value)
+        private static long GetSortableOrder(int value)
         {
-            return value == 0 ? 0 : (value > 0 ? int.MinValue : int.MaxValue) + value;
+            return (value >= 0 ? long.MinValue : long.MaxValue) + value;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace AttributeRouting.Specs.Subjects
 {
     public class StandardUsageController : Controller
     {
-        [GET("", Order = 1)]
+        [GET("", ActionPrecedence = 1)]
         [GET("Index")]
         public ActionResult Index()
         {

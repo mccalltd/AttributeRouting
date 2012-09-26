@@ -6,8 +6,8 @@ namespace AttributeRouting.Tests.Web.Controllers
 {
     public class HomeController : ControllerBase
     {
-        [GET("", Order = 1)]
-        [GET("Home", Order = 2)]
+        [GET("", ActionPrecedence = 1)]
+        [GET("Home", ActionPrecedence = 2)]
         public ActionResult Index()
         {
             return View();
@@ -21,14 +21,14 @@ namespace AttributeRouting.Tests.Web.Controllers
             return Content("<h1>404</h1>You got this because the route is not mapped.");
         }
 
-        [GET("About", Precedence = 2, UseLowercaseRoute = false, AppendTrailingSlash = true)]
+        [GET("About", ControllerPrecedence = 2, UseLowercaseRoute = false, AppendTrailingSlash = true)]
         public ActionResult About()
         {
             return Content("About");
         }
 
-        [GET("Contact", Order = 2)]
-        [GET("ContactUs", Order = 1, Precedence = 1)]
+        [GET("Contact", ActionPrecedence = 2)]
+        [GET("ContactUs", ActionPrecedence = 1, ControllerPrecedence = 1)]
         public ActionResult Contact()
         {
             return Content("Contact");
