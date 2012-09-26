@@ -4,6 +4,12 @@ h2. Please refer to the "wiki pages":https://github.com/mccalltd/AttributeRoutin
 
 h3. Changelog
 
+_3.1.1_
+
+* #125 - Covered regression edge-case when using 0 to specify route order, precedence, site precedence. Now can start with zero. 
+* Added ActionPrecedence to replace Order and ControllerPrecedence to replace Precedence properties; help clarify intent.
+* For more info, see "Controlling Route Precedence":https://github.com/mccalltd/AttributeRouting/wiki/Controlling-Route-Precedence
+
 _3.1.0_
 * #121 - added facility for specifying the order of controller route registration via the config api.
 * #121 - added facility for specifying the last routes in the site using the SitePrecedence property.
