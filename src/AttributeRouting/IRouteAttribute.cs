@@ -21,22 +21,30 @@ namespace AttributeRouting
 
         /// <summary>
         /// The order of this route among all the routes defined against this action.
-        /// Positive integers denote top routes: 1 is first, 2 is second, etc....
-        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
         /// </summary>
+        /// <remarks>
+        /// Zero and Positive integers denote top routes: 1 is first, 2 is second, etc....
+        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
+        /// </remarks>
         [Obsolete("Prefer ActionPrecedence for clarity of intent.")]
         int Order { get; set; }
 
         /// <summary>
         /// The order of this route among all the routes defined against this action.
         /// </summary>
+        /// <remarks>
+        /// Positive integers (including zero) denote top routes: 1 is first, 2 is second, etc....
+        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
+        /// </remarks>
         int ActionPrecedence { get; set; }
 
         /// <summary>
         /// The order of this route among all the routes defined against this controller.
-        /// Positive integers denote top routes: 1 is first, 2 is second, etc....
-        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
         /// </summary>
+        /// <remarks>
+        /// Positive integers (including zero) denote top routes: 1 is first, 2 is second, etc....
+        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
+        /// </remarks>
         [Obsolete("Prefer ControllerPrecedence for clarity of intent.")]
         int Precedence { get; set; }
 
@@ -47,9 +55,11 @@ namespace AttributeRouting
 
         /// <summary>
         /// The order of this route among all the routes in the site.
-        /// Positive integers denote top routes: 1 is first, 2 is second, etc....
-        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
         /// </summary>
+        /// <remarks>
+        /// Positive integers (including zero) denote top routes: 1 is first, 2 is second, etc....
+        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
+        /// </remarks>
         int SitePrecedence { get; set; }
 
         /// <summary>
