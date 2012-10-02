@@ -4,6 +4,11 @@ h2. Please refer to the "wiki pages":https://github.com/mccalltd/AttributeRoutin
 
 h3. Changelog
 
+_3.1.2_
+
+* #128 - fixed null ref in self-host projects due to default route name builder.
+* Simplified the init of AR in self-hosted APIs.
+
 _3.1.1_
 
 * #125 - Covered regression edge-case when using 0 to specify route order, precedence, site precedence. Now can start with zero. 
