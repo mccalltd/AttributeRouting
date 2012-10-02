@@ -1,5 +1,4 @@
-﻿Imports System.Reflection
-Imports System.Web.Http.SelfHost
+﻿Imports System.Web.Http.SelfHost
 Imports AttributeRouting.Web.Http.SelfHost
 
 Namespace $rootnamespace$
@@ -13,9 +12,6 @@ Namespace $rootnamespace$
 			' To debug routes locally, you can log to Console.Out (or any other TextWriter) like so:
 			'     config.Routes.Cast<HttpRoute>().LogTo(Console.Out);
 
-			' Self-hosted Web API
-
-            ' Attribute Routing			
 			config.Routes.MapHttpAttributeRoutes()
 		End Sub
     End Class

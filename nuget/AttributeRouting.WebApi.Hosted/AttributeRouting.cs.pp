@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Web.Http.SelfHost;
+﻿using System.Web.Http.SelfHost;
 using AttributeRouting.Web.Http.SelfHost;
 
 namespace $rootnamespace$ {
@@ -13,9 +12,6 @@ namespace $rootnamespace$ {
 			// To debug routes locally, you can log to Console.Out (or any other TextWriter) like so:
 			//     config.Routes.Cast<HttpRoute>().LogTo(Console.Out);
 
-			// Self-hosted Web API
-
-            // Attribute Routing
             config.Routes.MapHttpAttributeRoutes();
 		}
     }
