@@ -15,13 +15,8 @@ Namespace $rootnamespace$
 
 			' Self-hosted Web API
 
-            ' Attribute Routing
-			Dim arConfig As New HttpAttributeRoutingConfiguration
-            arConfig.AddRoutesFromAssembly(Assembly.GetExecutingAssembly())
-            ' Must have this on, otherwise you need to specify RouteName in your attributes
-            arConfig.AutoGenerateRouteNames = true
-			
-			config.Routes.MapHttpAttributeRoutes(arConfig)
+            ' Attribute Routing			
+			config.Routes.MapHttpAttributeRoutes()
 		End Sub
     End Class
 End Namespace

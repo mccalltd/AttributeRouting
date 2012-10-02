@@ -16,13 +16,7 @@ namespace $rootnamespace$ {
 			// Self-hosted Web API
 
             // Attribute Routing
-            config.Routes.MapHttpAttributeRoutes(cfg =>
-            {
-                cfg.AddRoutesFromAssembly(Assembly.GetExecutingAssembly());
-
-                // Must have this on, otherwise you need to specify RouteName in your attributes
-                cfg.AutoGenerateRouteNames = true;
-            });
+            config.Routes.MapHttpAttributeRoutes();
 		}
     }
 }

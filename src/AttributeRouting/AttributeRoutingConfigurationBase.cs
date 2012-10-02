@@ -16,8 +16,6 @@ namespace AttributeRouting
     /// </summary>
     public abstract class AttributeRoutingConfigurationBase
     {
-        private readonly List<string> _registeredRouteNames = new List<string>();
-
         /// <summary>
         /// Creates and initializes a new configuration object.
         /// </summary>
@@ -38,29 +36,10 @@ namespace AttributeRouting
             // Subdomain config setting initialization
             AreaSubdomainOverrides = new Dictionary<string, string>();
             DefaultSubdomain = "www";
-            SubdomainParser = host =>
-            {
-                var sections = host.Split('.');
-                return sections.Length < 3
-                           ? null
-                           : String.Join(".", sections.Take(sections.Length - 2));
-            };
+            SubdomainParser = SubdomainParsers.ThreeSection;
 
             // AutoGenerateRouteNames config setting initialization
-            RouteNameBuilder = routeSpec =>
-            {
-                var areaPart = routeSpec.AreaName.HasValue() ? "{0}_".FormatWith(routeSpec.AreaName) : null;
-                var routeName = "{0}{1}_{2}".FormatWith(areaPart, routeSpec.ControllerName, routeSpec.ActionName);
-
-                // Only register route names once, so first in wins.
-                if (!_registeredRouteNames.Contains(routeName))
-                {
-                    _registeredRouteNames.Add(routeName);
-                    return routeName;
-                }
-
-                return null;
-            };
+            RouteNameBuilder = RouteNameBuilders.FirstInWins;
         }
 
         /// <summary>

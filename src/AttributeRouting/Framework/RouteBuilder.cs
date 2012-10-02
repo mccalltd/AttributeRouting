@@ -92,10 +92,7 @@ namespace AttributeRouting.Framework
             if (routeSpec.RouteName.HasValue())
                 return routeSpec.RouteName;
 
-            if (_configuration.AutoGenerateRouteNames)
-                return _configuration.RouteNameBuilder(routeSpec);
-
-            return null;
+            return _configuration.AutoGenerateRouteNames ? _configuration.RouteNameBuilder(routeSpec) : null;
         }
 
         private string CreateRouteUrl(RouteSpecification routeSpec)
@@ -375,6 +372,13 @@ namespace AttributeRouting.Framework
                                                                          CreateRouteDefaults(routeSpec),
                                                                          CreateRouteConstraints(routeSpec),
                                                                          CreateRouteDataTokens(routeSpec));
+
+                var routeName = CreateRouteName(routeSpec);
+                if (routeName != null)
+                {
+                    translatedRoute.RouteName = routeName;
+                    translatedRoute.DataTokens.Add("routeName", routeName);
+                }
 
                 translatedRoute.CultureName = cultureName;
                 translatedRoute.DataTokens.Add("cultureName", cultureName);
