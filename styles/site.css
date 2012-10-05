@@ -88,7 +88,7 @@ article {
     }
     article h3 {
         border-bottom: solid 1px #ddd;
-        margin-bottom: 20px;
+        margin: 0 0 20px;
     }
 	article h4 {
 		margin: 20px 0 10px;

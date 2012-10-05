@@ -51,6 +51,8 @@
                 <li><a href="#route-prefixes">Route Prefixes</a></li>
                 <li><a href="#asp-net-mvc-areas">ASP.NET MVC Areas</a></li>
                 <li><a href="#handling-legacy-urls">Handling Legacy URLs</a></li>
+
+                <li class="nav-header">Configuration</li>
                 <li><a href="#route-precedence">Route Precedence</a></li>
                 <li><a href="#configuration-lowercase-urls">Lowercase URL Generation</a></li>
                 <li><a href="#configuration-trailing-slash-urls">Trailing Slash URL Generation</a></li>
@@ -233,8 +235,6 @@ public class SampleController : Controller
 [GET("Posts/Index")]
 public ActionResult Index() { /* ... */ }
 </pre>
-                
-                <h4>Inheriting Routes from Base Controllers</h4>
             </section>
 
             <section id="route-defaults">
@@ -502,6 +502,8 @@ public class SomeController : ControllerBase
                     <li>~/Legacy-Route</li>
                 </ul>
             </section>
+
+            <header><h2>Configuration</h2></header>
 
             <section id="route-precedence">
                 <h3>Route Precedence</h3>
