@@ -37,6 +37,9 @@ nav {
 			nav header ul li {
 				float: left;
 			}
+    nav .nav-list {
+        margin-top: -9px; /* To account for the hidden #introduction scrollspy highlight target */
+    }
     nav .nav-list .nav-header {
 		border-style: solid;
 		border-width:  0;
