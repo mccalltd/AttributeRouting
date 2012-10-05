@@ -1,0 +1,1151 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>AttributeRouting</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Define routes directly on actions in ASP.NET MVC, ASP.NET Web API, and Self-hosted Web API controllers.">
+        <meta name="keywords" content="routing route attribute asp net asp.net mvc web api self host">
+
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="styles/prettify.css" rel="stylesheet">
+        <link href="styles/site.css" rel="stylesheet">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <!-- fav and touch icons -->
+        <!--<link rel="shortcut icon" href="../assets/ico/favicon.ico">
+            <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+            <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+            <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+            <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    </head>
+    <body>
+        <nav>
+			<header class="clearfix">   
+                <a href="#introduction">AttributeRouting</a>
+				<ul class="unstyled">
+					<li><iframe src="http://ghbtns.com/github-btn.html?user=mccalltd&repo=AttributeRouting&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe></li>
+					<li><iframe src="http://ghbtns.com/github-btn.html?user=mccalltd&repo=AttributeRouting&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="87px" height="20px"></iframe></li>
+				</ul>
+			</header>
+            <ul class="nav nav-list">
+                <li class="nav-header">Getting Started</li>
+                <li><a href="#asp-net-mvc">ASP.NET MVC</a></li>
+                <li><a href="#asp-net-web-api">ASP.NET Web Api</a></li>
+                <li><a href="#self-hosted-web-api">Self-Hosted Web Api</a></li>
+                
+                <li class="nav-header">Basics</li>
+                <li><a href="#defining-routes">Defining Routes</a></li>
+                <li><a href="#route-defaults">Route Defaults</a></li>
+                <li><a href="#optional-params">Optional Route Parameters</a></li>
+                <li><a href="#route-constraints">Route Constraints</a></li>
+                <li><a href="#route-names">Named Routes</a></li>
+                <li><a href="#route-prefixes">Route Prefixes</a></li>
+                <li><a href="#asp-net-mvc-areas">ASP.NET MVC Areas</a></li>
+                <li><a href="#handling-legacy-urls">Handling Legacy URLs</a></li>
+                <li><a href="#route-precedence">Route Precedence</a></li>
+                <li><a href="#configuration-lowercase-urls">Lowercase URL Generation</a></li>
+                <li><a href="#configuration-trailing-slash-urls">Trailing Slash URL Generation</a></li>
+                
+                <li class="nav-header">Advanced Features</li>
+                <li><a href="#localizing-urls">Localizing URLs</a></li>
+                <li><a href="#dry-route-conventions">DRY: Route Conventions</a></li>
+                <li><a href="#subdomains">Subdomain Routing</a></li>
+                
+                <li class="nav-header">More...</li>
+                <li><a href="#debugging">Debugging Routes</a></li>
+                <li><a href="#codegen">T4 Templates</a></li>
+            </ul>
+        </nav>
+
+        <article>            
+            <section id="introduction">
+                <header><h1>[GET("Attribute/Routing")]</h1></header>
+
+                <p class="lead">
+                    Define routes directly on actions in 
+                    ASP.NET MVC, 
+                    ASP.NET Web API, and 
+                    Self-hosted Web API controllers.
+                </p>
+            </section>
+
+            <header><h2>Getting Started</h2></header>
+			
+            <section id="asp-net-mvc">
+                <h3>ASP.NET MVC</h3>
+                
+                <p>Install the <a href="https://nuget.org/packages/AttributeRouting">AttributeRouting</a> nuget package:</p>
+                <pre class="prettyprint linenums">
+PM> Install-Package AttributeRouting
+</pre>
+                <p>
+                    The nuget package drops a file in your project at <code>~/App_Start/AttributeRouting.cs/vb</code>.
+                    This file configures AttributeRouting to scan your project's assembly for route attributes when your app starts.
+                </p>
+                <p class="alert alert-success">
+                    <strong>Hooray!</strong>
+                    At this point, you are ready to start using AttributeRouting! 
+                    <a href="#defining-routes">Jump to the basics &rarr;</a>.
+                </p>
+                <p>
+                    If you want to take control of your configuration settings, use the 
+                    <code>MapAttributeRoutes</code> extension of the <code>RouteCollection</code> like so:
+                </p>
+                <pre class="prettyprint linenums">
+RouteTable.Routes.MapAttributeRoutes(cfg => 
+{
+    cfg.AddRoutesFromAssembly(Assembly.GetExecutingAssembly());
+    // Specify other configuration options here.
+});
+</pre>
+            </section>
+
+            <section id="asp-net-web-api">
+                <h3>ASP.NET Web API</h3>
+
+                <p>Install the <a href="https://nuget.org/packages/AttributeRouting.WebApi">AttributeRouting.WebApi</a> nuget package:</p>
+                <pre class="prettyprint linenums">
+PM> Install-Package AttributeRouting.WebApi
+</pre>
+                <p>
+                    The nuget package drops a file in your project at <code>~/App_Start/AttributeRoutingHttp.cs/vb</code>.
+                    This file configures AttributeRouting to scan your project's assembly for route attributes when your app starts.
+                </p>
+                <p class="alert alert-success">
+                    <strong>Hooray!</strong>
+                    At this point, you are ready to start using AttributeRouting! 
+                    <a href="#defining-routes">Jump to the basics &rarr;</a>.
+                </p>
+                <p>
+                    If you want to take control of your configuration settings, use the 
+                    <code>MapHttpAttributeRoutes</code> extension of the <code>HttpRouteCollection</code> like so:
+                </p>
+                <pre class="prettyprint linenums">
+GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(cfg => 
+{
+    cfg.AddRoutesFromAssembly(Assembly.GetExecutingAssembly());
+    // Specify other configuration options here.
+});
+</pre>
+            </section>
+
+            <section id="self-hosted-web-api">
+                <h3>Self-Hosted Web API</h3>
+
+                <p>Install the <a href="https://nuget.org/packages/AttributeRouting.WebApi.Hosted">AttributeRouting.WebApi.Hosted</a> nuget package:</p>
+                <pre class="prettyprint linenums">
+PM> Install-Package AttributeRouting.WebApi.Hosted
+</pre>
+                <p>
+                    The install drops a file in your project at <code>~/AttributeRouting.cs/vb</code>.
+                    This file contains a static method for registering routes in the HttpSelfHostConfiguration.
+                </p>
+                <p>
+                    Here's a quick example of setting up a self-hosted application:
+                </p>
+                <pre class="prettyprint linenums">
+class Program
+{
+    static void Main(string[] args)
+    {
+        var config = new HttpSelfHostConfiguration("http://localhost:8080");
+
+        config.Routes.MapHttpAttributeRoutes(cfg => 
+        {
+            cfg.AddRoutesFromAssembly(Assembly.GetExecutingAssembly());
+            // Specify other configuration options here.
+        });
+
+        using (var server = new HttpSelfHostServer(config))
+        {
+            server.OpenAsync().Wait();
+
+            Console.WriteLine("Routes:");
+
+            config.Routes.Cast&lt;HttpRoute&gt;().LogTo(Console.Out);
+
+            Console.WriteLine("Press Enter to quit.");
+            Console.ReadLine();
+        }
+    }
+}
+</pre>
+            </section>
+
+            <header><h2>Basics</h2></header>
+			
+            <section id="defining-routes">
+                <h3>Defining Routes</h3>
+                
+                <p>
+                    Routes are defined directly on actions using attributes. 
+                    There are five such attributes:
+                    <code>GET</code>, which generates a URL that responds to GET and HEAD requests;
+                    <code>POST</code>, which generates a URL that responds to POST requests;
+                    <code>PUT</code>, which generates a URL that responds to PUT requests;
+                    <code>DELETE</code>, which generates a URL that responds to DELETE requests; and
+                    <code>Route</code>, which generates a URL that responds to all or only specified methods.
+                </p>
+                <pre class="prettyprint linenums">
+public class SampleController : Controller
+{
+    [GET("Sample")]
+    public ActionResult Index() { /* ... */ }
+                    
+    [POST("Sample")]
+    public ActionResult Create() { /* ... */ }
+                    
+    [PUT("Sample/{id}")]
+    public ActionResult Update(int id) { /* ... */ }
+                    
+    [DELETE("Sample/{id}")]
+    public string Destroy(int id) { /* ... */ }
+    
+    [Route("Sample/Any-Method-Will-Do")]
+    public string Wildman() { /* ... */ }
+}
+</pre>
+                
+                <p class="alert alert-warning">
+                    <strong>Attention VB.NET users!</strong>
+                    <code>Get</code> is a restricted keyword in the language, so to specify a GET request, 
+                    you must enter: <code>[[GET]("Some/Url")]</code>.
+                </p>
+
+                <h4>Multiple Routes on an Action</h4>
+                <p>
+                    You can have multiple GET routes on a single action.
+                    If you do so, be sure to use the <code>ActionPrecedence</code> property 
+                    to indicate the primary route so that you generate the correct outbound URLs.
+                </p>
+                <pre class="prettyprint linenums">
+[GET("", ActionPrecedence = 1)]
+[GET("Posts")]
+[GET("Posts/Index")]
+public ActionResult Index() { /* ... */ }
+</pre>
+                
+                <h4>Inheriting Routes from Base Controllers</h4>
+            </section>
+
+            <section id="route-defaults">
+                <h3>Route Defaults</h3>
+                
+                <p>Default values for URL parameters are specified inline. Separate the parameter from the default value with an equals sign:</p>
+                <pre class="prettyprint linenums">
+[GET("Demographics/{state=MT}/{city=Missoula}")]
+public ActionResult Index(string state, string city) { /* ... */ }
+</pre>
+            </section>
+            
+            <section id="optional-params">
+                <h3>Optional Route Parameters</h3>
+                
+                <p>Optional URL parameters are specified inline. Append a question mark after the parameter name:</p>
+                <pre class="prettyprint linenums">
+[GET("Demographics/{state?}/{city?}")]
+public ActionResult Index(string state, string city) { /* ... */ }
+</pre>
+            </section>
+            
+            <section id="route-constraints">
+                <h3>Route Constraints</h3>
+                
+                <p>
+                    Route constraints are specified inline. 
+                    They take the form <code>{parameterName:constraint(params)}</code>.
+                    Following are all the built-in constraints:
+                </p>
+                <pre class="prettyprint linenums">
+// Type constraints
+[GET("Int/{x:int}")]
+[GET("Long/{x:long}")]
+[GET("Float/{x:float}")]
+[GET("Double/{x:double}")]
+[GET("Decimal/{x:decimal}")]
+[GET("Bool/{x:bool}")]
+[GET("Guid/{x:guid}")]
+[GET("DateTime/{x:datetime}")]
+                    
+// String constraints
+[GET("Alpha/{x:alpha}")]
+[GET("Length/{x:length(1)}")]
+[GET("LengthRange/{x:length(2, 10)}")]
+[GET("MinLength/{x:minlength(10)}")]
+[GET("MaxLength/{x:maxlength(10)}")]
+
+// Numeric constraints
+[GET("Min/{x:min(1)}")]
+[GET("Max/{x:max(10)}")]
+[GET("Range/{x:range(1, 10)}")]
+                    
+// Regex constraint
+[GET(@"Regex/{x:regex(^Howdy$)}")]
+</pre>
+                
+                <h4>Chaining and Combining with Defaults and Optionals</h4>
+                <p>
+                    You can chain constraints, effectively and’ing them, 
+                    and you can constrain while also specifying default values and optional params:
+                </p>
+                <pre class="prettyprint linenums">
+[GET("Chained/{state:alpha:length(2)}")] 
+[GET("Defaults/{state:alpha:length(2)=MT}")]
+[GET("Optionals/{age:min(18)?}")]
+</pre>
+                
+                <h4>Adding Custom Constraints</h4>
+                <p>
+                    The constraint system is plug-and-play. You can easily add your own 
+                    <code>IRouteConstraint</code> or <code>IHttpRouteConstraint</code>
+                    when configuring AttributeRouting using the <code>InlineRouteConstraints</code>
+                    property on the configuration object.
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(cfg =>
+{
+    // ...
+    cfg.InlineRouteConstraints.Add("custom", typeof(CustomConstraint));
+});
+</pre>
+                <p>Then:</p>
+                <pre class="prettyprint linenums">
+[GET("Path/{param:custom}")] 
+</pre>
+                
+                <h4>Simple Enum Constraints</h4>
+                <p>
+                    There is a generic attribute <code>EnumRouteConstraint&lt;T&gt;</code>, which allows you 
+                    to register your own enum constraints via the extensibility method described above.
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(cfg =>
+{
+    // ...
+    cfg.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint&lt;Color&gt;));
+});
+</pre>
+                <p>Then:</p>
+                <pre class="prettyprint linenums">
+[GET("Paintbrush/{which:color}")] 
+</pre>
+                
+                <h4>Constraining URL Parameters Globally</h4>
+                
+                <p>
+                    You can configure constraints to apply to parameters globally 
+                    across all the routes you define using the <code>AddDefaultRouteConstraint</code> 
+                    method on the configuration object.
+                    This works by matching route parameters names against a specified pattern. 
+                    When a match is found, then the specified constraint is applied against the parameter.
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(cfg =>
+{
+    // ...
+    cfg.AddDefaultRouteConstraint("id", new IntRouteConstraint());
+});
+</pre>
+            </section>
+            
+            <section id="route-names">
+                <h3>Named Routes</h3>
+                
+                <p>
+                    To use named routes, specify a value for the <code>RouteName</code> 
+                    property of the route attributes.
+                </p>
+                <pre class="prettyprint linenums">
+[GET("Named/Route", RouteName = "Awesome")])
+</pre>
+                
+                <h4>Auto-Generating Route Names</h4>
+                
+                <p>
+                    You can have AttributeRouting generate route names for you automatically.
+                    Just configure this feature when registering attribute routes:
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    // ...
+    config.AutoGenerateRouteNames = true;
+    config.RouteNameBuilder = RouteNameBuilders.FirstInWins;
+});
+</pre>
+                
+                <p>
+                    The <code>RouteNameBuilder</code> property is a 
+                    <code>Func&lt;RouteSpecification, string&gt;</code> delegate.
+                    You can define your own delegate to name your routes, 
+                    or use one of the two RouteNameBuilders provided by AttributeRouting:
+                </p>
+                <ul>
+                    <li>
+                        <code>RouteNameBuilders.FirstInWins</code>: 
+                        This builder will generate routes in the form "Area_Controller_Action". 
+                        In the case of routes that yield duplicate names, 
+                        the duplicate route is not named and the builder will return null.
+                    </li>
+                    <li>
+                        <code>RouteNameBuilders.Unique</code>:
+                        This builder ensures that every route has a unique name.
+                        Preferably, it generates routes names like "Area_Controller_Action".
+                        However, in the case of routes that yield duplicate names, 
+                        it will append the HTTP method (if not a GET route) and/or a unique index to the route.
+                        So the most heinous possible form is "Area_Controller_Action_Method_Index".
+                    </li>
+                </ul>
+                <div class="alert alert-info">
+                    <strong>Heads up!</strong>
+                    For ASP.NET MVC and ASP.NET Web API projects, the default builder is <code>FirstInWins</code>.
+                    For Self-hosted Web API projects, the default builder is <code>Unique</code>,
+                    due to the fact that self-hosted Web API applications require every route to be uniquely named.
+                </div>
+            </section>
+             
+            <section id="route-prefixes">
+                <h3>Route Prefixes</h3>
+                
+                <p>
+                    You can prefix all the routes in a controller using the <code>RoutePrefix</code> attribute.
+                    This is handy when you want to nest routes.
+                </p>
+                <pre class="prettyprint linenums">
+[RoutePrefix("Posts/{postId}")]
+public class CommentsController : ControllerBase    
+{
+    [GET("Comments")]
+    public ActionResult Index(int postId) { /* ... */ }
+
+    [GET("Comments/{id}")]
+    public ActionResult Show(int postId, int id) { /* ... */ }
+}
+</pre>
+                
+                <p>This will generate the following routes:</p>
+                <ul>
+                    <li>~/Posts/{postId}/Comments</li>
+                    <li>~/Posts/{postId}/Comments/{id}</li>
+                </ul>
+            </section>
+   
+            <section id="asp-net-mvc-areas">
+                <h3>ASP.NET MVC Areas</h3>
+                
+                <p>
+                    Areas can be mapped by applying the <code>RouteAreaAttribute</code> on a controller. 
+                    All the routes defined in the controller will be mapped to the specified area.
+                    These routes will also be prefixed with the area name.
+                </p>
+                <pre class="prettyprint linenums">
+[RouteArea("Admin")]
+public class PostsController : ControllerBase { /* ... */ }
+</pre>
+                
+                <p>
+                    If you are defining more than one controller for an area, 
+                    consider using a base controller decorated with the <code>RouteAreaAttribute</code>
+                    and deriving all the controllers in the area from the base controller.
+                </p>
+                <pre class="prettyprint linenums">
+[RouteArea("Admin")]
+public abstract class AdminControllerBase : Controller { /* ... */ }
+
+public class PostsController : AdminControllerBase { /* ... */ }
+public class CommentsController : AdminControllerBase { /* ... */ }
+public class TagsController : AdminControllerBase { /* ... */ }
+</pre>
+                
+                <h4>Overriding the Area URL Prefix</h4>
+                
+                <p>
+                    By default, areas defined with the <code>RouteAreaAttribute</code> use the area name 
+                    as a prefix for all routes in that area. To override this behavior, 
+                    use the <code>AreaUrl</code> property of the <code>RouteAreaAttribute</code>:
+                </p>
+                <pre class="prettyprint linenums">
+[RouteArea("AreaName", AreaUrl = "MyCustomPrefix")]
+</pre>
+            </section>
+
+            <section id="handling-legacy-urls">
+                <h3>Handling Legacy URLs</h3>
+
+                <p>
+                    When supporting legacy URLs, the route prefixes and areas can get in the way. 
+                    To have the URL start from the root, 
+                    use the <code>IsAbsoluteUrl</code> property of the route attributes:
+                </p>
+                <pre class="prettyprint linenums">
+[RouteArea("AreaName")]
+[RoutePrefix("Prefix")]
+public class SomeController : ControllerBase    
+{
+    [GET("Route", ActionPrecedence = 1)]
+    [GET("Legacy-Route", IsAbsoluteUrl = true)] // This is a legacy url
+    public ActionResult Index() { /* ... */ }
+}
+</pre>
+                <p>In this case, the Index action will match the following URLs:</p>
+                <ul>
+                    <li>~/AreaName/Prefix/Route</li>
+                    <li>~/Legacy-Route</li>
+                </ul>
+            </section>
+
+            <section id="route-precedence">
+                <h3>Route Precedence</h3>
+                
+                <p>There are four ways to control route precedence:</p>
+                <ol>
+                    <li>
+                        <em>among routes for an action</em> 
+                        using the <code>ActionPrecedence</code> property of the route attributes;
+                    </li>
+                    <li>
+                        <em>among routes in a controller</em> 
+                        using the <code>ControllerPrecedence</code> property of the route attributes;
+                    </li>
+                    <li>
+                        <em>among controllers in a site</em> 
+                        using <code>AddRoutesFromController</code> method of the configuration object;
+                    </li>
+                    <li>
+                        <em>among routes in a site</em> 
+                        using the <code>SitePrecedence</code> property of the route attributes.
+                    </li>
+                </ol>
+                
+                <div class="alert alert-info">
+                    <h4>Controlling First and Last among Actions, Controllers, and Sites</h4>
+                    <p>
+                        As you read on, keep in mind that when using the 
+                        <code>ActionPrecedence</code>, <code>ControllerPrecedence</code>, and <code>SitePrecedence</code> properties, 
+                        you can specify the order using positive and negative integers, 
+                        allowing you to control what routes are first and last:
+                    </p>
+                    <ul>
+                        <li>(0), 1, 2, 3, ... = first, second, third, ...</li>
+                        <li>-1, -2, -3, ... = last, second to last, third from last, ...</li>
+                    </ul>
+                </div>
+                
+                <h4>Precedence Among Routes for an Action</h4>
+                <p>
+                    If you need to specify the precedence of routes defined against an action, 
+                    you can use the <code>ActionPrecedence</code> property of the route attributes:
+                </p>
+                <pre class="prettyprint linenums">
+[GET("", ActionPrecedence = 1)]
+[GET("Posts")]
+[GET("Posts/Index")]
+public void Index() { /* ... */ }
+</pre>
+
+                <h4>Precedence Among Routes in a Controller</h4>
+                <p>
+                    By default, the order of a route among the routes defined for a controller 
+                    is determined by the <em>order of the action in the controller</em>. 
+                    If you need to override this behavior, use the <code>ControllerPrecedence</code> property 
+                    of the route attributes:
+                </p>
+                <pre class="prettyprint linenums">
+public class PrecedenceController : Controller
+{
+    [GET("Route1", ControllerPrecedence = 1)]
+    public ActionResult Route1() { /* ... */ }
+
+    [GET("Route3")]
+    public ActionResult Route3() { /* ... */ }
+
+    [GET("Route2", ControllerPrecedence = 2)]
+    public ActionResult Route2() { /* ... */ }
+}
+</pre>
+
+                <h4>Precedence Among Controllers in a Site</h4>
+                <p>
+                    To control the precedence of routes on a per-controller basis, 
+                    use the <code>AddRoutesFromController</code> method of the configuration object:
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    config.AddRoutesFromController&lt;PostsController&gt;();
+    config.AddRoutesFromController&lt;HomeController&gt;();
+});
+</pre>
+                <p>
+                    You can also choose to add the routes from controllers to the 
+                    beginning <em>or end</em> of the route table:
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    config.AddRoutesFromController&lt;PostsController&gt;();
+    config.AddRoutesFromAssembly(Assembly.GetExecutingAssembly());
+    config.AddRoutesFromController&lt;AccountController&gt;();
+});
+</pre>
+                <p>
+                    In the preceding case, the routes from the PostController are registered first, 
+                    then all the routes from the executing assembly are registered, 
+                    <em>and then</em> the routes from the AccountController are registered.
+                </p>
+                <p>
+                    There is another method, <code>AddRoutesFromControllersOfType</code>, 
+                    which is useful if you want to register all the routes from an area, say, 
+                    before the other routes in your application. 
+                    This is convenient if you use a base class for an area.    
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    config.AddRoutesFromControllersOfType&lt;AdminControllerBase&gt;();
+    config.AddRoutesFromAssembly(Assembly.GetExecutingAssembly());
+});
+</pre>
+
+
+                <h4>Precedence Among Routes in a Site</h4>
+                <p>
+                    If you need to take an arbitrary route and put it at the top or bottom of your route table, 
+                    use the <code>SitePrecedence</code> property of the route attributes:
+                </p>
+                <pre class="prettyprint linenums">
+[GET("I-Am-The-First-Route", SitePrecedence = 1)]
+public string IAmTheFirstRoute() { /* ... */ }
+
+[GET("I-Am-The-Last-Route", SitePrecedence = -1)]
+public string IAmTheLastRoute() { /* ... */ }
+</pre>
+            </section>
+
+            <section id="configuration-lowercase-urls">
+                <h3>Lowercase URL Generation</h3>
+				
+				<p>
+					If you want to generate lowercase outbound urls, 
+					you can set the <code>UseLowercaseRoutes</code> property on the configuration object:
+				</p>
+				<pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    // ...
+    config.UseLowercaseRoutes = true;
+});
+</pre>
+				<p>
+					If you would like to preserve the case of URL parameters 
+					while lowercasing the rest of the url, 
+					use the <code>PreserveCaseForUrlParameters</code> property on the configuration object:
+				</p>
+				<pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    // ...
+    config.UseLowercaseRoutes = true;
+    config.PreserveCaseForUrlParameters = true;
+});
+</pre>
+
+				<h4>Overriding the Global Configuration Settings</h4>
+				<p>
+					If you want to override the global config settings for a single route, 
+					use the <code>UseLowercaseRoute</code> and <code>PreserveCaseForUrlParameters</code>
+					properties of the route attributes:
+				</p>
+				<pre class="prettyprint linenums">
+[GET("Whatever", UseLowercaseRoute = true)]
+[GET("Whatever", UseLowercaseRoute = true, PreserveCaseForUrlParameters = true)]
+</pre>
+            </section>
+            
+            <section id="configuration-trailing-slash-urls">
+                <h3>Trailing Slash URL Generation</h3>
+
+                <p>
+                    If you want to generate outbound urls that end with a trailing slash, 
+                    use the <code>AppendTrailingSlash</code> property of the configuration object:
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    // ...
+    config.AppendTrailingSlash = true;
+});
+</pre>
+
+                <h4>Overriding the Global Configuration Setting</h4>
+                <p>
+                    If you want to override the global config setting for a single route, 
+                    use the <code>AppendTrailingSlash</code> property of the route attributes:
+                </p>
+                <pre class="prettyprint linenums">
+[GET("Whatever", AppendTrailingSlash = true)]
+</pre>
+            </section>
+
+            <header><h2>Advanced Features</h2></header>
+			         
+            <section id="localizing-urls">
+                <h3>Localizing URLs</h3>
+                
+                <p>
+                    You can localize your URLs using an AttribtueRouting translation provider.
+                    A translation provider can be used to work against databases, resx files, etc.
+                    To create your own, simply extend <code>TranslationProviderBase</code>:
+                </p>
+                <pre class="prettyprint linenums">
+public abstract class TranslationProviderBase
+{
+    /// &lt;summary&gt;
+    /// List of culture names that have translations available via this provider.
+    /// &lt;summary&gt;
+    public abstract IEnumerable&lt;string&gt; CultureNames { get; }
+
+    /// &lt;summary&gt;
+    /// Gets the translation for the given route component by key and culture.
+    /// &lt;summary&gt;
+    /// &lt;param name="key"&gt;The key of the route component to translate.&lt;param&gt;
+    /// &lt;param name="cultureName"&gt;The culture name for the translation.&lt;param&gt;
+    public abstract string Translate(string key, string cultureName);
+}
+</pre>
+                <p>Then, register your provider via the <code>AddTranslationProvider</code> method of the configuration object.</p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    // ...
+    config.AddTranslationProvider(new CustomTranslationProvider());
+});
+</pre>
+                
+                <h4>Using the Built-In FluentTranslationProvider</h4>
+                
+                <p>The <code>FluentTranslationProvider</code> stores translation in-memory in a dictionary.</p>
+                <p>You can add translations in a strongly-typed manner:</p>
+                <pre class="prettyprint linenums">
+var provider = new FluentTranslationProvider();
+
+// You can add translations in a strongly-typed manner
+provider.AddTranslations()
+    .ForController&lt;TranslationController&gt;()
+    .AreaUrl(new Dictionary&lt;string, string&gt;
+    {
+        { "es", "es-Area" }
+    })
+    .RoutePrefixUrl(new Dictionary&lt;string, string&gt;
+    {
+        { "es", "es-Prefix" }
+    })
+    .RouteUrl(c => c.Index(), new Dictionary&lt;string, string&gt;
+    {
+        { "es", "es-Index" }
+    });
+</pre>
+                <p>
+                    You can also add translations by refencing the keys specified by the
+                    <code>TranslationKey</code> properties on the <code>RouteArea</code>, <code>RoutePrefix</code>, 
+                    and <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code> and <code>Route</code> attributes.
+                </p>
+                <pre class="prettyprint linenums">
+var provider = new FluentTranslationProvider();
+
+translations.AddTranslations()
+    .ForKey("CustomAreaKey", new Dictionary&lt;string, string&gt;
+    {
+        { "es", "es-CustomArea" }
+    })
+    .ForKey("CustomPrefixKey", new Dictionary&lt;string, string&gt;
+    {
+        { "es", "es-CustomPrefix" }
+    })
+    .ForKey("CustomRouteKey", new Dictionary&lt;string, string&gt;
+    {
+        { "es", "es-CustomIndex" }
+    });
+</pre>
+
+
+                <h4>If You Roll Your Own, Use Translation Keys</h4>
+
+                <p>
+                    When using the <code>FLuentTranslationProvider</code>, you don't have to worry about translation keys,
+                    as they are managed internally and are based upon the names of your areas, controllers, and action methods.
+                    However, if you use your own translation provider, you will want to apply translation keys 
+                    to the components of your routes. There is a <code>TranslationKey</code> property available on
+                    the <code>RouteArea</code>, <code>RoutePrefix</code>, and <code>GET</code>, <code>POST</code>, 
+                    <code>PUT</code>, <code>DELETE</code> and <code>Route</code> attributes
+                </p>
+                <pre class="prettyprint linenums">
+[RouteArea("Area", TranslationKey = "CustomAreaKey")]
+[RoutePrefix("Prefix", TranslationKey = "CustomPrefixKey")]
+public class TranslationController : Controller
+{
+    [GET("Index", TranslationKey = "CustomRouteKey")]
+    public ActionResult CustomIndex() { /* ... */ }
+}
+</pre>
+
+                <h4>Translations and Inbound Requests</h4>
+
+                <p>
+                    A route is added to the route table for each translation provided. 
+                    So if you have 10 routes and translate the URLs for two cultures, 
+                    you will have 30 routes in your route table.
+                </p>
+                <p>
+                    By default, the inbound request handling doesn't care what about the current request culture, 
+                    so if you are browsing in Spanish, requesting the English or French URLs for an action will also work. 
+                    However, you can change this via the <code>ConstrainTranslatedRoutesByCurrentUICulture</code> 
+                    property of the configuration object:
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    // ...
+    config.AddTranslationProvider(provider);
+    config.ConstrainTranslatedRoutesByCurrentUICulture = true;
+});
+</pre>
+                <p>When you choose to constrain inbound requests this way, a route is considered when:</p>
+                <ul>
+                    <li>no translations exist for the route;</li>
+                    <li>the route is translated for the current thread's current UI culture; or,</li>
+                    <li>
+                        the route is translated for the current thread's neutral culture 
+                        when no translation exists for the specific culture 
+                        (eg: you have translation for fr and the current UI culture is fr-FR).
+                    </li>
+                </ul>
+                
+                <p>
+                    If you want to use URL parameters for specifying the culture (/en/home, /pt/inicio, etc), 
+                    then use the <code>CurrentUICultureResolver</code> property of the configuration object.
+                    Given the current HTTP context and route data, this delegate returns the culture name. 
+                    By default, it returns the name of the current UI culture for the current thread.
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    // ...
+    config.ConstrainTranslatedRoutesByCurrentUICulture = true;
+    config.CurrentUICultureResolver = (httpContext, routeData) =>
+    {
+        return (string)routeData.Values["culture"]
+               ?? Thread.CurrentThread.CurrentUICulture.Name;
+    };
+});
+</pre>
+
+                <h4>Translations and Outbound Routes</h4>
+
+                <p>
+                    Translated URLs will be generated by the MVC framework via <code>UrlHelper.Action()</code> 
+                    and <code>Html.ActionLink()</code> if a translation is available for the route. 
+                    In order to support this, you must set the thread's <code>CurrentUICulture</code> property.
+                    A simple solution involves detecting the user's preferences via the request context:
+                </p>
+                <pre class="prettyprint linenums">
+// In global.asax
+public MvcApplication()
+{
+    BeginRequest += OnBeginRequest;
+}
+
+protected void OnBeginRequest(object sender, System.EventArgs e)
+{
+    if (Request.UserLanguages != null && Request.UserLanguages.Any())
+    {
+        var cultureInfo = new CultureInfo(Request.UserLanguages[0]);
+        Thread.CurrentThread.CurrentUICulture = cultureInfo;
+    }
+}
+</pre>
+                
+            </section>
+           
+            <section id="dry-route-conventions">
+                <h3>DRY: Route Conventions</h3>
+                
+                <p>
+                    You can define custom route conventions by applying an attribute derived from 
+                    <code>RouteConventionAttributeBase</code> to your controllers.
+                </p>
+                <p>Two conventions are provided out-of-the-box. These provide example of what you can do.</p>
+                <ul>
+                    <li>
+                        The <code>RestfulRouteConventionAttribute</code> 
+                        (<a href="https://github.com/mccalltd/AttributeRouting/blob/master/src/AttributeRouting.Web.Mvc/RestfulRouteConventionAttribute.cs">source</a>) 
+                        will add RESTful routes for actions in ASP.NET MVC controllers.
+                    </li>
+                    <li>
+                        The <code>DefaultHttpRouteConventionAttribute</code> 
+                        (<a href="https://github.com/mccalltd/AttributeRouting/blob/master/src/AttributeRouting.Web.Http/DefaultHttpRouteConventionAttribute.cs">source</a>) 
+                        will add routes typical of Web API controllers.
+                    </li>
+                </ul>
+                <p>To apply these conventions, simply do the following:</p>
+                
+                <h4>Restful Route Convention</h4>
+                
+                <p>Use the <code>RestfulRouteConventionAttribute</code> like so:</p>
+                <pre class="prettyprint linenums">
+[RestfulRouteConvention]
+public class PostsController : Controller
+{
+    public ActionResult Index() { /* ... */ }
+
+    public ActionResult New() { /* ... */ }
+
+    public ActionResult Create() { /* ... */ }
+
+    public ActionResult Show(int id) { /* ... */ }
+
+    public ActionResult Edit(int id) { /* ... */ }
+
+    public ActionResult Update(int id) { /* ... */ }
+
+    public ActionResult Delete(int id) { /* ... */ }
+
+    public ActionResult Destroy(int id) { /* ... */ }
+}
+</pre>
+                <p>This will add the following routes to the route table:</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>HTTP Method</th>
+                            <th>URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Index</td><td>GET</td><td>~/Posts</td></tr>
+                        <tr><td>New</td><td>GET</td><td>~/Posts/New</td></tr>
+                        <tr><td>Create</td><td>POST</td><td>~/Posts</td></tr>
+                        <tr><td>Show</td><td>GET</td><td>~/Posts/{id}</td></tr>
+                        <tr><td>Edit</td><td>GET</td><td>~/Posts/{id}/Edit</td></tr>
+                        <tr><td>Update</td><td>PUT</td><td>~/Posts/{id}</td></tr>
+                        <tr><td>Delete</td><td>GET</td><td>~/Posts/{id}/Delete</td></tr>
+                        <tr><td>Destroy</td><td>DELETE</td><td>~/Posts/{id}</td></tr>
+                    </tbody>
+                </table>
+
+                <h4>Default Http Route Convention</h4>
+                
+                <p>Use the <code>DefaultHttpRouteConventionAttribute</code> like so:</p>
+                <pre class="prettyprint linenums">
+[DefaultHttpRouteConvention]
+public class ProductsController : ApiController 
+{
+    public IEnumerable&lt;string&gt; GetAll() { /* ... */ }
+
+    public string Get(int id) { /* ... */ }
+
+    public string Post() { /* ... */ }
+
+    public string Delete(int id) { /* ... */ }
+
+    public string Put(int id) { /* ... */ }
+}
+</pre>
+                <p>This will add the following routes to the route table:</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>HTTP Method</th>
+                            <th>URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>GetAll</td><td>GET</td><td>~/Products</td></tr>
+                        <tr><td>Get</td><td>GET</td><td>~/Products/{id}</td></tr>
+                        <tr><td>Post</td><td>POST</td><td>~/Products</td></tr>
+                        <tr><td>Put</td><td>PUT</td><td>~/Products/{id}</td></tr>
+                        <tr><td>Delete</td><td>DELETE</td><td>~/Products/{id}</td></tr>
+                    </tbody>
+                </table>
+                
+                <h4>Defining Your Own Route Convention</h4>
+                
+                <p>
+                    Defining your own route convention is as simple as deriving from the abstract 
+                    <code>RouteConventionAttribute</code>, implementing a method, 
+                    and applying it to a controller.
+                </p>
+                <pre class="prettyprint linenums">
+public class MyRouteConventionAttribute : RouteConventionAttributeBase
+{
+    public override IEnumerable&lt;RouteAttribute&gt; GetRouteAttributes(MethodInfo actionMethod)
+    {
+        // TODO: Define your own logic to yield appropriate route attributes here.
+    }
+}
+
+[MyRouteConvention]
+public class MyController : Controller { /* ... */ }
+</pre>
+                
+                <div class="alert alert-warning">
+                    <p>
+                        <strong>Take Heed!</strong>
+                        When defining your own convention, it will help to know a bit 
+                        about how the routes are constructed and added to the route table:
+                    </p>
+                    <ol>
+                        <li>
+                            When the routes are being scanned, convention based routes for an action 
+                            are registered before explicitly defined routes. 
+                            So if you want your explicitly defined routes to come first, 
+                            use the <code>ActionPrecedence</code> property.
+                        </li>
+                        <li>
+                            If you decide to override the virtual <code>GetDefaultRoutePrefix</code> method,
+                            note that the prefix will only be used if no explicit RoutePrefixAttribute 
+                            is applied to your controller.
+                        </li>
+                    </ol>
+                </div>
+            </section>
+                
+            <section id="subdomains">
+                <h3>Subdomain Routing</h3>
+                
+                <p>
+                    You can map your ASP.NET MVC areas to subdomains using the 
+                    <code>Subdomain</code> property of the <code>RouteAreaAttribute</code>.
+                    Doing so ensures that the routes for the area are matched 
+                    only when requests are made to the specified subdomain. 
+                    Here's how:
+                </p>
+                <pre class="prettyprint linenums">
+[RouteArea("Users", Subdomain = "users")]
+public class SubdomainController : Controller
+{
+    [GET("")]
+    public ActionResult Index() { /* ... */ }
+}
+</pre>
+                <p>
+                    When you do this, the area URL prefix ("Users" in this case) is not added 
+                    to the route registered in the route table. 
+                    So the index action will end up matching http://users.domain.com/, 
+                    <em>not</em> http://users.domain.com/Users.
+                </p>
+                <p>
+                    If you want to have an area map to a subdomain <em>and</em> 
+                    have a URL prefix for the area, use the <code>AreaUrl</code>
+					property like so:
+                </p>
+                <pre class="prettyprint linenums">
+[RouteArea("Admin", Subdomain = "internal", AreaUrl = "admin")]
+public class SubdomainWithAreaUrlController : Controller
+{
+    [GET("")]
+    public ActionResult Index() { /* ... */ }
+}
+</pre>
+                <p>The route registered in the route table in this case will match http://internal.domain.com/admin. </p>
+                
+                <h4>Configuring Subdomain Parsing Logic and the Default Subdomain</h4>
+                
+                <p>
+                    By default, AttributeRouting will treat everything from the requested hostname 
+                    up to the domain name as the subdomain. This is based on an assumed format 
+                    like <code>{localName}.domain.com</code>. AR also assumes that the default subdomain 
+                    for an application is <code>www</code>, which is obviously going to be wrong in some cases. 
+                    To remain flexible, you can configure AR to use a custom delegate for parsing the subdomain from the hostname. 
+                    You can also configure the default subdomain name.
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    // ...
+    config.SubdomainParser = host => "return whatever string value you want";
+    config.DefaultSubdomain = "xyz";
+});
+</pre>
+                
+                <h4>Dynamically Configuring Subdomains</h4>
+                
+                <p>
+                    If your subdomains change depending on the hosted environment,
+                    or if you need to configure the subdomains at runtime, use the 
+                    <code>MapArea</code> method of the configuration object:
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    // ...
+    config.MapArea("AreaName").ToSubdomain("whatever");
+});
+</pre>
+            </section>
+                     
+            <header><h2>More...</h2></header>
+			
+            <section id="debugging">
+                <h3>Debugging Routes</h3>
+
+                <p>
+                    Use the <code>LogRoutesHandler</code> to emits the routes in the RouteTable to a browser.
+                    To use it, add the following line to your web.config:
+                </p>
+                <pre class="prettyprint linenums">
+&lt;httpHandlers&gt;
+    &lt;add path="routes.axd" verb="GET" 
+         type="AttributeRouting.Web.Logging.LogRoutesHandler, AttributeRouting"/&gt;
+&lt;/httpHandlers&gt;
+</pre>
+                <p class="alert alert-info">
+                    <strong>Heads Up!</strong>
+                    If you installed via nuget, then this handler was registered automagically.
+                </p> 
+            </section>
+            
+            <section id="codegen">
+                <h3>T4 Templates</h3>
+
+                <p>
+                    There are controller templates available for both C# and Visual Basic for MVC 2, 3, and 4. 
+                    They are available in the t4 folder off the project root.
+                </p>
+                <p>
+                    If you're using MVC 4, you're in luck &ndash; the nuget package 
+                    <a href="https://nuget.org/packages/AttributeRouting.CodeTemplates.MVC4">AttributeRouting.CodeTemplates.MVC4</a> 
+                    will pull the templates into your project: 
+                </p>
+                <pre class="prettyprint linenums">
+PM> Install-Package AttributeRouting.CodeTemplates.MVC4
+</pre>
+            </section>
+        </article>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/js/bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+        
+        <script>
+            $(function() {
+                prettyPrint();
+                
+                $('article').scrollspy({
+                    target: 'nav',
+                    offset: 20
+                });
+
+                $('a[href^=http]').attr({ target: '_blank' });
+            });
+        </script>
+    </body>
+</html>
