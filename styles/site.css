@@ -6,7 +6,7 @@ nav {
     top: 0;
     bottom: 0;
     left: 0;
-    width: 269px;
+    width: 259px;
     overflow-y: auto;
     padding: 15px 0;
     border-right: solid 1px #ddd;
@@ -15,22 +15,27 @@ nav {
 	nav header {
 		padding: 15px;
 		margin-top: -15px;
-		font-size: 24px;
-		font-weight: bold;
 	}
         nav header a {
+		    font-size: 20px;
+		    font-weight: bold;
             color: #333;
         }
-        nav header a:hover {
-            text-decoration: none;
-            color: inherit;
+            nav header a:hover {
+                text-decoration: none;
+                color: inherit;
+            }
+        nav header .version {
+            font-weight: bold;
+            font-size: 11px;
+            line-height: 20px;
+            margin-left: 4px;
         }
 		nav header ul {
-			margin-top: 15px;
+			margin-top: 10px;
 		}
 			nav header ul li {
 				float: left;
-				margin-right: 5px;
 			}
     nav .nav-list .nav-header {
 		border-style: solid;
@@ -38,9 +43,6 @@ nav {
 		border-color: #ccc;
 		color: #333;
 		border-top: solid 1px #ddd;
-    }
-    nav .nav-list a {
-        
     }
 
 /* Main
@@ -50,28 +52,28 @@ article {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 270px;
+    left: 260px;
     right: 0;
     overflow-y: auto;
-    padding: 0 20px 50% 40px;
 }
-    article header,
     article section {
         width: 640px;
-		padding: 15px 0;
+		padding: 15px 30px;
     }
-	article section > :last-child {
-		margin-bottom: 0;
-	}
+        article section > :last-child {
+            margin-bottom: 0;
+        }
+    article > header {
+        width: 640px;
+        padding: 15px 30px;
+    }
     article h1 {
         font-size: 48px;
         line-height: 48px;
         height: 48px;
-        margin-top: -5px;
     }
     article h2 {
         padding: 10px;
-		margin: 40px 0 0;
         background-color: #333;
         color: #fff;
         text-align: center;
@@ -93,4 +95,11 @@ article {
 	}
         article .alert h4 {
             margin: 0 0 10px;
+        }
+    article .back-to-top {
+        display: block;
+        margin-top: 100%;
+    }
+        article .back-to-top:hover {
+            text-decoration: none;
         }
