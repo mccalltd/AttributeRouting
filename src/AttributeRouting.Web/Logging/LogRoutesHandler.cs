@@ -59,7 +59,7 @@ namespace AttributeRouting.Web.Logging
 
         private static IEnumerable<object> GetRouteInfo()
         {
-            return from r in RouteTable.Routes.Cast<Route>()
+            return from r in RouteTable.Routes.Where(x => x is Route).Cast<Route>()
                    let routeInfo = AttributeRouteInfo.GetRouteInfo(r.Url, r.Defaults, r.Constraints, r.DataTokens)
                    select new
                    {
