@@ -1,8 +1,12 @@
-h2. Please refer to the "wiki pages":https://github.com/mccalltd/AttributeRouting/wiki for documentation.
+h2. Please refer to "attributerouting.net":http://attributerouting.net/ for documentation.
 
 *If you encounter any issues using this library, please log them in the "issue tracker":https://github.com//issues. Thanks.*
 
 h3. Changelog
+
+_3.1.3_
+
+* #128 - Fixed issue with route cast in LogRoutesHandler; was assuming all routes were of type Route.
 
 _3.1.2_
 
