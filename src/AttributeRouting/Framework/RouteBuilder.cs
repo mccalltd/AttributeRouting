@@ -24,7 +24,7 @@ namespace AttributeRouting.Framework
             if (configuration == null) throw new ArgumentNullException("configuration");
 
             _configuration = configuration;
-            _routeFactory = configuration.AttributeFactory;
+            _routeFactory = configuration.AttributeRouteFactory;
             _routeConstraintFactory = configuration.RouteConstraintFactory;
             _parameterFactory = configuration.ParameterFactory;
         }

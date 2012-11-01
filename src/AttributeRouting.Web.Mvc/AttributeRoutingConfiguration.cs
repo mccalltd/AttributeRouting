@@ -12,7 +12,7 @@ namespace AttributeRouting.Web.Mvc
     {
         public AttributeRoutingConfiguration()
         {
-            AttributeFactory = new AttributeRouteFactory(this);
+            AttributeRouteFactory = new AttributeRouteFactory(this);
             ParameterFactory = new RouteParameterFactory();
             RouteConstraintFactory = new RouteConstraintFactory(this);
 

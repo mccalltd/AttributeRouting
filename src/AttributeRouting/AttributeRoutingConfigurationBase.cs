@@ -50,7 +50,7 @@ namespace AttributeRouting
         /// <summary>
         /// Factory for generating routes used by AttributeRouting.
         /// </summary>
-        public IAttributeRouteFactory AttributeFactory { get; set; }
+        public IAttributeRouteFactory AttributeRouteFactory { get; set; }
 
         /// <summary>
         /// Factory for generating route constraints.
