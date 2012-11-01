@@ -1,52 +1,23 @@
 ﻿using System;
 using System.Web.Http.WebHost;
 using System.Web.Routing;
-using AttributeRouting.Framework.Factories;
 using AttributeRouting.Web.Http.WebHost.Framework.Factories;
 
 namespace AttributeRouting.Web.Http.WebHost
 {
     public class HttpWebAttributeRoutingConfiguration : HttpAttributeRoutingConfigurationBase
     {
-        private readonly IAttributeRouteFactory _attributeFactory;
-        private readonly IParameterFactory _parameterFactory;
-        private readonly RouteConstraintFactory _routeConstraintFactory;
-
         public HttpWebAttributeRoutingConfiguration()
         {
-            _attributeFactory = new AttributeRouteFactory(this);
-            _parameterFactory = new RouteParameterFactory();
-            _routeConstraintFactory = new RouteConstraintFactory(this);
+            AttributeFactory = new AttributeRouteFactory(this);
+            ParameterFactory = new RouteParameterFactory();
+            RouteConstraintFactory = new RouteConstraintFactory(this);
 
             RouteHandlerFactory = () => HttpControllerRouteHandler.Instance;
             RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(Web.Constraints.RegexRouteConstraint).Assembly);
         }
 
         public Func<IRouteHandler> RouteHandlerFactory { get; set; }
-
-        /// <summary>
-        /// Attribute factory
-        /// </summary>
-        public override IAttributeRouteFactory AttributeFactory
-        {
-            get { return _attributeFactory; }
-        }
-
-        /// <summary>
-        /// Parameter factory
-        /// </summary>
-        public override IParameterFactory ParameterFactory
-        {
-            get { return _parameterFactory; }
-        }
-
-        /// <summary>
-        /// Constraint factory
-        /// </summary>
-        public override IRouteConstraintFactory RouteConstraintFactory
-        {
-            get { return _routeConstraintFactory; }
-        }
 
         /// <summary>
         /// Specifies a function that returns an alternate route handler.

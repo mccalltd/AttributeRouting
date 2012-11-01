@@ -1,6 +1,5 @@
 ﻿using System.Web.Http.Routing;
 using AttributeRouting.Framework;
-using AttributeRouting.Framework.Factories;
 using AttributeRouting.Web.Http.Constraints;
 using AttributeRouting.Web.Http.SelfHost.Framework.Factories;
 
@@ -8,45 +7,17 @@ namespace AttributeRouting.Web.Http.SelfHost
 {
     public class HttpAttributeRoutingConfiguration : HttpAttributeRoutingConfigurationBase
     {
-        private readonly IAttributeRouteFactory _attributeFactory;
-        private readonly IRouteConstraintFactory _routeConstraintFactory;
-        private readonly IParameterFactory _parameterFactory;
-
         public HttpAttributeRoutingConfiguration()
         {
-            _attributeFactory = new AttributeRouteFactory(this);
-            _routeConstraintFactory = new RouteConstraintFactory(this);
-            _parameterFactory = new RouteParameterFactory();
+            AttributeFactory = new AttributeRouteFactory(this);
+            RouteConstraintFactory = new RouteConstraintFactory(this);
+            ParameterFactory = new RouteParameterFactory();
 
             RegisterDefaultInlineRouteConstraints<IHttpRouteConstraint>(typeof(RegexRouteConstraint).Assembly);
 
             // Must turn on AutoGenerateRouteNames and use the Unique RouteNameBuilder for this to work out-of-the-box.
             AutoGenerateRouteNames = true;
             RouteNameBuilder = RouteNameBuilders.Unique;
-        }
-
-        /// <summary>
-        /// Attribute factory
-        /// </summary>
-        public override IAttributeRouteFactory AttributeFactory
-        {
-            get { return _attributeFactory; }
-        }
-
-        /// <summary>
-        /// Constraint factory
-        /// </summary>
-        public override IRouteConstraintFactory RouteConstraintFactory
-        {
-            get { return _routeConstraintFactory; }
-        }
-
-        /// <summary>
-        /// Parameter factory
-        /// </summary>
-        public override IParameterFactory ParameterFactory
-        {
-            get { return _parameterFactory; }
         }
 
         /// <summary>

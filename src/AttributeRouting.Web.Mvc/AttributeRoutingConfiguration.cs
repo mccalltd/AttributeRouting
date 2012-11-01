@@ -3,7 +3,6 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using AttributeRouting.Framework.Factories;
 using AttributeRouting.Web.Constraints;
 using AttributeRouting.Web.Mvc.Framework.Factories;
 
@@ -11,15 +10,11 @@ namespace AttributeRouting.Web.Mvc
 {
     public class AttributeRoutingConfiguration : AttributeRoutingConfigurationBase
     {
-        private readonly IAttributeRouteFactory _attributeFactory;
-        private readonly IParameterFactory _parameterFactory;
-        private readonly RouteConstraintFactory _routeConstraintFactory;
-
         public AttributeRoutingConfiguration()
         {
-            _attributeFactory = new AttributeRouteFactory(this);
-            _parameterFactory = new RouteParameterFactory();
-            _routeConstraintFactory = new RouteConstraintFactory(this);
+            AttributeFactory = new AttributeRouteFactory(this);
+            ParameterFactory = new RouteParameterFactory();
+            RouteConstraintFactory = new RouteConstraintFactory(this);
 
             RouteHandlerFactory = () => new MvcRouteHandler();
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
@@ -34,30 +29,6 @@ namespace AttributeRouting.Web.Mvc
         public override Type FrameworkControllerType
         {
             get { return typeof(IController); }
-        }
-
-        /// <summary>
-        /// Attribute factory
-        /// </summary>
-        public override IAttributeRouteFactory AttributeFactory
-        {
-            get { return _attributeFactory; }
-        }
-
-        /// <summary>
-        /// Parameter factory
-        /// </summary>
-        public override IParameterFactory ParameterFactory
-        {
-            get { return _parameterFactory; }
-        }
-
-        /// <summary>
-        /// Constraint factory
-        /// </summary>
-        public override IRouteConstraintFactory RouteConstraintFactory
-        {
-            get { return _routeConstraintFactory; }
         }
 
         /// <summary>
