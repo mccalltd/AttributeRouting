@@ -4,6 +4,10 @@ h2. Please refer to "attributerouting.net":http://attributerouting.net/ for docu
 
 h3. Changelog
 
+_3.2_
+
+* #142 - Now accepting inline route constraints in the area url part of routes."
+
 _3.1.5_
 
 * #140 - Renamed AttributeFactory in configuration object to AttributeRouteFactory.
