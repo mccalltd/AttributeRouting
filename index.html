@@ -53,6 +53,7 @@
                 <li><a href="#handling-legacy-urls">Handling Legacy URLs</a></li>
 
                 <li class="nav-header">Configuration</li>
+                <li><a href="#if-you-take-control"><span class="badge badge-important">!</span>&nbsp; Important Note</a></li>
                 <li><a href="#route-precedence">Route Precedence</a></li>
                 <li><a href="#configuration-lowercase-urls">Lowercase URL Generation</a></li>
                 <li><a href="#configuration-trailing-slash-urls">Trailing Slash URL Generation</a></li>
@@ -511,6 +512,26 @@ public class SomeController : ControllerBase
 
             <header><h2>Configuration</h2></header>
 
+            <section id="if-you-take-control">
+                <h3>Important Note</h3>
+                
+                <p>
+                    Once you start to customize the configuration settings, 
+                    you <strong>must</strong> tell AttributeRouting the assemblies or controller types you wish to scan for route attributes.
+                    Luckily this is simple. Just use one of the following methods of the configuration object: 
+                    <code>AddRoutesFromAssembly</code>, <code>AddRoutesFromController</code>, or <code>AddRoutesFromControllersOfType</code>:
+                </p>
+                <pre class="prettyprint linenums">
+routes.MapAttributeRoutes(config =>
+{
+    config.AddRoutesFromAssembly(Assembly.GetExecutingAssembly());
+    config.AddRoutesFromController&lt;MyController&gt;();
+    config.AddRoutesFromControllersOfType&lt;MyBaseController&gt;();
+});
+</pre>
+
+            </section>
+                            
             <section id="route-precedence">
                 <h3>Route Precedence</h3>
                 
