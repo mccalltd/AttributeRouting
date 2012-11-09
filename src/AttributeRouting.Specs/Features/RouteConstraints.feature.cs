@@ -182,6 +182,36 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Inline constraints specified in the RouteAreaAttribute")]
+        public virtual void InlineConstraintsSpecifiedInTheRouteAreaAttribute()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inline constraints specified in the RouteAreaAttribute", ((string[])(null)));
+#line 62
+this.ScenarioSetup(scenarioInfo);
+#line 64
+ testRunner.Given("I have registered the routes for the AreaInlineRouteConstraintsController");
+#line 65
+ testRunner.When("I fetch the routes for the AreaInlineRouteConstraints controller\'s Index action");
+#line 66
+ testRunner.Then("the route url is \"Area-Inline-Constraints/{id}/Howdy\"");
+#line 67
+ testRunner.And("the parameter \"id\" is constrained by an inline AttributeRouting.Web.Constraints.I" +
+                    "ntRouteConstraint");
+#line 69
+ testRunner.Given("I have registered the routes for the HttpAreaInlineRouteConstraintsController");
+#line 70
+ testRunner.When("I fetch the routes for the HttpAreaInlineRouteConstraints controller\'s Index acti" +
+                    "on");
+#line 71
+ testRunner.Then("the route url is \"Http-Area-Inline-Constraints/{id}/Howdy\"");
+#line 72
+ testRunner.And("the parameter \"id\" is constrained by an inline AttributeRouting.Web.Constraints.I" +
+                    "ntRouteConstraint");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Matching inline route constraints")]
         [NUnit.Framework.TestCaseAttribute("Alpha/abc", "Alpha", "is", new string[0])]
         [NUnit.Framework.TestCaseAttribute("Alpha/123", "Alpha", "is not", new string[0])]
@@ -234,19 +264,19 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void MatchingInlineRouteConstraints(string url, string action, string condition, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Matching inline route constraints", exampleTags);
-#line 62
+#line 74
 this.ScenarioSetup(scenarioInfo);
-#line 64
+#line 76
  testRunner.Given("I have registered the routes for the InlineRouteConstraintsController");
-#line 65
+#line 77
  testRunner.When(string.Format("a request for \"Inline-Constraints/{0}\" is made", url));
-#line 66
+#line 78
  testRunner.Then(string.Format("the {0} action {1} matched", action, condition));
-#line 68
+#line 80
  testRunner.Given("I have registered the routes for the HttpInlineRouteConstraintsController");
-#line 69
+#line 81
  testRunner.When(string.Format("a request for \"Http-Inline-Constraints/{0}\" is made", url));
-#line 70
+#line 82
  testRunner.Then(string.Format("the {0} action {1} matched", action, condition));
 #line hidden
             this.ScenarioCleanup();

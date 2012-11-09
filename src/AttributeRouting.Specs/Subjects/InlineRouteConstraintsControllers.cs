@@ -4,6 +4,16 @@ using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
 {
+    [RouteArea("Whatever", AreaUrl = "Area-Inline-Constraints/{id:int}")]
+    public class AreaInlineRouteConstraintsController : Controller
+    {
+        [GET("Howdy")]
+        public string Index()
+        {
+            return "howdy-do!";
+        }
+    }
+
     [RoutePrefix("Prefixed-Inline-Constraints/{id:int}")]
     public class PrefixedInlineRouteConstraintsController : Controller
     {

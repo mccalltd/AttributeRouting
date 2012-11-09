@@ -126,10 +126,15 @@ namespace AttributeRouting.Specs.Steps
         [When(@"I fetch the routes for the (.*?)Controller's (.*?) action")]
         public void WhenIFetchTheRoutesFor(string controllerName, string actionName)
         {
-            var routes = from route in RouteTable.Routes.Cast<Route>()
-                         where route.Defaults["controller"].ToString() == controllerName &&
-                               route.Defaults["action"].ToString() == actionName
-                         select route;
+            var routes = (from route in RouteTable.Routes.Cast<Route>()
+                          where route.Defaults["controller"].ToString() == controllerName &&
+                                route.Defaults["action"].ToString() == actionName
+                          select route).ToList();
+
+            foreach (var route in routes)
+            {
+                Console.WriteLine(route.Url);
+            }
 
             ScenarioContext.Current.SetFetchedRoutes(routes);
         }

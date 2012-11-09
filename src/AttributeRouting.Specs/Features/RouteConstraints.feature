@@ -59,6 +59,18 @@ Scenario: Inline constraints specified in the RoutePrefixAttribute
 	Then the route url is "Http-Prefixed-Inline-Constraints/{id}/Howdy"
 	And the parameter "id" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
 
+Scenario: Inline constraints specified in the RouteAreaAttribute
+	# MVC
+	Given I have registered the routes for the AreaInlineRouteConstraintsController
+	When I fetch the routes for the AreaInlineRouteConstraints controller's Index action
+	Then the route url is "Area-Inline-Constraints/{id}/Howdy"
+	And the parameter "id" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	# Web API
+	Given I have registered the routes for the HttpAreaInlineRouteConstraintsController
+	When I fetch the routes for the HttpAreaInlineRouteConstraints controller's Index action
+	Then the route url is "Http-Area-Inline-Constraints/{id}/Howdy"
+	And the parameter "id" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+
 Scenario Outline: Matching inline route constraints
 	# MVC
 	Given I have registered the routes for the InlineRouteConstraintsController

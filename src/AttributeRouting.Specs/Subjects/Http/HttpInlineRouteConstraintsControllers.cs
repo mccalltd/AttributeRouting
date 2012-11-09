@@ -4,6 +4,16 @@ using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Specs.Subjects.Http
 {
+    [RoutePrefix("Http-Area-Inline-Constraints/{id:int}")]
+    public class HttpAreaInlineRouteConstraintsController : ApiController
+    {
+        [GET("Howdy")]
+        public string Index()
+        {
+            return "howdy-do!";
+        }
+    }
+
     [RoutePrefix("Http-Prefixed-Inline-Constraints/{id:int}")]
     public class HttpPrefixedInlineRouteConstraintsController : ApiController
     {
