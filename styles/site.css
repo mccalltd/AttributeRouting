@@ -82,10 +82,11 @@ article {
         color: #fff;
         text-align: center;
         text-transform: uppercase;
+        border: solid 1px #222;
         -moz-border-radius: 5px;
         -webkit-border-radius: 5px;
         border-radius: 5px;
-        box-shadow: 0 3px 6px #666;
+        box-shadow: 0 3px 6px #222;
     }
     article h3 {
         border-bottom: solid 1px #ddd;
@@ -107,3 +108,25 @@ article {
         article .back-to-top:hover {
             text-decoration: none;
         }
+
+/* Sections
+-----------------------------*/
+
+#introduction .boxes > div {
+    padding: 20px;
+    border: solid 1px #ddd;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px #ddd;
+    background-color: #eee;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+#introduction .boxes strong {
+    display: block;
+    font-size: 48px;
+    line-height: 48px;
+    margin-top: 20px;
+}
