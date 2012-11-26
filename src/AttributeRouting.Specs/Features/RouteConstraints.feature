@@ -30,6 +30,7 @@ Scenario Outline: Inline constraints
 	| Max         | MaxRouteConstraint       |
 	| Range       | RangeRouteConstraint     |
 	| Regex       | RegexRouteConstraint     |
+	| RegexRange  | RegexRouteConstraint     |
 	| Compound    | IntRouteConstraint       |
 	| Compound    | MaxRouteConstraint       |
 

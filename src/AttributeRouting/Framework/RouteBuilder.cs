@@ -232,7 +232,14 @@ namespace AttributeRouting.Framework
                         // Constraint of the form "firstName:string(50)"
                         var indexOfOpenParen = definition.IndexOf('(');
                         constraintName = definition.Substring(0, indexOfOpenParen);
-                        var constraintParams = definition.Substring(indexOfOpenParen + 1, definition.Length - indexOfOpenParen - 2).SplitAndTrim(",");
+                        
+                        // Parse constraint params. 
+                        // NOTE: Splitting on commas only applies to non-regex constraints.
+                        var constraintParamsRaw = definition.Substring(indexOfOpenParen + 1, definition.Length - indexOfOpenParen - 2);
+                        var constraintParams = constraintName.ValueEquals("regex")
+                                                   ? new[] {constraintParamsRaw}
+                                                   : constraintParamsRaw.SplitAndTrim(",");
+
                         constraint = constraintFactory.CreateInlineRouteConstraint(constraintName, constraintParams);
                     }
                     else

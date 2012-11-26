@@ -135,6 +135,12 @@ namespace AttributeRouting.Specs.Subjects
             return x;
         }
 
+        [GET(@"RegexRange/{x:regex(\w{1,8})}")]
+        public string RegexRange(string x)
+        {
+            return x;
+        }
+
         [GET("Compound/{x:int:max(10)}")]
         public string Compound(int x)
         {
