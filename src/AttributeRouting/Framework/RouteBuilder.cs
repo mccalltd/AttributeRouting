@@ -107,9 +107,10 @@ namespace AttributeRouting.Framework
         private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, bool isAbsoluteUrl, bool? useLowercaseRoute)
         {
             var tokenizedUrl = BuildTokenizedUrl(routeUrl, routePrefix, areaUrl, isAbsoluteUrl);
-            var detokenizedUrl = DetokenizeUrl(tokenizedUrl);
+            var tokenizedPath = RemoveQueryString(tokenizedUrl);
+            var detokenizedPath = DetokenizeUrl(tokenizedPath);
 
-            var urlParameterNames = GetUrlParameterContents(detokenizedUrl).ToList();
+            var urlParameterNames = GetUrlParameterContents(detokenizedPath).ToList();
 
             // {controller} and {action} tokens are not valid
             if (urlParameterNames.Any(n => n.ValueEquals("controller")))
@@ -122,7 +123,7 @@ namespace AttributeRouting.Framework
                 throw new AttributeRoutingException(
                     "{area} url parameters are not allowed. Specify the area name by using the RouteAreaAttribute.");
 
-            var urlBuilder = new StringBuilder(detokenizedUrl);
+            var urlBuilder = new StringBuilder(detokenizedPath);
 
             // If we are lowercasing routes, then lowercase everything but the route params
             var lower = useLowercaseRoute.HasValue ? useLowercaseRoute.Value : _configuration.UseLowercaseRoutes;
@@ -201,20 +202,28 @@ namespace AttributeRouting.Framework
             var tokenizedUrl = BuildTokenizedUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec.IsAbsoluteUrl);
             var urlParameters = GetUrlParameterContents(tokenizedUrl).ToList();
 
+            // Need to keep track of query params. 
+            // Can do this by detokenizing URL (which strips query), 
+            // and then taking all the URL parameters except those from the path part of the URL.
+            var pathOnlyUrl = RemoveQueryString(tokenizedUrl);
+            var pathOnlyUrlParameters = GetUrlParameterContents(pathOnlyUrl);
+            var queryStringParameters = urlParameters.Except(pathOnlyUrlParameters).ToList();
+
             // Inline constraints
             var constraintFactory = _configuration.RouteConstraintFactory;
             foreach (var parameter in urlParameters.Where(p => p.Contains(":")))
             {
-                // Keep track of whether this param is optional, 
+                // Keep track of whether this param is optional or in the querystring, 
                 // because we wrap the final constraint if so.
                 var parameterIsOptional = parameter.EndsWith("?");
+                var parameterIsInQueryString = queryStringParameters.Contains(parameter);
 
                 // Strip off everything related to defaults.
                 var cleanParameter = parameter.TrimEnd('?').Split('=').FirstOrDefault();
 
                 var sections = cleanParameter.SplitAndTrim(":");
                 var parameterName = sections.First();
-
+                
                 // Do not override default or legacy inline constraints
                 if (constraints.ContainsKey(parameterName))
                     continue;
@@ -256,18 +265,34 @@ namespace AttributeRouting.Framework
                     inlineConstraints.Add(constraint);
                 }
 
-                // Apply the constraint to the parameter. 
-                // Wrap multiple constraints in a compound constraint wrapper.
-                // Wrap constraints for optional params in an optional constraint wrapper.
-                var finalConstraint = (inlineConstraints.Count == 1)
-                                          ? inlineConstraints.Single()
-                                          : constraintFactory.CreateCompoundRouteConstraint(inlineConstraints.ToArray());
+                // Apply the constraint to the parameter, and wrap constraints in the following priority: 
+                object finalConstraint;
 
-                if (parameterIsOptional)
-                    constraints.Add(parameterName, constraintFactory.CreateOptionalRouteConstraint(finalConstraint));
+                // 1. If more than one constraint, wrap in a compound constraint.
+                if (inlineConstraints.Count > 1)
+                {
+                    finalConstraint = constraintFactory.CreateCompoundRouteConstraint(inlineConstraints.ToArray());
+                }
                 else
-                    constraints.Add(parameterName, finalConstraint);
-            }
+                {
+                    finalConstraint = inlineConstraints.Single();
+                }
+
+                // 2. If the constraint is in the querystring, wrap in a query string constraint.
+                if (parameterIsInQueryString)
+                {
+                    finalConstraint = constraintFactory.CreateQueryStringRouteConstraint(finalConstraint);
+                }
+
+                // 3. If the constraint is optional, wrap in an optional constraint.
+                if (parameterIsOptional)
+                {
+                    finalConstraint = constraintFactory.CreateOptionalRouteConstraint(finalConstraint);
+                }
+
+                constraints.Add(parameterName, finalConstraint);
+
+            } // ... go to next parameter
 
             // Globally configured constraints
             var detokenizedPrefixedUrl = DetokenizeUrl(tokenizedUrl);
@@ -342,6 +367,29 @@ namespace AttributeRouting.Framework
             };
 
             return Regex.Replace(url, String.Join("|", patterns), "");
+        }
+
+        private static string RemoveQueryString(string url)
+        {
+            // Must honor ? in regex expressions and as used to specify optional params,
+            // So run through the url chars and fast forward when inside a url param (eg: {...})
+            for (int i = 0, length = url.Length; i < length; i++)
+            {
+                var c = url[i];
+                if (c == '?')
+                {
+                    return url.Substring(0, i);
+                }
+                
+                // Fast-forward past url param contents
+                if (c == '{')
+                {
+                    while (url[i] != '}' && i < length)
+                        i++;
+                }
+            }
+
+            return url;
         }
 
         private IEnumerable<IAttributeRoute> CreateRouteTranslations(RouteSpecification routeSpec)

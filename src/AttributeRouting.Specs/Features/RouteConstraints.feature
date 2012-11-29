@@ -34,6 +34,18 @@ Scenario Outline: Inline constraints
 	| Compound    | IntRouteConstraint       |
 	| Compound    | MaxRouteConstraint       |
 
+Scenario: Inline constraints in the querystring
+	# MVC
+	Given I have registered the routes for the InlineRouteConstraintsController
+	When I fetch the routes for the InlineRouteConstraints controller's Querystring action
+	Then the route url is "Inline-Constraints/Querystring"
+	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	# Web API
+	Given I have registered the routes for the HttpInlineRouteConstraintsController
+	When I fetch the routes for the HttpInlineRouteConstraints controller's Querystring action
+	Then the route url is "Http-Inline-Constraints/Querystring"
+	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+
 Scenario: Multiple inline constraints per url segment
 	# MVC
 	Given I have registered the routes for the InlineRouteConstraintsController
@@ -131,3 +143,5 @@ Scenario Outline: Matching inline route constraints
 	| Enum/taupe                                | Enum         | is not    |
 	| WithOptional                              | WithOptional | is        |
 	| WithDefault                               | WithDefault  | is        |
+	| Querystring?x=123                         | Querystring  | is        |
+	| Querystring?x=abc                         | Querystring  | is not    |

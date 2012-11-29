@@ -37,12 +37,20 @@ namespace AttributeRouting.Specs.Steps
 
                 Assert.That(constraint, Is.Not.Null);
 
+                // If this is a querystring route constraint wrapper, then unwrap it.
+                var queryStringConstraint = constraint as IQueryStringRouteConstraintWrapper;
+                if (queryStringConstraint != null)
+                    constraint = queryStringConstraint.Constraint;
+
                 var compoundRouteConstraint = constraint as ICompoundRouteConstraintWrapper;
                 if (compoundRouteConstraint != null)
-                    Assert.That(compoundRouteConstraint.Constraints.Any(c => c.GetType().FullName == type),
-                                Is.True);
+                {
+                    Assert.That(compoundRouteConstraint.Constraints.Any(c => c.GetType().FullName == type), Is.True);
+                }
                 else
+                {
                     Assert.That(constraint.GetType().FullName, Is.EqualTo(type));
+                }
             }
         }
 

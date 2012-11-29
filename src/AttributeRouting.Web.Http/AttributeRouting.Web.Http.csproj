@@ -51,6 +51,7 @@
     <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
     </Reference>
@@ -72,6 +73,7 @@
     <Compile Include="Constraints\MaxRouteConstraint.cs" />
     <Compile Include="Constraints\MinLengthRouteConstraint.cs" />
     <Compile Include="Constraints\MinRouteConstraint.cs" />
+    <Compile Include="Constraints\QueryStringRouteConstraintWrapper.cs" />
     <Compile Include="Constraints\RangeRouteConstraint.cs" />
     <Compile Include="Constraints\RegexRouteConstraint.cs" />
     <Compile Include="Constraints\TypeOfRouteConstraints.cs" />

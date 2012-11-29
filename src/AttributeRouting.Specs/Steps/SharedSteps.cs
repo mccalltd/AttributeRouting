@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
 using AttributeRouting.Helpers;
@@ -163,11 +164,17 @@ namespace AttributeRouting.Specs.Steps
         {
             var desiredMethod = (method.HasValue() ? method : "GET").Trim().ToUpperInvariant();
             var requestMethod = (desiredMethod.ValueEquals("GET") ? "GET" : "POST").ToUpperInvariant();
+            var pathAndQuery = url.SplitAndTrim("?");
 
             var httpContextMock = MockBuilder.BuildMockHttpContext(r =>
             {
-                r.SetupGet(x => x.AppRelativeCurrentExecutionFilePath).Returns("~/" + Regex.Replace(url, @"[{}]", ""));
                 r.SetupGet(x => x.HttpMethod).Returns(requestMethod);
+                r.SetupGet(x => x.AppRelativeCurrentExecutionFilePath).Returns("~/" + Regex.Replace(pathAndQuery[0], @"[{}]", ""));
+                
+                if (pathAndQuery.Length > 1)
+                {
+                    r.SetupGet(x => x.QueryString).Returns(HttpUtility.ParseQueryString(pathAndQuery[1]));
+                }
                
                 if (desiredMethod != requestMethod)
                 {

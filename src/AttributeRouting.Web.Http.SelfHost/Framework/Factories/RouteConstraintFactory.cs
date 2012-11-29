@@ -58,5 +58,10 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
         {
             return new OptionalRouteConstraintWrapper((IHttpRouteConstraint)constraint);
         }
+
+        public IQueryStringRouteConstraintWrapper CreateQueryStringRouteConstraint(object constraint)
+        {
+            return new QueryStringRouteConstraintWrapper((IHttpRouteConstraint)constraint);
+        }
     }
 }

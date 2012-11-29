@@ -42,5 +42,11 @@ namespace AttributeRouting.Framework.Factories
         /// </summary>
         /// <param name="constraint">The constraint</param>
         IOptionalRouteConstraintWrapper CreateOptionalRouteConstraint(object constraint);
+
+        /// <summary>
+        /// Creates an query string route constraint wrapper to allow constraints in the query string.
+        /// </summary>
+        /// <param name="constraint">The constraint</param>
+        IQueryStringRouteConstraintWrapper CreateQueryStringRouteConstraint(object constraint);
     }
 }
