@@ -422,7 +422,7 @@ namespace AttributeRouting.Framework
                     {
                         // If we find an inner open curly (due to inner regex patterns), 
                         // then fast-forward beyond it.
-                        i = urlSegment.IndexOf('}', iOpenCurly);                        
+                        i = urlSegment.IndexOf('}', i);                        
                     }
 
                     i++;
