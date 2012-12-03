@@ -62,13 +62,12 @@ namespace AttributeRouting.Logging
                     else
                     {
                         var constraintValue = constraint.Value;
-                        var constraintType = constraint.Value.GetType();
-                        string constraintAsString;
+                        var constraintDescriptions = new List<string>();
 
                         // Simple string regex constraint - from ASP.NET routing features
                         if (constraintValue is string)
                         {
-                            constraintAsString = constraintValue.ToString();
+                            constraintDescriptions.Add(constraintValue.ToString());
                         }
                         else
                         {
@@ -77,24 +76,30 @@ namespace AttributeRouting.Logging
                             if (optionalConstraint != null)
                             {
                                 constraintValue = optionalConstraint.Constraint;
-                                constraintType = optionalConstraint.Constraint.GetType();
+                            }
+
+                            // QueryString constraint - unwrap it and continue
+                            var queryStringConstraint = constraintValue as IQueryStringRouteConstraintWrapper;
+                            if (queryStringConstraint != null)
+                            {
+                                constraintValue = queryStringConstraint.Constraint;
+                                constraintDescriptions.Add("QueryStringRouteConstraint");
                             }
 
                             // Compound constraint - join type names of the inner constraints
                             var compoundConstraint = constraintValue as ICompoundRouteConstraintWrapper;
                             if (compoundConstraint != null)
                             {
-                                var innerConstraintTypeNames = compoundConstraint.Constraints.Select(x => x.GetType().Name);
-                                constraintAsString = String.Join(", ", innerConstraintTypeNames);
+                                constraintDescriptions.AddRange(compoundConstraint.Constraints.Select(c => c.GetType().Name));
                             }
-                            else
+                            else if (constraintValue != null)
                             {
                                 // Single constraint type
-                                constraintAsString = constraintType.Name;
+                                constraintDescriptions.Add(constraintValue.GetType().Name);
                             }                            
                         }
 
-                        item.Constraints.Add(constraint.Key, constraintAsString);
+                        item.Constraints.Add(constraint.Key, String.Join(", ", constraintDescriptions));
                     }
                 }
             }
@@ -107,9 +112,13 @@ namespace AttributeRouting.Logging
                 foreach (var token in dataTokens)
                 {
                     if (token.Key.ValueEquals("namespaces"))
-                        item.DataTokens.Add(token.Key, ((string[])token.Value).Aggregate((n1, n2) => n1 + ", " + n2));
+                    {
+                        item.DataTokens.Add(token.Key, ((string[]) token.Value).Aggregate((n1, n2) => n1 + ", " + n2));
+                    }
                     else
+                    {
                         item.DataTokens.Add(token.Key, token.Value.ToString());
+                    }
                 }
             }
 

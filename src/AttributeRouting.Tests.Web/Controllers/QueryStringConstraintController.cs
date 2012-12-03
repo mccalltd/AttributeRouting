@@ -11,7 +11,7 @@ namespace AttributeRouting.Tests.Web.Controllers
             return "author: " + author;
         }
 
-        [GET("Books?{isbn}")]
+        [GET("Books?{isbn}&{x:int}")]
         public string GetBooksByISBN(string isbn)
         {
             return "isbn: " + isbn;
