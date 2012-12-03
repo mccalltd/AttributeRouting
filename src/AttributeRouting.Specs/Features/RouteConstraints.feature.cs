@@ -130,16 +130,22 @@ this.ScenarioSetup(scenarioInfo);
 #line 42
  testRunner.And("the parameter \"x\" is constrained by an inline AttributeRouting.Web.Constraints.In" +
                     "tRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 44
- testRunner.Given("I have registered the routes for the HttpInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 43
+ testRunner.And("the parameter \"y\" is constrained by an inline AttributeRouting.Web.Constraints.Qu" +
+                    "eryStringRouteConstraintWrapper", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 45
+ testRunner.Given("I have registered the routes for the HttpInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 46
  testRunner.When("I fetch the routes for the HttpInlineRouteConstraints controller\'s Querystring ac" +
                     "tion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 46
- testRunner.Then("the route url is \"Http-Inline-Constraints/Querystring\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 47
+ testRunner.Then("the route url is \"Http-Inline-Constraints/Querystring\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 48
  testRunner.And("the parameter \"x\" is constrained by an inline AttributeRouting.Web.Constraints.In" +
                     "tRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 49
+ testRunner.And("the parameter \"y\" is constrained by an inline AttributeRouting.Web.Constraints.Qu" +
+                    "eryStringRouteConstraintWrapper", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -149,32 +155,32 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void MultipleInlineConstraintsPerUrlSegment()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple inline constraints per url segment", ((string[])(null)));
-#line 49
-this.ScenarioSetup(scenarioInfo);
 #line 51
+this.ScenarioSetup(scenarioInfo);
+#line 53
  testRunner.Given("I have registered the routes for the InlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 52
+#line 54
  testRunner.When("I fetch the routes for the InlineRouteConstraints controller\'s MultipleWithinUrlS" +
                     "egment action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 53
+#line 55
  testRunner.Then("the route url is \"Inline-Constraints/avatar/{width}x{height}/{image}\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 54
+#line 56
  testRunner.And("the parameter \"width\" is constrained by an inline AttributeRouting.Web.Constraint" +
                     "s.IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 55
+#line 57
  testRunner.And("the parameter \"height\" is constrained by an inline AttributeRouting.Web.Constrain" +
                     "ts.IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 57
+#line 59
  testRunner.Given("I have registered the routes for the HttpInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 58
+#line 60
  testRunner.When("I fetch the routes for the HttpInlineRouteConstraints controller\'s MultipleWithin" +
                     "UrlSegment action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 59
+#line 61
  testRunner.Then("the route url is \"Http-Inline-Constraints/avatar/{width}x{height}/{image}\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 60
+#line 62
  testRunner.And("the parameter \"width\" is constrained by an inline AttributeRouting.Web.Constraint" +
                     "s.IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 61
+#line 63
  testRunner.And("the parameter \"height\" is constrained by an inline AttributeRouting.Web.Constrain" +
                     "ts.IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -186,27 +192,27 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void InlineConstraintsSpecifiedInTheRoutePrefixAttribute()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inline constraints specified in the RoutePrefixAttribute", ((string[])(null)));
-#line 63
-this.ScenarioSetup(scenarioInfo);
 #line 65
+this.ScenarioSetup(scenarioInfo);
+#line 67
  testRunner.Given("I have registered the routes for the PrefixedInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 66
+#line 68
  testRunner.When("I fetch the routes for the PrefixedInlineRouteConstraints controller\'s Index acti" +
                     "on", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 67
+#line 69
  testRunner.Then("the route url is \"Prefixed-Inline-Constraints/{id}/Howdy\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 68
+#line 70
  testRunner.And("the parameter \"id\" is constrained by an inline AttributeRouting.Web.Constraints.I" +
                     "ntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 70
+#line 72
  testRunner.Given("I have registered the routes for the HttpPrefixedInlineRouteConstraintsController" +
                     "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 71
+#line 73
  testRunner.When("I fetch the routes for the HttpPrefixedInlineRouteConstraints controller\'s Index " +
                     "action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 72
+#line 74
  testRunner.Then("the route url is \"Http-Prefixed-Inline-Constraints/{id}/Howdy\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 73
+#line 75
  testRunner.And("the parameter \"id\" is constrained by an inline AttributeRouting.Web.Constraints.I" +
                     "ntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -218,25 +224,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void InlineConstraintsSpecifiedInTheRouteAreaAttribute()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inline constraints specified in the RouteAreaAttribute", ((string[])(null)));
-#line 75
-this.ScenarioSetup(scenarioInfo);
 #line 77
- testRunner.Given("I have registered the routes for the AreaInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 78
- testRunner.When("I fetch the routes for the AreaInlineRouteConstraints controller\'s Index action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+this.ScenarioSetup(scenarioInfo);
 #line 79
- testRunner.Then("the route url is \"Area-Inline-Constraints/{id}/Howdy\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("I have registered the routes for the AreaInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 80
+ testRunner.When("I fetch the routes for the AreaInlineRouteConstraints controller\'s Index action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 81
+ testRunner.Then("the route url is \"Area-Inline-Constraints/{id}/Howdy\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 82
  testRunner.And("the parameter \"id\" is constrained by an inline AttributeRouting.Web.Constraints.I" +
                     "ntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 82
+#line 84
  testRunner.Given("I have registered the routes for the HttpAreaInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 83
+#line 85
  testRunner.When("I fetch the routes for the HttpAreaInlineRouteConstraints controller\'s Index acti" +
                     "on", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 84
+#line 86
  testRunner.Then("the route url is \"Http-Area-Inline-Constraints/{id}/Howdy\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 85
+#line 87
  testRunner.And("the parameter \"id\" is constrained by an inline AttributeRouting.Web.Constraints.I" +
                     "ntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -293,24 +299,26 @@ this.ScenarioSetup(scenarioInfo);
         [NUnit.Framework.TestCaseAttribute("Enum/taupe", "Enum", "is not", null)]
         [NUnit.Framework.TestCaseAttribute("WithOptional", "WithOptional", "is", null)]
         [NUnit.Framework.TestCaseAttribute("WithDefault", "WithDefault", "is", null)]
-        [NUnit.Framework.TestCaseAttribute("Querystring?x=123", "Querystring", "is", null)]
+        [NUnit.Framework.TestCaseAttribute("Querystring?x=123&y=hello", "Querystring", "is", null)]
+        [NUnit.Framework.TestCaseAttribute("Querystring?x=abc&y=hello", "Querystring", "is not", null)]
         [NUnit.Framework.TestCaseAttribute("Querystring?x=abc", "Querystring", "is not", null)]
+        [NUnit.Framework.TestCaseAttribute("Querystring?y=hello", "Querystring", "is not", null)]
         public virtual void MatchingInlineRouteConstraints(string url, string action, string condition, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Matching inline route constraints", exampleTags);
-#line 87
-this.ScenarioSetup(scenarioInfo);
 #line 89
- testRunner.Given("I have registered the routes for the InlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 90
- testRunner.When(string.Format("a request for \"Inline-Constraints/{0}\" is made", url), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+this.ScenarioSetup(scenarioInfo);
 #line 91
- testRunner.Then(string.Format("the {0} action {1} matched", action, condition), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("I have registered the routes for the InlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 92
+ testRunner.When(string.Format("a request for \"Inline-Constraints/{0}\" is made", url), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 93
- testRunner.Given("I have registered the routes for the HttpInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 94
- testRunner.When(string.Format("a request for \"Http-Inline-Constraints/{0}\" is made", url), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then(string.Format("the {0} action {1} matched", action, condition), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 95
+ testRunner.Given("I have registered the routes for the HttpInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 96
+ testRunner.When(string.Format("a request for \"Http-Inline-Constraints/{0}\" is made", url), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 97
  testRunner.Then(string.Format("the {0} action {1} matched", action, condition), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

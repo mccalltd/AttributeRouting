@@ -32,7 +32,8 @@ namespace AttributeRouting.Web.Constraints
                 { parameterName, queryString[parameterName] }
             };
 
-            return _constraint.Match(httpContext, route, parameterName, queryRouteValues, routeDirection);
+            return _constraint == null // ie: Simply ensure that the query param exists.
+                   || _constraint.Match(httpContext, route, parameterName, queryRouteValues, routeDirection);
         }
     }
 }

@@ -211,12 +211,16 @@ namespace AttributeRouting.Framework
 
             // Inline constraints
             var constraintFactory = _configuration.RouteConstraintFactory;
-            foreach (var parameter in urlParameters.Where(p => p.Contains(":")))
+            foreach (var parameter in urlParameters)
             {
                 // Keep track of whether this param is optional or in the querystring, 
                 // because we wrap the final constraint if so.
                 var parameterIsOptional = parameter.EndsWith("?");
                 var parameterIsInQueryString = queryStringParameters.Contains(parameter);
+
+                // If this is a path parameter and doesn't have a constraint, then skip it.
+                if (!parameterIsInQueryString && !parameter.Contains(":"))
+                    continue;
 
                 // Strip off everything related to defaults.
                 var cleanParameter = parameter.TrimEnd('?').Split('=').FirstOrDefault();
@@ -275,7 +279,7 @@ namespace AttributeRouting.Framework
                 }
                 else
                 {
-                    finalConstraint = inlineConstraints.Single();
+                    finalConstraint = inlineConstraints.FirstOrDefault();
                 }
 
                 // 2. If the constraint is in the querystring, wrap in a query string constraint.

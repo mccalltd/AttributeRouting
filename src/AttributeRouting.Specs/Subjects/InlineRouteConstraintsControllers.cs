@@ -27,8 +27,8 @@ namespace AttributeRouting.Specs.Subjects
     [RoutePrefix("Inline-Constraints")]
     public class InlineRouteConstraintsController : Controller
     {
-        [GET("Querystring?x={x:int}")]
-        public string Querystring(int x)
+        [GET("Querystring?{x:int}&{y}")]
+        public string Querystring(int x, string y)
         {
             return "";
         }

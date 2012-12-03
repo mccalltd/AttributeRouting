@@ -39,8 +39,10 @@ namespace AttributeRouting.Specs.Steps
 
                 // If this is a querystring route constraint wrapper, then unwrap it.
                 var queryStringConstraint = constraint as IQueryStringRouteConstraintWrapper;
-                if (queryStringConstraint != null)
+                if (queryStringConstraint != null && queryStringConstraint.Constraint != null)
+                {
                     constraint = queryStringConstraint.Constraint;
+                }
 
                 var compoundRouteConstraint = constraint as ICompoundRouteConstraintWrapper;
                 if (compoundRouteConstraint != null)
