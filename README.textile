@@ -4,6 +4,15 @@ h2. Please refer to "attributerouting.net":http://attributerouting.net/ for docu
 
 h3. Changelog
 
+_3.3_
+
+* #153 - fixed bad parsing of regex route constraint patterns that use a comma.
+* #132 - basic support for constraints in the querystring.
+* #152 - added support for specifying that query param simply exists, without constraining by anything else.
+* #154 - added support for querystring constraint description in routes.axd.
+* #159 - added compiled regex in RegexRouteConstraint to improve performance.
+* #150 - changed IAttributeRouteFactory method to return multiple routes.
+
 _3.2_
 
 * #142 - Now accepting inline route constraints in the area url part of routes."
