@@ -16,13 +16,20 @@ namespace AttributeRouting.Constraints
         protected RegexRouteConstraintBase(string pattern, RegexOptions options)
         {
             Pattern = pattern;
-            Options = options;
+            // shouldn't these be included in the derrived classes by default: RegexOptions.CultureInvariant | RegexOptions.IgnoreCase?
+            Options = options;  //no need to tell user that it is 'compiled' option...so do not include in public options
+            CompiledExpression = new Regex(pattern, options | RegexOptions.Compiled); 
         }
 
         /// <summary>
         /// The pattern to match.
         /// </summary>
         public string Pattern { get; private set; }
+
+        /// <summary>
+        /// The compiled reg-ex expression.
+        /// </summary>
+        private Regex CompiledExpression { get; set; }
 
         /// <summary>
         /// Regex options for matching.
@@ -36,8 +43,7 @@ namespace AttributeRouting.Constraints
                 return true;
 
             var valueAsString = value.ToString();
-
-            return Regex.IsMatch(valueAsString, Pattern, Options);
+            return CompiledExpression.IsMatch(valueAsString);
         }
     }
 }
