@@ -15,16 +15,13 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
             _configuration = configuration;
         }
 
-        public IAttributeRoute CreateAttributeRoute(string url,
-                                                    IDictionary<string, object> defaults,
-                                                    IDictionary<string, object> constraints,
-                                                    IDictionary<string, object> dataTokens)
+        public IEnumerable<IAttributeRoute> CreateAttributeRoutes(string url, IDictionary<string, object> defaults, IDictionary<string, object> constraints, IDictionary<string, object> dataTokens)
         {
-            return new HttpAttributeRoute(url,
-                                          new HttpRouteValueDictionary(defaults),
-                                          new HttpRouteValueDictionary(constraints),
-                                          new HttpRouteValueDictionary(dataTokens),
-                                          _configuration);
+            yield return new HttpAttributeRoute(url,
+                                                new HttpRouteValueDictionary(defaults),
+                                                new HttpRouteValueDictionary(constraints),
+                                                new HttpRouteValueDictionary(dataTokens),
+                                                _configuration);
         }
     }
 }

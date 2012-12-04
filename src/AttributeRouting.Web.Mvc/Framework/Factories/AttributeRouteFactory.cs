@@ -14,16 +14,13 @@ namespace AttributeRouting.Web.Mvc.Framework.Factories
             _configuration = configuration;
         }
 
-        public IAttributeRoute CreateAttributeRoute(string url,
-                                                    IDictionary<string, object> defaults,
-                                                    IDictionary<string, object> constraints,
-                                                    IDictionary<string, object> dataTokens)
+        public IEnumerable<IAttributeRoute> CreateAttributeRoutes(string url, IDictionary<string, object> defaults, IDictionary<string, object> constraints, IDictionary<string, object> dataTokens)
         {
-            return new AttributeRoute(url,
-                                      new RouteValueDictionary(defaults),
-                                      new RouteValueDictionary(constraints),
-                                      new RouteValueDictionary(dataTokens),
-                                      _configuration);
+            yield return new AttributeRoute(url,
+                                            new RouteValueDictionary(defaults),
+                                            new RouteValueDictionary(constraints),
+                                            new RouteValueDictionary(dataTokens),
+                                            _configuration);
         }
     }
 }

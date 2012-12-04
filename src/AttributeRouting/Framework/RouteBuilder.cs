@@ -53,37 +53,40 @@ namespace AttributeRouting.Framework
 
         private IEnumerable<IAttributeRoute> Build(RouteSpecification routeSpec)
         {
-            var route = _routeFactory.CreateAttributeRoute(CreateRouteUrl(routeSpec),
-                                                           CreateRouteDefaults(routeSpec),
-                                                           CreateRouteConstraints(routeSpec),
-                                                           CreateRouteDataTokens(routeSpec));
+            var routes = _routeFactory.CreateAttributeRoutes(CreateRouteUrl(routeSpec),
+                                                             CreateRouteDefaults(routeSpec),
+                                                             CreateRouteConstraints(routeSpec),
+                                                             CreateRouteDataTokens(routeSpec));
 
-            var routeName = CreateRouteName(routeSpec);
-            if (routeName.HasValue())
+            foreach (var route in routes)
             {
-                route.RouteName = routeName;
-                route.DataTokens.Add("routeName", routeName);
-            }
+                var routeName = CreateRouteName(routeSpec);
+                if (routeName.HasValue())
+                {
+                    route.RouteName = routeName;
+                    route.DataTokens.Add("routeName", routeName);
+                }
 
-            route.Translations = CreateRouteTranslations(routeSpec);
-            route.Subdomain = routeSpec.Subdomain;
-            route.UseLowercaseRoute = routeSpec.UseLowercaseRoute;
-            route.PreserveCaseForUrlParameters = routeSpec.PreserveCaseForUrlParameters;
-            route.AppendTrailingSlash = routeSpec.AppendTrailingSlash;
+                route.Translations = CreateRouteTranslations(routeSpec);
+                route.Subdomain = routeSpec.Subdomain;
+                route.UseLowercaseRoute = routeSpec.UseLowercaseRoute;
+                route.PreserveCaseForUrlParameters = routeSpec.PreserveCaseForUrlParameters;
+                route.AppendTrailingSlash = routeSpec.AppendTrailingSlash;
 
-            // Yield the default route first
-            yield return route;
+                // Yield the default route first
+                yield return route;
 
-            // Then yield the translations
-            if (route.Translations == null)
-                yield break;
+                // Then yield the translations
+                if (route.Translations == null)
+                    yield break;
 
-            foreach (var translation in route.Translations)
-            {
-                // Backreference the default route.
-                translation.DefaultRouteContainer = route;
+                foreach (var translation in route.Translations)
+                {
+                    // Backreference the default route.
+                    translation.DefaultRouteContainer = route;
 
-                yield return translation;
+                    yield return translation;
+                }                
             }
         }
 
@@ -433,22 +436,25 @@ namespace AttributeRouting.Framework
                                               routeSpec.IsAbsoluteUrl,
                                               routeSpec.UseLowercaseRoute);
 
-                var translatedRoute = _routeFactory.CreateAttributeRoute(routeUrl,
-                                                                         CreateRouteDefaults(routeSpec),
-                                                                         CreateRouteConstraints(routeSpec),
-                                                                         CreateRouteDataTokens(routeSpec));
+                var translatedRoutes = _routeFactory.CreateAttributeRoutes(routeUrl,
+                                                                           CreateRouteDefaults(routeSpec),
+                                                                           CreateRouteConstraints(routeSpec),
+                                                                           CreateRouteDataTokens(routeSpec));
 
-                var routeName = CreateRouteName(routeSpec);
-                if (routeName != null)
+                foreach (var translatedRoute in translatedRoutes)
                 {
-                    translatedRoute.RouteName = routeName;
-                    translatedRoute.DataTokens.Add("routeName", routeName);
+                    var routeName = CreateRouteName(routeSpec);
+                    if (routeName != null)
+                    {
+                        translatedRoute.RouteName = routeName;
+                        translatedRoute.DataTokens.Add("routeName", routeName);
+                    }
+
+                    translatedRoute.CultureName = cultureName;
+                    translatedRoute.DataTokens.Add("cultureName", cultureName);
+
+                    yield return translatedRoute;                    
                 }
-
-                translatedRoute.CultureName = cultureName;
-                translatedRoute.DataTokens.Add("cultureName", cultureName);
-
-                yield return translatedRoute;
             }
         }
 

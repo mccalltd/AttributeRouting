@@ -15,11 +15,8 @@ namespace AttributeRouting.Framework.Factories
     public interface IAttributeRouteFactory
     {
         /// <summary>
-        /// Create a new attribute route that wraps an underlying framework route.
+        /// Create attribute routes from the given metadata.
         /// </summary>
-        IAttributeRoute CreateAttributeRoute(string url,
-                                             IDictionary<string, object> defaults,
-                                             IDictionary<string, object> constraints,
-                                             IDictionary<string, object> dataTokens);
+        IEnumerable<IAttributeRoute> CreateAttributeRoutes(string url, IDictionary<string, object> defaults, IDictionary<string, object> constraints, IDictionary<string, object> dataTokens);
     }
 }
