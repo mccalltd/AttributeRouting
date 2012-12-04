@@ -293,6 +293,11 @@ public ActionResult Index(string state, string city) { /* ... */ }
                     
 // Regex constraint
 [GET(@"Regex/{x:regex(^Howdy$)}")]
+                    
+// Querystring parameter constraints
+[GET("QuerystringParamExists?{x}")]
+[GET("QuerystringParamsExist?{x}&{y}")]
+[GET("QuerystringParamConstraints?{x:int}&{y:int}")]
 </pre>
                 
                 <h4>Chaining and Combining with Defaults and Optionals</h4>
