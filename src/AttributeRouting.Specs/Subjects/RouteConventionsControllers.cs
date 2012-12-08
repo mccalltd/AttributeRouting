@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Web.Mvc;
+using AttributeRouting.Helpers;
 using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
@@ -116,6 +121,29 @@ namespace AttributeRouting.Specs.Subjects
         public ActionResult Index()
         {
             return Content("");
+        }
+    }
+
+    [AreaRouteConvention]
+    public class AreaRouteConventionController : Controller
+    {
+        public ActionResult Index()
+        {
+            return Content("");
+        }
+    }
+
+    public class AreaRouteConventionAttribute : RouteConventionAttributeBase
+    {
+        public override IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
+        {
+            yield return new GETAttribute(actionMethod.Name);
+        }
+
+        public override RouteAreaAttribute GetDefaultRouteArea(Type controllerType)
+        {
+            var areaName = controllerType.Namespace.ValueOr("").Split('.').Last();
+            return new RouteAreaAttribute(areaName);
         }
     }
 }

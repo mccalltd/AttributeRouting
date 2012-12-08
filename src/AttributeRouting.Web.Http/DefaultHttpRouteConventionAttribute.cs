@@ -67,9 +67,9 @@ namespace AttributeRouting.Web.Http
             }
         }
 
-        public override string GetDefaultRoutePrefix(MethodInfo actionMethod)
+        public override RoutePrefixAttribute GetDefaultRoutePrefix(Type controllerType)
         {
-            return actionMethod.DeclaringType.GetControllerName();
+            return new RoutePrefixAttribute(controllerType.GetControllerName());
         }
 
         private IRouteAttribute BuildRouteAttribute(HttpRouteConventionInfo convention)

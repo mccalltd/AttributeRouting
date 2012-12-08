@@ -32,6 +32,15 @@ namespace AttributeRouting.Specs.Steps
             Assert.That(route.Defaults[key], Is.EqualTo(value));
         }
 
+        [Then(@"the route area is ""(.*?)""")]
+        public void ThenTheRouteAreaIs(string area)
+        {
+            var route = ScenarioContext.Current.GetFetchedRoutes().FirstOrDefault();
+
+            Assert.That(route, Is.Not.Null);
+            Assert.That(route.DataTokens["area"], Is.EqualTo(area));
+        }
+
         [Then(@"the namespace is ""(.*?)""")]
         public void ThenTheNamespaceIs(string ns)
         {

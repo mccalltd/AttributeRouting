@@ -9,16 +9,16 @@ Scenario Outline: Generating routes using the RestfulRouteConvention
 	And the route for <action> is constrained to <method> requests
 
 	Examples:
-		| action	| method	| url									|
-		| Index		| GET		| RestfulRouteConvention				|
-		| New		| GET		| RestfulRouteConvention/New			|		
-		| Create	| POST		| RestfulRouteConvention				|		
-		| Show		| GET		| RestfulRouteConvention/{id}			|		
-		| Edit		| GET		| RestfulRouteConvention/{id}/Edit		|		
-		| Update	| PUT		| RestfulRouteConvention/{id}			|		
-		| Delete	| GET		| RestfulRouteConvention/{id}/Delete	|		
-		| Destroy	| DELETE	| RestfulRouteConvention/{id}			|		
-		| Custom	| GET		| RestfulRouteConvention/Custom			|
+		| action  | method | url                                |
+		| Index   | GET    | RestfulRouteConvention             |
+		| New     | GET    | RestfulRouteConvention/New         |
+		| Create  | POST   | RestfulRouteConvention             |
+		| Show    | GET    | RestfulRouteConvention/{id}        |
+		| Edit    | GET    | RestfulRouteConvention/{id}/Edit   |
+		| Update  | PUT    | RestfulRouteConvention/{id}        |
+		| Delete  | GET    | RestfulRouteConvention/{id}/Delete |
+		| Destroy | DELETE | RestfulRouteConvention/{id}        |
+		| Custom  | GET    | RestfulRouteConvention/Custom      |
 
 Scenario Outline: Generating routes using the RestfulRouteConvention on controllers with a RoutePrefix attribute
 	Given I have registered the routes for the RestfulRouteConventionPrefixController
@@ -29,15 +29,15 @@ Scenario Outline: Generating routes using the RestfulRouteConvention on controll
 	And the route for <action> is constrained to <method> requests
 
 	Examples:
-		| action	| method	| url					|
-		| Index		| GET		| Prefix				|
-		| New		| GET		| Prefix/New			|		
-		| Create	| POST		| Prefix				|		
-		| Show		| GET		| Prefix/{id}			|		
-		| Edit		| GET		| Prefix/{id}/Edit		|		
-		| Update	| PUT		| Prefix/{id}			|		
-		| Delete	| GET		| Prefix/{id}/Delete	|		
-		| Destroy	| DELETE	| Prefix/{id}			|	
+		| action  | method | url                |
+		| Index   | GET    | Prefix             |
+		| New     | GET    | Prefix/New         |
+		| Create  | POST   | Prefix             |
+		| Show    | GET    | Prefix/{id}        |
+		| Edit    | GET    | Prefix/{id}/Edit   |
+		| Update  | PUT    | Prefix/{id}        |
+		| Delete  | GET    | Prefix/{id}/Delete |
+		| Destroy | DELETE | Prefix/{id}        |
 		
 Scenario Outline: Generating routes using the DefaultHttpRouteConvention
 	Given I have registered the routes for the DefaultHttpRouteConventionController
@@ -48,13 +48,13 @@ Scenario Outline: Generating routes using the DefaultHttpRouteConvention
 	And the route for <action> is constrained to <method> requests
 
 	Examples:
-		| action	| method	| url									|
-		| GetAll    | GET		| DefaultHttpRouteConvention			|
-		| Get		| GET		| DefaultHttpRouteConvention/{id}		|		
-		| Post  	| POST		| DefaultHttpRouteConvention			|		
-		| Put		| PUT		| DefaultHttpRouteConvention/{id}		|		
-		| Delete	| DELETE	| DefaultHttpRouteConvention/{id}		|			
-		| Custom	| GET		| DefaultHttpRouteConvention/Custom		|	
+		| action | method | url                               |
+		| GetAll | GET    | DefaultHttpRouteConvention        |
+		| Get    | GET    | DefaultHttpRouteConvention/{id}   |
+		| Post   | POST   | DefaultHttpRouteConvention        |
+		| Put    | PUT    | DefaultHttpRouteConvention/{id}   |
+		| Delete | DELETE | DefaultHttpRouteConvention/{id}   |
+		| Custom | GET    | DefaultHttpRouteConvention/Custom |
 		
 Scenario Outline: Generating routes using the DefaultHttpRouteConventionPrefix on controllers with a RoutePrefix attribute
 	Given I have registered the routes for the DefaultHttpRouteConventionPrefixController
@@ -65,13 +65,13 @@ Scenario Outline: Generating routes using the DefaultHttpRouteConventionPrefix o
 	And the route for <action> is constrained to <method> requests
 
 	Examples:	
-		| action	| method	| url				|
-		| GetAll    | GET		| Prefix			|
-		| Get		| GET		| Prefix/{id}		|		
-		| Post  	| POST		| Prefix			|		
-		| Put		| PUT		| Prefix/{id}		|		
-		| Delete	| DELETE	| Prefix/{id}		|			
-		| Custom	| GET		| Prefix/Custom		|						
+		| action | method | url           |
+		| GetAll | GET    | Prefix        |
+		| Get    | GET    | Prefix/{id}   |
+		| Post   | POST   | Prefix        |
+		| Put    | PUT    | Prefix/{id}   |
+		| Delete | DELETE | Prefix/{id}   |
+		| Custom | GET    | Prefix/Custom |					
 
 Scenario: Generating routes using the RestfulRouteConvention on actions with an explicit route defined
 	Given I have registered the routes for the RestfulRouteConventionWithExplicitRouteController
@@ -96,3 +96,11 @@ Scenario: Generating routes using the DefaultHttpRouteConvention on actions with
 	When I fetch the routes for the DefaultHttpRouteConventionWithExplicitOrderedRoute controller's Get action
 	Then the 1st route url is "DefaultHttpRouteConventionWithExplicitOrderedRoute/Primary"
 	And the 2nd route url is "DefaultHttpRouteConventionWithExplicitOrderedRoute"
+
+Scenario: Generating routes using the conventions that define areas on controllers
+	Given I have registered the routes for the AreaRouteConventionController
+	When I fetch the routes for the AreaRouteConvention controller's Index action
+	Then the route url is "Subjects/Index"
+	And the default for "controller" is "AreaRouteConvention"
+	And the default for "action" is "Index"
+	And the route area is "Subjects"

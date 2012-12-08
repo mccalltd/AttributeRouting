@@ -55,8 +55,16 @@ namespace AttributeRouting.Framework
                     let controllerIndex = controllerCount++
                     let convention = controllerType.GetCustomAttribute<RouteConventionAttributeBase>(false)
                     let routeAreaAttribute = controllerType.GetCustomAttribute<RouteAreaAttribute>(true)
-                    let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
+                                             ?? convention.SafeGet(x => x.GetDefaultRouteArea(controllerType))
                     from actionMethod in controllerType.GetActionMethods(inheritActionsFromBaseController)
+                    // NOTE: The oldConventionalRoutePrefix var is to support obsolete method.
+                    // Once that method is removed, remove oldConventionalRoutePrefix from consideration,
+                    // and move the let routePrefixAttribute op above the loop inside the actionMethed.
+                    let oldConventionalRoutePrefix = convention.SafeGet(x => x.GetDefaultRoutePrefix(actionMethod))
+                    let routePrefixAttribute = controllerType.GetCustomAttribute<RoutePrefixAttribute>(true)
+                                               ?? (oldConventionalRoutePrefix.HasValue()
+                                                       ? new RoutePrefixAttribute(oldConventionalRoutePrefix)
+                                                       : convention.SafeGet(x => x.GetDefaultRoutePrefix(controllerType)))
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
                     let routeName = routeAttribute.RouteName
                     let subdomain = GetAreaSubdomain(routeAreaAttribute)
@@ -70,14 +78,14 @@ namespace AttributeRouting.Framework
                     let sitePrecedence = GetSortableOrder(routeAttribute.SitePrecedence)
                     let controllerPrecedence = GetSortableOrder(routeAttribute.ControllerPrecedence)
                     let actionPrecedence = GetSortableOrder(routeAttribute.ActionPrecedence)
-                    orderby sitePrecedence , controllerIndex , controllerPrecedence , actionPrecedence
+                    orderby sitePrecedence, controllerIndex, controllerPrecedence, actionPrecedence
                     select new RouteSpecification
                     {
                         AreaName = routeAreaAttribute.SafeGet(a => a.AreaName),
                         AreaUrl = GetAreaUrl(routeAreaAttribute, subdomain),
                         AreaUrlTranslationKey = routeAreaAttribute.SafeGet(a => a.TranslationKey),
                         Subdomain = subdomain,
-                        RoutePrefixUrl = GetRoutePrefix(routePrefixAttribute, actionMethod, convention),
+                        RoutePrefixUrl = routePrefixAttribute.SafeGet(p => p.Url),
                         RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
                         ControllerType = controllerType,
                         ControllerName = controllerType.GetControllerName(),
@@ -169,26 +177,6 @@ namespace AttributeRouting.Framework
                 return subdomainOverride;
 
             return routeAreaAttribute.Subdomain;
-        }
-
-        /// <summary>
-        /// Gets a controller's route prefix URL.
-        /// </summary>
-        /// <param name="routePrefixAttribute">The <see cref="RoutePrefixAttribute"/> for the controller.</param>
-        /// <param name="actionMethod">The <see cref="MethodInfo"/> for an action.</param>
-        /// <param name="convention">The <see cref="RouteConventionAttributeBase"/> for the controller.</param>
-        /// <returns>The route prefix URL to apply against the action.</returns>
-        private static string GetRoutePrefix(RoutePrefixAttribute routePrefixAttribute, MethodInfo actionMethod, RouteConventionAttributeBase convention)
-        {
-            // Return an explicitly defined route prefix, if defined
-            if (routePrefixAttribute != null)
-                return routePrefixAttribute.Url;
-
-            // Otherwise, if this is a convention-based controller, get the convention-based prefix
-            if (convention != null)
-                return convention.GetDefaultRoutePrefix(actionMethod);
-
-            return null;
         }
 
         /// <summary>

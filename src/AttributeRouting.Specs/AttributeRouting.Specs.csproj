@@ -159,7 +159,7 @@
     <Compile Include="Subjects\LowercaseUrlController.cs" />
     <Compile Include="Subjects\RouteAreasControllers.cs" />
     <Compile Include="Subjects\RoutePrefixesControllers.cs" />
-    <Compile Include="Subjects\RouteConventionsController.cs" />
+    <Compile Include="Subjects\RouteConventionsControllers.cs" />
     <Compile Include="Subjects\RouteDefaultsController.cs" />
     <Compile Include="Subjects\RoutePrecedenceController.cs" />
     <Compile Include="Subjects\StandardUsageController.cs" />
