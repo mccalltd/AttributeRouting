@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using AttributeRouting.Constraints;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
@@ -110,12 +112,44 @@ namespace AttributeRouting.Framework
                     return true;
 
                 // Match if this route has no translations for the neutral current UI culture.
-                if (!translations.Any(t => t.CultureName == currentUINeutralCultureName))
+                if (translations.All(t => t.CultureName != currentUINeutralCultureName))
                     return true;
             }
 
             // Otherwise, don't match.
             return false;
+        }
+
+        public static TVirtualPathData GetVirtualPath<TVirtualPathData>(this IAttributeRoute route, Func<TVirtualPathData> fromBaseMethod)
+            where TVirtualPathData : class
+        {
+            // Remove querystring route constraints:
+            // the base GetVirtualPath will not inject route params that have constraints into the querystring.
+            var queryStringConstraints = new Dictionary<string, object>();
+            var constraintKeys = route.Constraints.Keys.Select(k => k).ToList();
+            foreach (var constraintKey in constraintKeys)
+            {
+                var constraint = route.Constraints[constraintKey];
+                var constraintToTest = constraint is IOptionalRouteConstraintWrapper
+                                           ? ((IOptionalRouteConstraintWrapper)constraint).Constraint
+                                           : constraint;
+
+                if (constraintToTest is IQueryStringRouteConstraintWrapper)
+                    queryStringConstraints.Add(constraintKey, constraint);
+
+                route.Constraints.Remove(constraintKey);
+            }
+
+            // Let the underlying route do its thing.
+            var virtualPathData = fromBaseMethod();
+
+            // Add the querystring constraints back in.
+            foreach (var queryStringConstraint in queryStringConstraints)
+            {
+                route.Constraints.Add(queryStringConstraint.Key, queryStringConstraint.Value);
+            }
+
+            return virtualPathData;
         }
 
         /// <summary>

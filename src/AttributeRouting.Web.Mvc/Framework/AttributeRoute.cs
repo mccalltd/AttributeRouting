@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
+using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
@@ -91,7 +92,7 @@ namespace AttributeRouting.Web.Mvc.Framework
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
             // Let the underlying route do its thing, and if it does, then add some functionality on top.
-            var virtualPathData = base.GetVirtualPath(requestContext, values);
+            var virtualPathData = this.GetVirtualPath(() => base.GetVirtualPath(requestContext, values));
             if (virtualPathData == null)
                 return null;
 

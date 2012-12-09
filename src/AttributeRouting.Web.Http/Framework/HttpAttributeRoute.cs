@@ -93,7 +93,7 @@ namespace AttributeRouting.Web.Http.Framework
         public override IHttpVirtualPathData GetVirtualPath(HttpRequestMessage request, IDictionary<string, object> values)
         {
             // Let the underlying route do its thing, and if it does, then add some functionality on top.
-            var virtualPathData = base.GetVirtualPath(request, values);
+            var virtualPathData = this.GetVirtualPath(() => base.GetVirtualPath(request, values));
             if (virtualPathData == null)
                 return null;
 
