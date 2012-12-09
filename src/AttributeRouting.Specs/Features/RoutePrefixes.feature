@@ -79,3 +79,13 @@ Scenario: Generating routes when a route area and route prefix are defined and t
 	Given I have registered the routes for the HttpAreaRoutePrefixesController
 	When I fetch the routes for the HttpAreaRoutePrefixes controller's RelativeUrlIsAreaUrl action
 	Then the route url is "ApiArea/ApiPrefix/ApiArea"
+
+Scenario: Generating routes with the default ctor of the RoutePrefixAttribute
+	# MVC
+	Given I have registered the routes for the DefaultRoutePrefixController
+	When I fetch the routes for the DefaultRoutePrefix controller's Index action
+	Then the route url is "DefaultRoutePrefix/Index"
+	# Web API
+	Given I have registered the routes for the HttpDefaultRoutePrefixController
+	When I fetch the routes for the HttpDefaultRoutePrefix controller's Get action
+	Then the route url is "HttpDefaultRoutePrefix/Index"

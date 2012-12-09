@@ -70,6 +70,7 @@ namespace AttributeRouting.Framework
                                                ?? (oldConventionalRoutePrefix.HasValue()
                                                        ? new RoutePrefixAttribute(oldConventionalRoutePrefix)
                                                        : convention.SafeGet(x => x.GetDefaultRoutePrefix(controllerType)))
+                    let routePrefixUrl = GetRoutePrefixUrl(routePrefixAttribute, controllerType)
                     from routeAttribute in GetRouteAttributes(actionMethod, convention)
                     let routeName = routeAttribute.RouteName
                     let actionName = GetActionName(actionMethod, isAsyncController)
@@ -89,7 +90,7 @@ namespace AttributeRouting.Framework
                         AreaUrl = areaUrl,
                         AreaUrlTranslationKey = routeAreaAttribute.SafeGet(a => a.TranslationKey),
                         Subdomain = subdomain,
-                        RoutePrefixUrl = routePrefixAttribute.SafeGet(p => p.Url),
+                        RoutePrefixUrl = routePrefixUrl,
                         RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
                         ControllerType = controllerType,
                         ControllerName = controllerType.GetControllerName(),
@@ -153,11 +154,8 @@ namespace AttributeRouting.Framework
                 return null;
 
             // If given an area name, then use it.
-            if (routeAreaAttribute.AreaName.HasValue())
-                return routeAreaAttribute.AreaName;
-
             // Otherwise, use the last section of the namespace of the controller, as a convention.
-            return controllerType.GetLastSectionOfNamespace();
+            return routeAreaAttribute.AreaName ?? controllerType.GetLastSectionOfNamespace();
         }
 
         /// <summary>
@@ -180,12 +178,9 @@ namespace AttributeRouting.Framework
                 return null;
 
             // If we're given an area url or an area name, then use it.
-            var areaUrlOrName = routeAreaAttribute.AreaUrl ?? routeAreaAttribute.AreaName;
-            if (areaUrlOrName != null)
-                return areaUrlOrName;
-
             // Otherwise, use the last section of the namespace of the controller, as a convention.
-            return controllerType.GetLastSectionOfNamespace();
+            var areaUrlOrName = routeAreaAttribute.AreaUrl ?? routeAreaAttribute.AreaName;
+            return areaUrlOrName ?? controllerType.GetLastSectionOfNamespace();
         }
 
         /// <summary>
@@ -203,10 +198,23 @@ namespace AttributeRouting.Framework
                                      where o.Key == routeAreaAttribute.AreaName
                                      select o.Value).FirstOrDefault();
 
-            if (subdomainOverride != null)
-                return subdomainOverride;
+            return subdomainOverride ?? routeAreaAttribute.Subdomain;
+        }
 
-            return routeAreaAttribute.Subdomain;
+        /// <summary>
+        /// Gets the route prefix for the routes in the controller.
+        /// </summary>
+        /// <param name="routePrefixAttribute">The <see cref="RoutePrefixAttribute"/> for the controller.</param>
+        /// <param name="controllerType">The type of the controller.</param>
+        /// <returns>The URL prefix for the routes in the controller.</returns>
+        private static string GetRoutePrefixUrl(RoutePrefixAttribute routePrefixAttribute, Type controllerType)
+        {
+            if (routePrefixAttribute == null)
+                return null;
+
+            // If we're given route prefix url, use it.
+            // Otherwise, use the controller name as a convention.
+            return routePrefixAttribute.Url ?? controllerType.GetControllerName();
         }
 
         /// <summary>

@@ -30,4 +30,14 @@ namespace AttributeRouting.Specs.Subjects.Http
             return "";
         }
     }
+
+    [RoutePrefix]
+    public class HttpDefaultRoutePrefixController : ApiController
+    {
+        [GET("Index")]
+        public string Get()
+        {
+            return "";
+        }
+    }
 }

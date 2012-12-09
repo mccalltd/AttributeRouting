@@ -1,5 +1,4 @@
 using System.Web.Mvc;
-using AttributeRouting.Web;
 using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
@@ -58,6 +57,16 @@ namespace AttributeRouting.Specs.Subjects
         public string RelativeUrlIsAreaUrl()
         {
             return "";
+        }
+    }
+
+    [RoutePrefix]
+    public class DefaultRoutePrefixController : Controller
+    {
+        [GET("Index")]
+        public ActionResult Index()
+        {
+            return Content("");
         }
     }
 }
