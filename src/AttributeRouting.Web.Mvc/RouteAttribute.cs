@@ -13,18 +13,38 @@ namespace AttributeRouting.Web.Mvc
     public class RouteAttribute : ActionMethodSelectorAttribute, IRouteAttribute
     {
         /// <summary>
-        /// Specify the route information for an action.
+        /// Specify the route information for an action. 
+        /// The route URL will be the name of the action.
         /// </summary>
-        /// <param name="routeUrl">The url that is associated with this action</param>
-        public RouteAttribute(string routeUrl)
+        public RouteAttribute()
         {
-            if (routeUrl == null) throw new ArgumentNullException("routeUrl");
-
-            RouteUrl = routeUrl;
             HttpMethods = new string[0];
             ActionPrecedence = int.MaxValue;
             ControllerPrecedence = int.MaxValue;
             SitePrecedence = int.MaxValue;
+        }
+
+        /// <summary>
+        /// Specify the route information for an action.
+        /// </summary>
+        /// <param name="routeUrl">The url that is associated with this action</param>
+        public RouteAttribute(string routeUrl)
+            : this()
+        {
+            if (routeUrl == null) throw new ArgumentNullException("routeUrl");
+
+            RouteUrl = routeUrl;
+        }
+
+        /// <summary>
+        /// Specify the route information for an action.
+        /// The route URL will be the name of the action.
+        /// </summary>
+        /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
+        public RouteAttribute(params HttpVerbs[] allowedMethods)
+            : this()
+        {
+            HttpMethods = allowedMethods.Select(m => m.ToString().ToUpperInvariant()).ToArray();
         }
 
         /// <summary>

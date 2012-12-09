@@ -69,6 +69,7 @@ namespace AttributeRouting.Framework
                     let routeName = routeAttribute.RouteName
                     let subdomain = GetAreaSubdomain(routeAreaAttribute)
                     let isAsyncController = controllerType.IsAsyncController()
+                    let actionName = GetActionName(actionMethod, isAsyncController)
                     /* controlling precedence: 
                      * site precedence of route > 
                      * controller index > 
@@ -89,8 +90,8 @@ namespace AttributeRouting.Framework
                         RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
                         ControllerType = controllerType,
                         ControllerName = controllerType.GetControllerName(),
-                        ActionName = GetActionName(actionMethod, isAsyncController),
-                        RouteUrl = routeAttribute.RouteUrl,
+                        ActionName = actionName,
+                        RouteUrl = routeAttribute.RouteUrl ?? actionName,
                         RouteUrlTranslationKey = routeAttribute.TranslationKey,
                         HttpMethods = routeAttribute.HttpMethods,
                         RouteName = routeName,

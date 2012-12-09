@@ -3,7 +3,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using AttributeRouting.Tests.Web.Models;
-using AttributeRouting.Web;
 using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Tests.Web.Controllers
