@@ -147,9 +147,7 @@
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionWithExplicitOrderedRouteController.cs" />
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionWithExplicitRouteController.cs" />
     <Compile Include="Subjects\Http\HttpAreaRoutePrefixesController.cs" />
-    <Compile Include="Subjects\Http\HttpAreasController.cs" />
     <Compile Include="Subjects\Http\HttpInlineRouteConstraintsControllers.cs" />
-    <Compile Include="Subjects\Http\HttpExplicitAreaUrlController.cs" />
     <Compile Include="Subjects\Http\HttpRouteDefaultsController.cs" />
     <Compile Include="Subjects\Http\HttpRoutePrecedenceControllers.cs" />
     <Compile Include="Subjects\Http\HttpRoutePrefixesController.cs" />

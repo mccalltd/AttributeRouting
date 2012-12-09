@@ -8,6 +8,12 @@ namespace AttributeRouting.Helpers
 {
     public static class ReflectionExtensions
     {
+        public static string GetLastSectionOfNamespace(this Type type)
+        {
+            var ns = type.Namespace;
+            return ns == null ? null : ns.Split('.').Last();    
+        }
+
         public static IEnumerable<MethodInfo> GetActionMethods(this Type type, bool inheritActionsFromBaseController)
         {
             var flags = BindingFlags.Public | BindingFlags.Instance;

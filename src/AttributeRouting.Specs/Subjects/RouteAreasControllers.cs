@@ -46,4 +46,14 @@ namespace AttributeRouting.Specs.Subjects
             return Content("");
         }
     }
+
+    [RouteArea]
+    public class DefaultRouteAreaController : Controller
+    {
+        [GET("Index")]
+        public ActionResult Index()
+        {
+            return Content("");
+        }
+    }
 }
