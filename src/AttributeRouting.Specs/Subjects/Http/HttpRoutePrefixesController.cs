@@ -29,6 +29,12 @@ namespace AttributeRouting.Specs.Subjects.Http
         {
             return "";
         }
+
+        [GET("NoApiPrefix", IgnoreRoutePrefix = true)]
+        public string NoPrefix()
+        {
+            return "";
+        }
     }
 
     [RoutePrefix]

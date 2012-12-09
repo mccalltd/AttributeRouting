@@ -100,6 +100,8 @@ namespace AttributeRouting.Framework
                         HttpMethods = routeAttribute.HttpMethods,
                         RouteName = routeName,
                         IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl,
+                        IgnoreRoutePrefix = routeAttribute.IgnoreRoutePrefix,
+                        IgnoreAreaUrl = routeAttribute.IgnoreAreaUrl,
                         UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
                         PreserveCaseForUrlParameters = routeAttribute.PreserveCaseForUrlParametersFlag,
                         AppendTrailingSlash = routeAttribute.AppendTrailingSlashFlag

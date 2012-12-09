@@ -40,6 +40,16 @@ Scenario: Generating prefixed routes when route url starts with the route prefix
 	When I fetch the routes for the HttpRoutePrefixes controller's RouteBeginsWithRoutePrefix action
 	Then the route url is "ApiPrefix/ApiPrefixer"
 
+Scenario: Generating prefixed routes when ignoring the route prefix
+	# MVC
+	Given I have registered the routes for the RoutePrefixesController
+	When I fetch the routes for the RoutePrefixes controller's NoPrefix action
+	Then the route url is "NoPrefix"
+	# Web API
+	Given I have registered the routes for the HttpRoutePrefixesController
+	When I fetch the routes for the HttpRoutePrefixes controller's NoPrefix action
+	Then the route url is "NoApiPrefix"
+
 Scenario: Generating prefixed area routes
 	# MVC
 	Given I have registered the routes for the AreaRoutePrefixesController

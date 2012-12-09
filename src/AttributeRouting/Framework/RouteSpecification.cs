@@ -40,5 +40,9 @@ namespace AttributeRouting.Framework
         public bool? PreserveCaseForUrlParameters { get; set; }
 
         public bool? AppendTrailingSlash { get; set; }
+
+        public bool IgnoreRoutePrefix { get; set; }
+
+        public bool IgnoreAreaUrl { get; set; }
     }
 }

@@ -135,19 +135,36 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating area routes when ignoring the area url")]
+        public virtual void GeneratingAreaRoutesWhenIgnoringTheAreaUrl()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating area routes when ignoring the area url", ((string[])(null)));
+#line 24
+this.ScenarioSetup(scenarioInfo);
+#line 25
+ testRunner.Given("I have registered the routes for the AreasController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 26
+ testRunner.When("I fetch the routes for the Areas controller\'s NoAreaUrl action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 27
+ testRunner.Then("the route url is \"NoAreaUrl\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating area routes with an explicit area url")]
         public virtual void GeneratingAreaRoutesWithAnExplicitAreaUrl()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating area routes with an explicit area url", ((string[])(null)));
-#line 24
+#line 29
 this.ScenarioSetup(scenarioInfo);
-#line 25
+#line 30
  testRunner.Given("I have registered the routes for the ExplicitAreaUrlController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 26
+#line 31
  testRunner.When("I fetch the routes for the ExplicitAreaUrl controller\'s Index action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 27
+#line 32
  testRunner.Then("the route url is \"ExplicitArea/Index\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 28
+#line 33
  testRunner.And("the data token for \"area\" is \"Area\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -160,15 +177,15 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating area routes with an explicit area url when route urls specify a duplic" +
                     "ate area prefix", ((string[])(null)));
-#line 30
+#line 35
 this.ScenarioSetup(scenarioInfo);
-#line 31
+#line 36
  testRunner.Given("I have registered the routes for the ExplicitAreaUrlController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 32
+#line 37
  testRunner.When("I fetch the routes for the ExplicitAreaUrl controller\'s DuplicatePrefix action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 33
+#line 38
  testRunner.Then("the route url is \"ExplicitArea/DuplicatePrefix\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 34
+#line 39
  testRunner.And("the data token for \"area\" is \"Area\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -179,15 +196,15 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void GeneratingAreaRoutesWithTheDefaultCtorOfTheRouteAreaAttribute()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating area routes with the default ctor of the RouteAreaAttribute", ((string[])(null)));
-#line 36
+#line 41
 this.ScenarioSetup(scenarioInfo);
-#line 37
+#line 42
  testRunner.Given("I have registered the routes for the DefaultRouteAreaController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 38
+#line 43
  testRunner.When("I fetch the routes for the DefaultRouteArea controller\'s Index action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 39
+#line 44
  testRunner.Then("the route url is \"Subjects/Index\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 40
+#line 45
  testRunner.And("the data token for \"area\" is \"Subjects\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

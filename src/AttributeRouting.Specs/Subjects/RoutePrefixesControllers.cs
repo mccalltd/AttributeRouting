@@ -29,6 +29,12 @@ namespace AttributeRouting.Specs.Subjects
         {
             return Content("");
         }
+
+        [GET("NoPrefix", IgnoreRoutePrefix = true)]
+        public string NoPrefix()
+        {
+            return "";
+        }
     }
 
     [RouteArea("Area")]

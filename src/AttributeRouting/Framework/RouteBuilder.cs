@@ -103,13 +103,12 @@ namespace AttributeRouting.Framework
             return CreateRouteUrl(routeSpec.RouteUrl,
                                   routeSpec.RoutePrefixUrl,
                                   routeSpec.AreaUrl,
-                                  routeSpec.IsAbsoluteUrl,
-                                  routeSpec.UseLowercaseRoute);
+                                  routeSpec);
         }
 
-        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, bool isAbsoluteUrl, bool? useLowercaseRoute)
+        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, RouteSpecification routeSpec)
         {
-            var tokenizedUrl = BuildTokenizedUrl(routeUrl, routePrefix, areaUrl, isAbsoluteUrl);
+            var tokenizedUrl = BuildTokenizedUrl(routeUrl, routePrefix, areaUrl, routeSpec);
             var tokenizedPath = RemoveQueryString(tokenizedUrl);
             var detokenizedPath = DetokenizeUrl(tokenizedPath);
 
@@ -129,7 +128,7 @@ namespace AttributeRouting.Framework
             var urlBuilder = new StringBuilder(detokenizedPath);
 
             // If we are lowercasing routes, then lowercase everything but the route params
-            var lower = useLowercaseRoute.HasValue ? useLowercaseRoute.Value : _configuration.UseLowercaseRoutes;
+            var lower = routeSpec.UseLowercaseRoute.GetValueOrDefault(_configuration.UseLowercaseRoutes);
             if (lower)
             {
                 for (var i = 0; i < urlBuilder.Length; i++)
@@ -202,7 +201,7 @@ namespace AttributeRouting.Framework
                 constraints.Add("httpMethod", _routeConstraintFactory.CreateRestfulHttpMethodConstraint(routeSpec.HttpMethods));
 
             // Work from a complete, tokenized url; ie: support constraints in area urls, route prefix urls, and route urls.
-            var tokenizedUrl = BuildTokenizedUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec.IsAbsoluteUrl);
+            var tokenizedUrl = BuildTokenizedUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec);
             var urlParameters = GetUrlParameterContents(tokenizedUrl).ToList();
 
             // Need to keep track of query params. 
@@ -320,27 +319,24 @@ namespace AttributeRouting.Framework
             return constraints;
         }
 
-        private string BuildTokenizedUrl(string routeUrl, string routePrefixUrl, string areaUrl, bool isAbsoluteUrl)
+        private string BuildTokenizedUrl(string routeUrl, string routePrefixUrl, string areaUrl, RouteSpecification routeSpec)
         {
             var delimitedUrl = routeUrl + "/";
-            
-            if (!isAbsoluteUrl)
-            {
-                // Prepend prefix if available
-                if (routePrefixUrl.HasValue())
-                {
-                    var delimitedRoutePrefix = routePrefixUrl + "/";
-                    if (!delimitedUrl.StartsWith(delimitedRoutePrefix))
-                        delimitedUrl = delimitedRoutePrefix + delimitedUrl;
-                }
 
-                // Prepend area url if available
-                if (areaUrl.HasValue())
-                {
-                    var delimitedAreaUrl = areaUrl + "/";
-                    if (!delimitedUrl.StartsWith(delimitedAreaUrl))
-                        delimitedUrl = delimitedAreaUrl + delimitedUrl;
-                }
+            // Prepend prefix if available
+            if (routePrefixUrl.HasValue() && !routeSpec.IgnoreRoutePrefix)
+            {
+                var delimitedRoutePrefix = routePrefixUrl + "/";
+                if (!delimitedUrl.StartsWith(delimitedRoutePrefix))
+                    delimitedUrl = delimitedRoutePrefix + delimitedUrl;
+            }
+
+            // Prepend area url if available
+            if (areaUrl.HasValue() && !routeSpec.IgnoreAreaUrl)
+            {
+                var delimitedAreaUrl = areaUrl + "/";
+                if (!delimitedUrl.StartsWith(delimitedAreaUrl))
+                    delimitedUrl = delimitedAreaUrl + delimitedUrl;
             }
 
             return delimitedUrl.Trim('/');
@@ -433,8 +429,7 @@ namespace AttributeRouting.Framework
                 var routeUrl = CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
                                               translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
                                               translatedAreaUrl ?? routeSpec.AreaUrl,
-                                              routeSpec.IsAbsoluteUrl,
-                                              routeSpec.UseLowercaseRoute);
+                                              routeSpec);
 
                 var translatedRoutes = _routeFactory.CreateAttributeRoutes(routeUrl,
                                                                            CreateRouteDefaults(routeSpec),

@@ -62,7 +62,11 @@ namespace AttributeRouting.Web.Http
 
         public string RouteName { get; set; }
 
-        public bool IsAbsoluteUrl { get; set; }
+        public bool IsAbsoluteUrl
+        {
+            get { return IgnoreAreaUrl && IgnoreRoutePrefix; }
+            set { IgnoreAreaUrl = IgnoreRoutePrefix = value; }
+        }
 
         public string TranslationKey { get; set; }
 
@@ -89,5 +93,9 @@ namespace AttributeRouting.Web.Http
         }
 
         public bool? AppendTrailingSlashFlag { get; private set; }
+        
+        public bool IgnoreRoutePrefix { get; set; }
+        
+        public bool IgnoreAreaUrl { get; set; }
     }
 }

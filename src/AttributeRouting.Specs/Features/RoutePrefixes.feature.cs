@@ -159,23 +159,46 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating prefixed routes when ignoring the route prefix")]
+        public virtual void GeneratingPrefixedRoutesWhenIgnoringTheRoutePrefix()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating prefixed routes when ignoring the route prefix", ((string[])(null)));
+#line 43
+this.ScenarioSetup(scenarioInfo);
+#line 45
+ testRunner.Given("I have registered the routes for the RoutePrefixesController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 46
+ testRunner.When("I fetch the routes for the RoutePrefixes controller\'s NoPrefix action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 47
+ testRunner.Then("the route url is \"NoPrefix\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 49
+ testRunner.Given("I have registered the routes for the HttpRoutePrefixesController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 50
+ testRunner.When("I fetch the routes for the HttpRoutePrefixes controller\'s NoPrefix action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 51
+ testRunner.Then("the route url is \"NoApiPrefix\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Generating prefixed area routes")]
         public virtual void GeneratingPrefixedAreaRoutes()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating prefixed area routes", ((string[])(null)));
-#line 43
+#line 53
 this.ScenarioSetup(scenarioInfo);
-#line 45
+#line 55
  testRunner.Given("I have registered the routes for the AreaRoutePrefixesController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 46
+#line 56
  testRunner.When("I fetch the routes for the AreaRoutePrefixes controller\'s Index action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 47
+#line 57
  testRunner.Then("the route url is \"Area/Prefix/Index\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 49
+#line 59
  testRunner.Given("I have registered the routes for the HttpAreaRoutePrefixesController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 50
+#line 60
  testRunner.When("I fetch the routes for the HttpAreaRoutePrefixes controller\'s Get action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 51
+#line 61
  testRunner.Then("the route url is \"ApiArea/ApiPrefix/Get\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -186,20 +209,20 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void GeneratingPrefixedAreaRoutesWhenRouteUrlsSpecifyADuplicatePrefix()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating prefixed area routes when route urls specify a duplicate prefix", ((string[])(null)));
-#line 53
+#line 63
 this.ScenarioSetup(scenarioInfo);
-#line 55
+#line 65
  testRunner.Given("I have registered the routes for the AreaRoutePrefixesController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 56
+#line 66
  testRunner.When("I fetch the routes for the AreaRoutePrefixes controller\'s DuplicatePrefix action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 57
+#line 67
  testRunner.Then("the route url is \"Area/Prefix/DuplicatePrefix\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 59
+#line 69
  testRunner.Given("I have registered the routes for the HttpAreaRoutePrefixesController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 60
+#line 70
  testRunner.When("I fetch the routes for the HttpAreaRoutePrefixes controller\'s DuplicatePrefix act" +
                     "ion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 61
+#line 71
  testRunner.Then("the route url is \"ApiArea/ApiPrefix/DuplicatePrefix\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -210,19 +233,19 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void GeneratingAbsoluteRoutesWhenARouteAreaAndRoutePrefixIsDefined()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating absolute routes when a route area and route prefix is defined", ((string[])(null)));
-#line 63
+#line 73
 this.ScenarioSetup(scenarioInfo);
-#line 65
+#line 75
  testRunner.Given("I have registered the routes for the AreaRoutePrefixesController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 66
+#line 76
  testRunner.When("I fetch the routes for the AreaRoutePrefixes controller\'s Absolute action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 67
+#line 77
  testRunner.Then("the route url is \"AreaPrefixAbsolute\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 69
+#line 79
  testRunner.Given("I have registered the routes for the HttpAreaRoutePrefixesController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 70
+#line 80
  testRunner.When("I fetch the routes for the HttpAreaRoutePrefixes controller\'s Absolute action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 71
+#line 81
  testRunner.Then("the route url is \"ApiAreaPrefixAbsolute\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -235,21 +258,21 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes when a route area and route prefix are defined and the action r" +
                     "especifies the area url", ((string[])(null)));
-#line 73
+#line 83
 this.ScenarioSetup(scenarioInfo);
-#line 75
+#line 85
  testRunner.Given("I have registered the routes for the AreaRoutePrefixesController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 76
+#line 86
  testRunner.When("I fetch the routes for the AreaRoutePrefixes controller\'s RelativeUrlIsAreaUrl ac" +
                     "tion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 77
+#line 87
  testRunner.Then("the route url is \"Area/Prefix/Area\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 79
+#line 89
  testRunner.Given("I have registered the routes for the HttpAreaRoutePrefixesController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 80
+#line 90
  testRunner.When("I fetch the routes for the HttpAreaRoutePrefixes controller\'s RelativeUrlIsAreaUr" +
                     "l action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 81
+#line 91
  testRunner.Then("the route url is \"ApiArea/ApiPrefix/ApiArea\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -260,19 +283,19 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void GeneratingRoutesWithTheDefaultCtorOfTheRoutePrefixAttribute()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes with the default ctor of the RoutePrefixAttribute", ((string[])(null)));
-#line 83
+#line 93
 this.ScenarioSetup(scenarioInfo);
-#line 85
+#line 95
  testRunner.Given("I have registered the routes for the DefaultRoutePrefixController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 86
+#line 96
  testRunner.When("I fetch the routes for the DefaultRoutePrefix controller\'s Index action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 87
+#line 97
  testRunner.Then("the route url is \"DefaultRoutePrefix/Index\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 89
+#line 99
  testRunner.Given("I have registered the routes for the HttpDefaultRoutePrefixController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 90
+#line 100
  testRunner.When("I fetch the routes for the HttpDefaultRoutePrefix controller\'s Get action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 91
+#line 101
  testRunner.Then("the route url is \"HttpDefaultRoutePrefix/Index\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

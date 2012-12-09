@@ -109,5 +109,17 @@ namespace AttributeRouting
         /// Gets the tri-state value for AppendTrailingSlash.
         /// </summary>
         bool? AppendTrailingSlashFlag { get; }
+
+        /// <summary>
+        /// If true, will ignore any route prefix specified via the <see cref="RoutePrefixAttribute"/>
+        /// when building up the route URL.
+        /// </summary>
+        bool IgnoreRoutePrefix { get; set; }
+
+        /// <summary>
+        /// If true, will ignore any area URL prefix specified via the <see cref="RouteAreaAttribute"/>
+        /// when building up the route URL.
+        /// </summary>
+        bool IgnoreAreaUrl { get; set; }
     }
 }

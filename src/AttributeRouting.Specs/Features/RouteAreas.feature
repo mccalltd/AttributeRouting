@@ -21,6 +21,11 @@ Scenario: Generating area routes when route url starts with the area prefix
 	When I fetch the routes for the Areas controller's RouteBeginsWithAreaName action
 	Then the route url is "Area/Areas"
 
+Scenario: Generating area routes when ignoring the area url
+	Given I have registered the routes for the AreasController
+	When I fetch the routes for the Areas controller's NoAreaUrl action
+	Then the route url is "NoAreaUrl"
+
 Scenario: Generating area routes with an explicit area url
 	Given I have registered the routes for the ExplicitAreaUrlController
 	When I fetch the routes for the ExplicitAreaUrl controller's Index action

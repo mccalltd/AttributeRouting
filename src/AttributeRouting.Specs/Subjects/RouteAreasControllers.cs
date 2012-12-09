@@ -29,6 +29,12 @@ namespace AttributeRouting.Specs.Subjects
         {
             return Content("");
         }
+
+        [GET("NoAreaUrl", IgnoreAreaUrl = true)]
+        public ActionResult NoAreaUrl()
+        {
+            return Content("");
+        }
     }
 
     [RouteArea("Area", AreaUrl = "ExplicitArea")]
