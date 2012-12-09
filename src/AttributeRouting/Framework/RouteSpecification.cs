@@ -44,5 +44,15 @@ namespace AttributeRouting.Framework
         public bool IgnoreRoutePrefix { get; set; }
 
         public bool IgnoreAreaUrl { get; set; }
+
+        public int ControllerIndex { get; set; }
+
+        public long SitePrecedence { get; set; }
+
+        public long PrefixPrecedence { get; set; }
+
+        public long ControllerPrecedence { get; set; }
+
+        public long ActionPrecedence { get; set; }
     }
 }

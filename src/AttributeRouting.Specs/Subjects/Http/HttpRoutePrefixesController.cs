@@ -46,4 +46,15 @@ namespace AttributeRouting.Specs.Subjects.Http
             return "";
         }
     }
+
+    [RoutePrefix("HttpFirstPrefix", Precedence = 1)]
+    [RoutePrefix("HttpSecondPrefix")]
+    public class HttpMultipleRoutePrefixController : ApiController
+    {
+        [GET("Index")]
+        public string Get()
+        {
+            return "";
+        }
+    }
 }

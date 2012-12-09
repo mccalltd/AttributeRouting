@@ -75,4 +75,16 @@ namespace AttributeRouting.Specs.Subjects
             return Content("");
         }
     }
+
+    [RoutePrefix("FirstPrefix", Precedence = 1)]
+    [RoutePrefix("SecondPrefix")]
+    public class MultipleRoutePrefixController : Controller
+    {
+        [GET("Index")]
+        [GET("This/Is/Absolute", IsAbsoluteUrl = true)]
+        public ActionResult Index()
+        {
+            return Content("");
+        }
+    }
 }

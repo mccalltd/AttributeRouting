@@ -67,9 +67,9 @@ namespace AttributeRouting.Web.Http
             }
         }
 
-        public override RoutePrefixAttribute GetDefaultRoutePrefix(Type controllerType)
+        public override IEnumerable<RoutePrefixAttribute> GetDefaultRoutePrefixes(Type controllerType)
         {
-            return new RoutePrefixAttribute(controllerType.GetControllerName());
+            yield return new RoutePrefixAttribute(controllerType.GetControllerName());
         }
 
         private IRouteAttribute BuildRouteAttribute(HttpRouteConventionInfo convention)

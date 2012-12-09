@@ -34,9 +34,9 @@ namespace AttributeRouting
         /// </summary>
         /// <param name="controllerType">The controller type.</param>
         /// <returns>A <see cref="RoutePrefixAttribute"/>.</returns>
-        public virtual RoutePrefixAttribute GetDefaultRoutePrefix(Type controllerType)
+        public virtual IEnumerable<RoutePrefixAttribute> GetDefaultRoutePrefixes(Type controllerType)
         {
-            return null;
+            yield break;
         }
 
         /// <summary>

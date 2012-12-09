@@ -99,3 +99,15 @@ Scenario: Generating routes with the default ctor of the RoutePrefixAttribute
 	Given I have registered the routes for the HttpDefaultRoutePrefixController
 	When I fetch the routes for the HttpDefaultRoutePrefix controller's Get action
 	Then the route url is "HttpDefaultRoutePrefix/Index"
+
+Scenario: Generating prefixed routes when specifying multiple route prefixes
+	# MVC
+	Given I have registered the routes for the MultipleRoutePrefixController
+	When I fetch the routes for the MultipleRoutePrefix controller's Index action
+	Then the 1st route url is "FirstPrefix/Index"
+	And the 3rd route url is "SecondPrefix/Index"
+	# Web API
+	Given I have registered the routes for the HttpMultipleRoutePrefixController
+	When I fetch the routes for the HttpMultipleRoutePrefix controller's Get action
+	Then the 1st route url is "HttpFirstPrefix/Index"
+	And the 2st route url is "HttpSecondPrefix/Index"

@@ -300,6 +300,33 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Generating prefixed routes when specifying multiple route prefixes")]
+        public virtual void GeneratingPrefixedRoutesWhenSpecifyingMultipleRoutePrefixes()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating prefixed routes when specifying multiple route prefixes", ((string[])(null)));
+#line 103
+this.ScenarioSetup(scenarioInfo);
+#line 105
+ testRunner.Given("I have registered the routes for the MultipleRoutePrefixController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 106
+ testRunner.When("I fetch the routes for the MultipleRoutePrefix controller\'s Index action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 107
+ testRunner.Then("the 1st route url is \"FirstPrefix/Index\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 108
+ testRunner.And("the 3rd route url is \"SecondPrefix/Index\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 110
+ testRunner.Given("I have registered the routes for the HttpMultipleRoutePrefixController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 111
+ testRunner.When("I fetch the routes for the HttpMultipleRoutePrefix controller\'s Get action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 112
+ testRunner.Then("the 1st route url is \"HttpFirstPrefix/Index\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 113
+ testRunner.And("the 2st route url is \"HttpSecondPrefix/Index\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore
