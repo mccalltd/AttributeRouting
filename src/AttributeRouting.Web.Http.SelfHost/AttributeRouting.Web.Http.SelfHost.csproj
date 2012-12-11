@@ -72,7 +72,6 @@
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteConstraintFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
-    <Compile Include="Constraints\RestfulHttpMethodConstraint.cs" />
     <Compile Include="HttpRouteCollectionExtensions.cs" />
     <Compile Include="Logging\LoggingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using System.Web.Http.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
@@ -88,6 +89,9 @@ namespace AttributeRouting.Tests.Web
                             "{*path}",
                             new { controller = "home", action = "filenotfound" },
                             new[] { typeof(HomeController).Namespace });
+
+            // Testing issue 146
+            GlobalConfiguration.Configuration.Services.Replace(typeof(IHostBufferPolicySelector), new CustomWebHostBufferPolicySelector());
         }
     }
 }

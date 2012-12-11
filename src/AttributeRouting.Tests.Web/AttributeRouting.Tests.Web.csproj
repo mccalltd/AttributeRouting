@@ -118,6 +118,7 @@
     <Compile Include="Areas\Api\Controllers\BaseApiController.cs" />
     <Compile Include="Areas\Api\Controllers\ConstraintsController.cs" />
     <Compile Include="Areas\Api\Controllers\ConventionController.cs" />
+    <Compile Include="Areas\Api\Controllers\UploadController.cs" />
     <Compile Include="Controllers\ApiExplorerController.cs" />
     <Compile Include="Areas\Api\Controllers\LocalizationController.cs" />
     <Compile Include="Areas\Api\Controllers\PlainController.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Controllers\RestfulController.cs" />
     <Compile Include="Controllers\RestfulConventionController.cs" />
     <Compile Include="CultureAwareRouteHandler.cs" />
+    <Compile Include="CustomWebHostBufferPolicySelector.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

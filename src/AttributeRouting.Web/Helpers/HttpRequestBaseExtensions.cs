@@ -1,7 +1,6 @@
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Web;
-using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Helpers
 {
@@ -45,14 +44,6 @@ namespace AttributeRouting.Web.Helpers
 
                 return null;
             }
-        }
-
-        public static string GetHttpMethod(this HttpRequestBase request)
-        {
-            return request.SafeGet(r => r.Headers["X-HTTP-Method-Override"]) ??
-                   request.SafeGet(r => GetFormValue(r, "X-HTTP-Method-Override")) ??
-                   request.SafeGet(r => GetQueryStringValue(r, "X-HTTP-Method-Override")) ??
-                   request.SafeGet(r => r.HttpMethod, "GET");
         }
     }
 }

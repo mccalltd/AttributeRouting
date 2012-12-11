@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using AttributeRouting.Framework;
 using AttributeRouting.Web.Constraints;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -66,16 +68,16 @@ namespace AttributeRouting.Specs.Steps
 
             Assert.That(route, Is.Not.Null);
 
-            var constraint = route.Constraints["httpMethod"] as RestfulHttpMethodConstraint;
+            var allowedMethods = route.DataTokens["httpMethods"] as IEnumerable<string>;
 
             if (method.HasValue())
             {
-                Assert.That(constraint, Is.Not.Null);
-                Assert.That(constraint.AllowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
+                Assert.That(allowedMethods, Is.Not.Null);
+                Assert.That(allowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
             }
             else
             {
-                Assert.That(constraint, Is.Null);
+                Assert.That(allowedMethods, Is.Null);
             }
         }
 
@@ -86,10 +88,10 @@ namespace AttributeRouting.Specs.Steps
 
             Assert.That(route, Is.Not.Null);
 
-            var constraint = route.Constraints["httpMethod"] as RestfulHttpMethodConstraint;
+            var allowedMethods = route.DataTokens["httpMethods"] as IEnumerable<string>;
 
-            Assert.That(constraint, Is.Not.Null);
-            Assert.That(constraint.AllowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
+            Assert.That(allowedMethods, Is.Not.Null);
+            Assert.That(allowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
         }
     }
 }

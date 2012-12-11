@@ -64,7 +64,6 @@
     <Compile Include="Constraints\EnumRouteConstraintBase.cs" />
     <Compile Include="Constraints\IAttributeRouteConstraint.cs" />
     <Compile Include="Constraints\IQueryStringRouteConstraintWrapper.cs" />
-    <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />
     <Compile Include="Constraints\MaxRouteConstraintBase.cs" />
     <Compile Include="Constraints\MinRouteConstraintBase.cs" />
     <Compile Include="Constraints\LengthRouteConstraintBase.cs" />

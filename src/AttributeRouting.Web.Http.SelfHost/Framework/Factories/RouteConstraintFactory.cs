@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Web.Http.Routing;
 using AttributeRouting.Constraints;
@@ -24,12 +23,6 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
         public RegexRouteConstraintBase CreateRegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None)
         {
             return new RegexRouteConstraint(pattern, options);
-        }
-
-        public IRestfulHttpMethodConstraint CreateRestfulHttpMethodConstraint(string[] httpMethods)
-        {
-            var allowedMethods = httpMethods.Select(m => new HttpMethod(m)).ToArray();
-            return new RestfulHttpMethodConstraint(allowedMethods);
         }
 
         public object CreateInlineRouteConstraint(string name, params object[] parameters)

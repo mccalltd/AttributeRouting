@@ -196,10 +196,6 @@ namespace AttributeRouting.Framework
         {
             var constraints = new Dictionary<string, object>();
 
-            // Default constraints
-            if (routeSpec.HttpMethods.Any())
-                constraints.Add("httpMethod", _routeConstraintFactory.CreateRestfulHttpMethodConstraint(routeSpec.HttpMethods));
-
             // Work from a complete, tokenized url; ie: support constraints in area urls, route prefix urls, and route urls.
             var tokenizedUrl = BuildTokenizedUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec);
             var urlParameters = GetUrlParameterContents(tokenizedUrl).ToList();
@@ -212,7 +208,6 @@ namespace AttributeRouting.Framework
             var queryStringParameters = urlParameters.Except(pathOnlyUrlParameters).ToList();
 
             // Inline constraints
-            var constraintFactory = _configuration.RouteConstraintFactory;
             foreach (var parameter in urlParameters)
             {
                 // Keep track of whether this param is optional or in the querystring, 
@@ -255,13 +250,13 @@ namespace AttributeRouting.Framework
                                                    ? new[] {constraintParamsRaw}
                                                    : constraintParamsRaw.SplitAndTrim(",");
 
-                        constraint = constraintFactory.CreateInlineRouteConstraint(constraintName, constraintParams);
+                        constraint = _routeConstraintFactory.CreateInlineRouteConstraint(constraintName, constraintParams);
                     }
                     else
                     {
                         // Constraint of the form "id:int"
                         constraintName = definition;
-                        constraint = constraintFactory.CreateInlineRouteConstraint(constraintName);
+                        constraint = _routeConstraintFactory.CreateInlineRouteConstraint(constraintName);
                     }
 
                     if (constraint == null)
@@ -277,7 +272,7 @@ namespace AttributeRouting.Framework
                 // 1. If more than one constraint, wrap in a compound constraint.
                 if (inlineConstraints.Count > 1)
                 {
-                    finalConstraint = constraintFactory.CreateCompoundRouteConstraint(inlineConstraints.ToArray());
+                    finalConstraint = _routeConstraintFactory.CreateCompoundRouteConstraint(inlineConstraints.ToArray());
                 }
                 else
                 {
@@ -287,13 +282,13 @@ namespace AttributeRouting.Framework
                 // 2. If the constraint is in the querystring, wrap in a query string constraint.
                 if (parameterIsInQueryString)
                 {
-                    finalConstraint = constraintFactory.CreateQueryStringRouteConstraint(finalConstraint);
+                    finalConstraint = _routeConstraintFactory.CreateQueryStringRouteConstraint(finalConstraint);
                 }
 
                 // 3. If the constraint is optional, wrap in an optional constraint.
                 if (parameterIsOptional)
                 {
-                    finalConstraint = constraintFactory.CreateOptionalRouteConstraint(finalConstraint);
+                    finalConstraint = _routeConstraintFactory.CreateOptionalRouteConstraint(finalConstraint);
                 }
 
                 constraints.Add(parameterName, finalConstraint);
@@ -349,6 +344,11 @@ namespace AttributeRouting.Framework
                 { "namespaces", new[] { routeSpec.ControllerType.Namespace } },
                 { "actionMethod", routeSpec.ActionMethod }
             };
+
+            if (routeSpec.HttpMethods.Any())
+            {
+                dataTokens.Add("httpMethods", routeSpec.HttpMethods);
+            }
 
             if (routeSpec.AreaName.HasValue())
             {
