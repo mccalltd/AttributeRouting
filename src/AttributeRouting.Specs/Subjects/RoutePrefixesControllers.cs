@@ -80,7 +80,7 @@ namespace AttributeRouting.Specs.Subjects
     [RoutePrefix("SecondPrefix")]
     public class MultipleRoutePrefixController : Controller
     {
-        [GET("Index")]
+        [GET("Index", ActionPrecedence = 1)]
         [GET("This/Is/Absolute", IsAbsoluteUrl = true)]
         public ActionResult Index()
         {

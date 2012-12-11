@@ -50,6 +50,15 @@ namespace AttributeRouting.Specs.Steps
             Assert.That(route.DataTokens["namespaces"], Is.EqualTo(new[] { ns }));
         }
 
+        [Then(@"the route has a data token for ""(.*?)""")]
+        public void ThenTheRouteHasADataTokeFor(string key)
+        {
+            var route = ScenarioContext.Current.GetFetchedRoutes().FirstOrDefault();
+
+            Assert.That(route, Is.Not.Null);
+            Assert.That(route.DataTokens[key], Is.Not.Null);
+        }
+
         [Then(@"the route is constrained to (.*?) requests")]
         public void ThenTheRouteIsConstrainedToRequests(string method)
         {

@@ -98,6 +98,8 @@ this.ScenarioSetup(scenarioInfo);
   testRunner.And(string.Format("the default for \"action\" is \"{0}\"", action), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10
   testRunner.And("the namespace is \"AttributeRouting.Specs.Subjects\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 11
+  testRunner.And("the route has a data token for \"actionMethod\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -118,22 +120,24 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void GeneratingRoutesForAnAPIController(string method, string action, string url, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating routes for an API controller", exampleTags);
-#line 29
-this.ScenarioSetup(scenarioInfo);
 #line 30
- testRunner.Given("I have registered the routes for the HttpStandardUsageController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 31
- testRunner.When(string.Format("I fetch the routes for the HttpStandardUsageController\'s {0} action", action), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("I have registered the routes for the HttpStandardUsageController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 32
- testRunner.Then(string.Format("the route is constrained to {0} requests", method), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When(string.Format("I fetch the routes for the HttpStandardUsageController\'s {0} action", action), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 33
-  testRunner.And(string.Format("the route url is \"{0}\"", url), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then(string.Format("the route is constrained to {0} requests", method), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 34
-  testRunner.And("the default for \"controller\" is \"HttpStandardUsage\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.And(string.Format("the route url is \"{0}\"", url), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 35
-  testRunner.And(string.Format("the default for \"action\" is \"{0}\"", action), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.And("the default for \"controller\" is \"HttpStandardUsage\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 36
+  testRunner.And(string.Format("the default for \"action\" is \"{0}\"", action), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 37
   testRunner.And("the namespace is \"AttributeRouting.Specs.Subjects.Http\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 38
+  testRunner.And("the route has a data token for \"actionMethod\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -143,13 +147,13 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void RespondingToOPTIONSRequestsInAnAPIController()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Responding to OPTIONS requests in an API controller", ((string[])(null)));
-#line 52
-this.ScenarioSetup(scenarioInfo);
-#line 53
- testRunner.Given("I have registered the routes for the HttpStandardUsageController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 54
- testRunner.When("an OPTIONS request for \"api\" is made", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+this.ScenarioSetup(scenarioInfo);
 #line 55
+ testRunner.Given("I have registered the routes for the HttpStandardUsageController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 56
+ testRunner.When("an OPTIONS request for \"api\" is made", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 57
  testRunner.Then("the Get action is matched", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

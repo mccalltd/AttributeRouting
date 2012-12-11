@@ -346,7 +346,8 @@ namespace AttributeRouting.Framework
         {
             var dataTokens = new Dictionary<string, object>
             {
-                { "namespaces", new[] { routeSpec.ControllerType.Namespace } }
+                { "namespaces", new[] { routeSpec.ControllerType.Namespace } },
+                { "actionMethod", routeSpec.ActionMethod }
             };
 
             if (routeSpec.AreaName.HasValue())

@@ -8,6 +8,7 @@ Scenario Outline: Generating routes for an MVC controller
 	 And the default for "controller" is "StandardUsage"
 	 And the default for "action" is "<action>"
 	 And the namespace is "AttributeRouting.Specs.Subjects"
+	 And the route has a data token for "actionMethod"
 	
 	Examples:
 		| method | action        | url                   |
@@ -34,6 +35,7 @@ Scenario Outline: Generating routes for an API controller
 	 And the default for "controller" is "HttpStandardUsage"
 	 And the default for "action" is "<action>"
 	 And the namespace is "AttributeRouting.Specs.Subjects.Http"
+	 And the route has a data token for "actionMethod"
 	
 	Examples:
 		| method  | action        | url                       |

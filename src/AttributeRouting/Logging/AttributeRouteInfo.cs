@@ -115,7 +115,7 @@ namespace AttributeRouting.Logging
                     {
                         item.DataTokens.Add(token.Key, ((string[]) token.Value).Aggregate((n1, n2) => n1 + ", " + n2));
                     }
-                    else
+                    else if (!token.Key.ValueEquals("actionMethod"))
                     {
                         item.DataTokens.Add(token.Key, token.Value.ToString());
                     }
