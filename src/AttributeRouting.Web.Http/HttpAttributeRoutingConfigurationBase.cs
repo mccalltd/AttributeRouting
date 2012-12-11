@@ -14,6 +14,11 @@ namespace AttributeRouting.Web.Http
         }
 
         /// <summary>
+        /// The message handler that will be the recipient of the request.
+        /// </summary>
+        public HttpMessageHandler MessageHandler { get; set; }
+
+        /// <summary>
         /// The controller type applicable to this context.
         /// </summary>
         public override Type FrameworkControllerType

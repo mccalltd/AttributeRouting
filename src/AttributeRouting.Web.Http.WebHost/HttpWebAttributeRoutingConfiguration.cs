@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web.Http.WebHost;
 using System.Web.Routing;
 using AttributeRouting.Web.Http.WebHost.Framework.Factories;
 
@@ -13,7 +12,7 @@ namespace AttributeRouting.Web.Http.WebHost
             ParameterFactory = new RouteParameterFactory();
             RouteConstraintFactory = new RouteConstraintFactory(this);
 
-            RouteHandlerFactory = () => HttpControllerRouteHandler.Instance;
+            RouteHandlerFactory = () => null;
             RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(Web.Constraints.RegexRouteConstraint).Assembly);
         }
 

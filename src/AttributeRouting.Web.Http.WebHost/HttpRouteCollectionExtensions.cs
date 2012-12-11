@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Web.Http;
+using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Web.Http.Framework;
 
@@ -51,9 +52,25 @@ namespace AttributeRouting.Web.Http.WebHost
 
         private static void MapHttpAttributeRoutesInternal(this HttpRouteCollection routes, HttpWebAttributeRoutingConfiguration configuration)
         {
-            var generatedRoutes = new RouteBuilder(configuration).BuildAllRoutes();
+            var generatedRoutes = new RouteBuilder(configuration).BuildAllRoutes().Cast<HttpAttributeRoute>().ToList();
 
-            generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, (HttpAttributeRoute)r));
+            // If providing a custom IRouteHandler via config, add the routes to the RouteCollection.
+            // Have to do this because the HttpRoutes do not support the functionality.
+            var routeHandler = configuration.RouteHandlerFactory();
+            if (routeHandler != null)
+            {
+                var mvcRoutes = RouteTable.Routes;
+                generatedRoutes.ForEach(r =>
+                {
+                    var mvcRoute = mvcRoutes.MapHttpRoute(r.RouteName, r.Url, r.Defaults, r.Constraints, r.Handler);
+                    mvcRoute.RouteHandler = routeHandler;
+                });
+            }
+            else
+            {
+                // Otherwise, add them to the HttpRouteCollection.
+                generatedRoutes.ForEach(r => routes.Add(r.RouteName, r));                
+            }
         }
     }
 }
