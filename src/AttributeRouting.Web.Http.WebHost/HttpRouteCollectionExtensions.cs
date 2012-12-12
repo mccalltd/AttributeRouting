@@ -63,6 +63,7 @@ namespace AttributeRouting.Web.Http.WebHost
                 generatedRoutes.ForEach(r =>
                 {
                     var mvcRoute = mvcRoutes.MapHttpRoute(r.RouteName, r.Url, r.Defaults, r.Constraints, r.Handler);
+                    mvcRoute.DataTokens = new RouteValueDictionary(r.DataTokens);
                     mvcRoute.RouteHandler = routeHandler;
                 });
             }

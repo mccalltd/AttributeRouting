@@ -134,9 +134,10 @@ namespace AttributeRouting.Framework
                                            ? ((IOptionalRouteConstraintWrapper)constraint).Constraint
                                            : constraint;
 
-                if (constraintToTest is IQueryStringRouteConstraintWrapper)
-                    queryStringConstraints.Add(constraintKey, constraint);
+                if (!(constraintToTest is IQueryStringRouteConstraintWrapper))
+                    continue;
 
+                queryStringConstraints.Add(constraintKey, constraint);
                 route.Constraints.Remove(constraintKey);
             }
 

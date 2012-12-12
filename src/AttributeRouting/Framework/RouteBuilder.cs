@@ -196,6 +196,10 @@ namespace AttributeRouting.Framework
         {
             var constraints = new Dictionary<string, object>();
 
+            // Default constraints
+            if (routeSpec.HttpMethods.Any())
+                constraints.Add("httpMethod", _routeConstraintFactory.CreateRestfulHttpMethodConstraint(routeSpec.HttpMethods));
+
             // Work from a complete, tokenized url; ie: support constraints in area urls, route prefix urls, and route urls.
             var tokenizedUrl = BuildTokenizedUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec);
             var urlParameters = GetUrlParameterContents(tokenizedUrl).ToList();

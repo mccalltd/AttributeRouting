@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Routing;
+using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
 using AttributeRouting.Web.Constraints;
 using NUnit.Framework;
@@ -66,19 +68,7 @@ namespace AttributeRouting.Specs.Steps
         {
             var route = ScenarioContext.Current.GetFetchedRoutes().FirstOrDefault();
 
-            Assert.That(route, Is.Not.Null);
-
-            var allowedMethods = route.DataTokens["httpMethods"] as IEnumerable<string>;
-
-            if (method.HasValue())
-            {
-                Assert.That(allowedMethods, Is.Not.Null);
-                Assert.That(allowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
-            }
-            else
-            {
-                Assert.That(allowedMethods, Is.Null);
-            }
+            AssertThatRouteIsConstrainedToHttpMethod(route, method);
         }
 
         [Then(@"the route for (.*?) is constrained to (.*?) requests")]
@@ -86,12 +76,22 @@ namespace AttributeRouting.Specs.Steps
         {
             var route = ScenarioContext.Current.GetFetchedRoutes().FirstOrDefault(r => r.Defaults["action"].ToString() == action);
 
-            Assert.That(route, Is.Not.Null);
+            AssertThatRouteIsConstrainedToHttpMethod(route, method);
+        }
 
-            var allowedMethods = route.DataTokens["httpMethods"] as IEnumerable<string>;
+        private void AssertThatRouteIsConstrainedToHttpMethod(Route route, string method)
+        {
+            var constraint = route.Constraints["httpMethod"] as IRestfulHttpMethodConstraint;
 
-            Assert.That(allowedMethods, Is.Not.Null);
-            Assert.That(allowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
+            if (method.HasValue())
+            {
+                Assert.That(constraint, Is.Not.Null);
+                Assert.That(constraint.AllowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
+            }
+            else
+            {
+                Assert.That(constraint, Is.Null);
+            }            
         }
     }
 }

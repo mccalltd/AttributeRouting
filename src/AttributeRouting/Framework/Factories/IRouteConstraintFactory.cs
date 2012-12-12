@@ -20,6 +20,11 @@ namespace AttributeRouting.Framework.Factories
         RegexRouteConstraintBase CreateRegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None);
 
         /// <summary>
+        /// Creates a new RestfulHttpMethodConstraint
+        /// </summary>
+        IRestfulHttpMethodConstraint CreateRestfulHttpMethodConstraint(string[] httpMethods);
+
+        /// <summary>
         /// Creates an inline constraint of a specific type with the given parameters.
         /// </summary>
         /// <param name="name">The short name of the inline constraint</param>

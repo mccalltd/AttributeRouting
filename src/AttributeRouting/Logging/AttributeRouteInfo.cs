@@ -48,7 +48,7 @@ namespace AttributeRouting.Logging
             {
                 foreach (var constraint in constraints)
                 {
-                    if (constraint.Value == null)
+                    if (constraint.Value == null || constraint.Value is IRestfulHttpMethodConstraint)
                         continue;
 
                     if (constraint.Value is RegexRouteConstraintBase)
@@ -109,11 +109,11 @@ namespace AttributeRouting.Logging
                 {
                     if (token.Key.ValueEquals("namespaces"))
                     {
-                        item.DataTokens.Add(token.Key, ((string[]) token.Value).Aggregate((n1, n2) => n1 + ", " + n2));
+                        item.DataTokens.Add(token.Key, String.Join(", ", (string[])token.Value));
                     }
                     else if (token.Key.ValueEquals("httpMethods"))
                     {
-                        item.HttpMethods = ((string[]) token.Value).Aggregate((n1, n2) => n1 + ", " + n2);
+                        item.HttpMethods = String.Join(", ", (string[])token.Value);
                     }
                     else if (!token.Key.ValueEquals("actionMethod"))
                     {
