@@ -4,6 +4,17 @@ h2. Please refer to "attributerouting.net":http://attributerouting.net/ for docu
 
 h3. Changelog
 
+_3.4_
+
+* #124 - Now supporting custom IRouteHandler in web-host scenario. Also supporting custom HttpMessageHandler for Web API.
+* #146 - BUG FIX: AR's custom http method constraint was interfering with IHostBufferPolicySelector, because it was checking for the incoming http method too early in the pipeline.
+* #155 - Can now specify multiple route prefixes on a controller. Every action will get each prefix. You can control precedence of the prefixes by using the Precedence property.
+* #156 - Added action method to route data tokens.
+* #161 - BUG FIX: Url generation was bonking for routes that included a querystring route param constraint.
+* #162 - Modified design of route convention attribute, adding facility for specifying an area attribute for a controller. Also opened up {controller} and {action} url params as special params that will be replaced with controller and action values from the defaults collection for the route.
+* #164 - Added default ctors to RoutePrefixAttribute, RouteAreaAttribute, and the AttributeRouting.Web.Mvc route attributes. These default ctors will use a convention to get their URL components: RoutePrefix - will use the controller name; RouteArea - will use the last section of the controller's namespace; and the route attributes - will use the action name by default.
+* #165 - Added two flags to the route attributes: IgnoreRoutePrefix and IgnoreAreaUrl. These flags control whether to prepend route prefixes or area urls to the generated route url.
+
 _3.3_
 
 * #153 - fixed bad parsing of regex route constraint patterns that use a comma.
