@@ -53,10 +53,12 @@ namespace AttributeRouting.Framework
 
         private IEnumerable<IAttributeRoute> Build(RouteSpecification routeSpec)
         {
-            var routes = _routeFactory.CreateAttributeRoutes(CreateRouteUrl(routeSpec),
-                                                             CreateRouteDefaults(routeSpec),
-                                                             CreateRouteConstraints(routeSpec),
-                                                             CreateRouteDataTokens(routeSpec));
+            var defaults = CreateRouteDefaults(routeSpec);
+            var constraints = CreateRouteConstraints(routeSpec);
+            var dataTokens = CreateRouteDataTokens(routeSpec);
+            var url = CreateRouteUrl(defaults, routeSpec);
+
+            var routes = _routeFactory.CreateAttributeRoutes(url, defaults, constraints, dataTokens);
 
             foreach (var route in routes)
             {
@@ -98,15 +100,16 @@ namespace AttributeRouting.Framework
             return _configuration.AutoGenerateRouteNames ? _configuration.RouteNameBuilder(routeSpec) : null;
         }
 
-        private string CreateRouteUrl(RouteSpecification routeSpec)
+        private string CreateRouteUrl(IDictionary<string, object> defaults, RouteSpecification routeSpec)
         {
             return CreateRouteUrl(routeSpec.RouteUrl,
                                   routeSpec.RoutePrefixUrl,
                                   routeSpec.AreaUrl,
+                                  defaults,
                                   routeSpec);
         }
 
-        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, RouteSpecification routeSpec)
+        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, IDictionary<string, object> defaults, RouteSpecification routeSpec)
         {
             var tokenizedUrl = BuildTokenizedUrl(routeUrl, routePrefix, areaUrl, routeSpec);
             var tokenizedPath = RemoveQueryString(tokenizedUrl);
@@ -114,18 +117,20 @@ namespace AttributeRouting.Framework
 
             var urlParameterNames = GetUrlParameterContents(detokenizedPath).ToList();
 
-            // {controller} and {action} tokens are not valid
+            var urlBuilder = new StringBuilder(detokenizedPath);
+
+            // Replace {controller} URL param with default value.
             if (urlParameterNames.Any(n => n.ValueEquals("controller")))
-                throw new AttributeRoutingException("{controller} is not a valid url parameter.");
+                urlBuilder.Replace("{controller}", (string)defaults["controller"]);
+
+            // Replace {action} URL param with default value.
             if (urlParameterNames.Any(n => n.ValueEquals("action")))
-                throw new AttributeRoutingException("{action} is not a valid url parameter.");
+                urlBuilder.Replace("{action}", (string)defaults["action"]);
 
             // Explicitly defined area routes are not valid
             if (urlParameterNames.Any(n => n.ValueEquals("area")))
                 throw new AttributeRoutingException(
                     "{area} url parameters are not allowed. Specify the area name by using the RouteAreaAttribute.");
-
-            var urlBuilder = new StringBuilder(detokenizedPath);
 
             // If we are lowercasing routes, then lowercase everything but the route params
             var lower = routeSpec.UseLowercaseRoute.GetValueOrDefault(_configuration.UseLowercaseRoutes);
@@ -431,15 +436,16 @@ namespace AttributeRouting.Framework
                 //*********************************************
                 // Otherwise, build a translated route
 
+                var defaults = CreateRouteDefaults(routeSpec);
+                var constraints = CreateRouteConstraints(routeSpec);
+                var dataTokens = CreateRouteDataTokens(routeSpec);
                 var routeUrl = CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
                                               translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
                                               translatedAreaUrl ?? routeSpec.AreaUrl,
+                                              defaults,
                                               routeSpec);
 
-                var translatedRoutes = _routeFactory.CreateAttributeRoutes(routeUrl,
-                                                                           CreateRouteDefaults(routeSpec),
-                                                                           CreateRouteConstraints(routeSpec),
-                                                                           CreateRouteDataTokens(routeSpec));
+                var translatedRoutes = _routeFactory.CreateAttributeRoutes(routeUrl, defaults, constraints, dataTokens);
 
                 foreach (var translatedRoute in translatedRoutes)
                 {

@@ -23,3 +23,9 @@ Scenario: Optional parameters specified with a url parameter token
 	When I fetch the routes for the HttpRouteDefaults controller's Optionals action
 	Then the route url is "Optionals/{p1}"
 	And the parameter "p1" is optional
+
+Scenario: Using the controller and action url params
+	When I fetch the routes for the RouteDefaults controller's TheActionName action
+	Then the route url is "RouteDefaults/TheActionName"
+	When I fetch the routes for the HttpRouteDefaults controller's TheActionName action
+	Then the route url is "HttpRouteDefaults/TheActionName"

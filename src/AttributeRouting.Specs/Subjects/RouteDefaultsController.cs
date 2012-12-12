@@ -16,5 +16,11 @@ namespace AttributeRouting.Specs.Subjects
         {
             return Content("");
         }
+
+        [GET("{controller}/{action}")]
+        public string TheActionName()
+        {
+            return "is joe";
+        }
     }
 }
