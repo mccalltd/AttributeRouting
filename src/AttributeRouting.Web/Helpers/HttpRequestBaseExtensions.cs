@@ -47,12 +47,32 @@ namespace AttributeRouting.Web.Helpers
             }
         }
 
+        /// <remarks>
+        /// The reason we have our own is to provide support for System.Web.Helpers.Validation.Unvalidated calls.
+        /// </remarks>
         public static string GetHttpMethod(this HttpRequestBase request)
         {
-            return request.SafeGet(r => r.Headers["X-HTTP-Method-Override"]) ??
-                   request.SafeGet(r => GetFormValue(r, "X-HTTP-Method-Override")) ??
-                   request.SafeGet(r => GetQueryStringValue(r, "X-HTTP-Method-Override")) ??
-                   request.SafeGet(r => r.HttpMethod, "GET");
+            var httpMethod = request.HttpMethod;
+
+            // If not a post, method overrides don't apply.
+            if (!httpMethod.ValueEquals("POST"))
+            {
+                return httpMethod;
+            }
+
+            // Get the method override and if it's not for a GET or POST, then apply it.
+            var methodOverride = request.SafeGet(r => r.Headers["X-HTTP-Method-Override"]) ??
+                                 request.SafeGet(r => GetFormValue(r, "X-HTTP-Method-Override")) ??
+                                 request.SafeGet(r => GetQueryStringValue(r, "X-HTTP-Method-Override"));
+
+            if (methodOverride != null &&
+                (!methodOverride.ValueEquals("GET") && !methodOverride.ValueEquals("POST")))
+            {
+                return methodOverride;
+            }
+
+            // Otherwise, just return the http method.
+            return httpMethod;
         }
     }
 }

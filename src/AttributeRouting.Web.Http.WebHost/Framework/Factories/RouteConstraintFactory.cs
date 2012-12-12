@@ -25,9 +25,9 @@ namespace AttributeRouting.Web.Http.WebHost.Framework.Factories
             return new RegexRouteConstraint(pattern, options);
         }
 
-        public IRestfulHttpMethodConstraint CreateRestfulHttpMethodConstraint(string[] httpMethods)
+        public IInboundHttpMethodConstraint CreateInboundHttpMethodConstraint(string[] httpMethods)
         {
-            return new RestfulHttpMethodConstraint(httpMethods);
+            return new InboundHttpMethodConstraint(httpMethods);
         }
 
         public object CreateInlineRouteConstraint(string name, params object[] parameters)

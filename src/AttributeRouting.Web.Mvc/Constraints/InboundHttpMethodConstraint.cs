@@ -1,18 +1,18 @@
 ﻿using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Constraints;
 using AttributeRouting.Helpers;
-using AttributeRouting.Web.Helpers;
 
-namespace AttributeRouting.Web.Constraints
+namespace AttributeRouting.Web.Mvc.Constraints
 {
-    public class RestfulHttpMethodConstraint : HttpMethodConstraint, IRestfulHttpMethodConstraint
+    public class InboundHttpMethodConstraint : HttpMethodConstraint, IInboundHttpMethodConstraint
     {
         /// <summary>
-        /// Constrains a route by HTTP method.
+        /// Constrains an inbound route by HTTP method.
         /// </summary>
-        public RestfulHttpMethodConstraint(params string[] allowedMethods)
+        public InboundHttpMethodConstraint(params string[] allowedMethods)
             : base(allowedMethods)
         {
         }
@@ -20,11 +20,11 @@ namespace AttributeRouting.Web.Constraints
         protected override bool Match(HttpContextBase httpContext, Route route, string parameterName,
                                       RouteValueDictionary values, RouteDirection routeDirection)
         {
-
             if (routeDirection == RouteDirection.UrlGeneration)
                 return true;
 
-            var httpMethod = httpContext.Request.GetHttpMethod();
+            // Make sure to check for HTTP method overrides!
+            var httpMethod = httpContext.Request.GetHttpMethodOverride();
 
             return AllowedMethods.Any(m => m.ValueEquals(httpMethod));
         }

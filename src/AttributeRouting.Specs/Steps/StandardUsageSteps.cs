@@ -81,7 +81,7 @@ namespace AttributeRouting.Specs.Steps
 
         private void AssertThatRouteIsConstrainedToHttpMethod(Route route, string method)
         {
-            var constraint = route.Constraints["httpMethod"] as IRestfulHttpMethodConstraint;
+            var constraint = route.Constraints["httpMethod"] as IInboundHttpMethodConstraint;
 
             if (method.HasValue())
             {

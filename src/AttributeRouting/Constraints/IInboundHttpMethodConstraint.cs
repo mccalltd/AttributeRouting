@@ -5,14 +5,14 @@ namespace AttributeRouting.Constraints
 {
     /// <summary>
     /// Abstraction used by <see cref="IRouteConstraintFactory"/> 
-    /// when applying restful route constraints.
+    /// when applying inbound http method constraints.
     /// </summary>
     /// <remarks>
     /// Due to 
     /// System.Web.Routing.HttpMethodConstraint (used in web-hosted scenarios) and
     /// System.Web.Http.Routing.HttpMethodConstraint (used in self-hosted scenarios).    
     /// </remarks>
-    public interface IRestfulHttpMethodConstraint
+    public interface IInboundHttpMethodConstraint
     {
         /// <summary>
         /// The allowed HTTP methods.

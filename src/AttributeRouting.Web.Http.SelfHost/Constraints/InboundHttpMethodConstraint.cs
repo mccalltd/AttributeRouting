@@ -7,17 +7,17 @@ using AttributeRouting.Constraints;
 
 namespace AttributeRouting.Web.Http.SelfHost.Constraints
 {
-    /// <summary>
-    /// Constrains a route by HTTP method.
-    /// </summary>
-    public class RestfulHttpMethodConstraint : HttpMethodConstraint, IRestfulHttpMethodConstraint
+    public class InboundHttpMethodConstraint : HttpMethodConstraint, IInboundHttpMethodConstraint
     {
-        public RestfulHttpMethodConstraint(params HttpMethod[] allowedMethods)
+        /// <summary>
+        /// Constrains an inbound route by HTTP method.
+        /// </summary>
+        public InboundHttpMethodConstraint(params HttpMethod[] allowedMethods)
             : base(allowedMethods)
         {
         }
 
-        ICollection<string> IRestfulHttpMethodConstraint.AllowedMethods
+        ICollection<string> IInboundHttpMethodConstraint.AllowedMethods
         {
             get { return new ReadOnlyCollection<string>(AllowedMethods.Select(method => method.Method).ToList()); }
         }

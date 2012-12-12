@@ -48,7 +48,7 @@ namespace AttributeRouting.Logging
             {
                 foreach (var constraint in constraints)
                 {
-                    if (constraint.Value == null || constraint.Value is IRestfulHttpMethodConstraint)
+                    if (constraint.Value == null || constraint.Value is IInboundHttpMethodConstraint)
                         continue;
 
                     if (constraint.Value is RegexRouteConstraintBase)

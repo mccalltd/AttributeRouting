@@ -124,12 +124,13 @@ namespace AttributeRouting.Web.Mvc
         {
             if (controllerContext == null) throw new ArgumentNullException("controllerContext");
 
+            // If not constrained by a method, then accept always!
             if (!HttpMethods.Any())
                 return true;
 
-            var method = controllerContext.HttpContext.Request.GetHttpMethodOverride();
+            var httpMethod = controllerContext.HttpContext.Request.GetHttpMethodOverride();
             
-            return HttpMethods.Any(m => m.ValueEquals(method));
+            return HttpMethods.Any(m => m.ValueEquals(httpMethod));
         }
     }
 }

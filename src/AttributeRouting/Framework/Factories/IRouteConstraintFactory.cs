@@ -15,14 +15,14 @@ namespace AttributeRouting.Framework.Factories
     public interface IRouteConstraintFactory
     {
         /// <summary>
-        /// Creates a new RegexRouteConstraint
+        /// Creates a new regex route constraint.
         /// </summary>
         RegexRouteConstraintBase CreateRegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None);
 
         /// <summary>
-        /// Creates a new RestfulHttpMethodConstraint
+        /// Creates a new inbound http method constraint.
         /// </summary>
-        IRestfulHttpMethodConstraint CreateRestfulHttpMethodConstraint(string[] httpMethods);
+        IInboundHttpMethodConstraint CreateInboundHttpMethodConstraint(string[] httpMethods);
 
         /// <summary>
         /// Creates an inline constraint of a specific type with the given parameters.

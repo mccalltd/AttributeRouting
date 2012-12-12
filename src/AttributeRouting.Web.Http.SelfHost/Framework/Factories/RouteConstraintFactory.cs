@@ -26,10 +26,10 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
             return new RegexRouteConstraint(pattern, options);
         }
 
-        public IRestfulHttpMethodConstraint CreateRestfulHttpMethodConstraint(string[] httpMethods)
+        public IInboundHttpMethodConstraint CreateInboundHttpMethodConstraint(string[] httpMethods)
         {
             var allowedMethods = httpMethods.Select(m => new HttpMethod(m)).ToArray();
-            return new RestfulHttpMethodConstraint(allowedMethods);
+            return new InboundHttpMethodConstraint(allowedMethods);
         }
 
         public object CreateInlineRouteConstraint(string name, params object[] parameters)
