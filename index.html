@@ -445,6 +445,32 @@ public class CommentsController : ControllerBase
                     <li>~/Posts/{postId}/Comments</li>
                     <li>~/Posts/{postId}/Comments/{id}</li>
                 </ul>
+                
+                <h4>Multiple Route Prefixes on a Controller</h4>
+                
+                <p>
+                    If you want to apply multiple route prefixes, go right ahead:
+                </p>
+                <pre class="prettyprint linenums">
+[RoutePrefix("Prefix/First")]
+[RoutePrefix("Prefix/Second")]
+public class MultiplePrefixController : Controller
+{
+    [GET("Index")]
+    public ActionResult Index() { /* ... */ }
+}
+</pre>
+                
+                <p>This will generate the following routes:</p>
+                <ul>
+                    <li>~/Prefix/First/Index</li>
+                    <li>~/Prefix/Second/Index</li>
+                </ul>
+                
+                <p class="alert alert-info">
+                    If you're wondering about whether you can specify the precedence of these
+                    prefixes, <a href="#route-precedence">you can</a>.
+                </p>
             </section>
    
             <section id="asp-net-mvc-areas">
