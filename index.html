@@ -452,24 +452,31 @@ public class CommentsController : ControllerBase
                     If you want to apply multiple route prefixes, go right ahead:
                 </p>
                 <pre class="prettyprint linenums">
-[RoutePrefix("Prefix/First")]
+[RoutePrefix("Prefix/First", Precedence = 1)]
 [RoutePrefix("Prefix/Second")]
 public class MultiplePrefixController : Controller
 {
     [GET("Index")]
     public ActionResult Index() { /* ... */ }
+    
+    [GET("Details")]
+    public ActionResult Details() { /* ... */ }
 }
 </pre>
                 
                 <p>This will generate the following routes:</p>
                 <ul>
                     <li>~/Prefix/First/Index</li>
+                    <li>~/Prefix/First/Details</li>
                     <li>~/Prefix/Second/Index</li>
+                    <li>~/Prefix/Second/Details</li>
                 </ul>
                 
-                <p class="alert alert-info">
-                    If you're wondering about whether you can specify the precedence of these
-                    prefixes, <a href="#route-precedence">you can</a>.
+                <p>
+                    Notice the <code>Precedence</code> property on that first prefix.
+                    It controls the order in which multiple prefixes are applied. 
+                    The value is used in the same way as the other precedence properties
+                    (<a href="#route-precedence-values">more here</a>).
                 </p>
             </section>
    
@@ -582,7 +589,7 @@ routes.MapAttributeRoutes(config =>
                     </li>
                 </ol>
                 
-                <div class="alert alert-info">
+                <div id="route-precedence-values" class="alert alert-info">
                     <h4>Controlling First and Last among Actions, Controllers, and Sites</h4>
                     <p>
                         As you read on, keep in mind that when using the 
