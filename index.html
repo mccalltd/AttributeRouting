@@ -28,7 +28,7 @@
         <nav>
 			<header class="clearfix">   
                 <a href="#introduction">AttributeRouting</a>
-                <small class="version">v3.3</small>
+                <small class="version">v3.4</small>
 				<ul class="unstyled">
 					<li><iframe src="http://ghbtns.com/github-btn.html?user=mccalltd&repo=AttributeRouting&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe></li>
 					<li><iframe src="http://ghbtns.com/github-btn.html?user=mccalltd&repo=AttributeRouting&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="87px" height="20px"></iframe></li>
@@ -50,7 +50,6 @@
                 <li><a href="#route-names">Named Routes</a></li>
                 <li><a href="#route-prefixes">Route Prefixes</a></li>
                 <li><a href="#asp-net-mvc-areas">ASP.NET MVC Areas</a></li>
-                <li><a href="#handling-legacy-urls">Handling Legacy URLs</a></li>
 
                 <li class="nav-header">Configuration</li>
                 <li><a href="#if-you-take-control"><span class="badge badge-important">!</span>&nbsp; Important Note</a></li>
@@ -478,6 +477,23 @@ public class MultiplePrefixController : Controller
                     The value is used in the same way as the other precedence properties
                     (<a href="#route-precedence-values">more here</a>).
                 </p>
+                
+                <h4>Ignoring Route Prefixes for Certain Routes</h4>
+
+                <p>
+                    If you want to ignore the route prefix for a given route, just say so:
+                </p>
+                <pre class="prettyprint linenums">
+[RouteArea("Area")]
+[RoutePrefix("Prefix")]
+public class IgnorePrefixController : Controller
+{
+    [GET("Index")] // => "Area/Prefix/Index"
+    [GET("NoPrefix", IgnoreRotuePrefix = true)] // => "Area/NoPrefix"
+    [GET("Absolute", IsAbsoluteUrl = true)] // => "Absolute"
+    public ActionResult Index() { /* ... */ }
+}
+</pre>
             </section>
    
             <section id="asp-net-mvc-areas">
@@ -517,31 +533,23 @@ public class TagsController : AdminControllerBase { /* ... */ }
                 <pre class="prettyprint linenums">
 [RouteArea("AreaName", AreaUrl = "MyCustomPrefix")]
 </pre>
-            </section>
-
-            <section id="handling-legacy-urls">
-                <h3>Handling Legacy URLs</h3>
-
+                
+                <h4>Ignoring Area URLs for Certain Routes</h4>
+                
                 <p>
-                    When supporting legacy URLs, the route prefixes and areas can get in the way. 
-                    To have the URL start from the root, 
-                    use the <code>IsAbsoluteUrl</code> property of the route attributes:
+                    If you want to ignore the area URL prefix for a given route, just say so:
                 </p>
                 <pre class="prettyprint linenums">
-[RouteArea("AreaName")]
+[RouteArea("Area")]
 [RoutePrefix("Prefix")]
-public class SomeController : ControllerBase    
+public class IgnorePrefixController : Controller
 {
-    [GET("Route", ActionPrecedence = 1)]
-    [GET("Legacy-Route", IsAbsoluteUrl = true)] // This is a legacy url
+    [GET("Index")] // => "Area/Prefix/Index"
+    [GET("NoAreaUrl", IgnoreAreaUrl = true)] // => "Prefix/NoAreaUrl"
+    [GET("Absolute", IsAbsoluteUrl = true)] // => "Absolute"
     public ActionResult Index() { /* ... */ }
 }
 </pre>
-                <p>In this case, the Index action will match the following URLs:</p>
-                <ul>
-                    <li>~/AreaName/Prefix/Route</li>
-                    <li>~/Legacy-Route</li>
-                </ul>
             </section>
 
             <header><h2>Configuration</h2></header>
