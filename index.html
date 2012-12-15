@@ -1039,15 +1039,17 @@ public class ProductsController : ApiController
                 
                 <p>
                     Defining your own route convention is as simple as deriving from the abstract 
-                    <code>RouteConventionAttribute</code>, implementing a method, 
-                    and applying it to a controller.
+                    <code>RouteConventionAttributeBase</code>
+                    (<a href="https://github.com/mccalltd/AttributeRouting/blob/master/src/AttributeRouting/RouteConventionAttributeBase.cs">source)</a>, 
+                    implementing a method, and applying it to a controller.
                 </p>
                 <pre class="prettyprint linenums">
 public class MyRouteConventionAttribute : RouteConventionAttributeBase
 {
-    public override IEnumerable&lt;RouteAttribute&gt; GetRouteAttributes(MethodInfo actionMethod)
+    public override IEnumerable&lt;IRouteAttribute&gt; 
+                    GetRouteAttributes(MethodInfo actionMethod)
     {
-        // TODO: Define your own logic to yield appropriate route attributes here.
+        // TODO: Yield IRouteAttributes (GET/POST/PUT/DELETE/Route).
     }
 }
 
@@ -1069,7 +1071,7 @@ public class MyController : Controller { /* ... */ }
                             use the <code>ActionPrecedence</code> property.
                         </li>
                         <li>
-                            If you decide to override the virtual <code>GetDefaultRoutePrefix</code> method,
+                            If you decide to override the virtual <code>GetDefaultRoutePrefixes</code> method,
                             note that the prefix will only be used if no explicit RoutePrefixAttribute 
                             is applied to your controller.
                         </li>
