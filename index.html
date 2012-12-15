@@ -937,8 +937,47 @@ protected void OnBeginRequest(object sender, System.EventArgs e)
                 
                 <p>
                     You can define custom route conventions by applying an attribute derived from 
-                    <code>RouteConventionAttributeBase</code> to your controllers.
+                    <code>RouteConventionAttributeBase</code> 
+                    (<a href="https://github.com/mccalltd/AttributeRouting/blob/master/src/AttributeRouting/RouteConventionAttributeBase.cs">source)</a>
+                    to your controllers. It's very simple:
                 </p>
+                <pre class="prettyprint linenums">
+public class MyRouteConventionAttribute : RouteConventionAttributeBase
+{
+    public override IEnumerable&lt;IRouteAttribute&gt; 
+                    GetRouteAttributes(MethodInfo actionMethod)
+    {
+        // TODO: Yield IRouteAttributes (GET/POST/PUT/DELETE/Route).
+    }
+}
+
+[MyRouteConvention]
+public class MyController : Controller { /* ... */ }
+</pre>
+                
+                <div class="alert alert-warning">
+                    <p>
+                        <strong>Take Heed!</strong>
+                        When defining your own convention, it will help to know a bit 
+                        about how the routes are constructed and added to the route table:
+                    </p>
+                    <ol>
+                        <li>
+                            When the routes are being scanned, convention based routes for an action 
+                            are registered before explicitly defined routes. 
+                            So if you want your explicitly defined routes to come first, 
+                            use the <code>ActionPrecedence</code> property.
+                        </li>
+                        <li>
+                            If you decide to override the virtual 
+                            <code>GetDefaultRoutePrefixes</code> or <code>GetDefaultRouteArea</code> method,
+                            note that the attributes you generate will only be used 
+                            if no explicit attributes are applied to your controller.
+                            <em>Explicit attributes will act as overrides.</em>
+                        </li>
+                    </ol>
+                </div>
+                
                 <p>Two conventions are provided out-of-the-box. These provide example of what you can do.</p>
                 <ul>
                     <li>
@@ -952,7 +991,6 @@ protected void OnBeginRequest(object sender, System.EventArgs e)
                         will add routes typical of Web API controllers.
                     </li>
                 </ul>
-                <p>To apply these conventions, simply do the following:</p>
                 
                 <h4>Restful Route Convention</h4>
                 
@@ -1034,49 +1072,6 @@ public class ProductsController : ApiController
                         <tr><td>Delete</td><td>DELETE</td><td>~/Products/{id}</td></tr>
                     </tbody>
                 </table>
-                
-                <h4>Defining Your Own Route Convention</h4>
-                
-                <p>
-                    Defining your own route convention is as simple as deriving from the abstract 
-                    <code>RouteConventionAttributeBase</code>
-                    (<a href="https://github.com/mccalltd/AttributeRouting/blob/master/src/AttributeRouting/RouteConventionAttributeBase.cs">source)</a>, 
-                    implementing a method, and applying it to a controller.
-                </p>
-                <pre class="prettyprint linenums">
-public class MyRouteConventionAttribute : RouteConventionAttributeBase
-{
-    public override IEnumerable&lt;IRouteAttribute&gt; 
-                    GetRouteAttributes(MethodInfo actionMethod)
-    {
-        // TODO: Yield IRouteAttributes (GET/POST/PUT/DELETE/Route).
-    }
-}
-
-[MyRouteConvention]
-public class MyController : Controller { /* ... */ }
-</pre>
-                
-                <div class="alert alert-warning">
-                    <p>
-                        <strong>Take Heed!</strong>
-                        When defining your own convention, it will help to know a bit 
-                        about how the routes are constructed and added to the route table:
-                    </p>
-                    <ol>
-                        <li>
-                            When the routes are being scanned, convention based routes for an action 
-                            are registered before explicitly defined routes. 
-                            So if you want your explicitly defined routes to come first, 
-                            use the <code>ActionPrecedence</code> property.
-                        </li>
-                        <li>
-                            If you decide to override the virtual <code>GetDefaultRoutePrefixes</code> method,
-                            note that the prefix will only be used if no explicit RoutePrefixAttribute 
-                            is applied to your controller.
-                        </li>
-                    </ol>
-                </div>
             </section>
                 
             <section id="subdomains">
