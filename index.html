@@ -39,7 +39,7 @@
 
                 <li class="nav-header">Getting Started</li>
                 <li><a href="#asp-net-mvc">ASP.NET MVC</a></li>
-                <li><a href="#asp-net-web-api">ASP.NET Web Api</a></li>
+                <li><a href="#asp-net-web-api"><span class="badge badge-important">!</span>&nbsp; ASP.NET Web Api</a></li>
                 <li><a href="#self-hosted-web-api">Self-Hosted Web Api</a></li>
                 
                 <li class="nav-header">Basics</li>
@@ -52,7 +52,7 @@
                 <li><a href="#asp-net-mvc-areas">ASP.NET MVC Areas</a></li>
 
                 <li class="nav-header">Configuration</li>
-                <li><a href="#if-you-take-control"><span class="badge badge-important">!</span>&nbsp; Important Note</a></li>
+                <li><a href="#if-you-take-control"><span class="badge badge-warning">!</span>&nbsp; Important Note</a></li>
                 <li><a href="#route-precedence">Route Precedence</a></li>
                 <li><a href="#configuration-lowercase-urls">Lowercase URL Generation</a></li>
                 <li><a href="#configuration-trailing-slash-urls">Trailing Slash URL Generation</a></li>
@@ -95,22 +95,12 @@ PM> Install-Package AttributeRouting
                     The nuget package drops a file in your project at <code>~/App_Start/AttributeRouting.cs/vb</code>.
                     This file configures AttributeRouting to scan your project's assembly for route attributes when your app starts.
                 </p>
+                
                 <p class="alert alert-success">
                     <strong>Hooray!</strong>
                     At this point, you are ready to start using AttributeRouting! 
                     <a href="#defining-routes">Jump to the basics &rarr;</a>.
                 </p>
-                <p>
-                    If you want to take control of your configuration settings, use the 
-                    <code>MapAttributeRoutes</code> extension of the <code>RouteCollection</code> like so:
-                </p>
-                <pre class="prettyprint linenums">
-RouteTable.Routes.MapAttributeRoutes(cfg => 
-{
-    cfg.AddRoutesFromAssembly(Assembly.GetExecutingAssembly());
-    // Specify other configuration options here.
-});
-</pre>
             </section>
 
             <section id="asp-net-web-api">
@@ -124,21 +114,32 @@ PM> Install-Package AttributeRouting.WebApi
                     The nuget package drops a file in your project at <code>~/App_Start/AttributeRoutingHttp.cs/vb</code>.
                     This file configures AttributeRouting to scan your project's assembly for route attributes when your app starts.
                 </p>
-                <p class="alert alert-success">
-                    <strong>Hooray!</strong>
-                    At this point, you are ready to start using AttributeRouting! 
-                    <a href="#defining-routes">Jump to the basics &rarr;</a>.
-                </p>
+
+                <div class="alert alert-error">
+                    <p>
+                        <strong>Beware!</strong> The <code>~/App_Start/AttributeRoutingHttp.cs/vb</code> file registers a message handler that works
+                        around integration issues with the Web API framework. This message handler <strong>is required</strong>
+                        to enable the following features:
+                    </p>
+                    <ul>
+                        <li>Performance enhancements when matching routes;</li>
+                        <li>Constraining requests by subdomain;</li>
+                        <li>Constraining requests by culture when using localization feature;</li>
+                        <li>Translating outbound URLs; and</li>
+                        <li>Generating outbound URLs in lower case, with trailing slashes, etc.</li>
+                    </ul>
+                    <p>
+                        <a href="https://github.com/mccalltd/AttributeRouting/issues/96" style="color: inherit; text-decoration: underline">You can read more about this here.</a>
+                    </p>
+                </div>
+                
                 <p>
-                    If you want to take control of your configuration settings, use the 
-                    <code>MapHttpAttributeRoutes</code> extension of the <code>HttpRouteCollection</code> like so:
+                    If you don't have that file in ~/App_Start for reference, 
+                    here's the message handler need to register during application startup:
                 </p>
                 <pre class="prettyprint linenums">
-GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(cfg => 
-{
-    cfg.AddRoutesFromAssembly(Assembly.GetExecutingAssembly());
-    // Specify other configuration options here.
-});
+GlobalConfiguration.Configuration.MessageHandlers.Add(
+    new BypassHttpRoutingDispatcherHandler());
 </pre>
             </section>
 
