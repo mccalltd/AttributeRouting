@@ -13,7 +13,7 @@ namespace AttributeRouting.Web.Mvc.Framework
     /// </summary>
     public class AttributeRoute : Route, IAttributeRoute
     {
-        private readonly AttributeRoutingConfiguration _configuration;
+        private readonly Configuration _configuration;
 
         /// <summary>
         /// Route used by the AttributeRouting framework in web projects.
@@ -22,7 +22,7 @@ namespace AttributeRouting.Web.Mvc.Framework
                               RouteValueDictionary defaults,
                               RouteValueDictionary constraints,
                               RouteValueDictionary dataTokens,
-                              AttributeRoutingConfiguration configuration)
+                              Configuration configuration)
             : base(url, defaults, constraints, dataTokens, configuration.RouteHandlerFactory())
         {
             _configuration = configuration;

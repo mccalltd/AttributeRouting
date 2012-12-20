@@ -45,7 +45,7 @@ namespace AttributeRouting.Framework
         /// <param name="host">The host from the current request</param>
         /// <param name="configuration">The configuration for the route</param>
         /// <returns>True if the subdomain for this route matches the current request host.</returns>
-        public static bool IsSubdomainMatched(this IAttributeRoute route, string host, AttributeRoutingConfigurationBase configuration)
+        public static bool IsSubdomainMatched(this IAttributeRoute route, string host, ConfigurationBase configuration)
         {
             // If no subdomains are mapped with AR, then yes.
             if (!route.MappedSubdomains.Any())
@@ -73,7 +73,7 @@ namespace AttributeRouting.Framework
         /// <param name="currentUICultureName"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static bool IsCultureNameMatched(this IAttributeRoute route, string currentUICultureName, AttributeRoutingConfigurationBase configuration)
+        public static bool IsCultureNameMatched(this IAttributeRoute route, string currentUICultureName, ConfigurationBase configuration)
         {
             if (!configuration.ConstrainTranslatedRoutesByCurrentUICulture)
                 return true;
@@ -190,7 +190,7 @@ namespace AttributeRouting.Framework
         /// <param name="virtualPath">The current virtual path, after translation</param>
         /// <param name="configuration">The configuration for the route</param>
         /// <returns>The final virtual path</returns>
-        public static string GetFinalVirtualPath(this IAttributeRoute route, string virtualPath, AttributeRoutingConfigurationBase configuration)
+        public static string GetFinalVirtualPath(this IAttributeRoute route, string virtualPath, ConfigurationBase configuration)
         {
             /**
              * Lowercase urls.

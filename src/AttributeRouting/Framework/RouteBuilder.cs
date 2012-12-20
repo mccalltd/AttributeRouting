@@ -10,16 +10,16 @@ namespace AttributeRouting.Framework
 {
     /// <summary>
     /// Creates <see cref="IAttributeRoute"/> objects according to the 
-    /// options set in implementations of <see cref="AttributeRoutingConfigurationBase"/>.
+    /// options set in implementations of <see cref="ConfigurationBase"/>.
     /// </summary>    
     public class RouteBuilder
     {
-        private readonly AttributeRoutingConfigurationBase _configuration;
+        private readonly ConfigurationBase _configuration;
         private readonly IAttributeRouteFactory _routeFactory;
         private readonly IRouteConstraintFactory _routeConstraintFactory;
         private readonly IParameterFactory _parameterFactory;
 
-        public RouteBuilder(AttributeRoutingConfigurationBase configuration)
+        public RouteBuilder(ConfigurationBase configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 

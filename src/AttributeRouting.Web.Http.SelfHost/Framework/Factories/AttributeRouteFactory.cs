@@ -8,9 +8,9 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
 {
     internal class AttributeRouteFactory : IAttributeRouteFactory
     {
-        private readonly HttpAttributeRoutingConfiguration _configuration;
+        private readonly HttpConfiguration _configuration;
 
-        public AttributeRouteFactory(HttpAttributeRoutingConfiguration configuration)
+        public AttributeRouteFactory(HttpConfiguration configuration)
         {
             _configuration = configuration;
         }

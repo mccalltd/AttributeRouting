@@ -69,7 +69,7 @@
     </Compile>
     <Compile Include="Constraints\OptionalRouteConstraintWrapper.cs" />
     <Compile Include="Constraints\InboundHttpMethodConstraint.cs" />
-    <Compile Include="HttpAttributeRoutingConfiguration.cs" />
+    <Compile Include="HttpConfiguration.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteConstraintFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />

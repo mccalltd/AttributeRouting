@@ -40,19 +40,19 @@ namespace AttributeRouting.Framework
         string Url { get; set; }
 
         /// <summary>
-        /// If true, will override <see cref="AttributeRoutingConfigurationBase.UseLowercaseRoutes"/>
+        /// If true, will override <see cref="ConfigurationBase.UseLowercaseRoutes"/>
         /// set via global configuration and the generated route will have a lowercase URL.
         /// </summary>
         bool? UseLowercaseRoute { get; set; }
 
         /// <summary>
-        /// If true, will override <see cref="AttributeRoutingConfigurationBase.PreserveCaseForUrlParameters"/>
+        /// If true, will override <see cref="ConfigurationBase.PreserveCaseForUrlParameters"/>
         /// set via global configuration and the generated route will not lowercase URL parameter values.
         /// </summary>
         bool? PreserveCaseForUrlParameters { get; set; }
 
         /// <summary>
-        /// If true, will override <see cref="AttributeRoutingConfigurationBase.AppendTrailingSlash"/>
+        /// If true, will override <see cref="ConfigurationBase.AppendTrailingSlash"/>
         /// set via global configuration and the generated route will have a trailing slash on the path of outbound URLs.
         /// </summary>
         bool? AppendTrailingSlash { get; set; }

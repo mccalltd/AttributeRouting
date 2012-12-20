@@ -13,7 +13,7 @@ namespace AttributeRouting.Web.Http.Framework
     /// </summary>
     public class HttpAttributeRoute : HttpRoute, IAttributeRoute
     {
-        private readonly HttpAttributeRoutingConfigurationBase _configuration;
+        private readonly HttpConfigurationBase _configuration;
 
         /// <summary>
         /// Route used by the AttributeRouting framework in self-host projects.
@@ -22,7 +22,7 @@ namespace AttributeRouting.Web.Http.Framework
                                   HttpRouteValueDictionary defaults,
                                   HttpRouteValueDictionary constraints,
                                   HttpRouteValueDictionary dataTokens,
-                                  HttpAttributeRoutingConfigurationBase configuration)
+                                  HttpConfigurationBase configuration)
             : base(url, defaults, constraints, dataTokens, configuration.MessageHandler)
         {
             _configuration = configuration;

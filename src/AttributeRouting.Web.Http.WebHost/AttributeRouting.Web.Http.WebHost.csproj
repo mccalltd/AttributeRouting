@@ -76,7 +76,7 @@
     <Compile Include="Constraints\OptionalRouteConstraintWrapper.cs" />
     <Compile Include="Framework\Factories\RouteConstraintFactory.cs" />
     <Compile Include="HttpRouteCollectionExtensions.cs" />
-    <Compile Include="HttpWebAttributeRoutingConfiguration.cs" />
+    <Compile Include="HttpWebConfiguration.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

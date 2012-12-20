@@ -13,9 +13,9 @@ namespace AttributeRouting.Web.Http.WebHost.Framework.Factories
 {
     public class RouteConstraintFactory : IRouteConstraintFactory
     {
-        private readonly HttpWebAttributeRoutingConfiguration _configuration;
+        private readonly HttpWebConfiguration _configuration;
 
-        public RouteConstraintFactory(HttpWebAttributeRoutingConfiguration configuration)
+        public RouteConstraintFactory(HttpWebConfiguration configuration)
         {
             _configuration = configuration;
         }

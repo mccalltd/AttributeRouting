@@ -7,9 +7,9 @@ namespace AttributeRouting.Web.Mvc.Framework.Factories
 {
     internal class AttributeRouteFactory : IAttributeRouteFactory
     {
-        private readonly AttributeRoutingConfiguration _configuration;
+        private readonly Configuration _configuration;
 
-        public AttributeRouteFactory(AttributeRoutingConfiguration configuration)
+        public AttributeRouteFactory(Configuration configuration)
         {
             _configuration = configuration;
         }

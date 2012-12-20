@@ -14,9 +14,9 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
 {
     public class RouteConstraintFactory : IRouteConstraintFactory
     {
-        private readonly HttpAttributeRoutingConfiguration _configuration;
+        private readonly HttpConfiguration _configuration;
 
-        public RouteConstraintFactory(HttpAttributeRoutingConfiguration configuration)
+        public RouteConstraintFactory(HttpConfiguration configuration)
         {
             _configuration = configuration;
         }

@@ -58,7 +58,7 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AreaConfiguration.cs" />
-    <Compile Include="AttributeRoutingConfigurationBase.cs" />
+    <Compile Include="ConfigurationBase.cs" />
     <Compile Include="Constraints\AlphaRouteConstraintBase.cs" />
     <Compile Include="Constraints\ICompoundRouteConstraintWrapper.cs" />
     <Compile Include="Constraints\EnumRouteConstraintBase.cs" />

@@ -53,7 +53,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AttributeRoutingConfiguration.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="Constraints\InboundHttpMethodConstraint.cs" />
     <Compile Include="Constraints\OptionalRouteConstraintWrapper.cs" />
     <Compile Include="DELETEAttribute.cs" />

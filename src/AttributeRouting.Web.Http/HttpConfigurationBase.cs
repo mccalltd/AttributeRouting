@@ -6,9 +6,9 @@ using System.Web.Http.Routing;
 
 namespace AttributeRouting.Web.Http
 {
-    public abstract class HttpAttributeRoutingConfigurationBase : AttributeRoutingConfigurationBase
+    public abstract class HttpConfigurationBase : ConfigurationBase
     {
-        protected HttpAttributeRoutingConfigurationBase()
+        protected HttpConfigurationBase()
         {
             CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
         }

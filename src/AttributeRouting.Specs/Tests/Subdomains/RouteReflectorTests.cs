@@ -12,7 +12,7 @@ namespace AttributeRouting.Specs.Tests.Subdomains
         [Test]
         public void Returns_null_for_area_url_when_subdomain_is_specified_and_area_url_is_not_specified()
         {
-            var configuration = new AttributeRoutingConfiguration();
+            var configuration = new Configuration();
             configuration.AddRoutesFromController<SubdomainController>();
 
             var reflector = new RouteReflector(configuration);
@@ -26,7 +26,7 @@ namespace AttributeRouting.Specs.Tests.Subdomains
         [Test]
         public void Returns_specified_url_for_area_url_when_both_subdomain_is_specified_and_area_url_is_specified()
         {
-            var configuration = new AttributeRoutingConfiguration();
+            var configuration = new Configuration();
             configuration.AddRoutesFromController<SubdomainWithAreaUrlController>();
 
             var reflector = new RouteReflector(configuration);
@@ -40,7 +40,7 @@ namespace AttributeRouting.Specs.Tests.Subdomains
         [Test]
         public void Returns_subdomain_specified_for_area_via_configuration_object()
         {
-            var configuration = new AttributeRoutingConfiguration();
+            var configuration = new Configuration();
             configuration.AddRoutesFromController<SubdomainController>();
             configuration.MapArea("Users").ToSubdomain("override");
 
@@ -57,7 +57,7 @@ namespace AttributeRouting.Specs.Tests.Subdomains
         [Test]
         public void Returns_null_area_url_when_controller_configured_with_subdomain_only_via_configuration_object()
         {
-            var configuration = new AttributeRoutingConfiguration();
+            var configuration = new Configuration();
             configuration.AddRoutesFromController<SubdomainControllerWithoutSubdomainInAttribute>();
             configuration.MapArea("NoSubdomain").ToSubdomain("subdomain");
 
