@@ -203,9 +203,9 @@ this.ScenarioSetup(scenarioInfo);
 #line 43
  testRunner.When("I fetch the routes for the DefaultRouteArea controller\'s Index action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 44
- testRunner.Then("the route url is \"Subjects/Index\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the route url is \"Sample/Index\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 45
- testRunner.And("the data token for \"area\" is \"Subjects\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the data token for \"area\" is \"Sample\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -207,7 +207,7 @@ namespace AttributeRouting.Framework
 
             // If given an area name, then use it.
             // Otherwise, use the last section of the namespace of the controller, as a convention.
-            return routeAreaAttribute.AreaName ?? controllerType.GetLastSectionOfNamespace();
+            return routeAreaAttribute.AreaName ?? controllerType.GetConventionalAreaName();
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace AttributeRouting.Framework
             // If we're given an area url or an area name, then use it.
             // Otherwise, use the last section of the namespace of the controller, as a convention.
             var areaUrlOrName = routeAreaAttribute.AreaUrl ?? routeAreaAttribute.AreaName;
-            return areaUrlOrName ?? controllerType.GetLastSectionOfNamespace();
+            return areaUrlOrName ?? controllerType.GetConventionalAreaName();
         }
 
         /// <summary>

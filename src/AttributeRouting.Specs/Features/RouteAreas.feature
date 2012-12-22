@@ -41,6 +41,6 @@ Scenario: Generating area routes with an explicit area url when route urls speci
 Scenario: Generating area routes with the default ctor of the RouteAreaAttribute
 	Given I have registered the routes for the DefaultRouteAreaController
 	When I fetch the routes for the DefaultRouteArea controller's Index action
-	Then the route url is "Subjects/Index"
-	And the data token for "area" is "Subjects"
+	Then the route url is "Sample/Index"
+	And the data token for "area" is "Sample"
 

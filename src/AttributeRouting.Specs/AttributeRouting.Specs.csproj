@@ -141,6 +141,7 @@
     <Compile Include="Subjects\AsyncActionController.cs" />
     <Compile Include="Subjects\BugFixesControllers.cs" />
     <Compile Include="Subjects\Color.cs" />
+    <Compile Include="Subjects\Areas\Sample\DefaultRouteAreaController.cs" />
     <Compile Include="Subjects\Http\HttpBugFixesController.cs" />
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionController.cs" />
     <Compile Include="Subjects\Http\DefaultHttpRouteConventionPrefixController.cs" />
