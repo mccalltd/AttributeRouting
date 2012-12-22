@@ -44,6 +44,12 @@
     <DocumentationFile>bin\Release\AttributeRouting.xml</DocumentationFile>
     <NoWarn>1591, 1587</NoWarn>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AttributeRouting.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -103,6 +109,9 @@
     <Compile Include="Framework\RouteSpecification.cs" />
     <Compile Include="Framework\RouteReflector.cs" />
     <Compile Include="Framework\SubdomainParsers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AttributeRouting.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
