@@ -4,6 +4,10 @@ h2. Please refer to "attributerouting.net":http://attributerouting.net/ for docu
 
 h3. Changelog
 
+_3.4.1_
+
+* #175 - fixed bug in getting the default area name for a controller.
+
 _3.4_
 
 * #124 - Now supporting custom IRouteHandler in web-host scenario. Also supporting custom HttpMessageHandler for Web API.
