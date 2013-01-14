@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net;
 
 namespace AttributeRouting.Framework
 {
@@ -20,6 +21,15 @@ namespace AttributeRouting.Framework
         {
             return host =>
             {
+                IPAddress ip;
+                if (host.Contains(":"))
+                {
+                    host = host.Substring(0, host.IndexOf(":", StringComparison.Ordinal));
+                }
+                if (IPAddress.TryParse(host, out ip))
+                {
+                    return null;
+                }
                 var sections = host.Split('.');
                 return sections.Length < 3
                            ? null
