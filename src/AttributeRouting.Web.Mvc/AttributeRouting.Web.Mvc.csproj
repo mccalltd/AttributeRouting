@@ -63,6 +63,7 @@
     <Compile Include="Constraints\InboundHttpMethodConstraint.cs" />
     <Compile Include="Constraints\OptionalRouteConstraintWrapper.cs" />
     <Compile Include="DELETEAttribute.cs" />
+    <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
