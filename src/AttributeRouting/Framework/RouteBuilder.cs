@@ -351,7 +351,8 @@ namespace AttributeRouting.Framework
             var dataTokens = new Dictionary<string, object>
             {
                 { "namespaces", new[] { routeSpec.ControllerType.Namespace } },
-                { "actionMethod", routeSpec.ActionMethod }
+                { "actionMethod", routeSpec.ActionMethod },
+                { "defaultSubdomain", _configuration.DefaultSubdomain}
             };
 
             if (routeSpec.HttpMethods.Any())
