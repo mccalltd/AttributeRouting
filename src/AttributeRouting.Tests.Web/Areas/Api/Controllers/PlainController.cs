@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AttributeRouting.Web;
 using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Tests.Web.Areas.Api.Controllers
@@ -8,8 +7,8 @@ namespace AttributeRouting.Tests.Web.Areas.Api.Controllers
     public class PlainController : BaseApiController
     {
         // GET /api/plain
-        [GET("")]
-        public IEnumerable<string> Get()
+        [GET("", MinVer = "1.0")]
+        public IEnumerable<string> GetAll()
         {
             return new [] { "value1", "value2" };
         }
@@ -23,15 +22,13 @@ namespace AttributeRouting.Tests.Web.Areas.Api.Controllers
 
         // POST /api/plain
         [POST("")]
-        [POST("alt1")]
-        [RegexRouteConstraint("value", "somePattern")]
-        public void Post(string value)
+        public void Post()
         {
         }
 
         // PUT /api/plain/5
         [PUT("{id}")]
-        public void Put(int id, string value)
+        public void Put(int id)
         {
         }
 

@@ -9,32 +9,37 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Creates all the routes from attributes and AR configuration. 
-    /// Relies on RouteReflector to inspect types.
+    /// Creates <see cref="IAttributeRoute"/> objects according to the 
+    /// options set in implementations of <see cref="ConfigurationBase"/>.
     /// </summary>    
     public class RouteBuilder
     {
-        private readonly AttributeRoutingConfigurationBase _configuration;
+        private readonly ConfigurationBase _configuration;
         private readonly IAttributeRouteFactory _routeFactory;
         private readonly IRouteConstraintFactory _routeConstraintFactory;
         private readonly IParameterFactory _parameterFactory;
 
-        public RouteBuilder(AttributeRoutingConfigurationBase configuration)
+        public RouteBuilder(ConfigurationBase configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
             _configuration = configuration;
-            _routeFactory = configuration.AttributeFactory;
+            _routeFactory = configuration.AttributeRouteFactory;
             _routeConstraintFactory = configuration.RouteConstraintFactory;
             _parameterFactory = configuration.ParameterFactory;
         }
 
+        /// <summary>
+        /// Yields all the routes to register in the route table.
+        /// </summary>
         public IEnumerable<IAttributeRoute> BuildAllRoutes()
         {
             var routeReflector = new RouteReflector(_configuration);
-            var routeSpecs = routeReflector.GenerateRouteSpecifications().ToList();
-            var mappedSubdomains =
-                routeSpecs.Where(s => s.Subdomain.HasValue()).Select(s => s.Subdomain).Distinct().ToList();
+            var routeSpecs = routeReflector.BuildRouteSpecifications().ToList();
+
+            var mappedSubdomains = (from s in routeSpecs
+                                    where s.Subdomain.HasValue()
+                                    select s.Subdomain).Distinct().ToList();
 
             foreach (var routeSpec in routeSpecs)
             {
@@ -61,7 +66,7 @@ namespace AttributeRouting.Framework
         {
             if (!routeSpec.IsVersioned || (_configuration.ApiVersions == null) && (_configuration.ApiVersions.Count == 0))
             {
-                return new List<SemanticVersion>() {null};
+                return new List<SemanticVersion>() { null };
             }
 
             return (from version in _configuration.ApiVersions
@@ -72,31 +77,42 @@ namespace AttributeRouting.Framework
 
         private IEnumerable<IAttributeRoute> Build(RouteSpecification routeSpec, SemanticVersion version)
         {
-            var route = _routeFactory.CreateAttributeRoute(CreateRouteUrl(routeSpec, version),
-                                                           CreateRouteDefaults(routeSpec),
-                                                           CreateRouteConstraints(routeSpec, version),
-                                                           CreateRouteDataTokens(routeSpec));
+            var defaults = CreateRouteDefaults(routeSpec);
+            var constraints = CreateRouteConstraints(routeSpec, version);
+            var dataTokens = CreateRouteDataTokens(routeSpec);
+            var url = CreateRouteUrl(defaults, routeSpec, version);
 
-            route.RouteName = CreateRouteName(routeSpec);
-            route.Translations = CreateRouteTranslations(routeSpec, version);
-            route.Subdomain = routeSpec.Subdomain;
-            route.UseLowercaseRoute = routeSpec.UseLowercaseRoute;
-            route.PreserveCaseForUrlParameters = routeSpec.PreserveCaseForUrlParameters;
-            route.AppendTrailingSlash = routeSpec.AppendTrailingSlash;
+            var routes = _routeFactory.CreateAttributeRoutes(url, defaults, constraints, dataTokens);
 
-            // Yield the default route first
-            yield return route;
-
-            // Then yield the translations
-            if (route.Translations == null)
-                yield break;
-
-            foreach (var translation in route.Translations)
+            foreach (var route in routes)
             {
-                // Backreference the default route.
-                translation.DefaultRouteContainer = route;
+                var routeName = CreateRouteName(routeSpec);
+                if (routeName.HasValue())
+                {
+                    route.RouteName = routeName;
+                    route.DataTokens.Add("routeName", routeName);
+                }
 
-                yield return translation;
+                route.Translations = CreateRouteTranslations(routeSpec, version);
+                route.Subdomain = routeSpec.Subdomain;
+                route.UseLowercaseRoute = routeSpec.UseLowercaseRoute;
+                route.PreserveCaseForUrlParameters = routeSpec.PreserveCaseForUrlParameters;
+                route.AppendTrailingSlash = routeSpec.AppendTrailingSlash;
+
+                // Yield the default route first
+                yield return route;
+
+                // Then yield the translations
+                if (route.Translations == null)
+                    yield break;
+
+                foreach (var translation in route.Translations)
+                {
+                    // Backreference the default route.
+                    translation.DefaultRouteContainer = route;
+
+                    yield return translation;
+                }                
             }
         }
 
@@ -105,73 +121,44 @@ namespace AttributeRouting.Framework
             if (routeSpec.RouteName.HasValue())
                 return routeSpec.RouteName;
 
-            if (_configuration.AutoGenerateRouteNames)
-            {
-                var area = (routeSpec.AreaName.HasValue()) ? routeSpec.AreaName + "_" : null;
-                return "{0}{1}_{2}".FormatWith(area, routeSpec.ControllerName, routeSpec.ActionName);
-            }
-
-            return null;
+            return _configuration.AutoGenerateRouteNames ? _configuration.RouteNameBuilder(routeSpec) : null;
         }
-        
-        private string CreateRouteUrl(RouteSpecification routeSpec, SemanticVersion version)
+
+        private string CreateRouteUrl(IDictionary<string, object> defaults, RouteSpecification routeSpec, SemanticVersion version)
         {
             return CreateRouteUrl(routeSpec.RouteUrl,
                                   routeSpec.RoutePrefixUrl,
                                   routeSpec.AreaUrl,
-                                  version == null ? null : version.ToString(),
-                                  routeSpec.IsAbsoluteUrl,
-                                  routeSpec.UseLowercaseRoute);
+                                  version,
+                                  defaults,
+                                  routeSpec);
         }
 
-        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, string verisonPrefix, bool isAbsoluteUrl, bool? useLowercaseRoute)
+        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, SemanticVersion version, IDictionary<string, object> defaults, RouteSpecification routeSpec)
         {
-            var detokenizedUrl = DetokenizeUrl(routeUrl);
+            var tokenizedUrl = BuildTokenizedUrl(routeUrl, routePrefix, areaUrl, version, routeSpec);
+            var tokenizedPath = RemoveQueryString(tokenizedUrl);
+            var detokenizedPath = DetokenizeUrl(tokenizedPath);
 
-            var urlParameterNames = GetUrlParameterContents(detokenizedUrl).ToList();
+            var urlParameterNames = GetUrlParameterContents(detokenizedPath).ToList();
 
-            // {controller} and {action} tokens are not valid
+            var urlBuilder = new StringBuilder(detokenizedPath);
+
+            // Replace {controller} URL param with default value.
             if (urlParameterNames.Any(n => n.ValueEquals("controller")))
-                throw new AttributeRoutingException("{controller} is not a valid url parameter.");
+                urlBuilder.Replace("{controller}", (string)defaults["controller"]);
+
+            // Replace {action} URL param with default value.
             if (urlParameterNames.Any(n => n.ValueEquals("action")))
-                throw new AttributeRoutingException("{action} is not a valid url parameter.");
+                urlBuilder.Replace("{action}", (string)defaults["action"]);
 
             // Explicitly defined area routes are not valid
             if (urlParameterNames.Any(n => n.ValueEquals("area")))
                 throw new AttributeRoutingException(
                     "{area} url parameters are not allowed. Specify the area name by using the RouteAreaAttribute.");
 
-            var urlBuilder = new StringBuilder(detokenizedUrl);
-
-            // If this is not an absolute url, prefix with a route prefix or area name
-            if (!isAbsoluteUrl)
-            {
-                var delimitedRouteUrl = routeUrl + "/";
-
-                if (routePrefix.HasValue())
-                {
-                    var delimitedRoutePrefix = routePrefix + "/";
-                    if (!delimitedRouteUrl.StartsWith(delimitedRoutePrefix))
-                        urlBuilder.Insert(0, delimitedRoutePrefix);
-                }
-
-                if (verisonPrefix.HasValue())
-                {
-                    var delimitedVerisonPrefix = verisonPrefix + "/";
-                    if (!delimitedRouteUrl.StartsWith(delimitedVerisonPrefix))
-                        urlBuilder.Insert(0, delimitedVerisonPrefix);
-                }
-
-                if (areaUrl.HasValue())
-                {
-                    var delimitedAreaUrl = areaUrl + "/";
-                    if (!delimitedRouteUrl.StartsWith(delimitedAreaUrl))
-                        urlBuilder.Insert(0, delimitedAreaUrl);
-                }
-            }
-
             // If we are lowercasing routes, then lowercase everything but the route params
-            var lower = useLowercaseRoute.HasValue ? useLowercaseRoute.Value : _configuration.UseLowercaseRoutes;
+            var lower = routeSpec.UseLowercaseRoute.GetValueOrDefault(_configuration.UseLowercaseRoutes);
             if (lower)
             {
                 for (var i = 0; i < urlBuilder.Length; i++)
@@ -202,10 +189,10 @@ namespace AttributeRouting.Framework
 
             var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).ToList();
 
-            // Inspect the url for optional parameters, specified with a leading or trailing (or both) ?
-            foreach (var parameter in urlParameters.Where(p => p.StartsWith("?") || p.EndsWith("?")))
+            // Inspect the url for optional parameters, specified with a trailing ?
+            foreach (var parameter in urlParameters.Where(p => p.EndsWith("?")))
             {
-                var parameterName = parameter.Trim('?');
+                var parameterName = parameter.TrimEnd('?');
                 
                 if (parameterName.Contains(':'))
                     parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
@@ -232,15 +219,6 @@ namespace AttributeRouting.Framework
                 defaults.Add(parameterName, defaultValue);
             }
 
-            // Attribute-based defaults
-            foreach (var defaultAttribute in routeSpec.DefaultAttributes)
-            {
-                if (defaults.ContainsKey(defaultAttribute.Key))
-                    continue;
-
-                defaults.Add(defaultAttribute.Key, defaultAttribute.Value);
-            }
-
             return defaults;
         }
 
@@ -250,37 +228,37 @@ namespace AttributeRouting.Framework
 
             // Default constraints
             if (routeSpec.HttpMethods.Any())
-                constraints.Add("httpMethod", _routeConstraintFactory.CreateRestfulHttpMethodConstraint(routeSpec.HttpMethods));
+                constraints.Add("inboundHttpMethod", _routeConstraintFactory.CreateInboundHttpMethodConstraint(routeSpec.HttpMethods));
 
-            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).ToList();
+            // Work from a complete, tokenized url; ie: support constraints in area urls, route prefix urls, and route urls.
+            var tokenizedUrl = BuildTokenizedUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, version, routeSpec);
+            var urlParameters = GetUrlParameterContents(tokenizedUrl).ToList();
 
-            // Inline constraints (legacy)
-            foreach (var parameter in urlParameters.Where(p => !p.Contains(":") && Regex.IsMatch(p, @"^.*\(.*\)$")))
+            // Need to keep track of query params. 
+            // Can do this by detokenizing URL (which strips query), 
+            // and then taking all the URL parameters except those from the path part of the URL.
+            var pathOnlyUrl = RemoveQueryString(tokenizedUrl);
+            var pathOnlyUrlParameters = GetUrlParameterContents(pathOnlyUrl);
+            var queryStringParameters = urlParameters.Except(pathOnlyUrlParameters).ToList();
+
+            // Inline constraints
+            foreach (var parameter in urlParameters)
             {
-                var indexOfOpenParen = parameter.IndexOf('(');
-                var parameterName = parameter.Substring(0, indexOfOpenParen);
+                // Keep track of whether this param is optional or in the querystring, 
+                // because we wrap the final constraint if so.
+                var parameterIsOptional = parameter.EndsWith("?");
+                var parameterIsInQueryString = queryStringParameters.Contains(parameter);
 
-                if (constraints.ContainsKey(parameterName))
+                // If this is a path parameter and doesn't have a constraint, then skip it.
+                if (!parameterIsInQueryString && !parameter.Contains(":"))
                     continue;
 
-                var regexPattern = parameter.Substring(indexOfOpenParen + 1, parameter.Length - indexOfOpenParen - 2);
-                constraints.Add(parameterName, _routeConstraintFactory.CreateRegexRouteConstraint(regexPattern));
-            }
-
-            // Inline constraints of the form urlParam:constraintDefinition(param1, ...)
-            var constraintFactory = _configuration.RouteConstraintFactory;
-            foreach (var parameter in urlParameters.Where(p => p.Contains(":")))
-            {
-                // Keep track of whether this param is optional, 
-                // because we wrap the final constraint if so.
-                var parameterIsOptional = parameter.StartsWith("?") || parameter.EndsWith("?");
-
                 // Strip off everything related to defaults.
-                var cleanParameter = parameter.Trim('?').Split('=').FirstOrDefault();
+                var cleanParameter = parameter.TrimEnd('?').Split('=').FirstOrDefault();
 
                 var sections = cleanParameter.SplitAndTrim(":");
                 var parameterName = sections.First();
-
+                
                 // Do not override default or legacy inline constraints
                 if (constraints.ContainsKey(parameterName))
                     continue;
@@ -298,14 +276,21 @@ namespace AttributeRouting.Framework
                         // Constraint of the form "firstName:string(50)"
                         var indexOfOpenParen = definition.IndexOf('(');
                         constraintName = definition.Substring(0, indexOfOpenParen);
-                        var constraintParams = definition.Substring(indexOfOpenParen + 1, definition.Length - indexOfOpenParen - 2).SplitAndTrim(",");
-                        constraint = constraintFactory.CreateInlineRouteConstraint(constraintName, constraintParams);
+                        
+                        // Parse constraint params. 
+                        // NOTE: Splitting on commas only applies to non-regex constraints.
+                        var constraintParamsRaw = definition.Substring(indexOfOpenParen + 1, definition.Length - indexOfOpenParen - 2);
+                        var constraintParams = constraintName.ValueEquals("regex")
+                                                   ? new[] {constraintParamsRaw}
+                                                   : constraintParamsRaw.SplitAndTrim(",");
+
+                        constraint = _routeConstraintFactory.CreateInlineRouteConstraint(constraintName, constraintParams);
                     }
                     else
                     {
                         // Constraint of the form "id:int"
                         constraintName = definition;
-                        constraint = constraintFactory.CreateInlineRouteConstraint(constraintName);
+                        constraint = _routeConstraintFactory.CreateInlineRouteConstraint(constraintName);
                     }
 
                     if (constraint == null)
@@ -315,32 +300,38 @@ namespace AttributeRouting.Framework
                     inlineConstraints.Add(constraint);
                 }
 
-                // Apply the constraint to the parameter. 
-                // Wrap multiple constraints in a compound constraint wrapper.
-                // Wrap constraints for optional params in an optional constraint wrapper.
-                var finalConstraint = (inlineConstraints.Count == 1)
-                                          ? inlineConstraints.Single()
-                                          : constraintFactory.CreateCompoundRouteConstraint(inlineConstraints.ToArray());
+                // Apply the constraint to the parameter, and wrap constraints in the following priority: 
+                object finalConstraint;
 
-                if (parameterIsOptional)
-                    constraints.Add(parameterName, constraintFactory.CreateOptionalRouteConstraint(finalConstraint));
+                // 1. If more than one constraint, wrap in a compound constraint.
+                if (inlineConstraints.Count > 1)
+                {
+                    finalConstraint = _routeConstraintFactory.CreateCompoundRouteConstraint(inlineConstraints.ToArray());
+                }
                 else
-                    constraints.Add(parameterName, finalConstraint);
-            }
+                {
+                    finalConstraint = inlineConstraints.FirstOrDefault();
+                }
 
-            // Attribute-based constraints
-            foreach (var constraintAttribute in routeSpec.ConstraintAttributes)
-            {
-                if (constraints.ContainsKey(constraintAttribute.Key))
-                    continue;
+                // 2. If the constraint is in the querystring, wrap in a query string constraint.
+                if (parameterIsInQueryString)
+                {
+                    finalConstraint = _routeConstraintFactory.CreateQueryStringRouteConstraint(finalConstraint);
+                }
 
-                constraints.Add(constraintAttribute.Key, constraintAttribute.Constraint);
-            }
+                // 3. If the constraint is optional, wrap in an optional constraint.
+                if (parameterIsOptional)
+                {
+                    finalConstraint = _routeConstraintFactory.CreateOptionalRouteConstraint(finalConstraint);
+                }
 
-            var detokenizedUrl = DetokenizeUrl(CreateRouteUrl(routeSpec, version));
-            var urlParameterNames = GetUrlParameterContents(detokenizedUrl).ToList();
+                constraints.Add(parameterName, finalConstraint);
+
+            } // ... go to next parameter
 
             // Globally configured constraints
+            var detokenizedPrefixedUrl = DetokenizeUrl(tokenizedUrl);
+            var urlParameterNames = GetUrlParameterContents(detokenizedPrefixedUrl).ToList();
             foreach (var defaultConstraint in _configuration.DefaultRouteConstraints)
             {
                 var pattern = defaultConstraint.Key;
@@ -357,12 +348,48 @@ namespace AttributeRouting.Framework
             return constraints;
         }
 
+        private string BuildTokenizedUrl(string routeUrl, string routePrefixUrl, string areaUrl, SemanticVersion versionPrefix, RouteSpecification routeSpec)
+        {
+            var delimitedUrl = routeUrl + "/";
+
+            // Prepend prefix if available
+            if (routePrefixUrl.HasValue() && !routeSpec.IgnoreRoutePrefix)
+            {
+                var delimitedRoutePrefix = routePrefixUrl + "/";
+                if (!delimitedUrl.StartsWith(delimitedRoutePrefix))
+                    delimitedUrl = delimitedRoutePrefix + delimitedUrl;
+            }
+
+            if (versionPrefix != null)
+            {
+                var delimitedVerisonPrefix = versionPrefix.ToString() + "/";
+                if (!delimitedUrl.StartsWith(delimitedVerisonPrefix))
+                    delimitedUrl = delimitedVerisonPrefix + delimitedUrl;
+            }
+
+            // Prepend area url if available
+            if (areaUrl.HasValue() && !routeSpec.IgnoreAreaUrl)
+            {
+                var delimitedAreaUrl = areaUrl + "/";
+                if (!delimitedUrl.StartsWith(delimitedAreaUrl))
+                    delimitedUrl = delimitedAreaUrl + delimitedUrl;
+            }
+
+            return delimitedUrl.Trim('/');
+        }
+
         private IDictionary<string, object> CreateRouteDataTokens(RouteSpecification routeSpec)
         {
             var dataTokens = new Dictionary<string, object>
             {
-                { "namespaces", new[] { routeSpec.ControllerType.Namespace } }
+                { "namespaces", new[] { routeSpec.ControllerType.Namespace } },
+                { "actionMethod", routeSpec.ActionMethod }
             };
+
+            if (routeSpec.HttpMethods.Any())
+            {
+                dataTokens.Add("httpMethods", routeSpec.HttpMethods);
+            }
 
             if (routeSpec.AreaName.HasValue())
             {
@@ -377,14 +404,37 @@ namespace AttributeRouting.Framework
         {
             var patterns = new List<string>
             {
-                @"(?<=\{)\?",       // leading question mark (used to specify optional param)
-                @"\?(?=\})",        // trailing question mark (used to specify optional param)
-                @"\(.*?\)(?=\})",   // stuff inside parens (used to specify inline regex route constraint)
-                @"\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))", // new inline constraint syntax
-                @"=.*?(?=\})",      // equals and value (used to specify inline parameter default value)
+                @"(?<=\{)\?",                           // leading question mark (used to specify optional param)
+                @"\?(?=\})",                            // trailing question mark (used to specify optional param)
+                @"\(.*?\)(?=\})",                       // stuff inside parens (used to specify inline regex route constraint)
+                @"\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))",  // new inline constraint syntax
+                @"(?<=\{.*)=.*?(?=\})",                 // equals and value (used to specify inline parameter default value)
             };
 
             return Regex.Replace(url, String.Join("|", patterns), "");
+        }
+
+        private static string RemoveQueryString(string url)
+        {
+            // Must honor ? in regex expressions and as used to specify optional params,
+            // So run through the url chars and fast forward when inside a url param (eg: {...})
+            for (int i = 0, length = url.Length; i < length; i++)
+            {
+                var c = url[i];
+                if (c == '?')
+                {
+                    return url.Substring(0, i);
+                }
+                
+                // Fast-forward past url param contents
+                if (c == '{')
+                {
+                    while (url[i] != '}' && i < length)
+                        i++;
+                }
+            }
+
+            return url;
         }
 
         private IEnumerable<IAttributeRoute> CreateRouteTranslations(RouteSpecification routeSpec, SemanticVersion version)
@@ -411,25 +461,39 @@ namespace AttributeRouting.Framework
                     translatedAreaUrl = translatedAreaUrl ?? provider.TranslateAreaUrl(cultureName, routeSpec);
                 }
 
+                // If nothing is translated, then bail.
                 if (translatedRouteUrl == null && translatedRoutePrefix == null && translatedAreaUrl == null)
                     continue;
 
-                var translatedRoute =
-                    _routeFactory.CreateAttributeRoute(CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
-                                                                      translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
-                                                                      translatedAreaUrl ?? routeSpec.AreaUrl,
-                                                                      version == null ? null : version.ToString(),
-                                                                      routeSpec.IsAbsoluteUrl,
-                                                                      routeSpec.UseLowercaseRoute),
-                                                       CreateRouteDefaults(routeSpec),
-                                                       CreateRouteConstraints(routeSpec, version),
-                                                       CreateRouteDataTokens(routeSpec));
+                //*********************************************
+                // Otherwise, build a translated route
 
-                translatedRoute.CultureName = cultureName;
+                var defaults = CreateRouteDefaults(routeSpec);
+                var constraints = CreateRouteConstraints(routeSpec, version);
+                var dataTokens = CreateRouteDataTokens(routeSpec);
+                var routeUrl = CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
+                                              translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
+                                              translatedAreaUrl ?? routeSpec.AreaUrl,
+                                              version,
+                                              defaults,
+                                              routeSpec);
 
-                translatedRoute.DataTokens.Add("cultureName", cultureName);
+                var translatedRoutes = _routeFactory.CreateAttributeRoutes(routeUrl, defaults, constraints, dataTokens);
 
-                yield return translatedRoute;
+                foreach (var translatedRoute in translatedRoutes)
+                {
+                    var routeName = CreateRouteName(routeSpec);
+                    if (routeName != null)
+                    {
+                        translatedRoute.RouteName = routeName;
+                        translatedRoute.DataTokens.Add("routeName", routeName);
+                    }
+
+                    translatedRoute.CultureName = cultureName;
+                    translatedRoute.DataTokens.Add("cultureName", cultureName);
+
+                    yield return translatedRoute;                    
+                }
             }
         }
 
@@ -462,7 +526,7 @@ namespace AttributeRouting.Framework
                     {
                         // If we find an inner open curly (due to inner regex patterns), 
                         // then fast-forward beyond it.
-                        i = urlSegment.IndexOf('}', iOpenCurly);                        
+                        i = urlSegment.IndexOf('}', i);                        
                     }
 
                     i++;

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Web.Routing;
+using AttributeRouting.Constraints;
+using AttributeRouting.Framework;
 using AttributeRouting.Web.Constraints;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -32,6 +36,15 @@ namespace AttributeRouting.Specs.Steps
             Assert.That(route.Defaults[key], Is.EqualTo(value));
         }
 
+        [Then(@"the route area is ""(.*?)""")]
+        public void ThenTheRouteAreaIs(string area)
+        {
+            var route = ScenarioContext.Current.GetFetchedRoutes().FirstOrDefault();
+
+            Assert.That(route, Is.Not.Null);
+            Assert.That(route.DataTokens["area"], Is.EqualTo(area));
+        }
+
         [Then(@"the namespace is ""(.*?)""")]
         public void ThenTheNamespaceIs(string ns)
         {
@@ -41,14 +54,34 @@ namespace AttributeRouting.Specs.Steps
             Assert.That(route.DataTokens["namespaces"], Is.EqualTo(new[] { ns }));
         }
 
+        [Then(@"the route has a data token for ""(.*?)""")]
+        public void ThenTheRouteHasADataTokeFor(string key)
+        {
+            var route = ScenarioContext.Current.GetFetchedRoutes().FirstOrDefault();
+
+            Assert.That(route, Is.Not.Null);
+            Assert.That(route.DataTokens[key], Is.Not.Null);
+        }
+
         [Then(@"the route is constrained to (.*?) requests")]
         public void ThenTheRouteIsConstrainedToRequests(string method)
         {
             var route = ScenarioContext.Current.GetFetchedRoutes().FirstOrDefault();
 
-            Assert.That(route, Is.Not.Null);
+            AssertThatRouteIsConstrainedToHttpMethod(route, method);
+        }
 
-            var constraint = route.Constraints["httpMethod"] as RestfulHttpMethodConstraint;
+        [Then(@"the route for (.*?) is constrained to (.*?) requests")]
+        public void ThenTheRouteForIsConstrainedToRequests(string action, string method)
+        {
+            var route = ScenarioContext.Current.GetFetchedRoutes().FirstOrDefault(r => r.Defaults["action"].ToString() == action);
+
+            AssertThatRouteIsConstrainedToHttpMethod(route, method);
+        }
+
+        private void AssertThatRouteIsConstrainedToHttpMethod(Route route, string method)
+        {
+            var constraint = route.Constraints["inboundHttpMethod"] as IInboundHttpMethodConstraint;
 
             if (method.HasValue())
             {
@@ -58,20 +91,7 @@ namespace AttributeRouting.Specs.Steps
             else
             {
                 Assert.That(constraint, Is.Null);
-            }
-        }
-
-        [Then(@"the route for (.*?) is constrained to (.*?) requests")]
-        public void ThenTheRouteForIsConstrainedToRequests(string action, string method)
-        {
-            var route = ScenarioContext.Current.GetFetchedRoutes().FirstOrDefault(r => r.Defaults["action"].ToString() == action);
-
-            Assert.That(route, Is.Not.Null);
-
-            var constraint = route.Constraints["httpMethod"] as RestfulHttpMethodConstraint;
-
-            Assert.That(constraint, Is.Not.Null);
-            Assert.That(constraint.AllowedMethods.Any(m => m.Equals(method, StringComparison.OrdinalIgnoreCase)), Is.True);
+            }            
         }
     }
 }

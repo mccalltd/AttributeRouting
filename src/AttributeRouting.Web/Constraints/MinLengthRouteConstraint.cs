@@ -4,9 +4,6 @@ using AttributeRouting.Constraints;
 
 namespace AttributeRouting.Web.Constraints
 {
-    /// <summary>
-    /// Constraints a url parameter to be a string with a maximum length.
-    /// </summary>
     public class MinLengthRouteConstraint : MinLengthRouteConstraintBase, IRouteConstraint
     {
         public MinLengthRouteConstraint(string minLength) : base(minLength) { }

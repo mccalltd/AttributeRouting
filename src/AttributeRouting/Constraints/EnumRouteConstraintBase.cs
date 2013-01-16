@@ -6,7 +6,7 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Constraints
 {
     /// <summary>
-    /// Constraints a url parameter to be a value from an enum.
+    /// Constrains a url parameter to be a value from an enum.
     /// </summary>
     public abstract class EnumRouteConstraintBase<T> : IAttributeRouteConstraint 
         where T : struct

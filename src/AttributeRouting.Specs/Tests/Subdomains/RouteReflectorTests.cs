@@ -12,11 +12,11 @@ namespace AttributeRouting.Specs.Tests.Subdomains
         [Test]
         public void Returns_null_for_area_url_when_subdomain_is_specified_and_area_url_is_not_specified()
         {
-            var configuration = new AttributeRoutingConfiguration();
+            var configuration = new Configuration();
             configuration.AddRoutesFromController<SubdomainController>();
 
             var reflector = new RouteReflector(configuration);
-            var specs = reflector.GenerateRouteSpecifications().ToList();
+            var specs = reflector.BuildRouteSpecifications().ToList();
 
             Assert.That(specs.Count, Is.EqualTo(1));
             Assert.That(specs.Single().Subdomain, Is.EqualTo("users"));
@@ -26,11 +26,11 @@ namespace AttributeRouting.Specs.Tests.Subdomains
         [Test]
         public void Returns_specified_url_for_area_url_when_both_subdomain_is_specified_and_area_url_is_specified()
         {
-            var configuration = new AttributeRoutingConfiguration();
+            var configuration = new Configuration();
             configuration.AddRoutesFromController<SubdomainWithAreaUrlController>();
 
             var reflector = new RouteReflector(configuration);
-            var specs = reflector.GenerateRouteSpecifications().ToList();
+            var specs = reflector.BuildRouteSpecifications().ToList();
 
             Assert.That(specs.Count, Is.EqualTo(1));
             Assert.That(specs.Single().Subdomain, Is.EqualTo("private"));
@@ -40,12 +40,12 @@ namespace AttributeRouting.Specs.Tests.Subdomains
         [Test]
         public void Returns_subdomain_specified_for_area_via_configuration_object()
         {
-            var configuration = new AttributeRoutingConfiguration();
+            var configuration = new Configuration();
             configuration.AddRoutesFromController<SubdomainController>();
             configuration.MapArea("Users").ToSubdomain("override");
 
             var reflector = new RouteReflector(configuration);
-            var specs = reflector.GenerateRouteSpecifications().ToList();
+            var specs = reflector.BuildRouteSpecifications().ToList();
 
             var spec = specs.SingleOrDefault();
             Assert.That(spec, Is.Not.Null);
@@ -57,12 +57,12 @@ namespace AttributeRouting.Specs.Tests.Subdomains
         [Test]
         public void Returns_null_area_url_when_controller_configured_with_subdomain_only_via_configuration_object()
         {
-            var configuration = new AttributeRoutingConfiguration();
+            var configuration = new Configuration();
             configuration.AddRoutesFromController<SubdomainControllerWithoutSubdomainInAttribute>();
             configuration.MapArea("NoSubdomain").ToSubdomain("subdomain");
 
             var reflector = new RouteReflector(configuration);
-            var specs = reflector.GenerateRouteSpecifications().ToList();
+            var specs = reflector.BuildRouteSpecifications().ToList();
 
             var spec = specs.SingleOrDefault();
             Assert.That(spec, Is.Not.Null);

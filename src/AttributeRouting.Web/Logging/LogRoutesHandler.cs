@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 using AttributeRouting.Logging;
@@ -22,12 +23,12 @@ namespace AttributeRouting.Web.Logging
         {
             var writer = context.Response.Output;
 
-            var output = GetOutput(new { items = GetRouteInfoOutput() });
+            var output = GetOutput();
 
             writer.Write(output);
         }
 
-        private static string GetOutput(object tokenReplacements)
+        private static string GetOutput()
         {
             // Read the contents of the html template.
             var assembly = Assembly.GetExecutingAssembly();
@@ -46,52 +47,28 @@ namespace AttributeRouting.Web.Logging
             // Replace tokens in the template with appropriate content
             var outputBuilder = new StringBuilder(fileContent);
 
-            var tokenReplacementsDictionary = new RouteValueDictionary(tokenReplacements);
-            foreach (var key in tokenReplacementsDictionary.Keys)
-                outputBuilder.Replace("{{{0}}}".FormatWith(key), tokenReplacementsDictionary[key].ToString());
-
-            return outputBuilder.ToString();
-        }
-
-        private static string GetRouteInfoOutput()
-        {
-            var outputBuilder = new StringBuilder();
-
-            var routeInfo = GetRouteInfo();
-            var row = 0;
-            foreach (var info in routeInfo)
+            var model = new JavaScriptSerializer().Serialize(new
             {
-                outputBuilder.AppendFormat("<tr class=\"{0}\">", (++row % 2 == 0) ? "even" : "odd");
-                outputBuilder.AppendFormat("<td>{0}</td>", info.HttpMethod);
-                outputBuilder.AppendFormat("<td class=\"url\">{0}</td>", info.Url);
+                routes = GetRouteInfo()
+            });
 
-                BuildCollectionOutput(outputBuilder, info.Defaults);
-                BuildCollectionOutput(outputBuilder, info.Constraints);
-                BuildCollectionOutput(outputBuilder, info.DataTokens);
-
-                outputBuilder.Append("</tr>");
-            }
+            outputBuilder.Replace("\"{data}\"", model);
 
             return outputBuilder.ToString();
         }
 
-        private static void BuildCollectionOutput(StringBuilder builder, IDictionary<string, string> dictionary)
+        private static IEnumerable<object> GetRouteInfo()
         {
-            builder.Append("<td>");
-            if (dictionary.Count == 0)
-                builder.Append("&nbsp;");
-            else
-                foreach (var pair in dictionary)
-                    builder.AppendFormat("<i>{0}</i>: {1}<br />", pair.Key, pair.Value);
-            builder.Append("</td>");
-        }
-
-        private static IEnumerable<AttributeRouteInfo> GetRouteInfo()
-        {
-            return
-                RouteTable.Routes.Cast<Route>().Select(
-                    route =>
-                    AttributeRouteInfo.GetRouteInfo(route.Url, route.Defaults, route.Constraints, route.DataTokens));
+            return from r in RouteTable.Routes.OfType<Route>()
+                   let routeInfo = AttributeRouteInfo.GetRouteInfo(r.Url, r.Defaults, r.Constraints, r.DataTokens)
+                   select new
+                   {
+                       methods = routeInfo.HttpMethods,
+                       url = routeInfo.Url,
+                       defaults = routeInfo.Defaults.Select(kvp => new { key = kvp.Key, value = kvp.Value }),
+                       constraints = routeInfo.Constraints.Select(kvp => new { key = kvp.Key, value = kvp.Value }),
+                       dataTokens = routeInfo.DataTokens.Select(kvp => new { key = kvp.Key, value = kvp.Value })
+                   };
         }
     }
 }

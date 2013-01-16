@@ -1,14 +1,19 @@
 namespace AttributeRouting.Framework.Factories
 {
     /// <summary>
-    /// Factory methods for getting RouteParameters or UrlParameters
+    /// Abstraction used by <see cref="RouteBuilder"/> 
+    /// when generating optional url parameters.
     /// </summary>
+    /// <remarks>
+    /// Due to 
+    /// UrlParameter.Optional (used in web-hosted scenarios) and
+    /// RouteParameter.Optional (used in self-hosted scenarios).
+    /// </remarks>
     public interface IParameterFactory
     {
         /// <summary>
-        /// Optional parameter (UrlParameter.Optional, RouteParameter.Optional)
+        /// Generates an optional parameter of the correct type.
         /// </summary>
-        /// <returns></returns>
         object Optional();
     }
 }

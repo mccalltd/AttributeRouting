@@ -1,12 +1,13 @@
-﻿using System.Reflection;
+using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Tim McCall")]
-[assembly: AssemblyProduct("AttributeRouting")]
-[assembly: AssemblyCopyright("Copyright ©2012")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
-
-[assembly: AssemblyVersion("2.4.0")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("AttributeRouting")]
+[assembly: AssemblyCopyright("Copyright 2010-2012 Tim McCall")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyVersion("3.4.1")]
+[assembly: AssemblyFileVersion("3.4.1")]
+[assembly: AssemblyInformationalVersion("3.4.1")]
+[assembly: AssemblyConfiguration("Release")]

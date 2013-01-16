@@ -1,0 +1,175 @@
+﻿<#@ template language="VB" HostSpecific="True" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data.Objects" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="Microsoft.VisualStudio.Web.Mvc.Scaffolding.BuiltIn" #>
+<#
+Dim Model As MvcTextTemplateHost = DirectCast(Host, MvcTextTemplateHost)
+
+Dim routePrefix As String = String.Empty
+If Not String.IsNullOrEmpty(Model.AreaName) Then
+    routePrefix = "/" + Model.AreaName
+End If
+routePrefix = routePrefix + "/" + Model.ControllerRootName + "/"
+
+Dim modelName = Model.ModelType.Name
+Dim entitySetName = Model.EntitySetName
+Dim modelVariable = modelName.ToLower()
+Dim entitySetVariable = entitySetName.ToLower()
+Dim primaryKey = Model.PrimaryKeys(0)
+Dim lambdaVar = modelVariable(0)
+Dim isObjectContext = GetType(ObjectContext).IsAssignableFrom(Model.ContextType)
+#>
+Imports System.Data.Entity
+Imports AttributeRouting
+Imports AttributeRouting.Web.Mvc
+<# If MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ModelType.Namespace) Then #>
+Imports <#= Model.ModelType.Namespace #>
+<# End If #>
+<# If Model.ContextType.Namespace <> Model.ModelType.Namespace AndAlso MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ContextType.Namespace) Then #>
+Imports <#= Model.ContextType.Namespace #>
+<# End If #>
+
+Namespace <#= Model.Namespace #>
+<#
+If Not String.IsNullOrEmpty(Model.AreaName) Then
+#>
+	<RouteArea("<#= Model.AreaName #>")> _
+<#
+End If
+#>
+	<RoutePrefix("<#= Model.ControllerRootName #>")> _
+    Public Class <#= Model.ControllerName #>
+        Inherits System.Web.Mvc.Controller
+
+        Private db As New <#= Model.ContextType.Name #>
+
+        <[GET]("")> _
+        Function Index() As ActionResult
+<#  Dim includeExpressions As String = ""
+    If isObjectContext Then
+        includeExpressions = String.Join("", Model.RelatedProperties.Values.Select(Function(prop) String.Format(".Include(""{0}"")", prop.PropertyName)))
+    Else
+        includeExpressions = String.Join("", Model.RelatedProperties.Values.Select(Function(prop) String.Format(".Include(Function({0}) {0}.{1})", lambdaVar, prop.PropertyName)))
+    End If
+#>
+<# If Not String.IsNullOrEmpty(includeExpressions) Then #>
+            Dim <#= entitySetVariable #> = db.<#= entitySetName #><#= includeExpressions #>
+            Return View(<#= entitySetVariable #>.ToList())
+<# Else #>
+            Return View(db.<#= entitySetName #><#= includeExpressions #>.ToList())
+<# End If #>
+        End Function
+
+        <[GET]("Details/{id}")> _
+        Function Details(Optional ByVal id As <#= primaryKey.ShortTypeName #> = <#= primaryKey.DefaultValue #>) As ActionResult
+<# If isObjectContext Then #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Single(Function(<#= lambdaVar #>) <#= lambdaVar #>.<#= primaryKey.Name #> = id)
+<# Else #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Find(id)
+<# End If #>
+            If IsNothing(<#= modelVariable #>) Then
+                Return HttpNotFound()
+            End If
+            Return View(<#= modelVariable #>)
+        End Function
+
+        <[GET]("Create")> _
+        Function Create() As ActionResult
+<# For Each prop As RelatedModel In Model.RelatedProperties.Values #>
+            ViewBag.<#= prop.ForeignKeyPropertyName #> = New SelectList(db.<#= prop.EntitySetName #>, "<#= prop.PrimaryKey #>", "<#= prop.DisplayPropertyName #>")
+<# Next #>
+            Return View()
+        End Function
+
+        <POST("Create")> _
+        Function Create(ByVal <#= modelVariable #> As <#= modelName #>) As ActionResult
+            If ModelState.IsValid Then
+<# If primaryKey.Type = GetType(Guid) Then #>
+                <#= modelVariable #>.<#= primaryKey.Name #> = Guid.NewGuid()
+<# End If #>
+<# If isObjectContext #>
+                db.<#= entitySetName #>.AddObject(<#= modelVariable #>)
+<# Else #>
+                db.<#= entitySetName #>.Add(<#= modelVariable #>)
+<# End If #>
+                db.SaveChanges()
+                Return RedirectToAction("Index")
+            End If
+
+<# For Each prop As RelatedModel In Model.RelatedProperties.Values #>
+            ViewBag.<#= prop.ForeignKeyPropertyName #> = New SelectList(db.<#= prop.EntitySetName #>, "<#= prop.PrimaryKey #>", "<#= prop.DisplayPropertyName #>", <#= modelVariable #>.<#= prop.ForeignKeyPropertyName #>)
+<# Next #>
+            Return View(<#= modelVariable #>)
+        End Function
+
+        <[GET]("Edit/{id}")> _
+        Function Edit(Optional ByVal id As <#= primaryKey.ShortTypeName #> = <#= primaryKey.DefaultValue #>) As ActionResult
+<# If isObjectContext Then #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Single(Function(<#= lambdaVar #>) <#= lambdaVar #>.<#= primaryKey.Name #> = id)
+<# Else #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Find(id)
+<# End If #>
+            If IsNothing(<#= modelVariable #>) Then
+                Return HttpNotFound()
+            End If
+<# For Each prop As RelatedModel In Model.RelatedProperties.Values #>
+            ViewBag.<#= prop.ForeignKeyPropertyName #> = New SelectList(db.<#= prop.EntitySetName #>, "<#= prop.PrimaryKey #>", "<#= prop.DisplayPropertyName #>", <#= modelVariable #>.<#= prop.ForeignKeyPropertyName #>)
+<# Next #>
+            Return View(<#= modelVariable #>)
+        End Function
+
+        <POST("Edit/{id}")> _
+        Function Edit(ByVal <#= modelVariable #> As <#= modelName #>) As ActionResult
+            If ModelState.IsValid Then
+<# If isObjectContext Then #>
+                db.<#= entitySetName #>.Attach(<#= modelVariable #>)
+                db.ObjectStateManager.ChangeObjectState(<#= modelVariable #>, EntityState.Modified)
+<# Else #>
+                db.Entry(<#= modelVariable #>).State = EntityState.Modified
+<# End If #>
+                db.SaveChanges()
+                Return RedirectToAction("Index")
+            End If
+
+<# For Each prop As RelatedModel In Model.RelatedProperties.Values #>
+            ViewBag.<#= prop.ForeignKeyPropertyName #> = New SelectList(db.<#= prop.EntitySetName #>, "<#= prop.PrimaryKey #>", "<#= prop.DisplayPropertyName #>", <#= modelVariable #>.<#= prop.ForeignKeyPropertyName #>)
+<# Next #>
+            Return View(<#= modelVariable #>)
+        End Function
+
+        <[GET]("Delete/{id}")> _
+        Function Delete(Optional ByVal id As <#= primaryKey.ShortTypeName #> = <#= primaryKey.DefaultValue #>) As ActionResult
+<# If isObjectContext #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Single(Function(<#= lambdaVar #>) <#= lambdaVar #>.<#= primaryKey.Name #> = id)
+<# Else #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Find(id)
+<# End If #>
+            If IsNothing(<#= modelVariable #>) Then
+                Return HttpNotFound()
+            End If
+            Return View(<#= modelVariable #>)
+        End Function
+
+        <POST("Delete/{id}")> _
+        Function DeleteConfirmed(ByVal id As <#= primaryKey.ShortTypeName #>) As RedirectToRouteResult
+<# If isObjectContext #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Single(Function(<#= lambdaVar #>) <#= lambdaVar #>.<#= primaryKey.Name #> = id)
+            db.<#= entitySetName #>.DeleteObject(<#= modelVariable #>)
+<# Else #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Find(id)
+            db.<#= entitySetName #>.Remove(<#= modelVariable #>)
+<# End If #>
+            db.SaveChanges()
+            Return RedirectToAction("Index")
+        End Function
+
+        Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+            db.Dispose()
+            MyBase.Dispose(disposing)
+        End Sub
+
+    End Class
+End Namespace

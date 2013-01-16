@@ -1,14 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using AttributeRouting.Constraints;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Mixins for use in implementations of IAttributeRoute.
+    /// Shared logic for use in implementations of <see cref="IAttributeRoute"/>.
     /// </summary>
+    /// <remarks>
+    /// Due to different route implementations in
+    /// System.Web.Routing (used for mvc controller routes),
+    /// System.Web.Http.Routing (used for self-hosted api controller routes), and 
+    /// System.Web.Http.WebHost.Routing (used for web-hosted api controller routes).
+    /// </remarks>
     public static class AttributeRouteExtensions
     {
         /// <summary>
@@ -37,7 +45,7 @@ namespace AttributeRouting.Framework
         /// <param name="host">The host from the current request</param>
         /// <param name="configuration">The configuration for the route</param>
         /// <returns>True if the subdomain for this route matches the current request host.</returns>
-        public static bool IsSubdomainMatched(this IAttributeRoute route, string host, AttributeRoutingConfigurationBase configuration)
+        public static bool IsSubdomainMatched(this IAttributeRoute route, string host, ConfigurationBase configuration)
         {
             // If no subdomains are mapped with AR, then yes.
             if (!route.MappedSubdomains.Any())
@@ -45,6 +53,10 @@ namespace AttributeRouting.Framework
 
             // Get the subdomain from the requested hostname.
             var subdomain = configuration.SubdomainParser(host);
+
+            // Match if subdomain is null and this route has no subdomain.
+            if (subdomain.HasNoValue() && route.Subdomain.HasNoValue())
+                return true;
 
             // Match if this route is mapped to the requested host's subdomain
             if ((route.Subdomain ?? configuration.DefaultSubdomain).ValueEquals(subdomain))
@@ -61,7 +73,7 @@ namespace AttributeRouting.Framework
         /// <param name="currentUICultureName"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static bool IsCultureNameMatched(this IAttributeRoute route, string currentUICultureName, AttributeRoutingConfigurationBase configuration)
+        public static bool IsCultureNameMatched(this IAttributeRoute route, string currentUICultureName, ConfigurationBase configuration)
         {
             if (!configuration.ConstrainTranslatedRoutesByCurrentUICulture)
                 return true;
@@ -100,12 +112,45 @@ namespace AttributeRouting.Framework
                     return true;
 
                 // Match if this route has no translations for the neutral current UI culture.
-                if (!translations.Any(t => t.CultureName == currentUINeutralCultureName))
+                if (translations.All(t => t.CultureName != currentUINeutralCultureName))
                     return true;
             }
 
             // Otherwise, don't match.
             return false;
+        }
+
+        public static TVirtualPathData GetVirtualPath<TVirtualPathData>(this IAttributeRoute route, Func<TVirtualPathData> fromBaseMethod)
+            where TVirtualPathData : class
+        {
+            // Remove querystring route constraints:
+            // the base GetVirtualPath will not inject route params that have constraints into the querystring.
+            var queryStringConstraints = new Dictionary<string, object>();
+            var constraintKeys = route.Constraints.Keys.Select(k => k).ToList();
+            foreach (var constraintKey in constraintKeys)
+            {
+                var constraint = route.Constraints[constraintKey];
+                var constraintToTest = constraint is IOptionalRouteConstraintWrapper
+                                           ? ((IOptionalRouteConstraintWrapper)constraint).Constraint
+                                           : constraint;
+
+                if (!(constraintToTest is IQueryStringRouteConstraintWrapper))
+                    continue;
+
+                queryStringConstraints.Add(constraintKey, constraint);
+                route.Constraints.Remove(constraintKey);
+            }
+
+            // Let the underlying route do its thing.
+            var virtualPathData = fromBaseMethod();
+
+            // Add the querystring constraints back in.
+            foreach (var queryStringConstraint in queryStringConstraints)
+            {
+                route.Constraints.Add(queryStringConstraint.Key, queryStringConstraint.Value);
+            }
+
+            return virtualPathData;
         }
 
         /// <summary>
@@ -145,7 +190,7 @@ namespace AttributeRouting.Framework
         /// <param name="virtualPath">The current virtual path, after translation</param>
         /// <param name="configuration">The configuration for the route</param>
         /// <returns>The final virtual path</returns>
-        public static string GetFinalVirtualPath(this IAttributeRoute route, string virtualPath, AttributeRoutingConfigurationBase configuration)
+        public static string GetFinalVirtualPath(this IAttributeRoute route, string virtualPath, ConfigurationBase configuration)
         {
             /**
              * Lowercase urls.

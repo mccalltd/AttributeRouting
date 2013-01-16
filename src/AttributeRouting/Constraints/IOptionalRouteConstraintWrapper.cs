@@ -1,10 +1,15 @@
-﻿namespace AttributeRouting.Constraints
+﻿using AttributeRouting.Framework.Factories;
+
+namespace AttributeRouting.Constraints
 {
     /// <summary>
-    /// Wraps constraints to allow them to be optional.
+    /// Abstraction used by <see cref="IRouteConstraintFactory"/> 
+    /// when handling optional route parameters with inline constraints.
     /// </summary>
     /// <remarks>
-    /// Supports constraints specified like: param:constraint1?.
+    /// Due to 
+    /// System.Web.Routing.IRouteConstraint (used in web-hosted scenarios) and 
+    /// System.Web.Http.Routing.IHttpRouteConstraint (used in self-hosted scenarios).    
     /// </remarks>
     public interface IOptionalRouteConstraintWrapper
     {

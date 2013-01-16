@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using AttributeRouting.Constraints;
+using AttributeRouting.Framework;
 using AttributeRouting.Web.Constraints;
+using AttributeRouting.Web.Mvc.Framework;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -35,18 +37,31 @@ namespace AttributeRouting.Specs.Steps
 
                 Assert.That(constraint, Is.Not.Null);
 
+                // If this is a querystring route constraint wrapper, then unwrap it.
+                var queryStringConstraint = constraint as IQueryStringRouteConstraintWrapper;
+                if (queryStringConstraint != null && queryStringConstraint.Constraint != null)
+                {
+                    constraint = queryStringConstraint.Constraint;
+                }
+
                 var compoundRouteConstraint = constraint as ICompoundRouteConstraintWrapper;
                 if (compoundRouteConstraint != null)
-                    Assert.That(compoundRouteConstraint.Constraints.Any(c => c.GetType().FullName == type),
-                                Is.True);
+                {
+                    Assert.That(compoundRouteConstraint.Constraints.Any(c => c.GetType().FullName == type), Is.True);
+                }
                 else
+                {
                     Assert.That(constraint.GetType().FullName, Is.EqualTo(type));
+                }
             }
         }
 
         [Then(@"the route named ""(.*)"" has a constraint on ""(.*)"" of ""(.*)""")]
-        public void ThenTheRouteNamedHasAConstraintOnOf(string routeName, string key, string value) {
-            var routes = ScenarioContext.Current.GetFetchedRoutes().Where(r => r.RouteName == routeName);
+        public void ThenTheRouteNamedHasAConstraintOnOf(string routeName, string key, string value) 
+        {
+            var routes = ScenarioContext.Current.GetFetchedRoutes()
+                .Cast<IAttributeRoute>()
+                .Where(r => r.RouteName == routeName);
 
             foreach (var route in routes)
             {

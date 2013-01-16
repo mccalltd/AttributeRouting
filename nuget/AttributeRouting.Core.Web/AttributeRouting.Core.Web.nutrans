@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package inherits="../AttributeRouting.Shared.nuspec" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <metadata>
+    <id xdt:Transform="Insert">AttributeRouting.Core.Web</id>
+    <title xdt:Transform="Insert">AttributeRouting.Core.Web</title>
+    <description xdt:Transform="Insert">Core functionality for AttributeRouting ASP.NET MVC and Web API packages.</description>
+	<tags xdt:Transform="Insert">attribute, routing, route, asp.net, webapi, web, api</tags>
+	<dependencies xdt:Transform="Insert">
+      <dependency id="AttributeRouting.Core" version="$version$" />
+    </dependencies>
+  </metadata>
+
+  <files xdt:Transform="Insert">
+    <file src="..\..\build\bin\AttributeRouting.Web.dll" target="lib\net40" />
+    <file src="..\..\build\bin\AttributeRouting.Web.xml" target="lib\net40" />
+  </files>
+</package>

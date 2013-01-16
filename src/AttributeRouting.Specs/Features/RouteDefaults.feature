@@ -1,13 +1,10 @@
 ﻿Feature: Route Defaults
 
 Background: 
-	Given I generate the routes defined in the subject controllers
-
-Scenario: Route default specified with an attribute
-	When I fetch the routes for the RouteDefaults controller's Index action
-	Then the default for "p1" is "variable"
-	When I fetch the routes for the HttpRouteDefaults controller's Get action
-	Then the default for "p1" is "variable"
+	Given I have a new configuration object
+	And I add the routes from the RouteDefaults controller
+	And I add the routes from the HttpRouteDefaults controller
+	And I generate the routes with this configuration
 
 Scenario: Route default specified inline
 	When I fetch the routes for the RouteDefaults controller's InlineDefaults action
@@ -21,24 +18,14 @@ Scenario: Route default specified inline
 
 Scenario: Optional parameters specified with a url parameter token
 	When I fetch the routes for the RouteDefaults controller's Optionals action
-	Then the route url is "Optionals/{p1}/{p2}/{p3}"
+	Then the route url is "Optionals/{p1}"
 	And the parameter "p1" is optional
-	And the parameter "p2" is optional
-	And the parameter "p3" is optional
 	When I fetch the routes for the HttpRouteDefaults controller's Optionals action
-	Then the route url is "Optionals/{p1}/{p2}/{p3}"
+	Then the route url is "Optionals/{p1}"
 	And the parameter "p1" is optional
-	And the parameter "p2" is optional
-	And the parameter "p3" is optional
 
-Scenario: Multiple routes with different defaults
-	When I fetch the routes for the RouteDefaults controller's MultipleRoutes action
-	Then the route named "MultipleDefaults1" has a default for "p1" of "first"
-	And the route named "MultipleDefaults2" has a default for "p1" of "second"
-	And the route named "ApiMultipleDefaults1" has a default for "p1" of "first"
-	And the route named "ApiMultipleDefaults2" has a default for "p1" of "second"
-	When I fetch the routes for the HttpRouteDefaults controller's MultipleRoutes action
-	Then the route named "MultipleDefaults1" has a default for "p1" of "first"
-	And the route named "MultipleDefaults2" has a default for "p1" of "second"
-	And the route named "ApiMultipleDefaults1" has a default for "p1" of "first"
-	And the route named "ApiMultipleDefaults2" has a default for "p1" of "second"
+Scenario: Using the controller and action url params
+	When I fetch the routes for the RouteDefaults controller's TheActionName action
+	Then the route url is "RouteDefaults/TheActionName"
+	When I fetch the routes for the HttpRouteDefaults controller's TheActionName action
+	Then the route url is "HttpRouteDefaults/TheActionName"

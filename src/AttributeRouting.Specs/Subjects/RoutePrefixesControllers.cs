@@ -1,5 +1,4 @@
 using System.Web.Mvc;
-using AttributeRouting.Web;
 using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
@@ -30,6 +29,12 @@ namespace AttributeRouting.Specs.Subjects
         {
             return Content("");
         }
+
+        [GET("NoPrefix", IgnoreRoutePrefix = true)]
+        public string NoPrefix()
+        {
+            return "";
+        }
     }
 
     [RouteArea("Area")]
@@ -50,6 +55,34 @@ namespace AttributeRouting.Specs.Subjects
 
         [GET("AreaPrefixAbsolute", IsAbsoluteUrl = true)]
         public ActionResult Absolute()
+        {
+            return Content("");
+        }
+
+        [GET("Area")]
+        public string RelativeUrlIsAreaUrl()
+        {
+            return "";
+        }
+    }
+
+    [RoutePrefix]
+    public class DefaultRoutePrefixController : Controller
+    {
+        [GET("Index")]
+        public ActionResult Index()
+        {
+            return Content("");
+        }
+    }
+
+    [RoutePrefix("FirstPrefix", Precedence = 1)]
+    [RoutePrefix("SecondPrefix")]
+    public class MultipleRoutePrefixController : Controller
+    {
+        [GET("Index", ActionPrecedence = 1)]
+        [GET("This/Is/Absolute", IsAbsoluteUrl = true)]
+        public ActionResult Index()
         {
             return Content("");
         }

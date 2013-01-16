@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using AttributeRouting.Web;
 using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
@@ -27,6 +26,12 @@ namespace AttributeRouting.Specs.Subjects
 
         [GET("Areas")]
         public ActionResult RouteBeginsWithAreaName()
+        {
+            return Content("");
+        }
+
+        [GET("NoAreaUrl", IgnoreAreaUrl = true)]
+        public ActionResult NoAreaUrl()
         {
             return Content("");
         }

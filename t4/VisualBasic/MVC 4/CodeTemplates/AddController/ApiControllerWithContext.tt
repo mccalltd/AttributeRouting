@@ -1,0 +1,144 @@
+﻿<#@ template language="VB" HostSpecific="True" #>
+<#@ assembly name="System.Data.Entity.Design" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data.Objects" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="Microsoft.VisualStudio.Web.Mvc.Scaffolding.BuiltIn" #>
+<#
+Dim Model As MvcTextTemplateHost = DirectCast(Host, MvcTextTemplateHost)
+
+Dim routePrefix As String = "api/" + Model.ControllerRootName
+
+Dim modelName = Model.ModelType.Name
+Dim entitySetName = Model.EntitySetName
+Dim modelVariable = modelName.ToLower()
+Dim entitySetVariable = entitySetName.ToLower()
+Dim primaryKey = Model.PrimaryKeys(0)
+Dim lambdaVar = modelVariable(0)
+Dim isObjectContext = GetType(ObjectContext).IsAssignableFrom(Model.ContextType)
+Dim pluralizer = Model.Pluralizer
+#>
+Imports System.Data.Entity
+Imports System.Data.Entity.Infrastructure
+Imports System.Net
+Imports System.Net.Http
+Imports System.Web.Http
+Imports AttributeRouting
+Imports AttributeRouting.Web.Http
+<# If MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ModelType.Namespace) Then #>
+Imports <#= Model.ModelType.Namespace #>
+<# End If #>
+<# If Model.ContextType.Namespace <> Model.ModelType.Namespace AndAlso MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ContextType.Namespace) Then #>
+Imports <#= Model.ContextType.Namespace #>
+<# End If #>
+Namespace <#= Model.Namespace #>
+	<RoutePrefix("Api/<#= Model.ControllerRootName #>")> _
+    Public Class <#= Model.ControllerName #>
+        Inherits System.Web.Http.ApiController
+
+        Private db As New <#= Model.ContextType.Name #>
+
+        <[GET]("")> _
+        Function Get<#= pluralizer.Pluralize(modelName) #>() As IEnumerable(Of <#= modelName #>)
+<#  Dim includeExpressions As String = ""
+    If isObjectContext Then
+        includeExpressions = String.Join("", Model.RelatedProperties.Values.Select(Function(prop) String.Format(".Include(""{0}"")", prop.PropertyName)))
+    Else
+        includeExpressions = String.Join("", Model.RelatedProperties.Values.Select(Function(prop) String.Format(".Include(Function({0}) {0}.{1})", lambdaVar, prop.PropertyName)))
+    End If
+#>
+<# If Not String.IsNullOrEmpty(includeExpressions) Then #>
+            Dim <#= entitySetVariable #> = db.<#= entitySetName #><#= includeExpressions #>
+            Return <#= entitySetVariable #>.AsEnumerable()
+<# Else #>
+            Return db.<#= entitySetName #><#= includeExpressions #>.AsEnumerable()
+<# End If #>
+        End Function
+
+        <[GET]("{id}")> _
+        Function Get<#= modelName #>(ByVal id As <#= primaryKey.ShortTypeName #>) As <#= modelName #>
+<# If isObjectContext Then #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Single(Function(<#= lambdaVar #>) <#= lambdaVar #>.<#= primaryKey.Name #> = id)
+<# Else #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Find(id)
+<# End If #>
+            If IsNothing(<#= modelVariable #>) Then
+                Throw New HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound))
+            End If
+            Return <#= modelVariable #>
+        End Function
+
+        <PUT("{id}")> _
+        Function Put<#= modelName #>(ByVal id As <#= primaryKey.ShortTypeName #>, ByVal <#= modelVariable #> As <#= modelName #>) As HttpResponseMessage
+            If ModelState.IsValid And id = <#= modelVariable #>.<#= primaryKey.Name #> Then
+<# If isObjectContext Then #>
+                db.<#= entitySetName #>.Attach(<#= modelVariable #>)
+                db.ObjectStateManager.ChangeObjectState(<#= modelVariable #>, EntityState.Modified)
+<# Else #>
+                db.Entry(<#= modelVariable #>).State = EntityState.Modified
+<# End If #>
+
+                Try
+                    db.SaveChanges()
+                Catch ex As DbUpdateConcurrencyException
+                    Return Request.CreateResponse(HttpStatusCode.NotFound)
+                End Try
+
+                Return Request.CreateResponse(HttpStatusCode.OK)
+            Else
+                Return Request.CreateResponse(HttpStatusCode.BadRequest)
+            End If
+        End Function
+
+        <POST("")> _
+        Function Post<#= modelName #>(ByVal <#= modelVariable #> As <#= modelName #>) As HttpResponseMessage
+            If ModelState.IsValid Then
+<# If isObjectContext #>
+                db.<#= entitySetName #>.AddObject(<#= modelVariable #>)
+<# Else #>
+                db.<#= entitySetName #>.Add(<#= modelVariable #>)
+<# End If #>
+                db.SaveChanges()
+
+                Dim response As HttpResponseMessage = Request.CreateResponse(HttpStatusCode.Created, <#= modelVariable #>)
+                response.Headers.Location = New Uri(Url.Link("DefaultApi", New With {.id = <#= modelVariable #>.<#= primaryKey.Name #>}))
+                Return response
+            Else
+                Return Request.CreateResponse(HttpStatusCode.BadRequest)
+            End If
+        End Function
+
+        <DELETE("{id}")> _
+        Function Delete<#= modelName #>(ByVal id As <#= primaryKey.ShortTypeName #>) As HttpResponseMessage
+<# If isObjectContext #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Single(Function(<#= lambdaVar #>) <#= lambdaVar #>.<#= primaryKey.Name #> = id)
+<# Else #>
+            Dim <#= modelVariable #> As <#= modelName #> = db.<#= entitySetName #>.Find(id)
+<# End If #>
+            If IsNothing(<#= modelVariable #>) Then
+                Return Request.CreateResponse(HttpStatusCode.NotFound)
+            End If
+
+<# If isObjectContext #>
+            db.<#= entitySetName #>.DeleteObject(<#= modelVariable #>)
+<# Else #>
+            db.<#= entitySetName #>.Remove(<#= modelVariable #>)
+<# End If #>
+
+            Try
+                db.SaveChanges()
+            Catch ex As Exception
+                Return Request.CreateResponse(HttpStatusCode.NotFound)
+            End Try
+
+            Return Request.CreateResponse(HttpStatusCode.OK, <#= modelVariable #>)
+        End Function
+
+        Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+            db.Dispose()
+            MyBase.Dispose(disposing)
+        End Sub
+    End Class
+End Namespace

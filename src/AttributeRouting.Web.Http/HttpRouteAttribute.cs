@@ -19,9 +19,10 @@ namespace AttributeRouting.Web.Http
             if (routeUrl == null) throw new ArgumentNullException("routeUrl");
 
             RouteUrl = routeUrl;
-            Order = int.MaxValue;
-            Precedence = int.MaxValue;
             HttpMethods = new string[0];
+            ActionPrecedence = int.MaxValue;
+            ControllerPrecedence = int.MaxValue;
+            SitePrecedence = int.MaxValue;
         }
 
         /// <summary>
@@ -39,13 +40,33 @@ namespace AttributeRouting.Web.Http
 
         public string[] HttpMethods { get; protected set; }
 
-        public int Order { get; set; }
+        [Obsolete("Prefer ActionPrecedence for clarity of intent.")]
+        public int Order
+        {
+            get { return ActionPrecedence; }
+            set { ActionPrecedence = value; }
+        }
 
-        public int Precedence { get; set; }
+        public int ActionPrecedence { get; set; }
+
+        [Obsolete("Prefer ControllerPrecedence for clarity of intent.")]
+        public int Precedence
+        {
+            get { return ControllerPrecedence; }
+            set { ControllerPrecedence = value; }
+        }
+        
+        public int ControllerPrecedence { get; set; }
+
+        public int SitePrecedence { get; set; }
 
         public string RouteName { get; set; }
 
-        public bool IsAbsoluteUrl { get; set; }
+        public bool IsAbsoluteUrl
+        {
+            get { return IgnoreAreaUrl && IgnoreRoutePrefix; }
+            set { IgnoreAreaUrl = IgnoreRoutePrefix = value; }
+        }
 
         public string TranslationKey { get; set; }
 
@@ -72,6 +93,10 @@ namespace AttributeRouting.Web.Http
         }
 
         public bool? AppendTrailingSlashFlag { get; private set; }
+        
+        public bool IgnoreRoutePrefix { get; set; }
+        
+        public bool IgnoreAreaUrl { get; set; }
 
         public bool IsVersioned { get; set; }
 
@@ -95,6 +120,6 @@ namespace AttributeRouting.Web.Http
         {
             get { return MaxVersion.ToString(); }
             set { MaxVersion = SemanticVersion.Parse(value, allowNull: true); }
-        }
-    }
+        }    
+	}
 }

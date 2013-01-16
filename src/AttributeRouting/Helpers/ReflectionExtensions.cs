@@ -8,6 +8,20 @@ namespace AttributeRouting.Helpers
 {
     public static class ReflectionExtensions
     {
+        public static string GetConventionalAreaName(this Type type)
+        {
+            var typeNameSpace = type.Namespace;
+            if (typeNameSpace == null)
+                return null;
+
+            return typeNameSpace
+                .Split('.')
+                .SkipWhile(s => !s.ValueEquals("Areas"))
+                .Skip(1) // move past "Areas"
+                .Take(1) // take the next
+                .FirstOrDefault();
+        }
+
         public static IEnumerable<MethodInfo> GetActionMethods(this Type type, bool inheritActionsFromBaseController)
         {
             var flags = BindingFlags.Public | BindingFlags.Instance;

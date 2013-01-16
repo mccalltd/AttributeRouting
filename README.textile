@@ -1,8 +1,113 @@
-h2. Please refer to the "wiki pages":http://wiki.github.com/mccalltd/AttributeRouting/ for documentation.
+h2. Please refer to "attributerouting.net":http://attributerouting.net/ for documentation.
 
-*If you encounter any issues using this library, please log them in the "issue tracker":https://github.com/mccalltd/AttributeRouting/issues. Thanks.*
+*If you encounter any issues using this library, please log them in the "issue tracker":https://github.com//issues. Thanks.*
 
 h3. Changelog
+
+_3.4.1_
+
+* #175 - fixed bug in getting the default area name for a controller.
+
+_3.4_
+
+* #124 - Now supporting custom IRouteHandler in web-host scenario. Also supporting custom HttpMessageHandler for Web API.
+* #146 - BUG FIX: AR's custom http method constraint was interfering with IHostBufferPolicySelector, because it was checking for the incoming http method too early in the pipeline.
+* #155 - Can now specify multiple route prefixes on a controller. Every action will get each prefix. You can control precedence of the prefixes by using the Precedence property.
+* #156 - Added action method to route data tokens.
+* #161 - BUG FIX: Url generation was bonking for routes that included a querystring route param constraint.
+* #162 - Modified design of route convention attribute, adding facility for specifying an area attribute for a controller. Also opened up {controller} and {action} url params as special params that will be replaced with controller and action values from the defaults collection for the route.
+* #164 - Added default ctors to RoutePrefixAttribute, RouteAreaAttribute, and the AttributeRouting.Web.Mvc route attributes. These default ctors will use a convention to get their URL components: RoutePrefix - will use the controller name; RouteArea - will use the last section of the controller's namespace; and the route attributes - will use the action name by default.
+* #165 - Added two flags to the route attributes: IgnoreRoutePrefix and IgnoreAreaUrl. These flags control whether to prepend route prefixes or area urls to the generated route url.
+
+_3.3_
+
+* #153 - fixed bad parsing of regex route constraint patterns that use a comma.
+* #132 - basic support for constraints in the querystring.
+* #152 - added support for specifying that query param simply exists, without constraining by anything else.
+* #154 - added support for querystring constraint description in routes.axd.
+* #159 - added compiled regex in RegexRouteConstraint to improve performance.
+* #150 - changed IAttributeRouteFactory method to return multiple routes.
+
+_3.2_
+
+* #142 - Now accepting inline route constraints in the area url part of routes."
+
+_3.1.5_
+
+* #140 - Renamed AttributeFactory in configuration object to AttributeRouteFactory.
+
+_3.1.4_
+
+* #140 - Allowed setting various factories in attribute routing configuration objects.
+* #139 - Changed to Use OfType instead of "Where is Cast".
+
+_3.1.3_
+
+* #128 - Fixed issue with route cast in LogRoutesHandler; was assuming all routes were of type Route.
+
+_3.1.2_
+
+* #128 - fixed null ref in self-host projects due to default route name builder.
+* Simplified the init of AR in self-hosted APIs.
+
+_3.1.1_
+
+* #125 - Covered regression edge-case when using 0 to specify route order, precedence, site precedence. Now can start with zero. 
+* Added ActionPrecedence to replace Order and ControllerPrecedence to replace Precedence properties; help clarify intent.
+* For more info, see "Controlling Route Precedence":https://github.com/mccalltd/AttributeRouting/wiki/Controlling-Route-Precedence
+
+_3.1.0_
+* #121 - added facility for specifying the order of controller route registration via the config api.
+* #121 - added facility for specifying the last routes in the site using the SitePrecedence property.
+* #121 - added facility for specifying the last routes in a controller using the Precedence property.
+* #121 - added facility for specifying the last routes on an action using the Order property.
+* For more info, see "Controlling Route Precedence":https://github.com/mccalltd/AttributeRouting/wiki/Controlling-Route-Precedence
+
+_3.0.0.0_
+* See "Upgrading to v3":https://github.com/mccalltd/AttributeRouting/wiki/Upgrading-to-v3
+* #122 - WebHost package now uses HttpRouteCollection to register routes, as it should!
+* #109 - nuked AddRemainingScannedRoutes method ont he config object; was obsolete for some time now.
+* #109 - removed old ctor method of specifying verbs in RouteAttribute from a bitwise or operation to a param array of HttpVerbs.
+* #109 - removed support for specifying optional params with a leading question mark.
+* #109 - removed support for legacy inline regex route constraint syntax.
+* #109 - nuked RouteDefaultAttribute and RouteConstraintAttribute support. Superceded by inline expression.
+
+_2.5.3_
+
+* #120 - fixed bug caused by OData-style urls like "devices(ua={id})"; the url wasn't being detokenized properly.
+
+_2.5.2_
+
+* #118 - added dependencies to web api projects in web and self host AR projects.
+* #79 - added MVC 4 t4 templates for visual studio add controller tooling which generates controllers that use AR. Also released new nuget package for sucking those templates into a project.
+* #116 - now supporting VB.NET projects! App_Start file drop and CodeTemplates drop will add cs/vb specific files, depending on the type of the host project.
+
+_2.5.1_
+
+* #111 - route prefixes now honor inline url constraints.
+
+_2.5.0.0_
+
+* #106 - improved the logic used to auto-generate route names: no longer will two routes be added with the same; added configuration hook for defining your own route convention. "Docs here":https://github.com/mccalltd/AttributeRouting/wiki/Generating-Conventional-Route-Names
+
+_2.5.0-pre_
+
+* #90 - implemented workaround for runtime exception when running agains Web API nightlies. Will flip switch to 2.5.0.0 whenthe Web API RTM drops.
+* #105 - can now use SitePrecedence property on the route attributes to set the precedence of a single URL in the route table.
+* Revised nuget package structure to help the various packages paly nice with shared assemblies (ASP.NET MVC and Web API especially).
+* #104 - much improved routes.axd, allowing direct navigation to static urls and giving you a handy url builder to jump to dynamic urls.
+
+_2.4.3_
+
+* Updated Web API RC integration, seems to help with #86. 
+
+_2.4.2_
+
+* #99 - Fixed bug in subdomain routing due to not being able to parse a host from the current request.
+
+_2.4.1_
+
+* #73 - updated MVC 2 reference to MVC 3
 
 _v2.4_
 
@@ -29,7 +134,7 @@ _v2.2.1_
 
 _v2.2_
 
-* #61 - Sexy inline route constraints. See "the wiki for inline constraints":https://github.com/mccalltd/AttributeRouting/wiki/Route-Constraints/
+* #61 - Sexy inline route constraints. See "the wiki for inline constraints":https://github.com//wiki/Route-Constraints/
 
 _v2.1.1_
 

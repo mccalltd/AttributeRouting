@@ -5,9 +5,6 @@ using AttributeRouting.Constraints;
 
 namespace AttributeRouting.Web.Http.Constraints
 {
-    /// <summary>
-    /// Constraints a url parameter to be a long within a given range of values.
-    /// </summary>
     public class RangeRouteConstraint : RangeRouteConstraintBase, IHttpRouteConstraint
     {
         public RangeRouteConstraint(string min, string max)

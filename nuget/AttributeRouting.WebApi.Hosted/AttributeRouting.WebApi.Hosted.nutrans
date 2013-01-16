@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package inherits="../AttributeRouting.Shared.nuspec" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <metadata>
+    <id xdt:Transform="Insert">AttributeRouting.WebApi.Hosted</id>
+    <title xdt:Transform="Insert">AttributeRouting (Self-hosted Web API)</title>
+    <tags xdt:Transform="Insert">attribute, routing, route, asp.net, webapi, web, api, selfhost, self, host</tags>
+	<description xdt:Transform="Insert">AttributeRouting for self-hosted Web API lets you specify routes using attributes on your API controllers and actions.</description>
+    <dependencies xdt:Transform="Insert">
+      <dependency id="AttributeRouting.Core" version="$version$" />
+      <dependency id="AttributeRouting.Core.Http" version="$version$" />
+      <dependency id="Microsoft.AspNet.WebApi.SelfHost" version="4.0.20710.0" />
+      <dependency id="WebActivator" version="1.0.0.0" />
+    </dependencies>
+  </metadata>
+
+  <files xdt:Transform="Insert">
+    <file src="..\..\build\bin\AttributeRouting.Web.Http.SelfHost.dll" target="lib\net40" />
+    <file src="..\..\build\bin\AttributeRouting.Web.Http.SelfHost.xml" target="lib\net40" />
+    <file src="AttributeRouting.cs.pp" target="content" />
+    <file src="AttributeRouting.vb.pp" target="content" />
+    <file src="install.ps1" target="tools" />
+  </files>
+</package>

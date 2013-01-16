@@ -3,8 +3,15 @@ using System.Collections.Generic;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Generic interface for AttributeRoutes (logging, etc.) that doesn't require a Route type
+    /// Abstraction used by <see cref="RouteBuilder"/> 
+    /// to generate routes with custom functionality.
     /// </summary>
+    /// <remarks>
+    /// Due to different route implementations in
+    /// System.Web.Routing (used for mvc controller routes),
+    /// System.Web.Http.Routing (used for self-hosted api controllers), and 
+    /// System.Web.Http.WebHost.Routing (used for web-hosted api controllers).
+    /// </remarks>
     public interface IAttributeRoute
     {
         /// <summary>
@@ -33,23 +40,20 @@ namespace AttributeRouting.Framework
         string Url { get; set; }
 
         /// <summary>
-        /// If true, will override <see cref="AttributeRoutingConfigurationBase.UseLowercaseRoutes"/>
-        /// set via global configuration
-        /// and the generated route will have a lowercase URL.
+        /// If true, will override <see cref="ConfigurationBase.UseLowercaseRoutes"/>
+        /// set via global configuration and the generated route will have a lowercase URL.
         /// </summary>
         bool? UseLowercaseRoute { get; set; }
 
         /// <summary>
-        /// If true, will override <see cref="AttributeRoutingConfigurationBase.PreserveCaseForUrlParameters"/>
-        /// set via global configuration
-        /// and the generated route will not lowercase URL parameter values.
+        /// If true, will override <see cref="ConfigurationBase.PreserveCaseForUrlParameters"/>
+        /// set via global configuration and the generated route will not lowercase URL parameter values.
         /// </summary>
         bool? PreserveCaseForUrlParameters { get; set; }
 
         /// <summary>
-        /// If true, will override <see cref="AttributeRoutingConfigurationBase.AppendTrailingSlash"/>
-        /// set via global configuration
-        /// and the generated route will have a trailing slash on the path of outbound URLs.
+        /// If true, will override <see cref="ConfigurationBase.AppendTrailingSlash"/>
+        /// set via global configuration and the generated route will have a trailing slash on the path of outbound URLs.
         /// </summary>
         bool? AppendTrailingSlash { get; set; }
 
@@ -74,6 +78,7 @@ namespace AttributeRouting.Framework
         IEnumerable<IAttributeRoute> Translations { get; set; }
 
         /// <summary>
+        /// Default route container back-reference, used to organize route translations.
         /// Minimum supported version, or null for no minimum
         /// </summary>
         SemanticVersion MinVersion { get; set; }

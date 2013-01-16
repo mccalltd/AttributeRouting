@@ -1,0 +1,193 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#
+var Model = (MvcTextTemplateHost)Host;
+var routePrefix = String.Empty;
+if (!String.IsNullOrWhiteSpace(Model.AreaName)) {
+    routePrefix = "/" + Model.AreaName;
+}
+routePrefix += "/" + Model.ControllerRootName + "/";
+#>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data.Objects" #>
+<#@ import namespace="System.Linq" #>
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using AttributeRouting;
+using AttributeRouting.Web.Mvc;
+<# if(MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ModelType.Namespace)) { #>
+using <#= Model.ModelType.Namespace #>;
+<# } #>
+<# if(Model.ContextType.Namespace != Model.ModelType.Namespace && MvcTextTemplateHost.NamespaceNeeded(Model.Namespace, Model.ContextType.Namespace)) { #>
+using <#= Model.ContextType.Namespace #>;
+<# } #>
+
+namespace <#= Model.Namespace #>
+{
+<#
+    var modelName = Model.ModelType.Name;
+    var entitySetName = Model.EntitySetName;
+    var modelVariable = modelName.ToLower();
+    var entitySetVariable = entitySetName.ToLower();
+    var primaryKey = Model.PrimaryKeys[0];
+    var lambdaVar = modelVariable[0];
+    var isObjectContext = typeof(ObjectContext).IsAssignableFrom(Model.ContextType);
+#>
+<# 
+if(!String.IsNullOrEmpty(Model.AreaName)) 
+{ 
+#>
+	[RouteArea("<#= Model.AreaName #>")]
+<# 
+} 
+#>
+	[RoutePrefix("<#= Model.ControllerRootName #>")]	
+    public class <#= Model.ControllerName #> : Controller
+    {
+        private <#= Model.ContextType.Name #> db = new <#= Model.ContextType.Name #>();
+
+        [GET("")]
+        public ActionResult Index()
+        {
+<#  var includeExpressions = "";
+    if(isObjectContext) {
+        includeExpressions = String.Join("", Model.RelatedProperties.Values.Select(property => String.Format(".Include(\"{0}\")", property.PropertyName)));
+    }
+    else {
+        includeExpressions = String.Join("", Model.RelatedProperties.Values.Select(property => String.Format(".Include({0} => {0}.{1})", lambdaVar, property.PropertyName)));
+    }
+#>
+<# if(!String.IsNullOrEmpty(includeExpressions)) { #>
+            var <#= entitySetVariable #> = db.<#= entitySetName #><#= includeExpressions #>;
+            return View(<#= entitySetVariable #>.ToList());
+<# } else { #>
+            return View(db.<#= entitySetName #><#= includeExpressions #>.ToList());
+<# } #>
+        }
+
+        [GET("Details/{id}")]
+        public ActionResult Details(<#= primaryKey.ShortTypeName #> id = <#= primaryKey.DefaultValue #>)
+        {
+<# if(isObjectContext) { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Single(<#= lambdaVar #> => <#= lambdaVar #>.<#= primaryKey.Name #> == id);
+<# } else { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Find(id);
+<# } #>
+            if (<#= modelVariable #> == null)
+            {
+                return HttpNotFound();
+            }
+            return View(<#= modelVariable #>);
+        }
+
+        [GET("Create")]
+        public ActionResult Create()
+        {
+<# foreach (var property in Model.RelatedProperties.Values) { #>
+            ViewBag.<#= property.ForeignKeyPropertyName #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKey #>", "<#= property.DisplayPropertyName #>");
+<# } #>
+            return View();
+        }
+
+        [POST("Create")]
+        public ActionResult Create(<#= modelName #> <#= modelVariable #>)
+        {
+            if (ModelState.IsValid)
+            {
+<# if(primaryKey.Type == typeof(Guid)) { #>
+                <#= modelVariable #>.<#= primaryKey.Name #> = Guid.NewGuid();
+<# } #>
+<# if(isObjectContext) { #>
+                db.<#= entitySetName #>.AddObject(<#= modelVariable #>);
+<# } else { #>
+                db.<#= entitySetName #>.Add(<#= modelVariable #>);
+<# } #>
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+<# foreach (var property in Model.RelatedProperties.Values) { #>
+            ViewBag.<#= property.ForeignKeyPropertyName #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKey #>", "<#= property.DisplayPropertyName #>", <#= modelVariable #>.<#= property.ForeignKeyPropertyName #>);
+<# } #>
+            return View(<#= modelVariable #>);
+        }
+
+        [GET("Edit/{id}")]
+        public ActionResult Edit(<#= primaryKey.ShortTypeName #> id = <#= primaryKey.DefaultValue #>)
+        {
+<# if(isObjectContext) { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Single(<#= lambdaVar #> => <#= lambdaVar #>.<#= primaryKey.Name #> == id);
+<# } else { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Find(id);
+<# } #>
+            if (<#= modelVariable #> == null)
+            {
+                return HttpNotFound();
+            }
+<# foreach (var property in Model.RelatedProperties.Values) { #>
+            ViewBag.<#= property.ForeignKeyPropertyName #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKey #>", "<#= property.DisplayPropertyName #>", <#= modelVariable #>.<#= property.ForeignKeyPropertyName #>);
+<# } #>
+            return View(<#= modelVariable #>);
+        }
+
+        [POST("Edit/{id}")]
+        public ActionResult Edit(<#= modelName #> <#= modelVariable #>)
+        {
+            if (ModelState.IsValid)
+            {
+<# if(isObjectContext) { #>
+                db.<#= entitySetName #>.Attach(<#= modelVariable #>);
+                db.ObjectStateManager.ChangeObjectState(<#= modelVariable #>, EntityState.Modified);
+<# } else { #>
+                db.Entry(<#= modelVariable #>).State = EntityState.Modified;
+<# } #>
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+<# foreach (var property in Model.RelatedProperties.Values) { #>
+            ViewBag.<#= property.ForeignKeyPropertyName #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKey #>", "<#= property.DisplayPropertyName #>", <#= modelVariable #>.<#= property.ForeignKeyPropertyName #>);
+<# } #>
+            return View(<#= modelVariable #>);
+        }
+
+        [GET("Delete/{id}")]
+        public ActionResult Delete(<#= primaryKey.ShortTypeName #> id = <#= primaryKey.DefaultValue #>)
+        {
+<# if(isObjectContext) { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Single(<#= lambdaVar #> => <#= lambdaVar #>.<#= primaryKey.Name #> == id);
+<# } else { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Find(id);
+<# } #>
+            if (<#= modelVariable #> == null)
+            {
+                return HttpNotFound();
+            }
+            return View(<#= modelVariable #>);
+        }
+
+        [POST("Delete/{id}")]
+        public ActionResult DeleteConfirmed(<#= primaryKey.ShortTypeName #> id)
+        {
+<# if(isObjectContext) { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Single(<#= lambdaVar #> => <#= lambdaVar #>.<#= primaryKey.Name #> == id);
+            db.<#= entitySetName #>.DeleteObject(<#= modelVariable #>);
+<# } else { #>
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Find(id);
+            db.<#= entitySetName #>.Remove(<#= modelVariable #>);
+<# } #>
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
+        }
+    }
+}

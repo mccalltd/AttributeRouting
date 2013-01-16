@@ -5,9 +5,6 @@ using AttributeRouting.Constraints;
 
 namespace AttributeRouting.Web.Http.Constraints
 {
-    /// <summary>
-    /// Constraints a url parameter to be a long with a minimum value.
-    /// </summary>
     public class MinRouteConstraint : MinRouteConstraintBase, IHttpRouteConstraint
     {
         public MinRouteConstraint(string min) : base(min) {}

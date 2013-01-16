@@ -36,11 +36,18 @@
     <DocumentationFile>bin\Release\AttributeRouting.Web.xml</DocumentationFile>
     <NoWarn>1591, 1587</NoWarn>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AttributeRouting.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -60,17 +67,13 @@
     <Compile Include="Constraints\MaxRouteConstraint.cs" />
     <Compile Include="Constraints\MinLengthRouteConstraint.cs" />
     <Compile Include="Constraints\MinRouteConstraint.cs" />
+    <Compile Include="Constraints\QueryStringRouteConstraintWrapper.cs" />
     <Compile Include="Constraints\RangeRouteConstraint.cs" />
     <Compile Include="Constraints\RegexRouteConstraint.cs" />
     <Compile Include="Constraints\TypeOfRouteConstraints.cs" />
-    <Compile Include="RegexRouteConstraintAttribute.cs" />
-    <Compile Include="Constraints\RestfulHttpMethodConstraint.cs" />
     <Compile Include="Logging\LoggingExtensions.cs" />
     <Compile Include="Logging\LogRoutesHandler.cs" />
-    <Compile Include="Framework\Factories\WebRouteConstraintFactoryBase.cs" />
-    <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Helpers\HttpRequestBaseExtensions.cs" />
-    <Compile Include="WebAttributeRoutingConfigurationBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Logging\LogRoutes.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AttributeRouting.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

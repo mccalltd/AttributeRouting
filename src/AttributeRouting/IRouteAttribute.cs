@@ -1,9 +1,11 @@
+using System;
+
 namespace AttributeRouting
 {
     /// <remarks>
     /// Implementors MUST disambiguate among routes based on the HttpMethods allowed for this route.
     /// In System.Web.Mvc, that means deriving from ActionMethodSelectorAttribute.
-    /// In System.Web.Http, that means deriving from IActionMethodSelectorAttribute.
+    /// In System.Web.Http, that means deriving from IActionHttpMethodProvider.
     /// </remarks>
     public interface IRouteAttribute 
     {
@@ -20,12 +22,45 @@ namespace AttributeRouting
         /// <summary>
         /// The order of this route among all the routes defined against this action.
         /// </summary>
+        /// <remarks>
+        /// Zero and Positive integers denote top routes: 1 is first, 2 is second, etc....
+        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
+        /// </remarks>
+        [Obsolete("Prefer ActionPrecedence for clarity of intent.")]
         int Order { get; set; }
+
+        /// <summary>
+        /// The order of this route among all the routes defined against this action.
+        /// </summary>
+        /// <remarks>
+        /// Positive integers (including zero) denote top routes: 1 is first, 2 is second, etc....
+        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
+        /// </remarks>
+        int ActionPrecedence { get; set; }
 
         /// <summary>
         /// The order of this route among all the routes defined against this controller.
         /// </summary>
+        /// <remarks>
+        /// Positive integers (including zero) denote top routes: 1 is first, 2 is second, etc....
+        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
+        /// </remarks>
+        [Obsolete("Prefer ControllerPrecedence for clarity of intent.")]
         int Precedence { get; set; }
+
+        /// <summary>
+        /// The order of this route among all the routes defined against this controller.
+        /// </summary>
+        int ControllerPrecedence { get; set; }
+
+        /// <summary>
+        /// The order of this route among all the routes in the site.
+        /// </summary>
+        /// <remarks>
+        /// Positive integers (including zero) denote top routes: 1 is first, 2 is second, etc....
+        /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
+        /// </remarks>
+        int SitePrecedence { get; set; }
 
         /// <summary>
         /// The name this route will be registered with in the RouteTable.
@@ -43,7 +78,7 @@ namespace AttributeRouting
         string TranslationKey { get; set; }
 
         /// <summary>
-        /// If set, will override <see cref="AttributeRoutingConfigurationBase.UseLowercaseRoutes"/>
+        /// If set, will override <see cref="ConfigurationBase.UseLowercaseRoutes"/>
         /// set via global configuration for this route.
         /// </summary>
         bool UseLowercaseRoute { get; set; }
@@ -54,7 +89,7 @@ namespace AttributeRouting
         bool? UseLowercaseRouteFlag { get; }
 
         /// <summary>
-        /// If set, will override <see cref="AttributeRoutingConfigurationBase.PreserveCaseForUrlParameters"/>
+        /// If set, will override <see cref="ConfigurationBase.PreserveCaseForUrlParameters"/>
         /// set via global configuration for this route.
         /// </summary>
         bool PreserveCaseForUrlParameters { get; set; }
@@ -65,7 +100,7 @@ namespace AttributeRouting
         bool? PreserveCaseForUrlParametersFlag { get; }
 
         /// <summary>
-        /// If true, will override <see cref="AttributeRoutingConfigurationBase.AppendTrailingSlash"/>
+        /// If true, will override <see cref="ConfigurationBase.AppendTrailingSlash"/>
         /// set via global configuration for this route.
         /// </summary>
         bool AppendTrailingSlash { get; set; }
@@ -74,6 +109,19 @@ namespace AttributeRouting
         /// Gets the tri-state value for AppendTrailingSlash.
         /// </summary>
         bool? AppendTrailingSlashFlag { get; }
+
+        /// <summary>
+        /// If true, will ignore any route prefix specified via the <see cref="RoutePrefixAttribute"/>
+        /// when building up the route URL.
+        /// </summary>
+        bool IgnoreRoutePrefix { get; set; }
+
+        /// <summary>
+        /// If true, will ignore any area URL prefix specified via the <see cref="RouteAreaAttribute"/>
+        /// when building up the route URL.
+        /// </summary>
+        bool IgnoreAreaUrl { get; set; }
+
 
         /// <summary>
         /// Indicates if this route is versioned. Is set by defining the [RouteVersioned] attribute on the class

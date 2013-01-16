@@ -2,8 +2,8 @@
 using System.Web;
 using System.Web.Routing;
 using AttributeRouting.Specs.Subjects;
-using AttributeRouting.Web.Framework;
 using AttributeRouting.Web.Mvc;
+using AttributeRouting.Web.Mvc.Framework;
 using Moq;
 using NUnit.Framework;
 
@@ -115,7 +115,7 @@ namespace AttributeRouting.Specs.Tests.TrailingSlashes
 
         private Route BuildAttributeRoute(string url, bool useLowercaseRoutes, bool appendTrailingSlash)
         {
-            var configuration = new AttributeRoutingConfiguration
+            var configuration = new Configuration
             {
                 UseLowercaseRoutes = useLowercaseRoutes,
                 AppendTrailingSlash = appendTrailingSlash,

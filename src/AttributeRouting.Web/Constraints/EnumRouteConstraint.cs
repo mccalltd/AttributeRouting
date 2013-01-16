@@ -4,9 +4,6 @@ using AttributeRouting.Constraints;
 
 namespace AttributeRouting.Web.Constraints
 {
-    /// <summary>
-    /// Constraints a url parameter to be a value from an enum.
-    /// </summary>
     public class EnumRouteConstraint<T> : EnumRouteConstraintBase<T>, IRouteConstraint 
         where T : struct
     {

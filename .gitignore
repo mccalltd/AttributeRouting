@@ -17,3 +17,6 @@ _ReSharper.*
 App_Data/
 packages/
 nuget/**/*.nuspec
+
+** Ignore relics from merge conflict
+*.orig

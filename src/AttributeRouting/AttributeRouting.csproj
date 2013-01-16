@@ -44,6 +44,12 @@
     <DocumentationFile>bin\Release\AttributeRouting.xml</DocumentationFile>
     <NoWarn>1591, 1587</NoWarn>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AttributeRouting.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,12 +65,13 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AreaConfiguration.cs" />
-    <Compile Include="AttributeRoutingConfigurationBase.cs" />
+    <Compile Include="ConfigurationBase.cs" />
     <Compile Include="Constraints\AlphaRouteConstraintBase.cs" />
     <Compile Include="Constraints\ICompoundRouteConstraintWrapper.cs" />
     <Compile Include="Constraints\EnumRouteConstraintBase.cs" />
     <Compile Include="Constraints\IAttributeRouteConstraint.cs" />
-    <Compile Include="Constraints\IRestfulHttpMethodConstraint.cs" />
+    <Compile Include="Constraints\IQueryStringRouteConstraintWrapper.cs" />
+    <Compile Include="Constraints\IInboundHttpMethodConstraint.cs" />
     <Compile Include="Constraints\MaxRouteConstraintBase.cs" />
     <Compile Include="Constraints\MinRouteConstraintBase.cs" />
     <Compile Include="Constraints\LengthRouteConstraintBase.cs" />
@@ -95,16 +102,19 @@
     <Compile Include="IRouteAttribute.cs" />
     <Compile Include="Logging\AttributeRouteInfo.cs" />
     <Compile Include="Logging\LogWriter.cs" />
-    <Compile Include="RouteConstraintAttributeBase.cs" />
     <Compile Include="RouteConventionAttributeBase.cs" />
+    <Compile Include="Framework\RouteNameBuilders.cs" />
     <Compile Include="RoutePrefixAttribute.cs" />
     <Compile Include="RouteAreaAttribute.cs" />
-    <Compile Include="RouteDefaultAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\RouteSpecification.cs" />
     <Compile Include="Framework\RouteReflector.cs" />
+    <Compile Include="Framework\SubdomainParsers.cs" />
     <Compile Include="RouteVersionedAttribute.cs" />
     <Compile Include="SemanticVersion.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AttributeRouting.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

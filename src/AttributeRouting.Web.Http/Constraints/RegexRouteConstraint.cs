@@ -6,9 +6,6 @@ using AttributeRouting.Constraints;
 
 namespace AttributeRouting.Web.Http.Constraints
 {
-    /// <summary>
-    /// Constraints a url parameter by a regular expression.
-    /// </summary>
     public class RegexRouteConstraint : RegexRouteConstraintBase, IHttpRouteConstraint
     {
         public RegexRouteConstraint(string pattern) : base(pattern) { }

@@ -29,5 +29,32 @@ namespace AttributeRouting.Specs.Subjects.Http
         {
             return "";
         }
+
+        [GET("NoApiPrefix", IgnoreRoutePrefix = true)]
+        public string NoPrefix()
+        {
+            return "";
+        }
+    }
+
+    [RoutePrefix]
+    public class HttpDefaultRoutePrefixController : ApiController
+    {
+        [GET("Index")]
+        public string Get()
+        {
+            return "";
+        }
+    }
+
+    [RoutePrefix("HttpFirstPrefix", Precedence = 1)]
+    [RoutePrefix("HttpSecondPrefix")]
+    public class HttpMultipleRoutePrefixController : ApiController
+    {
+        [GET("Index")]
+        public string Get()
+        {
+            return "";
+        }
     }
 }
