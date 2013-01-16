@@ -68,7 +68,8 @@ namespace AttributeRouting.Tests.Web
                 config.AddRoutesFromAssemblyOf<MvcApplication>();
                 config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
                 config.UseRouteHandler(() => new HttpCultureAwareRoutingHandler());
-                config.AddTranslationProvider(translationProvider);                
+                config.AddTranslationProvider(translationProvider);
+                config.AddVersions("0.9","1.0","1.1","1.2");
                 config.UseLowercaseRoutes = true;
                 config.InheritActionsFromBaseController = true;
                 config.AutoGenerateRouteNames = true;
@@ -79,6 +80,7 @@ namespace AttributeRouting.Tests.Web
                 config.AddRoutesFromAssemblyOf<MvcApplication>();
                 config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
                 config.AddTranslationProvider(translationProvider);
+                config.AddVersions("0.9", "1.0", "1.1", "1.2"); 
                 config.UseRouteHandler(() => new CultureAwareRouteHandler());
                 config.UseLowercaseRoutes = true;
                 config.InheritActionsFromBaseController = true;

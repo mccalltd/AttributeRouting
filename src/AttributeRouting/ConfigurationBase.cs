@@ -26,6 +26,8 @@ namespace AttributeRouting
 
             InheritActionsFromBaseController = false;
 
+            ApiVersions = new List<SemanticVersion>();
+
             // Constraint setting initialization
             DefaultRouteConstraints = new Dictionary<string, object>();
             InlineRouteConstraints = new Dictionary<string, Type>();
@@ -135,6 +137,13 @@ namespace AttributeRouting
         /// The default is false.
         /// </summary>
         public bool ConstrainTranslatedRoutesByCurrentUICulture { get; set; }
+
+
+        /// <summary>
+        /// List of supported API versions
+        /// </summary>
+        public List<SemanticVersion> ApiVersions { get; set; }
+
 
         /// <summary>
         /// Returns a utility for configuring areas when initializing AttributeRouting framework.
@@ -277,6 +286,26 @@ namespace AttributeRouting
                 var name = Regex.Replace(inlineConstraintType.Name, "RouteConstraint$", "").ToLowerInvariant();
                 InlineRouteConstraints.Add(name, inlineConstraintType);
             }
+        }
+
+        /// <summary>
+        /// Adds to the list of supported <see cref="ApiVersions"/>.
+        /// </summary>
+        public void AddVersions(params string[] versions)
+        {
+            foreach (var version in versions)
+            {
+                ApiVersions.Add(SemanticVersion.Parse(version));
+            }
+        }
+
+	
+        /// <summary>
+        /// Adds to the list of supported <see cref="ApiVersions"/>.
+        /// </summary>
+        public void AddVersions(params SemanticVersion[] versions)
+        {
+            ApiVersions.AddRange(versions);
         }
     }
 }

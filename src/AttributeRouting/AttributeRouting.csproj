@@ -53,6 +53,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -109,6 +110,8 @@
     <Compile Include="Framework\RouteSpecification.cs" />
     <Compile Include="Framework\RouteReflector.cs" />
     <Compile Include="Framework\SubdomainParsers.cs" />
+    <Compile Include="RouteVersionedAttribute.cs" />
+    <Compile Include="SemanticVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AttributeRouting.snk" />

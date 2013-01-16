@@ -79,6 +79,18 @@ namespace AttributeRouting.Framework
 
         /// <summary>
         /// Default route container back-reference, used to organize route translations.
+        /// Minimum supported version, or null for no minimum
+        /// </summary>
+        SemanticVersion MinVersion { get; set; }
+
+        /// <summary>
+        /// Maximum supported version, or null for no maximum
+        /// </summary>
+        SemanticVersion MaxVersion { get; set; }
+
+
+        /// <summary>
+        /// Default route container back-reference
         /// </summary>
         IAttributeRoute DefaultRouteContainer { get; set; }
     }

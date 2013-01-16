@@ -58,13 +58,14 @@ namespace AttributeRouting.Framework
                 var controllerIndex = controllerCount++;
                 var convention = controllerType.GetCustomAttribute<RouteConventionAttributeBase>(false);
                 var routeAreaAttribute = GetRouteAreaAttribute(controllerType, convention);
+                var routeVersionedAttribute = GetRouteVersionedAttribute(controllerType, convention);
 
                 // For each action method on the controller:
                 var actionMethods = controllerType.GetActionMethods(inheritActionsFromBaseController);
                 foreach (var actionMethod in actionMethods)
                 {
                     var routePrefixAttributes = GetRoutePrefixAttributes(controllerType, convention, actionMethod).ToList();
-                    
+
                     // For each route attribute on the action method:
                     var routeAttributes = GetRouteAttributes(actionMethod, convention);
                     foreach (var routeAttribute in routeAttributes)
@@ -75,7 +76,7 @@ namespace AttributeRouting.Framework
                             {
                                 routeSpecs.Add(BuildRouteSpecification(controllerIndex, controllerType, actionMethod,
                                                                        routeAreaAttribute, routePrefixAttribute,
-                                                                       routeAttribute));
+                                                                       routeAttribute, routeVersionedAttribute));
 
                                 // If ignoring the prefix, do not add the route again for other prefixes!
                                 if (routeAttribute.IgnoreRoutePrefix)
@@ -85,7 +86,7 @@ namespace AttributeRouting.Framework
                         else
                         {
                             routeSpecs.Add(BuildRouteSpecification(controllerIndex, controllerType, actionMethod,
-                                                                   routeAreaAttribute, null, routeAttribute));
+                                                                   routeAreaAttribute, null, routeAttribute, routeVersionedAttribute));
                         }
                     }
                 }
@@ -110,7 +111,7 @@ namespace AttributeRouting.Framework
         /// <param name="routePrefixAttribute">An applicable <see cref="RoutePrefixAttribute"/> for the controller.</param>
         /// <param name="routeAttribute">The <see cref="IRouteAttribute"/> for the action.</param>
         /// <returns>The route specification.</returns>
-        private RouteSpecification BuildRouteSpecification(int controllerIndex, Type controllerType, MethodInfo actionMethod, RouteAreaAttribute routeAreaAttribute, RoutePrefixAttribute routePrefixAttribute, IRouteAttribute routeAttribute)
+        private RouteSpecification BuildRouteSpecification(int controllerIndex, Type controllerType, MethodInfo actionMethod, RouteAreaAttribute routeAreaAttribute, RoutePrefixAttribute routePrefixAttribute, IRouteAttribute routeAttribute, RouteVersionedAttribute routeVersionedAttribute)
         {
             var isAsyncController = controllerType.IsAsyncController();
             var subdomain = GetAreaSubdomain(routeAreaAttribute);
@@ -143,6 +144,9 @@ namespace AttributeRouting.Framework
                 SitePrecedence = GetSortableOrder(routeAttribute.SitePrecedence),
                 Subdomain = subdomain,
                 UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
+                IsVersioned = routeVersionedAttribute != null && routeVersionedAttribute.IsVersioned,
+                MinVersion = routeAttribute.MinVersion ?? (routeVersionedAttribute != null ? routeVersionedAttribute.MinVersion : null),
+                MaxVersion = routeAttribute.MaxVersion ?? (routeVersionedAttribute != null ? routeVersionedAttribute.MaxVersion : null)
             };
         }
 
@@ -306,6 +310,18 @@ namespace AttributeRouting.Framework
         private static long GetSortableOrder(int value)
         {
             return (value >= 0 ? long.MinValue : long.MaxValue) + value;
+        }
+
+
+        /// <summary>
+        /// Get a <see cref="RouteVersionedAttribute"/> to use for the controller.
+        /// </summary>
+        /// <param name="controllerType">The controller type.</param>
+        /// <param name="convention">An applicable <see cref="RouteConventionAttributeBase"/> for the controller.</param>
+        /// <returns>An applicable <see cref="RouteAreaAttribute"/>.</returns>
+        private static RouteVersionedAttribute GetRouteVersionedAttribute(Type controllerType, RouteConventionAttributeBase convention)
+        {
+            return controllerType.GetCustomAttribute<RouteVersionedAttribute>(true);
         }
     }
 }

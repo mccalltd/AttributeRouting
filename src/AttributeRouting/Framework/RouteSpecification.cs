@@ -57,5 +57,11 @@ namespace AttributeRouting.Framework
         public string Subdomain { get; set; }
 
         public bool? UseLowercaseRoute { get; set; }
+
+        public bool IsVersioned { get; set; }
+
+        public SemanticVersion MinVersion { get; set; }
+
+        public SemanticVersion MaxVersion { get; set; }
     }
 }

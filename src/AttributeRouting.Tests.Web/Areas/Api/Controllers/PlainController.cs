@@ -7,7 +7,7 @@ namespace AttributeRouting.Tests.Web.Areas.Api.Controllers
     public class PlainController : BaseApiController
     {
         // GET /api/plain
-        [GET("")]
+        [GET("", MinVer = "1.0")]
         public IEnumerable<string> GetAll()
         {
             return new [] { "value1", "value2" };

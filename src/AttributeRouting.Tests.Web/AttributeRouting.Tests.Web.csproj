@@ -135,6 +135,7 @@
     <Compile Include="Controllers\RenderActionController.cs" />
     <Compile Include="Controllers\RestfulController.cs" />
     <Compile Include="Controllers\RestfulConventionController.cs" />
+    <Compile Include="Areas\Api\Controllers\VersionedController.cs" />
     <Compile Include="CultureAwareRouteHandler.cs" />
     <Compile Include="CustomWebHostBufferPolicySelector.cs" />
     <Compile Include="Global.asax.cs">
@@ -191,10 +192,6 @@
     <Folder Include="Areas\Subdomain\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AttributeRouting.Web\AttributeRouting.Web.csproj">
-      <Project>{C91C065B-A821-4890-9F31-F9E245D804D1}</Project>
-      <Name>AttributeRouting.Web</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AttributeRouting.Web.Http\AttributeRouting.Web.Http.csproj">
       <Project>{CCDE9AD7-3822-4B0B-AA19-DF6698A85D3D}</Project>
       <Name>AttributeRouting.Web.Http</Name>
@@ -206,6 +203,10 @@
     <ProjectReference Include="..\AttributeRouting.Web.Http.WebHost\AttributeRouting.Web.Http.WebHost.csproj">
       <Project>{A018FEC5-45F8-44FB-BB6C-33697B418434}</Project>
       <Name>AttributeRouting.Web.Http.WebHost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AttributeRouting.Web\AttributeRouting.Web.csproj">
+      <Project>{C91C065B-A821-4890-9F31-F9E245D804D1}</Project>
+      <Name>AttributeRouting.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">
       <Project>{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}</Project>

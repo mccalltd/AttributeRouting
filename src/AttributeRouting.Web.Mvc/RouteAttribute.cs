@@ -132,5 +132,30 @@ namespace AttributeRouting.Web.Mvc
             
             return HttpMethods.Any(m => m.ValueEquals(httpMethod));
         }
+
+        public bool IsVersioned { get; set; }
+
+        public SemanticVersion MinVersion { get; set; }
+
+        public SemanticVersion MaxVersion { get; set; }
+
+        /// <summary>
+        /// Shortcut to set <see cref="MinVersion"/> with a string
+        /// </summary>
+        public string MinVer
+        {
+            get { return MinVersion.ToString(); }
+            set { MinVersion = SemanticVersion.Parse(value, allowNull: true); }
+        }
+
+        /// <summary>
+        /// Shortcut to set <see cref="MaxVersion"/> with a string
+        /// </summary>
+        public string MaxVer
+        {
+            get { return MaxVersion.ToString(); }
+            set { MaxVersion = SemanticVersion.Parse(value, allowNull: true); }
+        }
+
     }
 }
