@@ -37,7 +37,7 @@ Task CreateSharedAssemblyInfo {
 }
 
 Task Rebuild {
-    $solution_file = "$source_dir\AttributeRouting.sln"
+    $solution_file = "$base_dir\AttributeRouting.sln"
     Write-Host "Building $solution_file" -ForegroundColor Green
     Exec { msbuild $solution_file /t:Rebuild /p:Configuration=Release /p:OutDir=$bin_dir /v:minimal /nologo } 
 }
