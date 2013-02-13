@@ -89,22 +89,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AttributeRouting.Web\AttributeRouting.Web.csproj">
-      <Project>{C91C065B-A821-4890-9F31-F9E245D804D1}</Project>
-      <Name>AttributeRouting.Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AttributeRouting.Web.Http\AttributeRouting.Web.Http.csproj">
-      <Project>{CCDE9AD7-3822-4B0B-AA19-DF6698A85D3D}</Project>
-      <Name>AttributeRouting.Web.Http</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">
-      <Project>{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}</Project>
-      <Name>AttributeRouting</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="AttributeRouting.snk" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AttributeRouting.Web.Http\AttributeRouting.Web.Http.csproj">
+      <Project>{ccde9ad7-3822-4b0b-aa19-df6698a85d3d}</Project>
+      <Name>AttributeRouting.Web.Http</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AttributeRouting.Web\AttributeRouting.Web.csproj">
+      <Project>{c91c065b-a821-4890-9f31-f9e245d804d1}</Project>
+      <Name>AttributeRouting.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">
+      <Project>{871a79cf-c705-4c6b-8938-f9aa1e02aea4}</Project>
+      <Name>AttributeRouting</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

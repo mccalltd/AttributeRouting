@@ -153,6 +153,12 @@ namespace AttributeRouting.Specs.Subjects.Http
             return "";
         }
 
+        [GET("EnumValue/{x:colorValue}")]
+        public string EnumValue(Color x)
+        {
+            return "";
+        }
+
         [GET("Enum/{x:color}")]
         public string Enum(Color x)
         {

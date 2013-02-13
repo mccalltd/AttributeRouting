@@ -75,6 +75,7 @@
     <Compile Include="Constraints\AlphaRouteConstraint.cs" />
     <Compile Include="Constraints\CompoundRouteConstraintWrapper.cs" />
     <Compile Include="Constraints\EnumRouteConstraint.cs" />
+    <Compile Include="Constraints\EnumValueRouteConstraint.cs" />
     <Compile Include="Constraints\LengthRouteConstraint.cs" />
     <Compile Include="Constraints\MaxLengthRouteConstraint.cs" />
     <Compile Include="Constraints\MaxRouteConstraint.cs" />
@@ -95,14 +96,14 @@
     <Compile Include="HttpRouteAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">
-      <Project>{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}</Project>
-      <Name>AttributeRouting</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="AttributeRouting.snk" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AttributeRouting\AttributeRouting.csproj">
+      <Project>{871a79cf-c705-4c6b-8938-f9aa1e02aea4}</Project>
+      <Name>AttributeRouting</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

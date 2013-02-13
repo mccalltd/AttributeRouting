@@ -33,6 +33,7 @@ namespace AttributeRouting.Specs.Steps
             {
                 x.AddRoutesFromAssemblyOf<StandardUsageController>();
                 x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                x.InlineRouteConstraints.Add("colorValue", typeof(EnumValueRouteConstraint<Color>));
                 x.InheritActionsFromBaseController = true;
             });
 
@@ -40,6 +41,7 @@ namespace AttributeRouting.Specs.Steps
             {
                 x.AddRoutesFromAssemblyOf<HttpStandardUsageController>();
                 x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                x.InlineRouteConstraints.Add("colorValue", typeof(EnumValueRouteConstraint<Color>));
                 x.InheritActionsFromBaseController = true;
             });
         }
@@ -57,6 +59,7 @@ namespace AttributeRouting.Specs.Steps
                 {
                     x.AddRoutesFromController(type);
                     x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                    x.InlineRouteConstraints.Add("colorValue", typeof(EnumValueRouteConstraint<Color>));
                     x.InheritActionsFromBaseController = true;
                 });                
             }
@@ -66,6 +69,7 @@ namespace AttributeRouting.Specs.Steps
                 {
                     x.AddRoutesFromController(type);
                     x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+                    x.InlineRouteConstraints.Add("colorValue", typeof(EnumValueRouteConstraint<Color>));
                     x.InheritActionsFromBaseController = true;
                 });
             }
@@ -76,9 +80,11 @@ namespace AttributeRouting.Specs.Steps
         {
             _configuration = new Configuration();
             _configuration.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+            _configuration.InlineRouteConstraints.Add("colorValue", typeof(EnumValueRouteConstraint<Color>));
 
             _httpConfiguration = new HttpWebConfiguration();
             _httpConfiguration.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
+            _httpConfiguration.InlineRouteConstraints.Add("colorValue", typeof(EnumValueRouteConstraint<Color>));
         }
 
         [Given(@"I add the routes from the (.*) controller")]

@@ -143,6 +143,8 @@ Scenario Outline: Matching inline route constraints
 	| Compound/5.0                              | Compound     | is not    |
 	| Enum/red                                  | Enum         | is        |
 	| Enum/taupe                                | Enum         | is not    |
+	| EnumValue/1                               | EnumValue    | is        |
+	| EnumValue/10                              | EnumValue    | is not    |
 	| WithOptional                              | WithOptional | is        |
 	| WithDefault                               | WithDefault  | is        |
 	| Querystring?x=123&y=hello                 | Querystring  | is        |
