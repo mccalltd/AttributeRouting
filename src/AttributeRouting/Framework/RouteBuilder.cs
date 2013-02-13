@@ -43,7 +43,7 @@ namespace AttributeRouting.Framework
 
             foreach (var routeSpec in routeSpecs)
             {
-                foreach (var route in Build(routeSpec))
+                foreach (var route in BuildRoutes(routeSpec))
                 {
                     route.MappedSubdomains = mappedSubdomains;
                     yield return route;
@@ -51,7 +51,7 @@ namespace AttributeRouting.Framework
             }
         }
 
-        private IEnumerable<IAttributeRoute> Build(RouteSpecification routeSpec)
+        private IEnumerable<IAttributeRoute> BuildRoutes(RouteSpecification routeSpec)
         {
             var defaults = CreateRouteDefaults(routeSpec);
             var constraints = CreateRouteConstraints(routeSpec);

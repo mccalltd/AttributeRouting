@@ -56,7 +56,7 @@ namespace AttributeRouting.Framework
             foreach (var controllerType in controllerTypes)
             {
                 var controllerIndex = controllerCount++;
-                var convention = controllerType.GetCustomAttribute<RouteConventionAttributeBase>(false);
+                var convention = controllerType.GetCustomAttribute<RouteConventionAttributeBase>(true);
                 var routeAreaAttribute = GetRouteAreaAttribute(controllerType, convention);
 
                 // For each action method on the controller:

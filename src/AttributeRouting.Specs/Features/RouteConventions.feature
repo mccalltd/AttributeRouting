@@ -97,10 +97,7 @@ Scenario: Generating routes using the DefaultHttpRouteConvention on actions with
 	Then the 1st route url is "DefaultHttpRouteConventionWithExplicitOrderedRoute/Primary"
 	And the 2nd route url is "DefaultHttpRouteConventionWithExplicitOrderedRoute"
 
-Scenario: Generating routes using the conventions that define areas on controllers
-	Given I have registered the routes for the AreaRouteConventionController
-	When I fetch the routes for the AreaRouteConvention controller's Index action
-	Then the route url is "Subjects/Index"
-	And the default for "controller" is "AreaRouteConvention"
-	And the default for "action" is "Index"
-	And the route area is "Subjects"
+Scenario: Generating routes using the conventions defined on base controllers
+	Given I have registered the routes for the DerivedFakeConventionController
+	When I fetch the routes for the DerivedFakeConventionController's Index action
+	Then the route url is "Yowza/Index"

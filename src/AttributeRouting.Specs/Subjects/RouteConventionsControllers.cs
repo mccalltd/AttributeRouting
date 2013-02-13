@@ -124,26 +124,29 @@ namespace AttributeRouting.Specs.Subjects
         }
     }
 
-    [AreaRouteConvention]
-    public class AreaRouteConventionController : Controller
-    {
-        public ActionResult Index()
-        {
-            return Content("");
-        }
-    }
-
-    public class AreaRouteConventionAttribute : RouteConventionAttributeBase
+    public class FakeConventionAttribute : RouteConventionAttributeBase
     {
         public override IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
         {
             yield return new GETAttribute(actionMethod.Name);
         }
 
-        public override RouteAreaAttribute GetDefaultRouteArea(Type controllerType)
+        public override IEnumerable<RoutePrefixAttribute> GetDefaultRoutePrefixes(Type controllerType)
         {
-            var areaName = controllerType.Namespace.ValueOr("").Split('.').Last();
-            return new RouteAreaAttribute(areaName);
+            yield return new RoutePrefixAttribute("Yowza");
+        }
+    }
+
+    [FakeConvention]
+    public abstract class FakeConventionControllerBase : Controller
+    {
+    }
+
+    public class DerivedFakeConventionController : FakeConventionControllerBase
+    {
+        public ActionResult Index()
+        {
+            return Content("");
         }
     }
 }
