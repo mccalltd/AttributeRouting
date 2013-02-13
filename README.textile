@@ -4,6 +4,14 @@ h2. Please refer to "attributerouting.net":http://attributerouting.net/ for docu
 
 h3. Changelog
 
+_3.4.2_
+
+* #192 - BUG FIX: Optional parameters weren't working in asp.net web api action urls.
+* #183 - Bllowing route conventions to be inherited from base controllers.
+* #182 - Inlined scripts required by routes.axd
+* #180 - New route constraint EnumValueConstraint for matching enums by value.
+* #179 - Throwing exceptions when mapping routes without specifying any types to scan. This has been a WTF moment for a few.
+
 _3.4.1_
 
 * #175 - fixed bug in getting the default area name for a controller.
