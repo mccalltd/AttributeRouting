@@ -35,7 +35,6 @@
         #modal-content .urls p.dynamic-url {margin: 0;color: #999; font-weight: bold; }
         #modal-content .urls p.dynamic-url { color: #333;}
         #modal-content .actions { margin: 10px -10px -10px;border-top: solid 1px #ddd;padding: 10px; background-color: #eee;  }
-        #modal-content .actions button { }
         #modal-content .actions .close { float: right;text-decoration: none;color: #999;line-height: 24px; }
     </style>
 </head>
@@ -103,11 +102,9 @@
             <span data-bind="text: value"></span>        
         </div>
     </script>
-
-    <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="//ajax.aspnetcdn.com/ajax/knockout/knockout-2.1.0.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        
+    
+    {scripts}
+    <script>
         function ViewModel(data) {
             var self = this;
 

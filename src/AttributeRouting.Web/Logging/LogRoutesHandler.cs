@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +15,34 @@ namespace AttributeRouting.Web.Logging
 {
     public class LogRoutesHandler : IHttpHandler
     {
+        private readonly Lazy<string> _scriptSources = new Lazy<string>(LoadScriptSources);
+
+        private static string LoadScriptSources()
+        {
+            var scriptsBuilder = new StringBuilder();
+            var scriptSources = new[]
+            {
+                "AttributeRouting.Web.Logging.jquery-1.9.1.min.js",
+                "AttributeRouting.Web.Logging.knockout-2.2.1.js"
+            };
+
+            var assembly = Assembly.GetExecutingAssembly();
+            foreach (var source in scriptSources)
+            {
+                using (var stream = assembly.GetManifestResourceStream(source))
+                {
+                    if (stream == null) continue;
+
+                    using (var reader = new StreamReader(stream))
+                    {
+                        scriptsBuilder.AppendFormat("<script>{0}</script>", reader.ReadToEnd());
+                    }
+                }
+            }
+
+            return scriptsBuilder.ToString();
+        }
+
         public bool IsReusable
         {
             get { return true; }
@@ -28,7 +57,7 @@ namespace AttributeRouting.Web.Logging
             writer.Write(output);
         }
 
-        private static string GetOutput()
+        private string GetOutput()
         {
             // Read the contents of the html template.
             var assembly = Assembly.GetExecutingAssembly();
@@ -37,21 +66,28 @@ namespace AttributeRouting.Web.Logging
             using (var stream = assembly.GetManifestResourceStream(fileName))
             {
                 if (stream == null)
+                {
                     throw new AttributeRoutingException(
                         "The file \"{0}\" cannot be found as an embedded resource.".FormatWith(fileName));
+                }
 
                 using (var reader = new StreamReader(stream))
+                {
                     fileContent = reader.ReadToEnd();
+                }
             }
 
-            // Replace tokens in the template with appropriate content
+            // Prepare to build the output.
             var outputBuilder = new StringBuilder(fileContent);
 
+            // Send in the raw script sources to eliminate reliance on CDN.
+            outputBuilder.Replace("{scripts}", _scriptSources.Value);
+
+            // Send in the json data for the routes.
             var model = new JavaScriptSerializer().Serialize(new
             {
                 routes = GetRouteInfo()
             });
-
             outputBuilder.Replace("\"{data}\"", model);
 
             return outputBuilder.ToString();

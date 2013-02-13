@@ -11,16 +11,19 @@ namespace AttributeRouting.Web.Logging
     {
         public static void LogTo(this IEnumerable<Route> routes, TextWriter writer)
         {
-            LogWriter.LogNumberOfRoutes(routes.Count(), writer);
+            var enumerable = routes as Route[] ?? routes.ToArray();
+            
+            LogWriter.LogNumberOfRoutes(enumerable.Count(), writer);
 
-            foreach (var route in routes)
+            foreach (var route in enumerable)
+            {
                 route.LogTo(writer);
+            }
         }
 
         public static void LogTo(this Route route, TextWriter writer)
         {
-            string name = route is IAttributeRoute 
-                ? ((IAttributeRoute)route).RouteName : null;
+            var name = route is IAttributeRoute ? ((IAttributeRoute)route).RouteName : null;
 
             LogWriter.LogRoute(writer, name, AttributeRouteInfo.GetRouteInfo(route.Url, route.Defaults, route.Constraints, route.DataTokens));
         }

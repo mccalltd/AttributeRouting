@@ -88,6 +88,10 @@
   <ItemGroup>
     <None Include="AttributeRouting.snk" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Logging\jquery-1.9.1.min.js" />
+    <EmbeddedResource Include="Logging\knockout-2.2.1.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
