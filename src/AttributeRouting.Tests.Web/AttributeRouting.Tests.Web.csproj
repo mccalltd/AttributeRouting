@@ -126,6 +126,7 @@
     <Compile Include="Areas\Subdomain\Controllers\DefaultController.cs" />
     <Compile Include="Areas\Subdomain\SubdomainAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\InheritActionsControllers.cs" />
     <Compile Include="Controllers\ConstraintsController.cs" />
     <Compile Include="Controllers\DangerController.cs" />
     <Compile Include="Controllers\LocalizationController.cs" />
