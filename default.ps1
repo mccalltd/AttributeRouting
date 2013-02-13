@@ -37,7 +37,7 @@ Task CreateSharedAssemblyInfo {
 }
 
 Task Rebuild {
-    $solution_file = "$base_dir\AttributeRouting.sln"
+    $solution_file = "$source_dir\AttributeRouting.sln"
     Write-Host "Building $solution_file" -ForegroundColor Green
     Exec { msbuild $solution_file /t:Rebuild /p:Configuration=Release /p:OutDir=$bin_dir /v:minimal /nologo } 
 }
@@ -51,7 +51,7 @@ Task Test {
 
 Task NugetPack {
     Clean-Directory $nupkg_dir
-    Get-ChildItem $nuspec_dir -Directory | foreach { Create-Nupkg $_ } 
+    Get-ChildItem "$nuspec_dir\*" -Include "*.nuspec" -Exclude "AttributeRouting.Shared.nuspec" -Recurse | foreach { Create-Nupkg $_ } 
 }
 
 Task NugetPush {
@@ -69,7 +69,8 @@ function Clean-Directory ($dir) {
     New-Item $dir -ItemType Directory | Out-Null
 }
 
-function Create-Nupkg ($name) {
+function Create-Nupkg ($nuspec_path) {
+	$name = [System.IO.Path]::GetFileNameWithoutExtension($nuspec_path)
     $nuspec = Create-Nuspec $name
     Write-Host "Creating nupkg for $name" -ForegroundColor Green
     Exec { &$nuget pack $nuspec -Version $version -OutputDirectory $nupkg_dir }
