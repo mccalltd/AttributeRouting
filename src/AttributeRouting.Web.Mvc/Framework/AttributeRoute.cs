@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
@@ -66,24 +67,39 @@ namespace AttributeRouting.Web.Mvc.Framework
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
             // Optimize matching by comparing the static left part of the route url with the requested path.
-            var requestedPath = httpContext.Request.AppRelativeCurrentExecutionFilePath.Substring(2) + httpContext.Request.PathInfo;
+            var requestedPath = GetValueFromRequestCache(httpContext, "__AttributeRouting_RequestedPath", () =>
+            {
+                return httpContext.Request.AppRelativeCurrentExecutionFilePath.Substring(2)
+                       + httpContext.Request.PathInfo;
+            });
             if (!this.IsLeftPartOfUrlMatched(requestedPath))
+            {
                 return null;
+            }
 
             // Let the underlying route match, and if it does, then add a few more constraints.
             var routeData = base.GetRouteData(httpContext);
             if (routeData == null)
+            {
                 return null;
+            }
 
             // Constrain by subdomain if configured
             var host = httpContext.SafeGet(ctx => ctx.Request.Headers["host"]);
             if (!this.IsSubdomainMatched(host, _configuration))
+            {
                 return null;
+            }
 
             // Constrain by culture name if configured
-            var currentUICultureName = _configuration.CurrentUICultureResolver(httpContext, routeData);
+            var currentUICultureName = GetValueFromRequestCache(httpContext, "__AttributeRouting_CurrentUICultureName", () =>
+            {
+                return _configuration.CurrentUICultureResolver(httpContext, routeData);
+            });
             if (!this.IsCultureNameMatched(currentUICultureName, _configuration))
+            {
                 return null;
+            }
 
             return routeData;
         }
@@ -93,7 +109,9 @@ namespace AttributeRouting.Web.Mvc.Framework
             // Let the underlying route do its thing, and if it does, then add some functionality on top.
             var virtualPathData = this.GetVirtualPath(() => base.GetVirtualPath(requestContext, values));
             if (virtualPathData == null)
+            {
                 return null;
+            }
 
             // Translate this path if a translation is available.
             if (_configuration.TranslationProviders.Any())
@@ -108,6 +126,20 @@ namespace AttributeRouting.Web.Mvc.Framework
             virtualPathData.VirtualPath = virtualPath;
 
             return virtualPathData;
+        }
+
+        private static T GetValueFromRequestCache<T>(HttpContextBase context, object key, Func<T> initializeValue)
+        {
+            // Fetch the item from the http context if it's been stored for the request.
+            if (context.Items.Contains(key))
+            {
+                return (T)context.Items[key];
+            }
+
+            // Cache the value and return it.
+            var value = initializeValue();
+            context.Items.Add(key, value);
+            return value;
         }
     }
 }

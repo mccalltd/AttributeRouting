@@ -72,20 +72,39 @@ namespace AttributeRouting.Web.Http.Framework
 
         public override IHttpRouteData GetRouteData(string virtualPathRoot, HttpRequestMessage request)
         {
+            // Optimize matching by comparing the static left part of the route url with the requested path.
+            var requestedPath = GetValueFromRequestCache(request, "__AttributeRouting_RequestedPath", () =>
+            {
+                return request.RequestUri.AbsolutePath.Substring(1);
+            });
+            if (!this.IsLeftPartOfUrlMatched(requestedPath))
+            {
+                return null;
+            }
+
             // Let the underlying route match, and if it does, then add a few more constraints.
             var routeData = base.GetRouteData(virtualPathRoot, request);
             if (routeData == null)
+            {
                 return null;
+            }
 
             // Constrain by subdomain if configured
             var host = request.SafeGet(r => r.Headers.Host);
             if (!this.IsSubdomainMatched(host, _configuration))
+            {
                 return null;
+            }
 
             // Constrain by culture name if configured
-            var currentUICultureName = _configuration.CurrentUICultureResolver(request, routeData); 
+            var currentUICultureName = GetValueFromRequestCache(request, "__AttributeRouting_CurrentUICultureName", () =>
+            {
+                return _configuration.CurrentUICultureResolver(request, routeData);
+            });
             if (!this.IsCultureNameMatched(currentUICultureName, _configuration))
+            {
                 return null;
+            }
 
             return routeData;
         }
@@ -95,7 +114,9 @@ namespace AttributeRouting.Web.Http.Framework
             // Let the underlying route do its thing, and if it does, then add some functionality on top.
             var virtualPathData = this.GetVirtualPath(() => base.GetVirtualPath(request, values));
             if (virtualPathData == null)
+            {
                 return null;
+            }
 
             // Translate this path if a translation is available.
             if (_configuration.TranslationProviders.Any())
@@ -109,6 +130,20 @@ namespace AttributeRouting.Web.Http.Framework
             var virtualPath = this.GetFinalVirtualPath(virtualPathData.VirtualPath, _configuration);
 
             return new HttpVirtualPathData(virtualPathData.Route, virtualPath);
+        }
+
+        private static T GetValueFromRequestCache<T>(HttpRequestMessage context, string key, Func<T> initializeValue)
+        {
+            // Fetch the item from the http context if it's been stored for the request.
+            if (context.Properties.ContainsKey(key))
+            {
+                return (T)context.Properties[key];
+            }
+
+            // Cache the value and return it.
+            var value = initializeValue();
+            context.Properties.Add(key, value);
+            return value;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace AttributeRouting.Tests.SelfHost
     {
         static void Main(string[] args)
         {
-            var config = new HttpSelfHostConfiguration("http://localhost:8080");
+            var config = new HttpSelfHostConfiguration("http://localhost:8081");
 
             // Attribute Routing
             config.Routes.MapHttpAttributeRoutes();
