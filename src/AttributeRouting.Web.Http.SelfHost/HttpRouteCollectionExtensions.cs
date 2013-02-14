@@ -51,9 +51,10 @@ namespace AttributeRouting.Web.Http.SelfHost
 
         private static void MapHttpAttributeRoutesInternal(this HttpRouteCollection routes, HttpConfiguration configuration)
         {
-            var generatedRoutes = new RouteBuilder(configuration).BuildAllRoutes();
-
-            generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, (HttpAttributeRoute)r));
+            new RouteBuilder(configuration).BuildAllRoutes()
+                                           .Cast<HttpAttributeRoute>()
+                                           .ToList()
+                                           .ForEach(r => routes.Add(r.RouteName, r));
         }
     }
 }

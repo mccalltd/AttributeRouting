@@ -21,7 +21,6 @@ namespace AttributeRouting
         /// </summary>
         protected ConfigurationBase()
         {
-            Assemblies = new List<Assembly>();
             OrderedControllerTypes = new List<Type>();
 
             InheritActionsFromBaseController = false;
@@ -62,10 +61,8 @@ namespace AttributeRouting
         /// </summary>
         public IParameterFactory ParameterFactory { get; set; }
         
-        internal List<Assembly> Assemblies { get; set; }
-        
         internal List<Type> OrderedControllerTypes { get; set; }
-        
+
         internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
         
         internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
@@ -162,8 +159,7 @@ namespace AttributeRouting
         [Obsolete("Prefer using AddRoutesFromController, AddRoutesFromControllersOfType, and AddRoutesFromAssembly.")]
         public void ScanAssembly(Assembly assembly)
         {
-            if (!Assemblies.Contains(assembly))
-                Assemblies.Add(assembly);
+            AddRoutesFromAssembly(assembly);
         }
 
         /// <summary>

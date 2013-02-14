@@ -172,7 +172,6 @@
     <Compile Include="Subjects\TrailingSlashesController.cs" />
     <Compile Include="Tests\Extensions\UrlHelperExtensionTests.cs" />
     <Compile Include="Tests\Localization\AttributeRouteTests.cs" />
-    <Compile Include="Tests\RouteBuilderTests.cs" />
     <Compile Include="Tests\TrailingSlashes\AttributeRouteTests.cs" />
     <Compile Include="Tests\BugFixTests.cs" />
     <Compile Include="Tests\Localization\FluentTranslationProviderTests.cs" />

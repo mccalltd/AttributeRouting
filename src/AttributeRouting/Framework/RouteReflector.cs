@@ -30,15 +30,15 @@ namespace AttributeRouting.Framework
             foreach (var spec in controllerRouteSpecs)
                 yield return spec;
 
-            if (!_configuration.Assemblies.Any())
-                yield break;
-
-            var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes(_configuration.FrameworkControllerType)).ToList();
-            var unspecdControllerTypes = scannedControllerTypes.Except(_configuration.OrderedControllerTypes);
-            var scannedRouteSpecs = BuildRouteSpecifications(unspecdControllerTypes);
-
-            foreach (var spec in scannedRouteSpecs)
-                yield return spec;
+            //if (!_configuration.Assemblies.Any())
+            //    yield break;
+            //
+            //var scannedControllerTypes = _configuration.Assemblies.SelectMany(a => a.GetControllerTypes(_configuration.FrameworkControllerType)).ToList();
+            //var unspecdControllerTypes = scannedControllerTypes.Except(_configuration.OrderedControllerTypes);
+            //var scannedRouteSpecs = BuildRouteSpecifications(unspecdControllerTypes);
+            //
+            //foreach (var spec in scannedRouteSpecs)
+            //    yield return spec;
         }
 
         /// <summary>

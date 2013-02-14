@@ -10,7 +10,6 @@ _3.4.2_
 * #183 - Bllowing route conventions to be inherited from base controllers.
 * #182 - Inlined scripts required by routes.axd
 * #180 - New route constraint EnumValueConstraint for matching enums by value.
-* #179 - Throwing exceptions when mapping routes without specifying any types to scan. This has been a WTF moment for a few.
 
 _3.4.1_
 

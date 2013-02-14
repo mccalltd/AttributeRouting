@@ -51,9 +51,10 @@ namespace AttributeRouting.Web.Mvc
 
         private static void MapAttributeRoutesInternal(this RouteCollection routes, Configuration configuration)
         {
-            var generatedRoutes = new RouteBuilder(configuration).BuildAllRoutes();
-
-            generatedRoutes.ToList().ForEach(r => routes.Add(r.RouteName, (AttributeRoute)r));
+            new RouteBuilder(configuration).BuildAllRoutes()
+                                           .Cast<AttributeRoute>()
+                                           .ToList()
+                                           .ForEach(r => routes.Add(r.RouteName, r));
         }
     }
 }

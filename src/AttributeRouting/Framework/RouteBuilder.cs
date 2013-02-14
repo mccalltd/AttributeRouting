@@ -34,12 +34,6 @@ namespace AttributeRouting.Framework
         /// </summary>
         public IEnumerable<IAttributeRoute> BuildAllRoutes()
         {
-            // There must be some type to scan.
-            if (!_configuration.OrderedControllerTypes.Any())
-            {
-                throw new AttributeRoutingException("You must specify an assembly or controller to scan for routes.");
-            }
-
             var routeReflector = new RouteReflector(_configuration);
             var routeSpecs = routeReflector.BuildRouteSpecifications().ToList();
 
