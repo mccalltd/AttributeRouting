@@ -10,11 +10,14 @@ using AttributeRouting.Helpers;
 using AttributeRouting.Specs.Subjects;
 using AttributeRouting.Specs.Subjects.Http;
 using AttributeRouting.Specs.Tests;
-using AttributeRouting.Web.Constraints;
+using AttributeRouting.Web;
+using AttributeRouting.Web.Http;
 using AttributeRouting.Web.Http.WebHost;
 using AttributeRouting.Web.Mvc;
+using AttributeRouting.Web.Mvc.Constraints;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
+using HttpConfiguration = AttributeRouting.Web.Http.HttpConfiguration;
 
 namespace AttributeRouting.Specs.Steps
 {
@@ -22,7 +25,7 @@ namespace AttributeRouting.Specs.Steps
     public class SharedSteps
     {
         private Configuration _configuration;
-        private HttpWebConfiguration _httpConfiguration;
+        private HttpConfiguration _httpConfiguration;
 
         private Configuration Configuration
         {
@@ -39,13 +42,13 @@ namespace AttributeRouting.Specs.Steps
             set { _configuration = value; }
         }
 
-        private HttpWebConfiguration HttpConfiguration
+        private HttpConfiguration HttpConfiguration
         {
             get
             {
                 if (_httpConfiguration == null)
                 {
-                    _httpConfiguration = new HttpWebConfiguration();
+                    _httpConfiguration = new HttpConfiguration();
                     _httpConfiguration.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
                     _httpConfiguration.InlineRouteConstraints.Add("colorValue", typeof(EnumValueRouteConstraint<Color>));
                 }

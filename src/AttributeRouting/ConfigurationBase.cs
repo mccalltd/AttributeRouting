@@ -270,7 +270,7 @@ namespace AttributeRouting
 
             foreach (var inlineConstraintType in inlineConstraintTypes)
             {
-                var name = Regex.Replace(inlineConstraintType.Name, "RouteConstraint$", "").ToLowerInvariant();
+                var name = Regex.Replace(inlineConstraintType.Name, "(Http)?RouteConstraint$", "").ToLowerInvariant();
                 InlineRouteConstraints.Add(name, inlineConstraintType);
             }
         }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web.Routing;
 using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
-using AttributeRouting.Web.Constraints;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 

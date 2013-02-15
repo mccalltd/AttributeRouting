@@ -3,7 +3,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using AttributeRouting.Web.Constraints;
+using AttributeRouting.Web.Mvc.Constraints;
 using AttributeRouting.Web.Mvc.Framework.Factories;
 
 namespace AttributeRouting.Web.Mvc

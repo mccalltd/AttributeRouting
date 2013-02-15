@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
-using AttributeRouting.Web.Constraints;
-using AttributeRouting.Web.Mvc.Framework;
+using AttributeRouting.Web.Mvc.Constraints;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 

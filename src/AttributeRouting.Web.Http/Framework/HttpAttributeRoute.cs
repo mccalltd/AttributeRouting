@@ -9,11 +9,11 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Web.Http.Framework
 {
     /// <summary>
-    /// Route to use for self-hosted Web API routes.
+    /// Route to use for Web API routes.
     /// </summary>
     public class HttpAttributeRoute : HttpRoute, IAttributeRoute
     {
-        private readonly HttpConfigurationBase _configuration;
+        private readonly HttpConfiguration _configuration;
 
         /// <summary>
         /// Route used by the AttributeRouting framework in self-host projects.
@@ -22,7 +22,7 @@ namespace AttributeRouting.Web.Http.Framework
                                   HttpRouteValueDictionary defaults,
                                   HttpRouteValueDictionary constraints,
                                   HttpRouteValueDictionary dataTokens,
-                                  HttpConfigurationBase configuration)
+                                  HttpConfiguration configuration)
             : base(url, defaults, constraints, dataTokens, configuration.MessageHandler)
         {
             _configuration = configuration;

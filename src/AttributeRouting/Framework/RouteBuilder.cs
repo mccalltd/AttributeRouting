@@ -256,8 +256,8 @@ namespace AttributeRouting.Framework
                         // NOTE: Splitting on commas only applies to non-regex constraints.
                         var constraintParamsRaw = definition.Substring(indexOfOpenParen + 1, definition.Length - indexOfOpenParen - 2);
                         var constraintParams = constraintName.ValueEquals("regex")
-                                                   ? new[] {constraintParamsRaw}
-                                                   : constraintParamsRaw.SplitAndTrim(",");
+                                                   ? new object[] { constraintParamsRaw }
+                                                   : constraintParamsRaw.SplitAndTrim(",").Cast<object>().ToArray();
 
                         constraint = _routeConstraintFactory.CreateInlineRouteConstraint(constraintName, constraintParams);
                     }
@@ -269,8 +269,10 @@ namespace AttributeRouting.Framework
                     }
 
                     if (constraint == null)
+                    {
                         throw new AttributeRoutingException(
                             "Could not find an available inline constraint for \"{0}\".".FormatWith(constraintName));
+                    }
 
                     inlineConstraints.Add(constraint);
                 }

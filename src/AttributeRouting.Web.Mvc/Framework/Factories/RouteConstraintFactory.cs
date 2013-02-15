@@ -6,16 +6,15 @@ using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
 using AttributeRouting.Framework.Factories;
 using AttributeRouting.Helpers;
-using AttributeRouting.Web.Constraints;
 using AttributeRouting.Web.Mvc.Constraints;
 
 namespace AttributeRouting.Web.Mvc.Framework.Factories
 {
     internal class RouteConstraintFactory : IRouteConstraintFactory
     {
-        private readonly Configuration _configuration;
+        private readonly ConfigurationBase _configuration;
 
-        public RouteConstraintFactory(Configuration configuration)
+        public RouteConstraintFactory(ConfigurationBase configuration)
         {
             _configuration = configuration;
         }
@@ -38,8 +37,10 @@ namespace AttributeRouting.Web.Mvc.Framework.Factories
                 var type = inlineRouteConstraints[name];
 
                 if (!typeof(IRouteConstraint).IsAssignableFrom(type))
+                {
                     throw new AttributeRoutingException(
                         "The constraint \"{0}\" must implement System.Web.Routing.IRouteConstraint".FormatWith(type.FullName));
+                }
 
                 return Activator.CreateInstance(type, parameters);
             }

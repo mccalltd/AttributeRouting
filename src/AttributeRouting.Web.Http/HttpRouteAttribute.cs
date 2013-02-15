@@ -1,6 +1,8 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Web.Http.Controllers;
 
 namespace AttributeRouting.Web.Http
 {
@@ -8,8 +10,10 @@ namespace AttributeRouting.Web.Http
     /// The route information for an action.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public class HttpRouteAttribute : Attribute, IRouteAttribute
+    public class HttpRouteAttribute : Attribute, IRouteAttribute, IActionHttpMethodProvider
     {
+        private readonly Collection<HttpMethod> _allowedMethods;
+
         /// <summary>
         /// Specify the route information for an action.
         /// </summary>
@@ -33,6 +37,7 @@ namespace AttributeRouting.Web.Http
         public HttpRouteAttribute(string routeUrl, params HttpMethod[] allowedMethods)
             : this(routeUrl)
         {
+            _allowedMethods = new Collection<HttpMethod>(allowedMethods);
             HttpMethods = allowedMethods.Select(m => m.Method.ToUpper()).ToArray();
         }
 
@@ -97,5 +102,10 @@ namespace AttributeRouting.Web.Http
         public bool IgnoreRoutePrefix { get; set; }
         
         public bool IgnoreAreaUrl { get; set; }
+
+        Collection<HttpMethod> IActionHttpMethodProvider.HttpMethods
+        {
+            get { return _allowedMethods; }
+        }
     }
 }
