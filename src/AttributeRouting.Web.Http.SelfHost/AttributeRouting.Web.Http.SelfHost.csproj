@@ -74,7 +74,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Constraints\OptionalRouteConstraintWrapper.cs" />
+    <Compile Include="Constraints\OptionalRouteConstraint.cs" />
     <Compile Include="Constraints\InboundHttpMethodConstraint.cs" />
     <Compile Include="HttpConfiguration.cs" />
     <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />

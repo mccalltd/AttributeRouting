@@ -11,7 +11,7 @@ namespace AttributeRouting.Constraints
     /// System.Web.Routing.IRouteConstraint (used in web-hosted scenarios) and 
     /// System.Web.Http.Routing.IHttpRouteConstraint (used in self-hosted scenarios).    
     /// </remarks>
-    public interface IQueryStringRouteConstraintWrapper
+    public interface IQueryStringRouteConstraint
     {
         /// <summary>
         /// The constraint used in the query string.

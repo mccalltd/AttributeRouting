@@ -49,19 +49,19 @@ namespace AttributeRouting.Web.Http.SelfHost.Framework.Factories
             return null;
         }
 
-        public ICompoundRouteConstraintWrapper CreateCompoundRouteConstraint(params object[] constraints)
+        public ICompoundRouteConstraint CreateCompoundRouteConstraint(params object[] constraints)
         {
-            return new CompoundRouteConstraintWrapper(constraints.Cast<IHttpRouteConstraint>().ToArray());
+            return new CompoundRouteConstraint(constraints.Cast<IHttpRouteConstraint>().ToArray());
         }
 
-        public IOptionalRouteConstraintWrapper CreateOptionalRouteConstraint(object constraint)
+        public IOptionalRouteConstraint CreateOptionalRouteConstraint(object constraint)
         {
-            return new OptionalRouteConstraintWrapper((IHttpRouteConstraint)constraint);
+            return new OptionalRouteConstraint((IHttpRouteConstraint)constraint);
         }
 
-        public IQueryStringRouteConstraintWrapper CreateQueryStringRouteConstraint(object constraint)
+        public IQueryStringRouteConstraint CreateQueryStringRouteConstraint(object constraint)
         {
-            return new QueryStringRouteConstraintWrapper((IHttpRouteConstraint)constraint);
+            return new QueryStringRouteConstraint((IHttpRouteConstraint)constraint);
         }
     }
 }

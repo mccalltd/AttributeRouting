@@ -68,14 +68,14 @@ namespace AttributeRouting.Logging
                         else
                         {
                             // Optional constraint - unwrap it and continue
-                            var optionalConstraint = constraintValue as IOptionalRouteConstraintWrapper;
+                            var optionalConstraint = constraintValue as IOptionalRouteConstraint;
                             if (optionalConstraint != null)
                             {
                                 constraintValue = optionalConstraint.Constraint;
                             }
 
                             // QueryString constraint - unwrap it and continue
-                            var queryStringConstraint = constraintValue as IQueryStringRouteConstraintWrapper;
+                            var queryStringConstraint = constraintValue as IQueryStringRouteConstraint;
                             if (queryStringConstraint != null)
                             {
                                 constraintValue = queryStringConstraint.Constraint;
@@ -83,7 +83,7 @@ namespace AttributeRouting.Logging
                             }
 
                             // Compound constraint - join type names of the inner constraints
-                            var compoundConstraint = constraintValue as ICompoundRouteConstraintWrapper;
+                            var compoundConstraint = constraintValue as ICompoundRouteConstraint;
                             if (compoundConstraint != null)
                             {
                                 constraintDescriptions.AddRange(compoundConstraint.Constraints.Select(c => c.GetType().Name));

@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace AttributeRouting.Web.Constraints
 {
-    public class QueryStringRouteConstraintWrapper : IQueryStringRouteConstraintWrapper, IRouteConstraint
+    public class QueryStringRouteConstraint : IQueryStringRouteConstraint, IRouteConstraint
     {
         private readonly IRouteConstraint _constraint;
 
-        public QueryStringRouteConstraintWrapper(IRouteConstraint constraint)
+        public QueryStringRouteConstraint(IRouteConstraint constraint)
         {
             _constraint = constraint;
         }

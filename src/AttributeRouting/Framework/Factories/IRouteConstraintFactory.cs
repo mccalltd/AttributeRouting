@@ -35,18 +35,18 @@ namespace AttributeRouting.Framework.Factories
         /// Creates a compound route constraint wrapper to allow anding of individual inline constraints.
         /// </summary>
         /// <param name="constraints">The constraints to apply together</param>
-        ICompoundRouteConstraintWrapper CreateCompoundRouteConstraint(params object[] constraints);
+        ICompoundRouteConstraint CreateCompoundRouteConstraint(params object[] constraints);
 
         /// <summary>
         /// Creates an optional route constraint wrapper to allow inline constraints to be optional.
         /// </summary>
         /// <param name="constraint">The constraint</param>
-        IOptionalRouteConstraintWrapper CreateOptionalRouteConstraint(object constraint);
+        IOptionalRouteConstraint CreateOptionalRouteConstraint(object constraint);
 
         /// <summary>
         /// Creates an query string route constraint wrapper to allow constraints in the query string.
         /// </summary>
         /// <param name="constraint">The constraint</param>
-        IQueryStringRouteConstraintWrapper CreateQueryStringRouteConstraint(object constraint);
+        IQueryStringRouteConstraint CreateQueryStringRouteConstraint(object constraint);
     }
 }

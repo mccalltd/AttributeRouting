@@ -7,11 +7,11 @@ using AttributeRouting.Constraints;
 
 namespace AttributeRouting.Web.Http.Constraints
 {
-    public class QueryStringRouteConstraintWrapper : IQueryStringRouteConstraintWrapper, IHttpRouteConstraint
+    public class QueryStringRouteConstraint : IQueryStringRouteConstraint, IHttpRouteConstraint
     {
         private readonly IHttpRouteConstraint _constraint;
 
-        public QueryStringRouteConstraintWrapper(IHttpRouteConstraint constraint)
+        public QueryStringRouteConstraint(IHttpRouteConstraint constraint)
         {
             _constraint = constraint;
         }

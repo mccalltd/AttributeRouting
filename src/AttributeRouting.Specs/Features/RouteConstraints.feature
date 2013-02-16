@@ -40,13 +40,13 @@ Scenario: Inline constraints in the querystring
 	When I fetch the routes for the InlineRouteConstraints controller's Querystring action
 	Then the route url is "Inline-Constraints/Querystring"
 	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
-	And the parameter "y" is constrained by an inline AttributeRouting.Web.Constraints.QueryStringRouteConstraintWrapper
+	And the parameter "y" is constrained by an inline AttributeRouting.Web.Constraints.QueryStringRouteConstraint
 	# Web API
 	Given I have registered the routes for the HttpInlineRouteConstraintsController
 	When I fetch the routes for the HttpInlineRouteConstraints controller's Querystring action
 	Then the route url is "Http-Inline-Constraints/Querystring"
 	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
-	And the parameter "y" is constrained by an inline AttributeRouting.Web.Constraints.QueryStringRouteConstraintWrapper
+	And the parameter "y" is constrained by an inline AttributeRouting.Web.Constraints.QueryStringRouteConstraint
 
 Scenario: Multiple inline constraints per url segment
 	# MVC

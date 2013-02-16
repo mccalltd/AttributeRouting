@@ -130,11 +130,11 @@ namespace AttributeRouting.Framework
             foreach (var constraintKey in constraintKeys)
             {
                 var constraint = route.Constraints[constraintKey];
-                var constraintToTest = constraint is IOptionalRouteConstraintWrapper
-                                           ? ((IOptionalRouteConstraintWrapper)constraint).Constraint
+                var constraintToTest = constraint is IOptionalRouteConstraint
+                                           ? ((IOptionalRouteConstraint)constraint).Constraint
                                            : constraint;
 
-                if (!(constraintToTest is IQueryStringRouteConstraintWrapper))
+                if (!(constraintToTest is IQueryStringRouteConstraint))
                     continue;
 
                 queryStringConstraints.Add(constraintKey, constraint);
