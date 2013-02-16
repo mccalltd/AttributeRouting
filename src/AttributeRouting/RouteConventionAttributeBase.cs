@@ -22,7 +22,7 @@ namespace AttributeRouting
         /// </summary>
         /// <param name="actionMethod">The action method.</param>
         /// <returns>A default prefix to use for the actions in the controller.</returns>
-        [Obsolete]
+        [Obsolete("Use GetDefaultRoutePrefixes instead.")]
         public virtual string GetDefaultRoutePrefix(MethodInfo actionMethod)
         {
             return "";

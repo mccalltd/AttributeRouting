@@ -26,7 +26,9 @@ namespace AttributeRouting.Web.Helpers
         private static string GetUnvalidatedCollectionValue(this HttpRequestBase request, string unvalidatedObjectPropertyName, string key)
         {
             if (_isSystemWebWebPagesUnavailable)
+            {
                 return null;
+            }
 
             try
             {

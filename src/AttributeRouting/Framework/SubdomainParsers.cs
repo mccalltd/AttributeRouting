@@ -3,7 +3,7 @@ using System;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Subdomain parsing strategies for parsing the subdomain from host names.
+    /// Strategies for parsing the subdomain from host names.
     /// </summary>
     /// <remarks>
     /// A bit awkward currently due to initial impl not being formalized into separate strategy classes.

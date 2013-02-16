@@ -3,7 +3,7 @@ using System;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Route name building strategies for generating conventional route names.
+    /// Strategies for generating conventional route names.
     /// </summary>
     /// <remarks>
     /// A bit awkward currently due to initial impl not being formalized into separate strategy classes.
