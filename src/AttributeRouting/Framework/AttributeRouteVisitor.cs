@@ -206,7 +206,12 @@ namespace AttributeRouting.Framework
         public TVirtualPathData GetTranslatedVirtualPath<TVirtualPathData>(Func<IAttributeRoute, TVirtualPathData> fromTranslation)
             where TVirtualPathData : class
         {
-            var translations = (_route.Translations ?? Enumerable.Empty<IAttributeRoute>()).ToArray();
+            if (_route.Translations == null)
+            {
+                return null;
+            }
+
+            var translations = _route.Translations.ToArray();
             if (!translations.Any())
             {
                 return null;

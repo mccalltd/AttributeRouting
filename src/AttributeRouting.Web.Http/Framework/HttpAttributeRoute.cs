@@ -119,13 +119,10 @@ namespace AttributeRouting.Web.Http.Framework
             }
 
             // Translate this path if a translation is available.
-            if (_configuration.TranslationProviders.Any())
+            var translatedVirtualPath = _visitor.GetTranslatedVirtualPath(t => ((HttpRoute)t).GetVirtualPath(request, values));
+            if (translatedVirtualPath != null)
             {
-                var translatedVirtualPath = _visitor.GetTranslatedVirtualPath(t => ((HttpRoute)t).GetVirtualPath(request, values));
-                if (translatedVirtualPath != null)
-                {
-                    virtualPathData = translatedVirtualPath;
-                }
+                virtualPathData = translatedVirtualPath;
             }
 
             // Lowercase, append trailing slash, etc.
