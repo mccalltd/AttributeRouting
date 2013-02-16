@@ -78,8 +78,8 @@ namespace AttributeRouting.Framework
         IEnumerable<IAttributeRoute> Translations { get; set; }
 
         /// <summary>
-        /// Default route container back-reference, used to organize route translations.
+        /// The source-language route if this route is a translated route.
         /// </summary>
-        IAttributeRoute DefaultRouteContainer { get; set; }
+        IAttributeRoute SourceLanguageRoute { get; set; }
     }
 }

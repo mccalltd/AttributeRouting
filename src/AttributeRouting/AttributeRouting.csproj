@@ -81,7 +81,7 @@
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
     <Compile Include="Constraints\MaxLengthRouteConstraintBase.cs" />
     <Compile Include="Constraints\TypeOfRouteConstraintBase.cs" />
-    <Compile Include="Framework\AttributeRouteExtensions.cs" />
+    <Compile Include="Framework\AttributeRouteHelpers.cs" />
     <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\IRouteConstraintFactory.cs" />
     <Compile Include="Framework\Factories\IParameterFactory.cs" />
@@ -114,6 +114,7 @@
   <ItemGroup>
     <None Include="AttributeRouting.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

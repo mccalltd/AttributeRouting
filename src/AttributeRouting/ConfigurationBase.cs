@@ -41,6 +41,12 @@ namespace AttributeRouting
             RouteNameBuilder = RouteNameBuilders.FirstInWins;
         }
 
+        internal List<Type> OrderedControllerTypes { get; set; }
+
+        internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
+
+        internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
+
         /// <summary>
         /// Type of the framework controller (IController, IHttpController).
         /// </summary>
@@ -61,12 +67,6 @@ namespace AttributeRouting
         /// </summary>
         public IParameterFactory ParameterFactory { get; set; }
         
-        internal List<Type> OrderedControllerTypes { get; set; }
-
-        internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
-        
-        internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
-
         /// <summary>
         /// Collection of available inline route constraint definitions.
         /// </summary>

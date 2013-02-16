@@ -85,7 +85,7 @@ namespace AttributeRouting.Framework
                 foreach (var translation in route.Translations)
                 {
                     // Backreference the default route.
-                    translation.DefaultRouteContainer = route;
+                    translation.SourceLanguageRoute = route;
 
                     yield return translation;
                 }                
