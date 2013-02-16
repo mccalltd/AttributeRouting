@@ -1,14 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Route name builders for generating conventional route names.
+    /// Route name building strategies for generating conventional route names.
     /// </summary>
+    /// <remarks>
+    /// A bit awkward currently due to initial impl not being formalized into separate strategy classes.
+    /// Will refactor use via configuration API for v4.0.
+    /// </remarks>
     public static class RouteNameBuilders
     {
         /// <summary>
@@ -19,7 +19,7 @@ namespace AttributeRouting.Framework
         /// </summary>
         public static Func<RouteSpecification, string> Unique
         {
-            get { return CreateUniqueRouteNameBuilder(); }
+            get { return new UniqueRouteNameBuilder().Execute; }
         }
 
         /// <summary>
@@ -28,65 +28,7 @@ namespace AttributeRouting.Framework
         /// </summary>
         public static Func<RouteSpecification, string> FirstInWins
         {
-            get { return CreateFirstInWinsRouteNameBuilder(); }
-        }
-
-        private static Func<RouteSpecification, string> CreateUniqueRouteNameBuilder()
-        {
-            var registeredRouteNames = new List<string>();
-
-            return routeSpec =>
-            {
-                var routeNameBuilder = new StringBuilder();
-
-                if (routeSpec.AreaName.HasValue())
-                    routeNameBuilder.AppendFormat("{0}_", routeSpec.AreaName);
-
-                routeNameBuilder.Append(routeSpec.ControllerName);
-                routeNameBuilder.AppendFormat("_{0}", routeSpec.ActionName);
-
-                // Ensure route names are unique. 
-                var routeName = routeNameBuilder.ToString();
-                var routeNameIsRegistered = registeredRouteNames.Any(name => name == routeName);
-                if (routeNameIsRegistered)
-                {
-                    // Prefix with the first verb (assuming this is the primary verb) if not a GET route.
-                    if (routeSpec.HttpMethods.Length > 0 && !routeSpec.HttpMethods.Contains("GET"))
-                        routeNameBuilder.AppendFormat("_{0}", routeSpec.HttpMethods.FirstOrDefault());
-
-                    // Suffixing with an index if necessary to disambiguate.
-                    routeName = routeNameBuilder.ToString();
-                    var count = registeredRouteNames.Count(n => n == routeName || n.StartsWith(routeName + "_"));
-                    if (count > 0)
-                        routeNameBuilder.AppendFormat("_{0}", count);
-                }
-
-                routeName = routeNameBuilder.ToString();
-
-                registeredRouteNames.Add(routeName);
-
-                return routeName;
-            };
-        }
-
-        private static Func<RouteSpecification, string> CreateFirstInWinsRouteNameBuilder()
-        {
-            var registeredRouteNames = new List<string>();
-
-            return routeSpec =>
-            {
-                var areaPart = routeSpec.AreaName.HasValue() ? "{0}_".FormatWith(routeSpec.AreaName) : null;
-                var routeName = "{0}{1}_{2}".FormatWith(areaPart, routeSpec.ControllerName, routeSpec.ActionName);
-
-                // Only register route names once, so first in wins.
-                if (!registeredRouteNames.Contains(routeName))
-                {
-                    registeredRouteNames.Add(routeName);
-                    return routeName;
-                }
-
-                return null;
-            };
+            get { return new FirstInWinsRouteNameBuilder().Execute; }
         }
     }
 }

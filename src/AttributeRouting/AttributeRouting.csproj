@@ -85,8 +85,13 @@
     <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
     <Compile Include="Framework\Factories\IRouteConstraintFactory.cs" />
     <Compile Include="Framework\Factories\IParameterFactory.cs" />
+    <Compile Include="Framework\FirstInWinsRouteNameBuilder.cs" />
     <Compile Include="Framework\IAttributeRoute.cs" />
+    <Compile Include="Framework\IRouteNameBuilder.cs" />
+    <Compile Include="Framework\ISubdomainParser.cs" />
     <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
+    <Compile Include="Framework\ThreeSectionSubdomainParser.cs" />
+    <Compile Include="Framework\UniqueRouteNameBuilder.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\ObjectExtensions.cs" />
     <Compile Include="Helpers\ParsingExtensions.cs" />
