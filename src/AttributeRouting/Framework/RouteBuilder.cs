@@ -33,22 +33,16 @@ namespace AttributeRouting.Framework
         /// </summary>
         public IEnumerable<IAttributeRoute> BuildAllRoutes()
         {
+            // Get the route specifications that describe the routes we'll build.
             var reflector = new AttributeReflector(_configuration);
             var routeSpecs = reflector.BuildRouteSpecifications().ToList();
 
-            // TODO: Update the config object internally with a property so this list isn't referenced everywhere.
-            var mappedSubdomains = (from s in routeSpecs
-                                    where s.Subdomain.HasValue()
-                                    select s.Subdomain).Distinct().ToList();
+            // Update the config object with context.
+            _configuration.MappedSubdomains = (from s in routeSpecs
+                                               where s.Subdomain.HasValue()
+                                               select s.Subdomain).Distinct().ToList();
 
-            foreach (var routeSpec in routeSpecs)
-            {
-                foreach (var route in BuildRoutes(routeSpec))
-                {
-                    route.MappedSubdomains = mappedSubdomains;
-                    yield return route;
-                }
-            }
+            return routeSpecs.SelectMany(BuildRoutes);
         }
 
         private IEnumerable<IAttributeRoute> BuildRoutes(RouteSpecification routeSpec)

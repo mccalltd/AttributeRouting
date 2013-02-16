@@ -15,6 +15,8 @@ namespace AttributeRouting
     /// </summary>
     public abstract class ConfigurationBase
     {
+        private List<string> _mappedSubdomains = new List<string>();
+
         /// <summary>
         /// Creates and initializes a new configuration object.
         /// </summary>
@@ -40,16 +42,13 @@ namespace AttributeRouting
             RouteNameBuilder = RouteNameBuilders.FirstInWins;
         }
 
-        internal List<Type> OrderedControllerTypes { get; set; }
-
-        internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
+        /// <summary>
+        /// When true, the generated routes will have a trailing slash on the path of outbound URLs.
+        /// The default is false.
+        /// </summary>
+        public bool AppendTrailingSlash { get; set; }
 
         internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
-
-        /// <summary>
-        /// Type of the framework controller (IController, IHttpController).
-        /// </summary>
-        public abstract Type FrameworkControllerType { get; }
 
         /// <summary>
         /// Factory for generating routes used by AttributeRouting.
@@ -57,30 +56,57 @@ namespace AttributeRouting
         public IAttributeRouteFactory AttributeRouteFactory { get; set; }
 
         /// <summary>
-        /// Factory for generating route constraints.
+        /// When true, the generated routes will have auto-generated route names in the form controller_action.
+        /// The default is false.
         /// </summary>
-        public IRouteConstraintFactory RouteConstraintFactory { get; set; }
+        public bool AutoGenerateRouteNames { get; set; }
 
         /// <summary>
-        /// Factory for generating optional route parameters.
+        /// Constrains translated routes by the thread's current UI culture.
+        /// The default is false.
         /// </summary>
-        public IParameterFactory ParameterFactory { get; set; }
-        
+        public bool ConstrainTranslatedRoutesByCurrentUICulture { get; set; }
+
+        internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
+
+        /// <summary>
+        /// Specify the default subdomain for this application.
+        /// The default is www.
+        /// </summary>
+        public string DefaultSubdomain { get; set; }
+
+        /// <summary>
+        /// Type of the framework controller (IController, IHttpController).
+        /// </summary>
+        public abstract Type FrameworkControllerType { get; }
+
         /// <summary>
         /// Collection of available inline route constraint definitions.
         /// </summary>
         public IDictionary<string, Type> InlineRouteConstraints { get; private set; }
 
         /// <summary>
-        /// Translation providers.
+        /// When true, the generated routes will include actions defined on base controllers.
+        /// The default is false.
+        /// Note: Base Controllers should be declared as abstract to avoid routes being generated for them
         /// </summary>
-        public List<TranslationProviderBase> TranslationProviders { get; set; }
+        public bool InheritActionsFromBaseController { get; set; }
 
         /// <summary>
-        /// When true, the generated routes will produce lowercase URLs.
-        /// The default is false.
+        /// List of all the subdomains mapped via AttributeRouting.
         /// </summary>
-        public bool UseLowercaseRoutes { get; set; }
+        public IList<string> MappedSubdomains
+        {
+            get { return _mappedSubdomains.AsReadOnly(); }
+            internal set { _mappedSubdomains = new List<string>(value); }
+        }
+
+        internal List<Type> OrderedControllerTypes { get; set; }
+
+        /// <summary>
+        /// Factory for generating optional route parameters.
+        /// </summary>
+        public IParameterFactory ParameterFactory { get; set; }
 
         /// <summary>
         /// When true, the generated routes will not lowercase URL parameter values.
@@ -89,16 +115,9 @@ namespace AttributeRouting
         public bool PreserveCaseForUrlParameters { get; set; }
 
         /// <summary>
-        /// When true, the generated routes will have a trailing slash on the path of outbound URLs.
-        /// The default is false.
+        /// Factory for generating route constraints.
         /// </summary>
-        public bool AppendTrailingSlash { get; set; }
-
-        /// <summary>
-        /// When true, the generated routes will have auto-generated route names in the form controller_action.
-        /// The default is false.
-        /// </summary>
-        public bool AutoGenerateRouteNames { get; set; }
+        public IRouteConstraintFactory RouteConstraintFactory { get; set; }
 
         /// <summary>
         /// Given a route specification, this delegate returns the route name 
@@ -114,60 +133,22 @@ namespace AttributeRouting
         public Func<string, string> SubdomainParser { get; set; }
 
         /// <summary>
-        /// Specify the default subdomain for this application.
-        /// The default is www.
+        /// Translation providers.
         /// </summary>
-        public string DefaultSubdomain { get; set; }
+        public List<TranslationProviderBase> TranslationProviders { get; set; }
 
         /// <summary>
-        /// When true, the generated routes will include actions defined on base controllers.
-        /// The default is false.
-        /// Note: Base Controllers should be declared as abstract to avoid routes being generated for them
-        /// </summary>
-        public bool InheritActionsFromBaseController { get; set; }
-
-        /// <summary>
-        /// Constrains translated routes by the thread's current UI culture.
+        /// When true, the generated routes will produce lowercase URLs.
         /// The default is false.
         /// </summary>
-        public bool ConstrainTranslatedRoutesByCurrentUICulture { get; set; }
+        public bool UseLowercaseRoutes { get; set; }
 
-        /// <summary>
-        /// Returns a utility for configuring areas when initializing AttributeRouting framework.
-        /// </summary>
-        /// <param name="name">The name of the area to configure</param>
-        public AreaConfiguration MapArea(string name)
+        protected void AddDefaultRouteConstraint(string keyRegex, object constraint)
         {
-            return new AreaConfiguration(name, this);
-        }
-
-        /// <summary>
-        /// Scans the assembly of the specified controller for routes to register.
-        /// </summary>
-        /// <typeparam name="T">The type used to specify the assembly.</typeparam>
-        [Obsolete("Prefer using AddRoutesFromController, AddRoutesFromControllersOfType, and AddRoutesFromAssembly.")]
-        public void ScanAssemblyOf<T>()
-        {
-            ScanAssembly(typeof(T).Assembly);
-        }
-
-        /// <summary>
-        /// Scans the specified assembly for routes to register.
-        /// </summary>
-        /// <param name="assembly">The assembly.</param>
-        [Obsolete("Prefer using AddRoutesFromController, AddRoutesFromControllersOfType, and AddRoutesFromAssembly.")]
-        public void ScanAssembly(Assembly assembly)
-        {
-            AddRoutesFromAssembly(assembly);
-        }
-
-        /// <summary>
-        /// Appends the routes from all controllers in the specified assembly to the route collection.
-        /// </summary>
-        /// <typeparam name="T">The type denoting the assembly.</typeparam>
-        public void AddRoutesFromAssemblyOf<T>()
-        {
-            AddRoutesFromAssembly(typeof(T).Assembly);
+            if (!DefaultRouteConstraints.ContainsKey(keyRegex))
+            {
+                DefaultRouteConstraints.Add(keyRegex, constraint);
+            }
         }
 
         /// <summary>
@@ -179,23 +160,18 @@ namespace AttributeRouting
             var controllerTypes = assembly.GetControllerTypes(FrameworkControllerType);
 
             foreach (var controllerType in controllerTypes)
+            {
                 AddRoutesFromControllerInternal(controllerType);
+            }
         }
 
         /// <summary>
-        /// Appends the routes from all controllers that derive from the specified controller type to the route collection.
+        /// Appends the routes from all controllers in the specified assembly to the route collection.
         /// </summary>
-        /// <param name="baseControllerType">The base controller type.</param>
-        public void AddRoutesFromControllersOfType(Type baseControllerType)
+        /// <typeparam name="T">The type denoting the assembly.</typeparam>
+        public void AddRoutesFromAssemblyOf<T>()
         {
-            var assembly = baseControllerType.Assembly;
-
-            var controllerTypes = from controllerType in assembly.GetControllerTypes(FrameworkControllerType)
-                                  where baseControllerType.IsAssignableFrom(controllerType)
-                                  select controllerType;
-
-            foreach (var controllerType in controllerTypes)
-                AddRoutesFromControllerInternal(controllerType, true);
+            AddRoutesFromAssembly(typeof(T).Assembly);
         }
 
         /// <summary>
@@ -216,7 +192,9 @@ namespace AttributeRouting
         private void AddRoutesFromControllerInternal(Type controllerType, bool reorderTypes = false)
         {
             if (!FrameworkControllerType.IsAssignableFrom(controllerType))
+            {
                 return;
+            }
 
             if (!OrderedControllerTypes.Contains(controllerType))
             {
@@ -229,10 +207,22 @@ namespace AttributeRouting
             }
         }
 
-        protected void AddDefaultRouteConstraint(string keyRegex, object constraint)
+        /// <summary>
+        /// Appends the routes from all controllers that derive from the specified controller type to the route collection.
+        /// </summary>
+        /// <param name="baseControllerType">The base controller type.</param>
+        public void AddRoutesFromControllersOfType(Type baseControllerType)
         {
-            if (!DefaultRouteConstraints.ContainsKey(keyRegex))
-                DefaultRouteConstraints.Add(keyRegex, constraint);
+            var assembly = baseControllerType.Assembly;
+
+            var controllerTypes = from controllerType in assembly.GetControllerTypes(FrameworkControllerType)
+                                  where baseControllerType.IsAssignableFrom(controllerType)
+                                  select controllerType;
+
+            foreach (var controllerType in controllerTypes)
+            {
+                AddRoutesFromControllerInternal(controllerType, true);
+            }
         }
 
         /// <summary>
@@ -260,6 +250,15 @@ namespace AttributeRouting
                     select cultureName).Distinct().ToList();
         }
 
+        /// <summary>
+        /// Returns a utility for configuring areas when initializing AttributeRouting framework.
+        /// </summary>
+        /// <param name="name">The name of the area to configure</param>
+        public AreaConfiguration MapArea(string name)
+        {
+            return new AreaConfiguration(name, this);
+        }
+
         protected void RegisterDefaultInlineRouteConstraints<TRouteConstraint>(Assembly assembly)
         {
             var inlineConstraintTypes = from t in assembly.GetTypes()
@@ -272,6 +271,26 @@ namespace AttributeRouting
                 var name = Regex.Replace(inlineConstraintType.Name, "RouteConstraint$", "").ToLowerInvariant();
                 InlineRouteConstraints.Add(name, inlineConstraintType);
             }
+        }
+
+        /// <summary>
+        /// Scans the specified assembly for routes to register.
+        /// </summary>
+        /// <param name="assembly">The assembly.</param>
+        [Obsolete("Prefer using AddRoutesFromController, AddRoutesFromControllersOfType, and AddRoutesFromAssembly.")]
+        public void ScanAssembly(Assembly assembly)
+        {
+            AddRoutesFromAssembly(assembly);
+        }
+
+        /// <summary>
+        /// Scans the assembly of the specified controller for routes to register.
+        /// </summary>
+        /// <typeparam name="T">The type used to specify the assembly.</typeparam>
+        [Obsolete("Prefer using AddRoutesFromController, AddRoutesFromControllersOfType, and AddRoutesFromAssembly.")]
+        public void ScanAssemblyOf<T>()
+        {
+            ScanAssembly(typeof(T).Assembly);
         }
     }
 }

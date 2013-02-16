@@ -48,7 +48,7 @@ namespace AttributeRouting.Framework
         public static bool IsSubdomainMatched(IAttributeRoute route, string requestedSubdomain, ConfigurationBase configuration)
         {
             // If no subdomains are mapped with AR, then yes.
-            if (!route.MappedSubdomains.Any())
+            if (!configuration.MappedSubdomains.Any())
             {
                 return true;
             }

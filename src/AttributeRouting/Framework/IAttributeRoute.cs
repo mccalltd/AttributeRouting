@@ -15,9 +15,15 @@ namespace AttributeRouting.Framework
     public interface IAttributeRoute
     {
         /// <summary>
-        /// The name of this route, for supporting named routes.
+        /// If true, will override <see cref="ConfigurationBase.AppendTrailingSlash"/>
+        /// set via global configuration and the generated route will have a trailing slash on the path of outbound URLs.
         /// </summary>
-        string RouteName { get; set; }
+        bool? AppendTrailingSlash { get; set; }
+
+        /// <summary>
+        /// Constraints dictionary
+        /// </summary>
+        IDictionary<string, object> Constraints { get; set; }
 
         /// <summary>
         /// The culture name associated with this route.
@@ -25,25 +31,14 @@ namespace AttributeRouting.Framework
         string CultureName { get; set; }
 
         /// <summary>
-        /// List of all the subdomains mapped via AttributeRouting.
+        /// DataTokens dictionary
         /// </summary>
-        List<string> MappedSubdomains { get; set; }
+        IDictionary<string, object> DataTokens { get; set; }
 
         /// <summary>
-        /// The subdomain this route is to be applied against.
+        /// Defaults dictionary
         /// </summary>
-        string Subdomain { get; set; }
-
-        /// <summary>
-        /// Route URL
-        /// </summary>
-        string Url { get; set; }
-
-        /// <summary>
-        /// If true, will override <see cref="ConfigurationBase.UseLowercaseRoutes"/>
-        /// set via global configuration and the generated route will have a lowercase URL.
-        /// </summary>
-        bool? UseLowercaseRoute { get; set; }
+        IDictionary<string, object> Defaults { get; set; }
 
         /// <summary>
         /// If true, will override <see cref="ConfigurationBase.PreserveCaseForUrlParameters"/>
@@ -52,25 +47,19 @@ namespace AttributeRouting.Framework
         bool? PreserveCaseForUrlParameters { get; set; }
 
         /// <summary>
-        /// If true, will override <see cref="ConfigurationBase.AppendTrailingSlash"/>
-        /// set via global configuration and the generated route will have a trailing slash on the path of outbound URLs.
+        /// The name of this route, for supporting named routes.
         /// </summary>
-        bool? AppendTrailingSlash { get; set; }
+        string RouteName { get; set; }
 
         /// <summary>
-        /// DataTokens dictionary
+        /// The source-language route if this route is a translated route.
         /// </summary>
-        IDictionary<string, object> DataTokens { get; set; }
+        IAttributeRoute SourceLanguageRoute { get; set; }
 
         /// <summary>
-        /// Constraints dictionary
+        /// The subdomain this route is to be applied against.
         /// </summary>
-        IDictionary<string, object> Constraints { get; set; }
-
-        /// <summary>
-        /// Defaults dictionary
-        /// </summary>
-        IDictionary<string, object> Defaults { get; set; }
+        string Subdomain { get; set; }
 
         /// <summary>
         /// The translations available for this route.
@@ -78,8 +67,14 @@ namespace AttributeRouting.Framework
         IEnumerable<IAttributeRoute> Translations { get; set; }
 
         /// <summary>
-        /// The source-language route if this route is a translated route.
+        /// If true, will override <see cref="ConfigurationBase.UseLowercaseRoutes"/>
+        /// set via global configuration and the generated route will have a lowercase URL.
         /// </summary>
-        IAttributeRoute SourceLanguageRoute { get; set; }
+        bool? UseLowercaseRoute { get; set; }
+
+        /// <summary>
+        /// Route URL
+        /// </summary>
+        string Url { get; set; }
     }
 }

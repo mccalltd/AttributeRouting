@@ -15,13 +15,16 @@ namespace AttributeRouting.Specs.Tests.Subdomains
         {
             var routes = RouteTable.Routes;
             routes.Clear();
-            routes.MapAttributeRoutes(c => c.AddRoutesFromController<SubdomainController>());
+
+            var configuration = new Configuration();
+            configuration.AddRoutesFromController<SubdomainController>();
+            routes.MapAttributeRoutes(configuration);
 
             var route = routes.Single() as IAttributeRoute;
             Assert.That(route, Is.Not.Null);
             Assert.That(route.Subdomain == "users");
-            Assert.That(route.MappedSubdomains.Count, Is.EqualTo(1));
-            Assert.That(route.MappedSubdomains.Single(), Is.EqualTo("users"));
+            Assert.That(configuration.MappedSubdomains.Count, Is.EqualTo(1));
+            Assert.That(configuration.MappedSubdomains.Single(), Is.EqualTo("users"));
         }
     }
 }
