@@ -8,9 +8,8 @@ namespace AttributeRouting.Framework
     /// </summary>
     /// <remarks>
     /// Due to different route implementations in
-    /// System.Web.Routing (used for mvc controller routes),
-    /// System.Web.Http.Routing (used for self-hosted api controllers), and 
-    /// System.Web.Http.WebHost.Routing (used for web-hosted api controllers).
+    /// System.Web.Routing (used for MVC controller routes) and
+    /// System.Web.Http.Routing (used for Web API controllers).
     /// </remarks>
     public interface IAttributeRoute
     {

@@ -9,26 +9,41 @@ using AttributeRouting.Helpers;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Shared logic for use in implementations of <see cref="IAttributeRoute"/>.
+    /// Visitor-ish used to extend implementations of <see cref="IAttributeRoute"/>.
     /// </summary>
     /// <remarks>
     /// Due to different route implementations in
-    /// System.Web.Routing (used for mvc controller routes),
-    /// System.Web.Http.Routing (used for self-hosted api controller routes), and 
-    /// System.Web.Http.WebHost.Routing (used for web-hosted api controller routes).
+    /// System.Web.Routing (used for MVC controller routes) and
+    /// System.Web.Http.Routing (used for Web API controller routes). 
     /// </remarks>
-    public static class AttributeRouteHelper
+    public class AttributeRouteVisitor
     {
+        private readonly IAttributeRoute _route;
+        private readonly ConfigurationBase _configuration;
+
+        /// <summary>
+        /// Creates a new visitor extending implementations of IAttributeRoute with common logic.
+        /// </summary>
+        /// <param name="route">The route</param>
+        /// <param name="configuration">The route's configuration</param>
+        public AttributeRouteVisitor(IAttributeRoute route, ConfigurationBase configuration)
+        {
+            if (route == null) throw new ArgumentNullException("route");
+            if (configuration == null) throw new ArgumentNullException("configuration");
+
+            _route = route;
+            _configuration = configuration;
+        }
+
         /// <summary>
         /// Optimizes route matching by comparing the static left part of a route's URL with the requested path.
         /// </summary>
-        /// <param name="route"></param>
         /// <param name="requestedPath">The path of the requested URL.</param>
         /// <returns>True if the requested URL path starts with the static left part of the route's URL.</returns>
         /// <remarks>Thanks: http://samsaffron.com/archive/2011/10/13/optimising-asp-net-mvc3-routing </remarks>
-        public static bool IsLeftPartOfUrlMatched(IAttributeRoute route, string requestedPath)
+        public bool IsLeftPartOfUrlMatched(string requestedPath)
         {
-            var routePath = route.Url;
+            var routePath = _route.Url;
             var indexOfFirstParam = routePath.IndexOf("{", StringComparison.OrdinalIgnoreCase);
             var leftPart = indexOfFirstParam == -1 ? routePath : routePath.Substring(0, indexOfFirstParam);
             var comparableLeftPart = leftPart.TrimEnd('/');
@@ -41,26 +56,24 @@ namespace AttributeRouting.Framework
         /// <summary>
         /// Tests whether the configured subdomain (if any) matches the current host.
         /// </summary>
-        /// <param name="route"></param>
         /// <param name="requestedSubdomain">The subdomain part of the host from the current request</param>
-        /// <param name="configuration">The configuration for the route</param>
         /// <returns>True if the subdomain for this route matches the current request host.</returns>
-        public static bool IsSubdomainMatched(IAttributeRoute route, string requestedSubdomain, ConfigurationBase configuration)
+        public bool IsSubdomainMatched(string requestedSubdomain)
         {
             // If no subdomains are mapped with AR, then yes.
-            if (!configuration.MappedSubdomains.Any())
+            if (!_configuration.MappedSubdomains.Any())
             {
                 return true;
             }
 
             // Match if subdomain is null and this route has no subdomain.
-            if (requestedSubdomain.HasNoValue() && route.Subdomain.HasNoValue())
+            if (requestedSubdomain.HasNoValue() && _route.Subdomain.HasNoValue())
             {
                 return true;
             }
 
             // Match if this route is mapped to the requested host's subdomain
-            var routeSubdomain = route.Subdomain ?? configuration.DefaultSubdomain;
+            var routeSubdomain = _route.Subdomain ?? _configuration.DefaultSubdomain;
             if (routeSubdomain.ValueEquals(requestedSubdomain))
             {
                 return true;
@@ -73,40 +86,37 @@ namespace AttributeRouting.Framework
         /// <summary>
         /// Tests whether the route matches the current UI culture.
         /// </summary>
-        /// <param name="route"></param>
-        /// <param name="currentUICultureName"></param>
-        /// <param name="configuration"></param>
+        /// <param name="cultureName">The name of the UI culture to test to test.</param>
         /// <returns></returns>
-        public static bool IsCultureNameMatched(IAttributeRoute route, string currentUICultureName, ConfigurationBase configuration)
+        public bool IsCultureNameMatched(string cultureName)
         {
             // If not constraining by culture, then do not apply this check.
-            if (!configuration.ConstrainTranslatedRoutesByCurrentUICulture)
+            if (!_configuration.ConstrainTranslatedRoutesByCurrentUICulture)
             {
                 return true;
             }
 
             // If no translations are available, then true.
-            if (!configuration.TranslationProviders.Any())
+            if (!_configuration.TranslationProviders.Any())
             {
                 return true;
             }
 
             // Need the neutral culture as a fallback during matching.
-            var currentUINeutralCultureName = currentUICultureName.Split('-').First();
+            var neutralCultureName = cultureName.Split('-').First();
 
-            if (route.SourceLanguageRoute == null)
+            if (_route.SourceLanguageRoute == null)
             {
                 // This is a source language route:
-
                 // Match if this route has no translations.
-                var translations = route.Translations.ToArray();
+                var translations = _route.Translations.ToArray();
                 if (!translations.Any())
                 {
                     return true;
                 }
 
                 // Match if this route has no translations for the current UI culture's language.
-                if (!translations.Any(t => t.CultureName.ValueEquals(currentUINeutralCultureName)))
+                if (!translations.Any(t => t.CultureName.ValueEquals(neutralCultureName)))
                 {
                     return true;
                 }
@@ -115,10 +125,10 @@ namespace AttributeRouting.Framework
             {
                 // This is a translated route:
 
-                var routeCultureName = route.CultureName;
+                var routeCultureName = _route.CultureName;
 
                 // Match if the current UI culture is the culture of this route.
-                if (currentUICultureName.ValueEquals(routeCultureName))
+                if (cultureName.ValueEquals(routeCultureName))
                 {
                     return true;
                 }
@@ -128,8 +138,8 @@ namespace AttributeRouting.Framework
                 // - and it matches the current UI culture's language,
                 // - and no translation exists for the specific current UI culture.
                 if (routeCultureName.Split('-').Length == 1 /* neutral culture name */
-                    && currentUINeutralCultureName == routeCultureName /* matches the current UI culture's language */
-                    && !route.SourceLanguageRoute.Translations.Any(t => t.CultureName.ValueEquals(currentUICultureName)))
+                    && neutralCultureName == routeCultureName /* matches the current UI culture's language */
+                    && !_route.SourceLanguageRoute.Translations.Any(t => t.CultureName.ValueEquals(cultureName)))
                 {
                     return true;
                 }
@@ -146,19 +156,18 @@ namespace AttributeRouting.Framework
         /// The type of virtual path data to be returned. 
         /// This varies based on whether the route is a
         /// System.Web.Routing.Route or System.Web.Http.Routing.HttpRoute.
-        /// <param name="route">The route</param>
         /// <param name="fromBaseMethod">The base GetVirtualPath method call</param>
         /// <returns>The result from the base call</returns>
-        public static TVirtualPathData GetVirtualPath<TVirtualPathData>(IAttributeRoute route, Func<TVirtualPathData> fromBaseMethod)
+        public TVirtualPathData GetVirtualPath<TVirtualPathData>(Func<TVirtualPathData> fromBaseMethod)
             where TVirtualPathData : class
         {
             // Remove querystring route constraints:
             // the base GetVirtualPath will not inject route params that have constraints into the querystring.
             var queryStringConstraints = new Dictionary<string, object>();
-            var constraintKeys = route.Constraints.Keys.Select(k => k).ToList();
+            var constraintKeys = _route.Constraints.Keys.Select(k => k).ToList();
             foreach (var constraintKey in constraintKeys)
             {
-                var constraint = route.Constraints[constraintKey];
+                var constraint = _route.Constraints[constraintKey];
                 var constraintToTest = constraint is IOptionalRouteConstraint
                                            ? ((IOptionalRouteConstraint)constraint).Constraint
                                            : constraint;
@@ -169,7 +178,7 @@ namespace AttributeRouting.Framework
                 }
 
                 queryStringConstraints.Add(constraintKey, constraint);
-                route.Constraints.Remove(constraintKey);
+                _route.Constraints.Remove(constraintKey);
             }
 
             // Let the underlying route do its thing.
@@ -178,7 +187,7 @@ namespace AttributeRouting.Framework
             // Add the querystring constraints back in.
             foreach (var queryStringConstraint in queryStringConstraints)
             {
-                route.Constraints.Add(queryStringConstraint.Key, queryStringConstraint.Value);
+                _route.Constraints.Add(queryStringConstraint.Key, queryStringConstraint.Value);
             }
 
             return virtualPathData;
@@ -192,13 +201,12 @@ namespace AttributeRouting.Framework
         /// This varies based on whether the route is a
         /// System.Web.Routing.Route or System.Web.Http.Routing.HttpRoute.
         /// </typeparam>
-        /// <param name="route"></param>
         /// <param name="fromTranslation">A delegate that can get the TVirtualPathData from a translated route</param>
         /// <returns>Returns null if no translation is available.</returns>
-        public static TVirtualPathData GetTranslatedVirtualPath<TVirtualPathData>(IAttributeRoute route, Func<IAttributeRoute, TVirtualPathData> fromTranslation)
+        public TVirtualPathData GetTranslatedVirtualPath<TVirtualPathData>(Func<IAttributeRoute, TVirtualPathData> fromTranslation)
             where TVirtualPathData : class
         {
-            var translations = (route.Translations ?? Enumerable.Empty<IAttributeRoute>()).ToArray();
+            var translations = (_route.Translations ?? Enumerable.Empty<IAttributeRoute>()).ToArray();
             if (!translations.Any())
             {
                 return null;
@@ -221,11 +229,9 @@ namespace AttributeRouting.Framework
         /// <summary>
         /// Performs lowercasing and appends trailing slash if this route is so configured.
         /// </summary>
-        /// <param name="route"></param>
         /// <param name="virtualPath">The current virtual path, after translation</param>
-        /// <param name="configuration">The configuration for the route</param>
         /// <returns>The final virtual path</returns>
-        public static string GetFinalVirtualPath(IAttributeRoute route, string virtualPath, ConfigurationBase configuration)
+        public string GetFinalVirtualPath(string virtualPath)
         {
             /**
              * Lowercase urls.
@@ -233,13 +239,8 @@ namespace AttributeRouting.Framework
              * This is just a final lowercasing of the final, parameter-replaced url.
              */
 
-            var lower = route.UseLowercaseRoute.HasValue
-                            ? route.UseLowercaseRoute.Value
-                            : configuration.UseLowercaseRoutes;
-            
-            var preserve = route.PreserveCaseForUrlParameters.HasValue
-                               ? route.PreserveCaseForUrlParameters.Value
-                               : configuration.PreserveCaseForUrlParameters;
+            var lower = _route.UseLowercaseRoute.GetValueOrDefault(_configuration.UseLowercaseRoutes);
+            var preserve = _route.PreserveCaseForUrlParameters.GetValueOrDefault(_configuration.PreserveCaseForUrlParameters);
             
             if (lower && !preserve)
             {
@@ -250,10 +251,7 @@ namespace AttributeRouting.Framework
              * Append trailing slashes
              */
 
-            var appendTrailingSlash = route.AppendTrailingSlash.HasValue
-                                          ? route.AppendTrailingSlash.Value
-                                          : configuration.AppendTrailingSlash;
-
+            var appendTrailingSlash = _route.AppendTrailingSlash.GetValueOrDefault(_configuration.AppendTrailingSlash);
             if (appendTrailingSlash)
             {
                 virtualPath = AppendTrailingSlashToVirtualPath(virtualPath);

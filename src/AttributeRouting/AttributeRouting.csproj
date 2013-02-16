@@ -81,7 +81,7 @@
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
     <Compile Include="Constraints\MaxLengthRouteConstraintBase.cs" />
     <Compile Include="Constraints\TypeOfRouteConstraintBase.cs" />
-    <Compile Include="Framework\AttributeRouteHelper.cs" />
+    <Compile Include="Framework\AttributeRouteVisitor.cs" />
     <Compile Include="Framework\IAttributeRouteFactory.cs" />
     <Compile Include="Framework\IRouteConstraintFactory.cs" />
     <Compile Include="Framework\IParameterFactory.cs" />

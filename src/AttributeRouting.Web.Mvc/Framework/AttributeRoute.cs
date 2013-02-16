@@ -18,6 +18,7 @@ namespace AttributeRouting.Web.Mvc.Framework
         private const string CurrentUICultureNameKey = "__AttributeRouting:CurrentUICulture";
 
         private readonly Configuration _configuration;
+        private readonly AttributeRouteVisitor _visitor;
 
         /// <summary>
         /// Route used by the AttributeRouting framework in web projects.
@@ -30,6 +31,7 @@ namespace AttributeRouting.Web.Mvc.Framework
             : base(url, defaults, constraints, dataTokens, configuration.RouteHandlerFactory())
         {
             _configuration = configuration;
+            _visitor = new AttributeRouteVisitor(this, configuration);
         }
 
         public string RouteName { get; set; }
@@ -72,7 +74,7 @@ namespace AttributeRouting.Web.Mvc.Framework
         {
             // Optimize matching by comparing the static left part of the route url with the requested path.
             var requestedPath = GetCachedValue(httpContext, RequestedPathKey, () => httpContext.Request.AppRelativeCurrentExecutionFilePath.Substring(2) + httpContext.Request.PathInfo);
-            if (!AttributeRouteHelper.IsLeftPartOfUrlMatched(this, requestedPath))
+            if (!_visitor.IsLeftPartOfUrlMatched(requestedPath))
             {
                 return null;
             }
@@ -87,14 +89,14 @@ namespace AttributeRouting.Web.Mvc.Framework
             // Constrain by subdomain if configured
             // Get the subdomain from the requested hostname.
             var requestedSubdomain = GetCachedValue(httpContext, RequestedSubdomainKey, () => _configuration.SubdomainParser(httpContext.SafeGet(c => c.Request.Headers["host"])));
-            if (!AttributeRouteHelper.IsSubdomainMatched(this, requestedSubdomain, _configuration))
+            if (!_visitor.IsSubdomainMatched(requestedSubdomain))
             {
                 return null;
             }
 
             // Constrain by culture name if configured
             var currentUICultureName = GetCachedValue(httpContext, CurrentUICultureNameKey, () => _configuration.CurrentUICultureResolver(httpContext, routeData));
-            if (!AttributeRouteHelper.IsCultureNameMatched(this, currentUICultureName, _configuration))
+            if (!_visitor.IsCultureNameMatched(currentUICultureName))
             {
                 return null;
             }
@@ -105,7 +107,7 @@ namespace AttributeRouting.Web.Mvc.Framework
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
             // Let the underlying route do its thing, and if it does, then add some functionality on top.
-            var virtualPathData = AttributeRouteHelper.GetVirtualPath(this, () => base.GetVirtualPath(requestContext, values));
+            var virtualPathData = _visitor.GetVirtualPath(() => base.GetVirtualPath(requestContext, values));
             if (virtualPathData == null)
             {
                 return null;
@@ -114,7 +116,7 @@ namespace AttributeRouting.Web.Mvc.Framework
             // Translate this path if a translation is available.
             if (_configuration.TranslationProviders.Any())
             {
-                var translatedVirtualPath = AttributeRouteHelper.GetTranslatedVirtualPath(this, t => ((Route)t).GetVirtualPath(requestContext, values));
+                var translatedVirtualPath = _visitor.GetTranslatedVirtualPath(t => ((Route)t).GetVirtualPath(requestContext, values));
                 if (translatedVirtualPath != null)
                 {
                     virtualPathData = translatedVirtualPath;
@@ -122,7 +124,7 @@ namespace AttributeRouting.Web.Mvc.Framework
             }
 
             // Lowercase, append trailing slash, etc.
-            virtualPathData.VirtualPath = AttributeRouteHelper.GetFinalVirtualPath(this, virtualPathData.VirtualPath, _configuration);
+            virtualPathData.VirtualPath = _visitor.GetFinalVirtualPath(virtualPathData.VirtualPath);
 
             return virtualPathData;
         }
