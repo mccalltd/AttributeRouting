@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using AttributeRouting.Framework.Factories;
+using AttributeRouting.Framework;
 
 namespace AttributeRouting.Constraints
 {

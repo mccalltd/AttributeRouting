@@ -15,7 +15,7 @@ namespace AttributeRouting.Specs.Tests.Subdomains
             var configuration = new Configuration();
             configuration.AddRoutesFromController<SubdomainController>();
 
-            var reflector = new RouteReflector(configuration);
+            var reflector = new AttributeReflector(configuration);
             var specs = reflector.BuildRouteSpecifications().ToList();
 
             Assert.That(specs.Count, Is.EqualTo(1));
@@ -29,7 +29,7 @@ namespace AttributeRouting.Specs.Tests.Subdomains
             var configuration = new Configuration();
             configuration.AddRoutesFromController<SubdomainWithAreaUrlController>();
 
-            var reflector = new RouteReflector(configuration);
+            var reflector = new AttributeReflector(configuration);
             var specs = reflector.BuildRouteSpecifications().ToList();
 
             Assert.That(specs.Count, Is.EqualTo(1));
@@ -44,7 +44,7 @@ namespace AttributeRouting.Specs.Tests.Subdomains
             configuration.AddRoutesFromController<SubdomainController>();
             configuration.MapArea("Users").ToSubdomain("override");
 
-            var reflector = new RouteReflector(configuration);
+            var reflector = new AttributeReflector(configuration);
             var specs = reflector.BuildRouteSpecifications().ToList();
 
             var spec = specs.SingleOrDefault();
@@ -61,7 +61,7 @@ namespace AttributeRouting.Specs.Tests.Subdomains
             configuration.AddRoutesFromController<SubdomainControllerWithoutSubdomainInAttribute>();
             configuration.MapArea("NoSubdomain").ToSubdomain("subdomain");
 
-            var reflector = new RouteReflector(configuration);
+            var reflector = new AttributeReflector(configuration);
             var specs = reflector.BuildRouteSpecifications().ToList();
 
             var spec = specs.SingleOrDefault();

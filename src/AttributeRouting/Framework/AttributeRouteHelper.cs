@@ -17,7 +17,7 @@ namespace AttributeRouting.Framework
     /// System.Web.Http.Routing (used for self-hosted api controller routes), and 
     /// System.Web.Http.WebHost.Routing (used for web-hosted api controller routes).
     /// </remarks>
-    public static class AttributeRouteHelpers
+    public static class AttributeRouteHelper
     {
         /// <summary>
         /// Optimizes route matching by comparing the static left part of a route's URL with the requested path.

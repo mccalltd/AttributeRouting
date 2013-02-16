@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web.Routing;
-using AttributeRouting.Web.Http.WebHost.Framework.Factories;
+using AttributeRouting.Web.Http.WebHost.Framework;
 
 namespace AttributeRouting.Web.Http.WebHost
 {

@@ -65,9 +65,9 @@
     <Compile Include="DELETEAttribute.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
-    <Compile Include="Framework\Factories\AttributeRouteFactory.cs" />
-    <Compile Include="Framework\Factories\RouteParameterFactory.cs" />
-    <Compile Include="Framework\Factories\RouteConstraintFactory.cs" />
+    <Compile Include="Framework\AttributeRouteFactory.cs" />
+    <Compile Include="Framework\RouteParameterFactory.cs" />
+    <Compile Include="Framework\RouteConstraintFactory.cs" />
     <Compile Include="GETAttribute.cs" />
     <Compile Include="POSTAttribute.cs" />
     <Compile Include="PUTAttribute.cs" />

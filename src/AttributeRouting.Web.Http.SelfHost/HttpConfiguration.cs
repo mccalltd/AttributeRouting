@@ -1,7 +1,7 @@
 ﻿using System.Web.Http.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Web.Http.Constraints;
-using AttributeRouting.Web.Http.SelfHost.Framework.Factories;
+using AttributeRouting.Web.Http.SelfHost.Framework;
 
 namespace AttributeRouting.Web.Http.SelfHost
 {

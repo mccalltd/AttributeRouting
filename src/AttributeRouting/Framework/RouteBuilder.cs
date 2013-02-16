@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using AttributeRouting.Framework.Factories;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
@@ -34,9 +33,10 @@ namespace AttributeRouting.Framework
         /// </summary>
         public IEnumerable<IAttributeRoute> BuildAllRoutes()
         {
-            var routeReflector = new RouteReflector(_configuration);
-            var routeSpecs = routeReflector.BuildRouteSpecifications().ToList();
+            var reflector = new AttributeReflector(_configuration);
+            var routeSpecs = reflector.BuildRouteSpecifications().ToList();
 
+            // TODO: Update the config object internally with a property so this list isn't referenced everywhere.
             var mappedSubdomains = (from s in routeSpecs
                                     where s.Subdomain.HasValue()
                                     select s.Subdomain).Distinct().ToList();
@@ -79,23 +79,25 @@ namespace AttributeRouting.Framework
                 yield return route;
 
                 // Then yield the translations
-                if (route.Translations == null)
-                    yield break;
-
-                foreach (var translation in route.Translations)
+                if (route.Translations != null)
                 {
-                    // Backreference the default route.
-                    translation.SourceLanguageRoute = route;
+                    foreach (var translation in route.Translations)
+                    {
+                        // Backreference the default route.
+                        translation.SourceLanguageRoute = route;
 
-                    yield return translation;
-                }                
+                        yield return translation;
+                    }
+                }
             }
         }
 
         private string CreateRouteName(RouteSpecification routeSpec)
         {
             if (routeSpec.RouteName.HasValue())
+            {
                 return routeSpec.RouteName;
+            }
 
             return _configuration.AutoGenerateRouteNames ? _configuration.RouteNameBuilder(routeSpec) : null;
         }
@@ -121,16 +123,22 @@ namespace AttributeRouting.Framework
 
             // Replace {controller} URL param with default value.
             if (urlParameterNames.Any(n => n.ValueEquals("controller")))
+            {
                 urlBuilder.Replace("{controller}", (string)defaults["controller"]);
+            }
 
             // Replace {action} URL param with default value.
             if (urlParameterNames.Any(n => n.ValueEquals("action")))
+            {
                 urlBuilder.Replace("{action}", (string)defaults["action"]);
+            }
 
             // Explicitly defined area routes are not valid
             if (urlParameterNames.Any(n => n.ValueEquals("area")))
+            {
                 throw new AttributeRoutingException(
                     "{area} url parameters are not allowed. Specify the area name by using the RouteAreaAttribute.");
+            }
 
             // If we are lowercasing routes, then lowercase everything but the route params
             var lower = routeSpec.UseLowercaseRoute.GetValueOrDefault(_configuration.UseLowercaseRoutes);
@@ -146,7 +154,9 @@ namespace AttributeRouting.Framework
                     else if (c == '{')
                     {
                         while (urlBuilder[i] != '}' && i < urlBuilder.Length)
+                        {
                             i++;
+                        }
                     }
                 }
             }
@@ -170,10 +180,14 @@ namespace AttributeRouting.Framework
                 var parameterName = parameter.TrimEnd('?');
                 
                 if (parameterName.Contains(':'))
+                {
                     parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
+                }
 
                 if (defaults.ContainsKey(parameterName))
+                {
                     continue;
+                }
 
                 defaults.Add(parameterName, _parameterFactory.Optional());
             }
@@ -185,10 +199,14 @@ namespace AttributeRouting.Framework
                 var parameterName = parameter.Substring(0, indexOfEquals);
 
                 if (parameterName.Contains(':'))
+                {
                     parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
+                }
 
                 if (defaults.ContainsKey(parameterName))
+                {
                     continue;
+                }
 
                 var defaultValue = parameter.Substring(indexOfEquals + 1, parameter.Length - indexOfEquals - 1);
                 defaults.Add(parameterName, defaultValue);
@@ -203,7 +221,9 @@ namespace AttributeRouting.Framework
 
             // Default constraints
             if (routeSpec.HttpMethods.Any())
+            {
                 constraints.Add("inboundHttpMethod", _routeConstraintFactory.CreateInboundHttpMethodConstraint(routeSpec.HttpMethods));
+            }
 
             // Work from a complete, tokenized url; ie: support constraints in area urls, route prefix urls, and route urls.
             var tokenizedUrl = BuildTokenizedUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec);
@@ -226,7 +246,9 @@ namespace AttributeRouting.Framework
 
                 // If this is a path parameter and doesn't have a constraint, then skip it.
                 if (!parameterIsInQueryString && !parameter.Contains(":"))
+                {
                     continue;
+                }
 
                 // Strip off everything related to defaults.
                 var cleanParameter = parameter.TrimEnd('?').Split('=').FirstOrDefault();
@@ -236,7 +258,9 @@ namespace AttributeRouting.Framework
                 
                 // Do not override default or legacy inline constraints
                 if (constraints.ContainsKey(parameterName))
+                {
                     continue;
+                }
 
                 // Add constraints for each inline definition
                 var inlineConstraints = new List<object>();
@@ -269,8 +293,10 @@ namespace AttributeRouting.Framework
                     }
 
                     if (constraint == null)
+                    {
                         throw new AttributeRoutingException(
                             "Could not find an available inline constraint for \"{0}\".".FormatWith(constraintName));
+                    }
 
                     inlineConstraints.Add(constraint);
                 }
@@ -314,7 +340,9 @@ namespace AttributeRouting.Framework
                 foreach (var urlParameterName in urlParameterNames.Where(n => Regex.IsMatch(n, pattern)))
                 {
                     if (constraints.ContainsKey(urlParameterName))
+                    {
                         continue;
+                    }
 
                     constraints.Add(urlParameterName, defaultConstraint.Value);
                 }
@@ -332,7 +360,9 @@ namespace AttributeRouting.Framework
             {
                 var delimitedRoutePrefix = routePrefixUrl + "/";
                 if (!delimitedUrl.StartsWith(delimitedRoutePrefix))
+                {
                     delimitedUrl = delimitedRoutePrefix + delimitedUrl;
+                }
             }
 
             // Prepend area url if available
@@ -340,7 +370,9 @@ namespace AttributeRouting.Framework
             {
                 var delimitedAreaUrl = areaUrl + "/";
                 if (!delimitedUrl.StartsWith(delimitedAreaUrl))
+                {
                     delimitedUrl = delimitedAreaUrl + delimitedUrl;
+                }
             }
 
             return delimitedUrl.Trim('/');
@@ -399,7 +431,9 @@ namespace AttributeRouting.Framework
                 if (c == '{')
                 {
                     while (url[i] != '}' && i < length)
+                    {
                         i++;
+                    }
                 }
             }
 
@@ -432,7 +466,9 @@ namespace AttributeRouting.Framework
 
                 // If nothing is translated, then bail.
                 if (translatedRouteUrl == null && translatedRoutePrefix == null && translatedAreaUrl == null)
+                {
                     continue;
+                }
 
                 //*********************************************
                 // Otherwise, build a translated route

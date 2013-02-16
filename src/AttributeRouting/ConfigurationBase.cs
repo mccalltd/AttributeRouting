@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
-using AttributeRouting.Framework.Factories;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Helpers;
 

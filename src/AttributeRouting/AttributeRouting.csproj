@@ -81,10 +81,10 @@
     <Compile Include="Constraints\RegexRouteConstraintBase.cs" />
     <Compile Include="Constraints\MaxLengthRouteConstraintBase.cs" />
     <Compile Include="Constraints\TypeOfRouteConstraintBase.cs" />
-    <Compile Include="Framework\AttributeRouteHelpers.cs" />
-    <Compile Include="Framework\Factories\IAttributeRouteFactory.cs" />
-    <Compile Include="Framework\Factories\IRouteConstraintFactory.cs" />
-    <Compile Include="Framework\Factories\IParameterFactory.cs" />
+    <Compile Include="Framework\AttributeRouteHelper.cs" />
+    <Compile Include="Framework\IAttributeRouteFactory.cs" />
+    <Compile Include="Framework\IRouteConstraintFactory.cs" />
+    <Compile Include="Framework\IParameterFactory.cs" />
     <Compile Include="Framework\FirstInWinsRouteNameBuilder.cs" />
     <Compile Include="Framework\IAttributeRoute.cs" />
     <Compile Include="Framework\IRouteNameBuilder.cs" />
@@ -113,7 +113,7 @@
     <Compile Include="RouteAreaAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\RouteSpecification.cs" />
-    <Compile Include="Framework\RouteReflector.cs" />
+    <Compile Include="Framework\AttributeReflector.cs" />
     <Compile Include="Framework\SubdomainParsers.cs" />
   </ItemGroup>
   <ItemGroup>
