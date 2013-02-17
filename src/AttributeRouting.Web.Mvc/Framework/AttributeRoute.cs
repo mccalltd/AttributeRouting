@@ -34,30 +34,20 @@ namespace AttributeRouting.Web.Mvc.Framework
             _visitor = new AttributeRouteVisitor(this, configuration);
         }
 
-        public string RouteName { get; set; }
-
-        public string CultureName { get; set; }
-
-        public List<string> MappedSubdomains { get; set; }
-
-        public string Subdomain { get; set; }
-
-        public bool? UseLowercaseRoute { get; set; }
-
-        public bool? PreserveCaseForUrlParameters { get; set; }
-
         public bool? AppendTrailingSlash { get; set; }
-
-        IDictionary<string, object> IAttributeRoute.DataTokens
-        {
-            get { return DataTokens; }
-            set { DataTokens = new RouteValueDictionary(value); }
-        }
 
         IDictionary<string, object> IAttributeRoute.Constraints
         {
             get { return Constraints; }
             set { Constraints = new RouteValueDictionary(value); }
+        }
+
+        public string CultureName { get; set; }
+
+        IDictionary<string, object> IAttributeRoute.DataTokens
+        {
+            get { return DataTokens; }
+            set { DataTokens = new RouteValueDictionary(value); }
         }
 
         IDictionary<string, object> IAttributeRoute.Defaults
@@ -66,15 +56,25 @@ namespace AttributeRouting.Web.Mvc.Framework
             set { Defaults = new RouteValueDictionary(value); }
         }
 
-        public IEnumerable<IAttributeRoute> Translations { get; set; }
+        public List<string> MappedSubdomains { get; set; }
+
+        public bool? PreserveCaseForUrlParameters { get; set; }
+
+        public string RouteName { get; set; }
+
+        public string Subdomain { get; set; }
+
+        public bool? UseLowercaseRoute { get; set; }
 
         public IAttributeRoute SourceLanguageRoute { get; set; }
+        
+        public IEnumerable<IAttributeRoute> Translations { get; set; }
 
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
             // Optimize matching by comparing the static left part of the route url with the requested path.
             var requestedPath = GetCachedValue(httpContext, RequestedPathKey, () => httpContext.Request.AppRelativeCurrentExecutionFilePath.Substring(2) + httpContext.Request.PathInfo);
-            if (!_visitor.IsLeftPartOfUrlMatched(requestedPath))
+            if (!_visitor.IsStaticLeftPartOfUrlMatched(requestedPath))
             {
                 return null;
             }

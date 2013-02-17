@@ -34,36 +34,20 @@ namespace AttributeRouting.Web.Http.Framework
             _visitor = new AttributeRouteVisitor(this, configuration);
         }
 
-        public string Url
-        {
-            get { return RouteTemplate; }
-            set { throw new NotImplementedException("IHttpRoute.RouteTemplate has no setter."); }
-        }
-
-        public string RouteName { get; set; }
-
-        public string CultureName { get; set; }
-
-        public List<string> MappedSubdomains { get; set; }
-
-        public string Subdomain { get; set; }
-
-        public bool? UseLowercaseRoute { get; set; }
-
-        public bool? PreserveCaseForUrlParameters { get; set; }
-
         public bool? AppendTrailingSlash { get; set; }
-
-        IDictionary<string, object> IAttributeRoute.DataTokens
-        {
-            get { return DataTokens; }
-            set { throw new NotImplementedException("HttpRoute.DataTokens has no setter."); }
-        }
 
         IDictionary<string, object> IAttributeRoute.Constraints
         {
             get { return Constraints; }
             set { throw new NotImplementedException("HttpRoute.Constraints has no setter."); }
+        }
+
+        public string CultureName { get; set; }
+
+        IDictionary<string, object> IAttributeRoute.DataTokens
+        {
+            get { return DataTokens; }
+            set { throw new NotImplementedException("HttpRoute.DataTokens has no setter."); }
         }
 
         IDictionary<string, object> IAttributeRoute.Defaults
@@ -72,15 +56,31 @@ namespace AttributeRouting.Web.Http.Framework
             set { throw new NotImplementedException("HttpRoute.Defaults has no setter."); }
         }
 
-        public IEnumerable<IAttributeRoute> Translations { get; set; }
+        public List<string> MappedSubdomains { get; set; }
+
+        public bool? PreserveCaseForUrlParameters { get; set; }
+
+        public string RouteName { get; set; }
 
         public IAttributeRoute SourceLanguageRoute { get; set; }
+
+        public string Subdomain { get; set; }
+
+        public IEnumerable<IAttributeRoute> Translations { get; set; }
+
+        public string Url
+        {
+            get { return RouteTemplate; }
+            set { throw new NotImplementedException("IHttpRoute.RouteTemplate has no setter."); }
+        }
+
+        public bool? UseLowercaseRoute { get; set; }
 
         public override IHttpRouteData GetRouteData(string virtualPathRoot, HttpRequestMessage request)
         {
             // Optimize matching by comparing the static left part of the route url with the requested path.
             var requestedPath = GetCachedValue(request, RequestedPathKey, () => request.RequestUri.AbsolutePath.Substring(1));
-            if (!_visitor.IsLeftPartOfUrlMatched(requestedPath))
+            if (!_visitor.IsStaticLeftPartOfUrlMatched(requestedPath))
             {
                 return null;
             }

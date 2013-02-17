@@ -48,8 +48,6 @@ namespace AttributeRouting
         /// </summary>
         public bool AppendTrailingSlash { get; set; }
 
-        internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
-
         /// <summary>
         /// Factory for generating routes used by AttributeRouting.
         /// </summary>
@@ -66,8 +64,6 @@ namespace AttributeRouting
         /// The default is false.
         /// </summary>
         public bool ConstrainTranslatedRoutesByCurrentUICulture { get; set; }
-
-        internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
 
         /// <summary>
         /// Specify the default subdomain for this application.
@@ -100,8 +96,6 @@ namespace AttributeRouting
             get { return _mappedSubdomains.AsReadOnly(); }
             internal set { _mappedSubdomains = new List<string>(value); }
         }
-
-        internal List<Type> OrderedControllerTypes { get; set; }
 
         /// <summary>
         /// Factory for generating optional route parameters.
@@ -143,13 +137,11 @@ namespace AttributeRouting
         /// </summary>
         public bool UseLowercaseRoutes { get; set; }
 
-        protected void AddDefaultRouteConstraint(string keyRegex, object constraint)
-        {
-            if (!DefaultRouteConstraints.ContainsKey(keyRegex))
-            {
-                DefaultRouteConstraints.Add(keyRegex, constraint);
-            }
-        }
+        internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
+
+        internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
+        
+        internal List<Type> OrderedControllerTypes { get; set; }
 
         /// <summary>
         /// Appends the routes from all controllers in the specified assembly to the route collection.
@@ -243,13 +235,6 @@ namespace AttributeRouting
             TranslationProviders.Add(provider);
         }
 
-        internal IEnumerable<string> GetTranslationProviderCultureNames()
-        {
-            return (from provider in TranslationProviders
-                    from cultureName in provider.CultureNames
-                    select cultureName).Distinct().ToList();
-        }
-
         /// <summary>
         /// Returns a utility for configuring areas when initializing AttributeRouting framework.
         /// </summary>
@@ -257,20 +242,6 @@ namespace AttributeRouting
         public AreaConfiguration MapArea(string name)
         {
             return new AreaConfiguration(name, this);
-        }
-
-        protected void RegisterDefaultInlineRouteConstraints<TRouteConstraint>(Assembly assembly)
-        {
-            var inlineConstraintTypes = from t in assembly.GetTypes()
-                                        where typeof(TRouteConstraint).IsAssignableFrom(t)
-                                              && typeof(IAttributeRouteConstraint).IsAssignableFrom(t)
-                                        select t;
-
-            foreach (var inlineConstraintType in inlineConstraintTypes)
-            {
-                var name = Regex.Replace(inlineConstraintType.Name, "RouteConstraint$", "").ToLowerInvariant();
-                InlineRouteConstraints.Add(name, inlineConstraintType);
-            }
         }
 
         /// <summary>
@@ -291,6 +262,35 @@ namespace AttributeRouting
         public void ScanAssemblyOf<T>()
         {
             ScanAssembly(typeof(T).Assembly);
+        }
+
+        internal IEnumerable<string> GetTranslationProviderCultureNames()
+        {
+            return (from provider in TranslationProviders
+                    from cultureName in provider.CultureNames
+                    select cultureName).Distinct().ToList();
+        }
+
+        protected void AddDefaultRouteConstraint(string keyRegex, object constraint)
+        {
+            if (!DefaultRouteConstraints.ContainsKey(keyRegex))
+            {
+                DefaultRouteConstraints.Add(keyRegex, constraint);
+            }
+        }
+
+        protected void RegisterDefaultInlineRouteConstraints<TRouteConstraint>(Assembly assembly)
+        {
+            var inlineConstraintTypes = from t in assembly.GetTypes()
+                                        where typeof(TRouteConstraint).IsAssignableFrom(t)
+                                              && typeof(IAttributeRouteConstraint).IsAssignableFrom(t)
+                                        select t;
+
+            foreach (var inlineConstraintType in inlineConstraintTypes)
+            {
+                var name = Regex.Replace(inlineConstraintType.Name, "RouteConstraint$", "").ToLowerInvariant();
+                InlineRouteConstraints.Add(name, inlineConstraintType);
+            }
         }
     }
 }

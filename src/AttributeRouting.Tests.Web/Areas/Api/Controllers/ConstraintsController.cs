@@ -12,9 +12,9 @@ namespace AttributeRouting.Tests.Web.Areas.Api.Controllers
         }
 
         [GET("IntOptional/{x:int?}")]
-        public string GetIntOptional(int? x)
+        public string GetIntOptional(int x = -1)
         {
-            return x.GetValueOrDefault(-1).ToString();
+            return x.ToString();
         }
 
         [GET("IntDefault/{x:int=123}")]

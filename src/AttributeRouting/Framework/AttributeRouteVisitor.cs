@@ -36,51 +36,119 @@ namespace AttributeRouting.Framework
         }
 
         /// <summary>
-        /// Optimizes route matching by comparing the static left part of a route's URL with the requested path.
+        /// Performs lowercasing and appends trailing slash if this route is so configured.
         /// </summary>
-        /// <param name="requestedPath">The path of the requested URL.</param>
-        /// <returns>True if the requested URL path starts with the static left part of the route's URL.</returns>
-        /// <remarks>Thanks: http://samsaffron.com/archive/2011/10/13/optimising-asp-net-mvc3-routing </remarks>
-        public bool IsLeftPartOfUrlMatched(string requestedPath)
+        /// <param name="virtualPath">The current virtual path, after translation</param>
+        /// <returns>The final virtual path</returns>
+        public string GetFinalVirtualPath(string virtualPath)
         {
-            var routePath = _route.Url;
-            var indexOfFirstParam = routePath.IndexOf("{", StringComparison.OrdinalIgnoreCase);
-            var leftPart = indexOfFirstParam == -1 ? routePath : routePath.Substring(0, indexOfFirstParam);
-            var comparableLeftPart = leftPart.TrimEnd('/');
+            /**
+             * Lowercase urls.
+             * NOTE: The initial lowercasing of all BUT url params occurs in RouteBuilder.CreateRouteUrl().
+             * This is just a final lowercasing of the final, parameter-replaced url.
+             */
 
-            // Compare the left part with the requested path
-            var comparableRequestedPath = requestedPath.TrimEnd('/');
-            return comparableRequestedPath.StartsWith(comparableLeftPart, StringComparison.OrdinalIgnoreCase);
+            var lower = _route.UseLowercaseRoute.GetValueOrDefault(_configuration.UseLowercaseRoutes);
+            var preserve = _route.PreserveCaseForUrlParameters.GetValueOrDefault(_configuration.PreserveCaseForUrlParameters);
+            
+            if (lower && !preserve)
+            {
+                virtualPath = TransformVirtualPathToLowercase(virtualPath);
+            }
+
+            /**
+             * Append trailing slashes
+             */
+
+            var appendTrailingSlash = _route.AppendTrailingSlash.GetValueOrDefault(_configuration.AppendTrailingSlash);
+            if (appendTrailingSlash)
+            {
+                virtualPath = AppendTrailingSlashToVirtualPath(virtualPath);
+            }
+
+            return virtualPath;
         }
 
         /// <summary>
-        /// Tests whether the configured subdomain (if any) matches the current host.
+        /// Gets the translated virtual path for this route.
         /// </summary>
-        /// <param name="requestedSubdomain">The subdomain part of the host from the current request</param>
-        /// <returns>True if the subdomain for this route matches the current request host.</returns>
-        public bool IsSubdomainMatched(string requestedSubdomain)
+        /// <typeparam name="TVirtualPathData">
+        /// The type of virtual path data to be returned. 
+        /// This varies based on whether the route is a
+        /// System.Web.Routing.Route or System.Web.Http.Routing.HttpRoute.
+        /// </typeparam>
+        /// <param name="fromTranslation">A delegate that can get the TVirtualPathData from a translated route</param>
+        /// <returns>Returns null if no translation is available.</returns>
+        public TVirtualPathData GetTranslatedVirtualPath<TVirtualPathData>(Func<IAttributeRoute, TVirtualPathData> fromTranslation)
+            where TVirtualPathData : class
         {
-            // If no subdomains are mapped with AR, then yes.
-            if (!_configuration.MappedSubdomains.Any())
+            if (_route.Translations == null)
             {
-                return true;
+                return null;
             }
 
-            // Match if subdomain is null and this route has no subdomain.
-            if (requestedSubdomain.HasNoValue() && _route.Subdomain.HasNoValue())
+            var translations = _route.Translations.ToArray();
+            if (!translations.Any())
             {
-                return true;
+                return null;
             }
 
-            // Match if this route is mapped to the requested host's subdomain
-            var routeSubdomain = _route.Subdomain ?? _configuration.DefaultSubdomain;
-            if (routeSubdomain.ValueEquals(requestedSubdomain))
+            var currentCultureName = Thread.CurrentThread.CurrentUICulture.Name;
+
+            // Try and get the language-culture translation, then fall back to language translation
+            var translation = translations.FirstOrDefault(t => t.CultureName == currentCultureName)
+                              ?? translations.FirstOrDefault(t => currentCultureName.StartsWith(t.CultureName));
+
+            if (translation == null)
             {
-                return true;
+                return null;
             }
 
-            // Otherwise, this route does not match the request.
-            return false;
+            return fromTranslation(translation);
+        }
+
+        /// <summary>
+        /// Wraps calls to the GetVirtualPath method of routes, removing querystring route constraints
+        /// that would otherwise lead to generated routes with invalid urls.
+        /// </summary>
+        /// The type of virtual path data to be returned. 
+        /// This varies based on whether the route is a
+        /// System.Web.Routing.Route or System.Web.Http.Routing.HttpRoute.
+        /// <param name="fromBaseMethod">The base GetVirtualPath method call</param>
+        /// <returns>The result from the base call</returns>
+        public TVirtualPathData GetVirtualPath<TVirtualPathData>(Func<TVirtualPathData> fromBaseMethod)
+            where TVirtualPathData : class
+        {
+            // Remove querystring route constraints:
+            // the base GetVirtualPath will not inject route params that have constraints into the querystring.
+            var queryStringConstraints = new Dictionary<string, object>();
+            var constraintKeys = _route.Constraints.Keys.Select(k => k).ToList();
+            foreach (var constraintKey in constraintKeys)
+            {
+                var constraint = _route.Constraints[constraintKey];
+                var constraintToTest = constraint is IOptionalRouteConstraint
+                                           ? ((IOptionalRouteConstraint)constraint).Constraint
+                                           : constraint;
+
+                if (!(constraintToTest is IQueryStringRouteConstraint))
+                {
+                    continue;
+                }
+
+                queryStringConstraints.Add(constraintKey, constraint);
+                _route.Constraints.Remove(constraintKey);
+            }
+
+            // Let the underlying route do its thing.
+            var virtualPathData = fromBaseMethod();
+
+            // Add the querystring constraints back in.
+            foreach (var queryStringConstraint in queryStringConstraints)
+            {
+                _route.Constraints.Add(queryStringConstraint.Key, queryStringConstraint.Value);
+            }
+
+            return virtualPathData;
         }
 
         /// <summary>
@@ -150,127 +218,52 @@ namespace AttributeRouting.Framework
         }
 
         /// <summary>
-        /// Wraps calls to the GetVirtualPath method of routes, removing querystring route constraints
-        /// that would otherwise lead to generated routes with invalid urls.
+        /// Optimizes route matching by comparing the static left part of a route's URL with the requested path.
         /// </summary>
-        /// The type of virtual path data to be returned. 
-        /// This varies based on whether the route is a
-        /// System.Web.Routing.Route or System.Web.Http.Routing.HttpRoute.
-        /// <param name="fromBaseMethod">The base GetVirtualPath method call</param>
-        /// <returns>The result from the base call</returns>
-        public TVirtualPathData GetVirtualPath<TVirtualPathData>(Func<TVirtualPathData> fromBaseMethod)
-            where TVirtualPathData : class
+        /// <param name="requestedPath">The path of the requested URL.</param>
+        /// <returns>True if the requested URL path starts with the static left part of the route's URL.</returns>
+        /// <remarks>Thanks: http://samsaffron.com/archive/2011/10/13/optimising-asp-net-mvc3-routing </remarks>
+        public bool IsStaticLeftPartOfUrlMatched(string requestedPath)
         {
-            // Remove querystring route constraints:
-            // the base GetVirtualPath will not inject route params that have constraints into the querystring.
-            var queryStringConstraints = new Dictionary<string, object>();
-            var constraintKeys = _route.Constraints.Keys.Select(k => k).ToList();
-            foreach (var constraintKey in constraintKeys)
-            {
-                var constraint = _route.Constraints[constraintKey];
-                var constraintToTest = constraint is IOptionalRouteConstraint
-                                           ? ((IOptionalRouteConstraint)constraint).Constraint
-                                           : constraint;
+            // Get the static left part of the route's url.
+            var routePath = _route.Url;
+            var indexOfFirstParam = routePath.IndexOf("{", StringComparison.OrdinalIgnoreCase);
+            var leftPart = indexOfFirstParam == -1 ? routePath : routePath.Substring(0, indexOfFirstParam);
+            var staticLeftPartOfUrl = leftPart.TrimEnd('/');
 
-                if (!(constraintToTest is IQueryStringRouteConstraint))
-                {
-                    continue;
-                }
-
-                queryStringConstraints.Add(constraintKey, constraint);
-                _route.Constraints.Remove(constraintKey);
-            }
-
-            // Let the underlying route do its thing.
-            var virtualPathData = fromBaseMethod();
-
-            // Add the querystring constraints back in.
-            foreach (var queryStringConstraint in queryStringConstraints)
-            {
-                _route.Constraints.Add(queryStringConstraint.Key, queryStringConstraint.Value);
-            }
-
-            return virtualPathData;
+            // Compare the left part with the requested path
+            var comparableRequestedPath = requestedPath.TrimEnd('/');
+            return comparableRequestedPath.StartsWith(staticLeftPartOfUrl, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
-        /// Gets the translated virtual path for this route.
+        /// Tests whether the configured subdomain (if any) matches the current host.
         /// </summary>
-        /// <typeparam name="TVirtualPathData">
-        /// The type of virtual path data to be returned. 
-        /// This varies based on whether the route is a
-        /// System.Web.Routing.Route or System.Web.Http.Routing.HttpRoute.
-        /// </typeparam>
-        /// <param name="fromTranslation">A delegate that can get the TVirtualPathData from a translated route</param>
-        /// <returns>Returns null if no translation is available.</returns>
-        public TVirtualPathData GetTranslatedVirtualPath<TVirtualPathData>(Func<IAttributeRoute, TVirtualPathData> fromTranslation)
-            where TVirtualPathData : class
+        /// <param name="requestedSubdomain">The subdomain part of the host from the current request</param>
+        /// <returns>True if the subdomain for this route matches the current request host.</returns>
+        public bool IsSubdomainMatched(string requestedSubdomain)
         {
-            if (_route.Translations == null)
+            // If no subdomains are mapped with AR, then yes.
+            if (!_configuration.MappedSubdomains.Any())
             {
-                return null;
+                return true;
             }
 
-            var translations = _route.Translations.ToArray();
-            if (!translations.Any())
+            // Match if subdomain is null and this route has no subdomain.
+            if (requestedSubdomain.HasNoValue() && _route.Subdomain.HasNoValue())
             {
-                return null;
+                return true;
             }
 
-            var currentCultureName = Thread.CurrentThread.CurrentUICulture.Name;
-
-            // Try and get the language-culture translation, then fall back to language translation
-            var translation = translations.FirstOrDefault(t => t.CultureName == currentCultureName)
-                              ?? translations.FirstOrDefault(t => currentCultureName.StartsWith(t.CultureName));
-
-            if (translation == null)
+            // Match if this route is mapped to the requested host's subdomain
+            var routeSubdomain = _route.Subdomain ?? _configuration.DefaultSubdomain;
+            if (routeSubdomain.ValueEquals(requestedSubdomain))
             {
-                return null;
+                return true;
             }
 
-            return fromTranslation(translation);
-        }
-
-        /// <summary>
-        /// Performs lowercasing and appends trailing slash if this route is so configured.
-        /// </summary>
-        /// <param name="virtualPath">The current virtual path, after translation</param>
-        /// <returns>The final virtual path</returns>
-        public string GetFinalVirtualPath(string virtualPath)
-        {
-            /**
-             * Lowercase urls.
-             * NOTE: The initial lowercasing of all BUT url params occurs in RouteBuilder.CreateRouteUrl().
-             * This is just a final lowercasing of the final, parameter-replaced url.
-             */
-
-            var lower = _route.UseLowercaseRoute.GetValueOrDefault(_configuration.UseLowercaseRoutes);
-            var preserve = _route.PreserveCaseForUrlParameters.GetValueOrDefault(_configuration.PreserveCaseForUrlParameters);
-            
-            if (lower && !preserve)
-            {
-                virtualPath = TransformVirtualPathToLowercase(virtualPath);
-            }
-
-            /**
-             * Append trailing slashes
-             */
-
-            var appendTrailingSlash = _route.AppendTrailingSlash.GetValueOrDefault(_configuration.AppendTrailingSlash);
-            if (appendTrailingSlash)
-            {
-                virtualPath = AppendTrailingSlashToVirtualPath(virtualPath);
-            }
-
-            return virtualPath;
-        }
-
-        private static string TransformVirtualPathToLowercase(string virtualPath)
-        {
-            string path, query;
-            GetPathAndQuery(virtualPath, out path, out query);
-
-            return path.ToLowerInvariant() + query;
+            // Otherwise, this route does not match the request.
+            return false;
         }
 
         private static string AppendTrailingSlashToVirtualPath(string virtualPath)
@@ -302,6 +295,14 @@ namespace AttributeRouting.Framework
                 path = match.Groups["path"].Value;
                 query = match.Groups["query"].Value;
             }
+        }
+
+        private static string TransformVirtualPathToLowercase(string virtualPath)
+        {
+            string path, query;
+            GetPathAndQuery(virtualPath, out path, out query);
+
+            return path.ToLowerInvariant() + query;
         }
     }
 }
