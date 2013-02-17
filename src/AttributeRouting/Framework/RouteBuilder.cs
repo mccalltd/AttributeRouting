@@ -148,13 +148,12 @@ namespace AttributeRouting.Framework
                     continue;
                 }
 
-                // Strip off everything related to defaults.
+                // Strip off everything related to defaults and break into sections.
                 var cleanParameter = parameter.TrimEnd('?').Split('=').FirstOrDefault();
-
                 var sections = cleanParameter.SplitAndTrim(":");
-                var parameterName = sections.First();
                 
                 // Do not override default or legacy inline constraints
+                var parameterName = sections.First();
                 if (constraints.ContainsKey(parameterName))
                 {
                     continue;
@@ -230,8 +229,8 @@ namespace AttributeRouting.Framework
             } // ... go to next parameter
 
             // Globally configured constraints
-            var detokenizedPrefixedUrl = DetokenizeUrl(tokenizedUrl);
-            var urlParameterNames = GetUrlParameterContents(detokenizedPrefixedUrl).ToList();
+            var detokenizedUrl = DetokenizeUrl(tokenizedUrl);
+            var urlParameterNames = GetUrlParameterContents(detokenizedUrl).ToList();
             foreach (var defaultConstraint in _configuration.DefaultRouteConstraints)
             {
                 var pattern = defaultConstraint.Key;
