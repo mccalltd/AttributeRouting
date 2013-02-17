@@ -21,24 +21,15 @@ namespace AttributeRouting.Web.Mvc
             RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(RegexRouteConstraint).Assembly);
         }
 
-        public Func<IRouteHandler> RouteHandlerFactory { get; set; }
-
         /// <summary>
-        /// The controller type applicable to this context.
+        /// Automatically applies the specified constraint against url parameters
+        /// with names that match the given regular expression.
         /// </summary>
-        public override Type FrameworkControllerType
+        /// <param name="keyRegex">The regex used to match url parameter names</param>
+        /// <param name="constraint">The constraint to apply to matched parameters</param>
+        public void AddDefaultRouteConstraint(string keyRegex, IRouteConstraint constraint)
         {
-            get { return typeof(IController); }
-        }
-
-        /// <summary>
-        /// Specifies a function that returns an alternate route handler.
-        /// By default, the route handler is the default MvcRouteHandler.
-        /// </summary>
-        /// <param name="routeHandlerFactory">The route hanlder to use.</param>
-        public void UseRouteHandler(Func<IRouteHandler> routeHandlerFactory)
-        {
-            RouteHandlerFactory = routeHandlerFactory;
+            base.AddDefaultRouteConstraint(keyRegex, constraint);
         }
 
         /// <summary>
@@ -60,21 +51,30 @@ namespace AttributeRouting.Web.Mvc
         }
 
         /// <summary>
-        /// Automatically applies the specified constraint against url parameters
-        /// with names that match the given regular expression.
-        /// </summary>
-        /// <param name="keyRegex">The regex used to match url parameter names</param>
-        /// <param name="constraint">The constraint to apply to matched parameters</param>
-        public void AddDefaultRouteConstraint(string keyRegex, IRouteConstraint constraint)
-        {
-            base.AddDefaultRouteConstraint(keyRegex, constraint);
-        }
-
-        /// <summary>
         /// This delegate returns the current UI culture name,
         /// which is used when constraining inbound routes by culture.
         /// The default delegate returns the CurrentUICulture name of the current thread.
         /// </summary>
         public Func<HttpContextBase, RouteData, string> CurrentUICultureResolver { get; set; }
+
+        /// <summary>
+        /// The controller type applicable to this context.
+        /// </summary>
+        public override Type FrameworkControllerType
+        {
+            get { return typeof(IController); }
+        }
+
+        /// <summary>
+        /// Specifies a function that returns an alternate route handler.
+        /// By default, the route handler is the default MvcRouteHandler.
+        /// </summary>
+        /// <param name="routeHandlerFactory">The route hanlder to use.</param>
+        public void UseRouteHandler(Func<IRouteHandler> routeHandlerFactory)
+        {
+            RouteHandlerFactory = routeHandlerFactory;
+        }
+
+        internal Func<IRouteHandler> RouteHandlerFactory { get; set; }
     }
 }

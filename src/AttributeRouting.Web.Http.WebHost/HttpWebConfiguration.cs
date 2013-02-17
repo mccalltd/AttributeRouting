@@ -16,7 +16,16 @@ namespace AttributeRouting.Web.Http.WebHost
             RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(Web.Constraints.RegexRouteConstraint).Assembly);
         }
 
-        public Func<IRouteHandler> RouteHandlerFactory { get; set; }
+        /// <summary>
+        /// Automatically applies the specified constaint against url parameters
+        /// with names that match the given regular expression.
+        /// </summary>
+        /// <param name="keyRegex">The regex used to match url parameter names</param>
+        /// <param name="constraint">The constraint to apply to matched parameters</param>
+        public void AddDefaultRouteConstraint(string keyRegex, IRouteConstraint constraint)
+        {
+            base.AddDefaultRouteConstraint(keyRegex, constraint);
+        }
 
         /// <summary>
         /// Specifies a function that returns an alternate route handler.
@@ -28,15 +37,6 @@ namespace AttributeRouting.Web.Http.WebHost
             RouteHandlerFactory = routeHandlerFactory;
         }
 
-        /// <summary>
-        /// Automatically applies the specified constaint against url parameters
-        /// with names that match the given regular expression.
-        /// </summary>
-        /// <param name="keyRegex">The regex used to match url parameter names</param>
-        /// <param name="constraint">The constraint to apply to matched parameters</param>
-        public void AddDefaultRouteConstraint(string keyRegex, IRouteConstraint constraint)
-        {
-            base.AddDefaultRouteConstraint(keyRegex, constraint);
-        }
+        internal Func<IRouteHandler> RouteHandlerFactory { get; set; }
     }
 }
