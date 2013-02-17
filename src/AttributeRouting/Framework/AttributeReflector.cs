@@ -85,12 +85,6 @@ namespace AttributeRouting.Framework
                         .ThenBy(x => x.ActionPrecedence);
         }
 
-        /// <summary>
-        /// Gets the action name.
-        /// </summary>
-        /// <param name="actionMethod">The <see cref="MethodInfo"/> for the action.</param>
-        /// <param name="isAsyncController">True if the action's controller is an async controller.</param>
-        /// <returns>The name of the action.</returns>
         private static string GetActionName(MethodInfo actionMethod, bool isAsyncController)
         {
             var actionName = actionMethod.Name;
@@ -103,12 +97,6 @@ namespace AttributeRouting.Framework
             return actionName;
         }
 
-        /// <summary>
-        /// Gets the route attributes for an action.
-        /// </summary>
-        /// <param name="actionMethod">The <see cref="MethodInfo"/> for the action.</param>
-        /// <param name="convention">The <see cref="RouteConventionAttributeBase"/> applied to the action's controller.</param>
-        /// <returns>The route attributes for the action.</returns>
         private static IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod, RouteConventionAttributeBase convention)
         {
             var attributes = new List<IRouteAttribute>();
@@ -125,24 +113,12 @@ namespace AttributeRouting.Framework
             return attributes;
         }
 
-        /// <summary>
-        /// Get a <see cref="RouteAreaAttribute"/> to use for the controller.
-        /// </summary>
-        /// <param name="controllerType">The controller type.</param>
-        /// <param name="convention">An applicable <see cref="RouteConventionAttributeBase"/> for the controller.</param>
-        /// <returns>An applicable <see cref="RouteAreaAttribute"/>.</returns>
         private static RouteAreaAttribute GetRouteAreaAttribute(Type controllerType, RouteConventionAttributeBase convention)
         {
             return controllerType.GetCustomAttribute<RouteAreaAttribute>(true)
                    ?? convention.SafeGet(x => x.GetDefaultRouteArea(controllerType));
         }
 
-        /// <summary>
-        /// Gets the area name.
-        /// </summary>
-        /// <param name="routeAreaAttribute">The <see cref="RouteAreaAttribute"/> for the controller.</param>
-        /// <param name="controllerType">The type of the controller.</param>
-        /// <returns>The name of the area.</returns>
         private static string GetAreaName(RouteAreaAttribute routeAreaAttribute, Type controllerType)
         {
             if (routeAreaAttribute == null)
@@ -155,13 +131,6 @@ namespace AttributeRouting.Framework
             return routeAreaAttribute.AreaName ?? controllerType.GetConventionalAreaName();
         }
 
-        /// <summary>
-        /// Gets the area URL prefix.
-        /// </summary>
-        /// <param name="routeAreaAttribute">The <see cref="RouteAreaAttribute"/> for the controller.</param>
-        /// <param name="subdomain">The configured subdomain for the area.</param>
-        /// <param name="controllerType">The type of the controller.</param>
-        /// <returns>The URL prefix for the area.</returns>
         private static string GetAreaUrl(RouteAreaAttribute routeAreaAttribute, string subdomain, Type controllerType)
         {
             if (routeAreaAttribute == null)
@@ -184,11 +153,6 @@ namespace AttributeRouting.Framework
             return areaUrlOrName ?? controllerType.GetConventionalAreaName();
         }
 
-        /// <summary>
-        /// Gets the configured subdomain for an area.
-        /// </summary>
-        /// <param name="routeAreaAttribute">The <see cref="RouteAreaAttribute"/> for the controller.</param>
-        /// <returns>The subdomain name configured for the area.</returns>
         private string GetAreaSubdomain(RouteAreaAttribute routeAreaAttribute)
         {
             if (routeAreaAttribute == null)
@@ -204,13 +168,6 @@ namespace AttributeRouting.Framework
             return subdomainOverride ?? routeAreaAttribute.Subdomain;
         }
 
-        /// <summary>
-        /// Get a <see cref="RoutePrefixAttribute"/> to use for the controller.
-        /// </summary>
-        /// <param name="controllerType">The controller type.</param>
-        /// <param name="convention">An applicable <see cref="RouteConventionAttributeBase"/> for the controller.</param>
-        /// <param name="actionMethod">The action method info.</param>
-        /// <returns>A list of applicable <see cref="RoutePrefixAttribute"/>.</returns>
         private static IEnumerable<RoutePrefixAttribute> GetRoutePrefixAttributes(Type controllerType, RouteConventionAttributeBase convention, MethodInfo actionMethod)
         {
             // If there are any explicit route prefixes defined, use them.
@@ -233,12 +190,6 @@ namespace AttributeRouting.Framework
             return routePrefixAttributes.OrderBy(a => GetSortableOrder(a.Precedence));
         }
 
-        /// <summary>
-        /// Gets the route prefix for the routes in the controller.
-        /// </summary>
-        /// <param name="routePrefixAttribute">The <see cref="RoutePrefixAttribute"/> for the controller.</param>
-        /// <param name="controllerType">The type of the controller.</param>
-        /// <returns>The URL prefix for the routes in the controller.</returns>
         private static string GetRoutePrefixUrl(RoutePrefixAttribute routePrefixAttribute, Type controllerType)
         {
             if (routePrefixAttribute == null)

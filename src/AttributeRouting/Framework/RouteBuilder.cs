@@ -14,9 +14,9 @@ namespace AttributeRouting.Framework
     public class RouteBuilder
     {
         private readonly ConfigurationBase _configuration;
+        private readonly IParameterFactory _parameterFactory;
         private readonly IAttributeRouteFactory _routeFactory;
         private readonly IRouteConstraintFactory _routeConstraintFactory;
-        private readonly IParameterFactory _parameterFactory;
 
         public RouteBuilder(ConfigurationBase configuration)
         {
@@ -43,6 +43,33 @@ namespace AttributeRouting.Framework
                                                select s.Subdomain).Distinct().ToList();
 
             return routeSpecs.SelectMany(BuildRoutes);
+        }
+
+        private string BuildTokenizedUrl(string routeUrl, string routePrefixUrl, string areaUrl, RouteSpecification routeSpec)
+        {
+            var delimitedUrl = routeUrl + "/";
+
+            // Prepend prefix if available
+            if (routePrefixUrl.HasValue() && !routeSpec.IgnoreRoutePrefix)
+            {
+                var delimitedRoutePrefix = routePrefixUrl + "/";
+                if (!delimitedUrl.StartsWith(delimitedRoutePrefix))
+                {
+                    delimitedUrl = delimitedRoutePrefix + delimitedUrl;
+                }
+            }
+
+            // Prepend area url if available
+            if (areaUrl.HasValue() && !routeSpec.IgnoreAreaUrl)
+            {
+                var delimitedAreaUrl = areaUrl + "/";
+                if (!delimitedUrl.StartsWith(delimitedAreaUrl))
+                {
+                    delimitedUrl = delimitedAreaUrl + delimitedUrl;
+                }
+            }
+
+            return delimitedUrl.Trim('/');
         }
 
         private IEnumerable<IAttributeRoute> BuildRoutes(RouteSpecification routeSpec)
@@ -84,129 +111,6 @@ namespace AttributeRouting.Framework
                     }
                 }
             }
-        }
-
-        private string CreateRouteName(RouteSpecification routeSpec)
-        {
-            if (routeSpec.RouteName.HasValue())
-            {
-                return routeSpec.RouteName;
-            }
-
-            return _configuration.AutoGenerateRouteNames ? _configuration.RouteNameBuilder(routeSpec) : null;
-        }
-
-        private string CreateRouteUrl(IDictionary<string, object> defaults, RouteSpecification routeSpec)
-        {
-            return CreateRouteUrl(routeSpec.RouteUrl,
-                                  routeSpec.RoutePrefixUrl,
-                                  routeSpec.AreaUrl,
-                                  defaults,
-                                  routeSpec);
-        }
-
-        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, IDictionary<string, object> defaults, RouteSpecification routeSpec)
-        {
-            var tokenizedUrl = BuildTokenizedUrl(routeUrl, routePrefix, areaUrl, routeSpec);
-            var tokenizedPath = RemoveQueryString(tokenizedUrl);
-            var detokenizedPath = DetokenizeUrl(tokenizedPath);
-
-            var urlParameterNames = GetUrlParameterContents(detokenizedPath).ToList();
-
-            var urlBuilder = new StringBuilder(detokenizedPath);
-
-            // Replace {controller} URL param with default value.
-            if (urlParameterNames.Any(n => n.ValueEquals("controller")))
-            {
-                urlBuilder.Replace("{controller}", (string)defaults["controller"]);
-            }
-
-            // Replace {action} URL param with default value.
-            if (urlParameterNames.Any(n => n.ValueEquals("action")))
-            {
-                urlBuilder.Replace("{action}", (string)defaults["action"]);
-            }
-
-            // Explicitly defined area routes are not valid
-            if (urlParameterNames.Any(n => n.ValueEquals("area")))
-            {
-                throw new AttributeRoutingException(
-                    "{area} url parameters are not allowed. Specify the area name by using the RouteAreaAttribute.");
-            }
-
-            // If we are lowercasing routes, then lowercase everything but the route params
-            var lower = routeSpec.UseLowercaseRoute.GetValueOrDefault(_configuration.UseLowercaseRoutes);
-            if (lower)
-            {
-                for (var i = 0; i < urlBuilder.Length; i++)
-                {
-                    var c = urlBuilder[i];
-                    if (Char.IsUpper(c))
-                    {
-                        urlBuilder[i] = Char.ToLower(c);
-                    }
-                    else if (c == '{')
-                    {
-                        while (urlBuilder[i] != '}' && i < urlBuilder.Length)
-                        {
-                            i++;
-                        }
-                    }
-                }
-            }
-
-            return urlBuilder.ToString().Trim('/');
-        }
-
-        private IDictionary<string, object> CreateRouteDefaults(RouteSpecification routeSpec)
-        {
-            var defaults = new Dictionary<string, object>
-            {
-                { "controller", routeSpec.ControllerName },
-                { "action", routeSpec.ActionName }
-            };
-
-            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).ToList();
-
-            // Inspect the url for optional parameters, specified with a trailing ?
-            foreach (var parameter in urlParameters.Where(p => p.EndsWith("?")))
-            {
-                var parameterName = parameter.TrimEnd('?');
-                
-                if (parameterName.Contains(':'))
-                {
-                    parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
-                }
-
-                if (defaults.ContainsKey(parameterName))
-                {
-                    continue;
-                }
-
-                defaults.Add(parameterName, _parameterFactory.Optional());
-            }
-
-            // Inline defaults
-            foreach (var parameter in urlParameters.Where(p => p.Contains('=')))
-            {
-                var indexOfEquals = parameter.IndexOf('=');
-                var parameterName = parameter.Substring(0, indexOfEquals);
-
-                if (parameterName.Contains(':'))
-                {
-                    parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
-                }
-
-                if (defaults.ContainsKey(parameterName))
-                {
-                    continue;
-                }
-
-                var defaultValue = parameter.Substring(indexOfEquals + 1, parameter.Length - indexOfEquals - 1);
-                defaults.Add(parameterName, defaultValue);
-            }
-
-            return defaults;
         }
 
         private IDictionary<string, object> CreateRouteConstraints(RouteSpecification routeSpec)
@@ -274,7 +178,7 @@ namespace AttributeRouting.Framework
                         // NOTE: Splitting on commas only applies to non-regex constraints.
                         var constraintParamsRaw = definition.Substring(indexOfOpenParen + 1, definition.Length - indexOfOpenParen - 2);
                         var constraintParams = constraintName.ValueEquals("regex")
-                                                   ? new[] {constraintParamsRaw}
+                                                   ? new[] { constraintParamsRaw }
                                                    : constraintParamsRaw.SplitAndTrim(",");
 
                         constraint = _routeConstraintFactory.CreateInlineRouteConstraint(constraintName, constraintParams);
@@ -295,7 +199,7 @@ namespace AttributeRouting.Framework
                     inlineConstraints.Add(constraint);
                 }
 
-                // Apply the constraint to the parameter, and wrap constraints in the following priority: 
+                // Wrap constraints in the following priority: 
                 object finalConstraint;
 
                 // 1. If more than one constraint, wrap in a compound constraint.
@@ -320,6 +224,7 @@ namespace AttributeRouting.Framework
                     finalConstraint = _routeConstraintFactory.CreateOptionalRouteConstraint(finalConstraint);
                 }
 
+                // Apply the constraint to the parameter.
                 constraints.Add(parameterName, finalConstraint);
 
             } // ... go to next parameter
@@ -345,33 +250,6 @@ namespace AttributeRouting.Framework
             return constraints;
         }
 
-        private string BuildTokenizedUrl(string routeUrl, string routePrefixUrl, string areaUrl, RouteSpecification routeSpec)
-        {
-            var delimitedUrl = routeUrl + "/";
-
-            // Prepend prefix if available
-            if (routePrefixUrl.HasValue() && !routeSpec.IgnoreRoutePrefix)
-            {
-                var delimitedRoutePrefix = routePrefixUrl + "/";
-                if (!delimitedUrl.StartsWith(delimitedRoutePrefix))
-                {
-                    delimitedUrl = delimitedRoutePrefix + delimitedUrl;
-                }
-            }
-
-            // Prepend area url if available
-            if (areaUrl.HasValue() && !routeSpec.IgnoreAreaUrl)
-            {
-                var delimitedAreaUrl = areaUrl + "/";
-                if (!delimitedUrl.StartsWith(delimitedAreaUrl))
-                {
-                    delimitedUrl = delimitedAreaUrl + delimitedUrl;
-                }
-            }
-
-            return delimitedUrl.Trim('/');
-        }
-
         private IDictionary<string, object> CreateRouteDataTokens(RouteSpecification routeSpec)
         {
             var dataTokens = new Dictionary<string, object>
@@ -395,43 +273,65 @@ namespace AttributeRouting.Framework
             return dataTokens;
         }
 
-        private static string DetokenizeUrl(string url)
+        private IDictionary<string, object> CreateRouteDefaults(RouteSpecification routeSpec)
         {
-            var patterns = new List<string>
+            var defaults = new Dictionary<string, object>
             {
-                @"(?<=\{)\?",                           // leading question mark (used to specify optional param)
-                @"\?(?=\})",                            // trailing question mark (used to specify optional param)
-                @"\(.*?\)(?=\})",                       // stuff inside parens (used to specify inline regex route constraint)
-                @"\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))",  // new inline constraint syntax
-                @"(?<=\{.*)=.*?(?=\})",                 // equals and value (used to specify inline parameter default value)
+                { "controller", routeSpec.ControllerName },
+                { "action", routeSpec.ActionName }
             };
 
-            return Regex.Replace(url, String.Join("|", patterns), "");
-        }
+            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).ToList();
 
-        private static string RemoveQueryString(string url)
-        {
-            // Must honor ? in regex expressions and as used to specify optional params,
-            // So run through the url chars and fast forward when inside a url param (eg: {...})
-            for (int i = 0, length = url.Length; i < length; i++)
+            // Inspect the url for optional parameters, specified with a trailing ?
+            foreach (var parameter in urlParameters.Where(p => p.EndsWith("?")))
             {
-                var c = url[i];
-                if (c == '?')
-                {
-                    return url.Substring(0, i);
-                }
+                var parameterName = parameter.TrimEnd('?');
                 
-                // Fast-forward past url param contents
-                if (c == '{')
+                if (parameterName.Contains(':'))
                 {
-                    while (url[i] != '}' && i < length)
-                    {
-                        i++;
-                    }
+                    parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
                 }
+
+                if (defaults.ContainsKey(parameterName))
+                {
+                    continue;
+                }
+
+                defaults.Add(parameterName, _parameterFactory.Optional());
             }
 
-            return url;
+            // Inline defaults
+            foreach (var parameter in urlParameters.Where(p => p.Contains('=')))
+            {
+                var indexOfEquals = parameter.IndexOf('=');
+                var parameterName = parameter.Substring(0, indexOfEquals);
+
+                if (parameterName.Contains(':'))
+                {
+                    parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
+                }
+
+                if (defaults.ContainsKey(parameterName))
+                {
+                    continue;
+                }
+
+                var defaultValue = parameter.Substring(indexOfEquals + 1, parameter.Length - indexOfEquals - 1);
+                defaults.Add(parameterName, defaultValue);
+            }
+
+            return defaults;
+        }
+
+        private string CreateRouteName(RouteSpecification routeSpec)
+        {
+            if (routeSpec.RouteName.HasValue())
+            {
+                return routeSpec.RouteName;
+            }
+
+            return _configuration.AutoGenerateRouteNames ? _configuration.RouteNameBuilder(routeSpec) : null;
         }
 
         private IEnumerable<IAttributeRoute> CreateRouteTranslations(RouteSpecification routeSpec)
@@ -490,9 +390,85 @@ namespace AttributeRouting.Framework
                     translatedRoute.CultureName = cultureName;
                     translatedRoute.DataTokens.Add("cultureName", cultureName);
 
-                    yield return translatedRoute;                    
+                    yield return translatedRoute;
                 }
             }
+        }
+
+        private string CreateRouteUrl(IDictionary<string, object> defaults, RouteSpecification routeSpec)
+        {
+            return CreateRouteUrl(routeSpec.RouteUrl,
+                                  routeSpec.RoutePrefixUrl,
+                                  routeSpec.AreaUrl,
+                                  defaults,
+                                  routeSpec);
+        }
+
+        private string CreateRouteUrl(string routeUrl, string routePrefix, string areaUrl, IDictionary<string, object> defaults, RouteSpecification routeSpec)
+        {
+            var tokenizedUrl = BuildTokenizedUrl(routeUrl, routePrefix, areaUrl, routeSpec);
+            var tokenizedPath = RemoveQueryString(tokenizedUrl);
+            var detokenizedPath = DetokenizeUrl(tokenizedPath);
+
+            var urlParameterNames = GetUrlParameterContents(detokenizedPath).ToList();
+
+            var urlBuilder = new StringBuilder(detokenizedPath);
+
+            // Replace {controller} URL param with default value.
+            if (urlParameterNames.Any(n => n.ValueEquals("controller")))
+            {
+                urlBuilder.Replace("{controller}", (string)defaults["controller"]);
+            }
+
+            // Replace {action} URL param with default value.
+            if (urlParameterNames.Any(n => n.ValueEquals("action")))
+            {
+                urlBuilder.Replace("{action}", (string)defaults["action"]);
+            }
+
+            // Explicitly defined area routes are not valid
+            if (urlParameterNames.Any(n => n.ValueEquals("area")))
+            {
+                throw new AttributeRoutingException(
+                    "{area} url parameters are not allowed. Specify the area name by using the RouteAreaAttribute.");
+            }
+
+            // If we are lowercasing routes, then lowercase everything but the route params
+            var lower = routeSpec.UseLowercaseRoute.GetValueOrDefault(_configuration.UseLowercaseRoutes);
+            if (lower)
+            {
+                for (var i = 0; i < urlBuilder.Length; i++)
+                {
+                    var c = urlBuilder[i];
+                    if (Char.IsUpper(c))
+                    {
+                        urlBuilder[i] = Char.ToLower(c);
+                    }
+                    else if (c == '{')
+                    {
+                        while (urlBuilder[i] != '}' && i < urlBuilder.Length)
+                        {
+                            i++;
+                        }
+                    }
+                }
+            }
+
+            return urlBuilder.ToString().Trim('/');
+        }
+
+        private static string DetokenizeUrl(string url)
+        {
+            var patterns = new List<string>
+            {
+                @"(?<=\{)\?",                           // leading question mark (used to specify optional param)
+                @"\?(?=\})",                            // trailing question mark (used to specify optional param)
+                @"\(.*?\)(?=\})",                       // stuff inside parens (used to specify inline regex route constraint)
+                @"\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))",  // new inline constraint syntax
+                @"(?<=\{.*)=.*?(?=\})",                 // equals and value (used to specify inline parameter default value)
+            };
+
+            return Regex.Replace(url, String.Join("|", patterns), "");
         }
 
         private static IEnumerable<string> GetUrlParameterContents(string url)
@@ -524,12 +500,37 @@ namespace AttributeRouting.Framework
                     {
                         // If we find an inner open curly (due to inner regex patterns), 
                         // then fast-forward beyond it.
-                        i = urlSegment.IndexOf('}', i);                        
+                        i = urlSegment.IndexOf('}', i);
                     }
 
                     i++;
                 }
             }
+        }
+
+        private static string RemoveQueryString(string url)
+        {
+            // Must honor ? in regex expressions and as used to specify optional params,
+            // So run through the url chars and fast forward when inside a url param (eg: {...})
+            for (int i = 0, length = url.Length; i < length; i++)
+            {
+                var c = url[i];
+                if (c == '?')
+                {
+                    return url.Substring(0, i);
+                }
+                
+                // Fast-forward past url param contents
+                if (c == '{')
+                {
+                    while (url[i] != '}' && i < length)
+                    {
+                        i++;
+                    }
+                }
+            }
+
+            return url;
         }
     }
 }
