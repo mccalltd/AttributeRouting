@@ -51,7 +51,7 @@ Task Test {
 
 Task NugetPack {
     Clean-Directory $nupkg_dir
-    Get-ChildItem "$nuspec_dir\*" -Include "*.nuspec" -Exclude "AttributeRouting.Shared.nuspec" -Recurse | foreach { Create-Nupkg $_ } 
+    Get-ChildItem "$nuspec_dir\*" -Include "*.nutrans" -Recurse | foreach { Create-Nupkg $_ } 
 }
 
 Task NugetPush {
@@ -69,8 +69,8 @@ function Clean-Directory ($dir) {
     New-Item $dir -ItemType Directory | Out-Null
 }
 
-function Create-Nupkg ($nuspec_path) {
-	$name = [System.IO.Path]::GetFileNameWithoutExtension($nuspec_path)
+function Create-Nupkg ($nutrans_path) {
+	$name = [System.IO.Path]::GetFileNameWithoutExtension($nutrans_path)
     $nuspec = Create-Nuspec $name
     Write-Host "Creating nupkg for $name" -ForegroundColor Green
     Exec { &$nuget pack $nuspec -Version $version -OutputDirectory $nupkg_dir }
