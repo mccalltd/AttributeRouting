@@ -1,7 +1,7 @@
 using System.Web.Http;
 using AttributeRouting.Framework;
 
-namespace AttributeRouting.Web.Http.SelfHost.Framework
+namespace AttributeRouting.Web.Http.Framework
 {
     internal class RouteParameterFactory : IParameterFactory
     {
