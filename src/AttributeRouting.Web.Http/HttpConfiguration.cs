@@ -1,23 +1,15 @@
 ﻿using System.Web.Http.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Web.Http.Constraints;
-using AttributeRouting.Web.Http.SelfHost.Framework;
+using AttributeRouting.Web.Http.Framework;
 
-namespace AttributeRouting.Web.Http.SelfHost
+namespace AttributeRouting.Web.Http
 {
     public class HttpConfiguration : HttpConfigurationBase
     {
         public HttpConfiguration()
         {
-            AttributeRouteFactory = new AttributeRouteFactory(this);
-            RouteConstraintFactory = new RouteConstraintFactory(this);
-            ParameterFactory = new RouteParameterFactory();
-
-            RegisterDefaultInlineRouteConstraints<IHttpRouteConstraint>(typeof(RegexRouteConstraint).Assembly);
-
-            // Must turn on AutoGenerateRouteNames and use the Unique RouteNameBuilder for this to work out-of-the-box.
-            AutoGenerateRouteNames = true;
-            RouteNameBuilder = RouteNameBuilders.Unique;
+            Init();
         }
 
         /// <summary>

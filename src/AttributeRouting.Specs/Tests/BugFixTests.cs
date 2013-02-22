@@ -8,6 +8,7 @@ using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Specs.Subjects;
 using AttributeRouting.Specs.Subjects.Http;
+using AttributeRouting.Web.Http.Constraints;
 using AttributeRouting.Web.Http.WebHost;
 using AttributeRouting.Web.Logging;
 using AttributeRouting.Web.Mvc;
@@ -131,5 +132,46 @@ namespace AttributeRouting.Specs.Tests
 			asyncRouteData.Values["controller"].ShouldEqual("AsyncAction", "Asynchronous route does not map to the AsyncActionController.");
 			asyncRouteData.Values["action"].ShouldEqual("Test2", "Asynchronous route does not map to the correct action method.");
 		}
+
+        [Test]
+        public void Issue191_in_memory_config_initializes_routes_with_general_http_constraints()
+        {
+            var inMemoryConfig = new HttpConfiguration();
+
+            inMemoryConfig.Routes.MapHttpAttributeRoutes(x =>
+                {
+                    x.InMemory = true;
+                    x.AddRoutesFromController<HttpStandardUsageController>();
+                });
+
+            Assert.AreEqual(6, inMemoryConfig.Routes.Count);
+            Assert.True(inMemoryConfig.Routes.All(x => x.Constraints.All(c => c.Value.GetType() == typeof(InboundHttpMethodConstraint))));
+        }
+
+        [Test]
+        public void Issue191_default_web_config_initializes_routes_with_web_http_constraints()
+        {
+            var inMemoryConfig = GlobalConfiguration.Configuration;
+            inMemoryConfig.Routes.Clear();
+
+            inMemoryConfig.Routes.MapHttpAttributeRoutes(x => x.AddRoutesFromController<HttpStandardUsageController>());
+
+            Assert.AreEqual(6, inMemoryConfig.Routes.Count);
+            Assert.True(inMemoryConfig.Routes.All(x => x.Constraints.All(c => c.Value.GetType() == typeof(Web.Http.WebHost.Constraints.InboundHttpMethodConstraint))));
+        }
+
+        [Test]
+        public void Issue191_in_memory_web_config_inits_general_http_constraint_factory()
+        {
+            var inMemoryConfig = new HttpWebConfiguration(inMemory:true);
+            Assert.IsAssignableFrom<AttributeRouting.Web.Http.Framework.RouteConstraintFactory>(inMemoryConfig.RouteConstraintFactory);
+        }
+
+        [Test]
+        public void Issue191_default_web_config_inits_web_http_constraint_factory()
+        {
+            var inMemoryConfig = new HttpWebConfiguration();
+            Assert.IsAssignableFrom<AttributeRouting.Web.Http.WebHost.Framework.RouteConstraintFactory>(inMemoryConfig.RouteConstraintFactory);
+        }
     }
 }
