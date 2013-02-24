@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using System.Web.Http.Routing;
 using AttributeRouting.Framework;
-using AttributeRouting.Web.Http.Framework;
 
-namespace AttributeRouting.Web.Http.SelfHost.Framework
+namespace AttributeRouting.Web.Http.Framework
 {
     internal class AttributeRouteFactory : IAttributeRouteFactory
     {
-        private readonly HttpConfiguration _configuration;
+        private readonly HttpConfigurationBase _configuration;
 
-        public AttributeRouteFactory(HttpConfiguration configuration)
+        public AttributeRouteFactory(HttpConfigurationBase configuration)
         {
             _configuration = configuration;
         }

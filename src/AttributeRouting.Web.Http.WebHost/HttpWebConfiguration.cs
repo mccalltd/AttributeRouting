@@ -6,14 +6,22 @@ namespace AttributeRouting.Web.Http.WebHost
 {
     public class HttpWebConfiguration : HttpConfigurationBase
     {
-        public HttpWebConfiguration()
+        public HttpWebConfiguration(bool inMemory = false)
         {
-            AttributeRouteFactory = new AttributeRouteFactory(this);
-            ParameterFactory = new RouteParameterFactory();
-            RouteConstraintFactory = new RouteConstraintFactory(this);
+            if (inMemory)
+            {
+                Init();
+            }
+            else
+            {
+                AttributeRouteFactory = new AttributeRouteFactory(this);
+                ParameterFactory = new RouteParameterFactory();
+                RouteConstraintFactory = new RouteConstraintFactory(this);
 
-            RouteHandlerFactory = () => null;
-            RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(Web.Constraints.RegexRouteConstraint).Assembly);
+                RouteHandlerFactory = () => null;
+                RegisterDefaultInlineRouteConstraints<IRouteConstraint>(
+                    typeof(Web.Constraints.RegexRouteConstraint).Assembly);
+            }
         }
 
         /// <summary>

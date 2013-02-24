@@ -35,8 +35,17 @@ namespace AttributeRouting.Web.Http.WebHost
         {
             var configuration = new HttpWebConfiguration();
             configurationAction.Invoke(configuration);
-            
-            routes.MapHttpAttributeRoutesInternal(configuration);
+
+            if (configuration.InMemory)
+            {
+                var newConfig = new HttpWebConfiguration(inMemory: true);
+                configurationAction.Invoke(newConfig);
+                routes.MapHttpAttributeRoutesInternal(newConfig);
+            }
+            else
+            {
+                routes.MapHttpAttributeRoutesInternal(configuration);
+            }
         }
 
         /// <summary>

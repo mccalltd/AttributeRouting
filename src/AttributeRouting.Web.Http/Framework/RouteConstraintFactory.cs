@@ -7,15 +7,14 @@ using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 using AttributeRouting.Web.Http.Constraints;
-using AttributeRouting.Web.Http.SelfHost.Constraints;
 
-namespace AttributeRouting.Web.Http.SelfHost.Framework
+namespace AttributeRouting.Web.Http.Framework
 {
     public class RouteConstraintFactory : IRouteConstraintFactory
     {
-        private readonly HttpConfiguration _configuration;
+        private readonly HttpConfigurationBase _configuration;
 
-        public RouteConstraintFactory(HttpConfiguration configuration)
+        public RouteConstraintFactory(HttpConfigurationBase configuration)
         {
             _configuration = configuration;
         }

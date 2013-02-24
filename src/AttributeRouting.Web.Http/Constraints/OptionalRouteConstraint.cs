@@ -5,7 +5,7 @@ using System.Web.Http.Routing;
 using AttributeRouting.Constraints;
 using AttributeRouting.Helpers;
 
-namespace AttributeRouting.Web.Http.SelfHost.Constraints
+namespace AttributeRouting.Web.Http.Constraints
 {
     public class OptionalRouteConstraint : IOptionalRouteConstraint, IHttpRouteConstraint
     {
