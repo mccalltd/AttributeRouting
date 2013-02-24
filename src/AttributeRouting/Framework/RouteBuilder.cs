@@ -13,6 +13,24 @@ namespace AttributeRouting.Framework
     /// </summary>    
     public class RouteBuilder
     {
+        private static readonly Lazy<Regex> ConstraintParamsRegex =
+            new Lazy<Regex>(() => new Regex(@"^.*\(.*\)$", RegexOptions.Compiled));
+
+        private static readonly Lazy<Regex> DetokenizeUrlRegex =
+            new Lazy<Regex>(() =>
+            {
+                var patterns = new List<string>
+                {
+                    @"(?<=\{)\?", // leading question mark (used to specify optional param)
+                    @"\?(?=\})", // trailing question mark (used to specify optional param)
+                    @"\(.*?\)(?=\})", // stuff inside parens (used to specify inline regex route constraint)
+                    @"\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))", // new inline constraint syntax
+                    @"(?<=\{.*)=.*?(?=\})", // equals and value (used to specify inline parameter default value)
+                };
+                var pattern = String.Join("|", patterns);
+                return new Regex(pattern);
+            });
+
         private readonly ConfigurationBase _configuration;
         private readonly IParameterFactory _parameterFactory;
         private readonly IAttributeRouteFactory _routeFactory;
@@ -167,7 +185,7 @@ namespace AttributeRouting.Framework
                     string constraintName;
                     object constraint;
 
-                    if (Regex.IsMatch(definition, @"^.*\(.*\)$"))
+                    if (ConstraintParamsRegex.Value.IsMatch(definition))
                     {
                         // Constraint of the form "firstName:string(50)"
                         var indexOfOpenParen = definition.IndexOf('(');
@@ -458,16 +476,7 @@ namespace AttributeRouting.Framework
 
         private static string DetokenizeUrl(string url)
         {
-            var patterns = new List<string>
-            {
-                @"(?<=\{)\?",                           // leading question mark (used to specify optional param)
-                @"\?(?=\})",                            // trailing question mark (used to specify optional param)
-                @"\(.*?\)(?=\})",                       // stuff inside parens (used to specify inline regex route constraint)
-                @"\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))",  // new inline constraint syntax
-                @"(?<=\{.*)=.*?(?=\})",                 // equals and value (used to specify inline parameter default value)
-            };
-
-            return Regex.Replace(url, String.Join("|", patterns), "");
+            return DetokenizeUrlRegex.Value.Replace(url, "");
         }
 
         private static IEnumerable<string> GetUrlParameterContents(string url)

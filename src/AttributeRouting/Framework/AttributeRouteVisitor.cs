@@ -18,8 +18,12 @@ namespace AttributeRouting.Framework
     /// </remarks>
     public class AttributeRouteVisitor
     {
+        private static readonly Lazy<Regex> PathAndQueryRegex =
+            new Lazy<Regex>(() => new Regex(@"(?<path>[^\?]*)(?<query>\?.*)?")); 
+
         private readonly IAttributeRoute _route;
         private readonly ConfigurationBase _configuration;
+        private string _staticLeftPartOfUrl;
 
         /// <summary>
         /// Creates a new visitor extending implementations of IAttributeRoute with common logic.
@@ -33,6 +37,21 @@ namespace AttributeRouting.Framework
 
             _route = route;
             _configuration = configuration;
+        }
+        
+        private string StaticLeftPartOfUrl
+        {
+            get 
+            {
+                if (_staticLeftPartOfUrl == null)
+                {
+                    var routePath = _route.Url;
+                    var indexOfFirstParam = routePath.IndexOf("{", StringComparison.OrdinalIgnoreCase);
+                    var leftPart = (indexOfFirstParam == -1) ? routePath : routePath.Substring(0, indexOfFirstParam);
+                    _staticLeftPartOfUrl = leftPart.TrimEnd('/');
+                }
+                return _staticLeftPartOfUrl;
+            }
         }
 
         /// <summary>
@@ -226,15 +245,9 @@ namespace AttributeRouting.Framework
         /// <remarks>Thanks: http://samsaffron.com/archive/2011/10/13/optimising-asp-net-mvc3-routing </remarks>
         public bool IsStaticLeftPartOfUrlMatched(string requestedPath)
         {
-            // Get the static left part of the route's url.
-            var routePath = _route.Url;
-            var indexOfFirstParam = routePath.IndexOf("{", StringComparison.OrdinalIgnoreCase);
-            var leftPart = indexOfFirstParam == -1 ? routePath : routePath.Substring(0, indexOfFirstParam);
-            var staticLeftPartOfUrl = leftPart.TrimEnd('/');
-
             // Compare the left part with the requested path
             var comparableRequestedPath = requestedPath.TrimEnd('/');
-            return comparableRequestedPath.StartsWith(staticLeftPartOfUrl, StringComparison.OrdinalIgnoreCase);
+            return comparableRequestedPath.StartsWith(StaticLeftPartOfUrl, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -283,7 +296,7 @@ namespace AttributeRouting.Framework
         private static void GetPathAndQuery(string virtualPath, out string path, out string query)
         {
             // NOTE: Do not lowercase the querystring vals
-            var match = Regex.Match(virtualPath, @"(?<path>[^\?]*)(?<query>\?.*)?");
+            var match = PathAndQueryRegex.Value.Match(virtualPath);
 
             // Just covering my backside here in case the regex fails for some reason.
             if (!match.Success)
