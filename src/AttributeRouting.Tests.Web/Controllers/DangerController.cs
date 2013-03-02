@@ -13,7 +13,8 @@ namespace AttributeRouting.Tests.Web.Controllers
         }
 
         [POST("")]
-        public ActionResult Index_Post()
+        [ValidateInput(false)]
+        public ActionResult Index_Post(string badstuff)
         {
             return Content("You survived the danger!");
         }

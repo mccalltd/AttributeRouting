@@ -21,5 +21,13 @@ namespace AttributeRouting.Web.Http.Constraints
         {
             get { return new ReadOnlyCollection<string>(AllowedMethods.Select(method => method.Method).ToList()); }
         }
+
+        protected override bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
+        {
+            if (routeDirection == HttpRouteDirection.UriGeneration)
+                return true;
+
+            return base.Match(request, route, parameterName, values, routeDirection);
+        }
     }
 }
