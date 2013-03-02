@@ -3,7 +3,7 @@ using AttributeRouting.Web.Http.SelfHost;
 
 namespace $rootnamespace$ 
 {
-    public static class AttributeRouting 
+    public static class AttributeRoutingConfig
 	{
 		// Call this static method from a start up class in your applicaton (e.g.Program.cs)
 		// Pass in the configuration you're using for your self-hosted Web API

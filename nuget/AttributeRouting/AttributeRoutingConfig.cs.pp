@@ -1,11 +1,11 @@
 ﻿using System.Web.Routing;
 using AttributeRouting.Web.Mvc;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof($rootnamespace$.AttributeRouting), "Start")]
+[assembly: WebActivator.PreApplicationStartMethod(typeof($rootnamespace$.AttributeRoutingConfig), "Start")]
 
 namespace $rootnamespace$ 
 {
-    public static class AttributeRouting 
+    public static class AttributeRoutingConfig
 	{
 		public static void RegisterRoutes(RouteCollection routes) 
 		{    

@@ -2,7 +2,7 @@
 Imports AttributeRouting.Web.Http.SelfHost
 
 Namespace $rootnamespace$
-    Public Class AttributeRouting
+    Public Class AttributeRoutingConfig
 	
 		' Call this static method from a start up class in your applicaton (e.g.Program.cs)
 		' Pass in the configuration you're using for your self-hosted Web API

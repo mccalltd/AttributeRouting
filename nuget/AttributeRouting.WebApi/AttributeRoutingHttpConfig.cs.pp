@@ -1,11 +1,11 @@
 ﻿using System.Web.Http;
 using AttributeRouting.Web.Http.WebHost;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof($rootnamespace$.AttributeRoutingHttp), "Start")]
+[assembly: WebActivator.PreApplicationStartMethod(typeof($rootnamespace$.AttributeRoutingHttpConfig), "Start")]
 
 namespace $rootnamespace$ 
 {
-    public static class AttributeRoutingHttp 
+    public static class AttributeRoutingHttpConfig
 	{
 		public static void RegisterRoutes(HttpRouteCollection routes) 
 		{    

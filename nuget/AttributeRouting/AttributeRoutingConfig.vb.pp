@@ -1,10 +1,10 @@
 ﻿Imports System.Web.Routing
 Imports AttributeRouting.Web.Mvc
 
-<assembly: WebActivator.PreApplicationStartMethod(GetType($rootnamespace$.AttributeRouting), "Start")>
+<assembly: WebActivator.PreApplicationStartMethod(GetType($rootnamespace$.AttributeRoutingConfig), "Start")>
 
 Namespace $rootnamespace$
-    Public Class AttributeRouting
+    Public Class AttributeRoutingConfig
 		Public Shared Sub RegisterRoutes(routes As RouteCollection)
             
 			' See http://github.com/mccalltd/AttributeRouting/wiki for more options.
