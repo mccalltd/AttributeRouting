@@ -8,6 +8,7 @@
     <dependencies xdt:Transform="Insert">
       <dependency id="AttributeRouting.Core" version="$version$" />
       <dependency id="AttributeRouting.Core.Web" version="$version$" />
+	  <dependency id="Microsoft.AspNet.WebPages" version="1.0.20105.408" />
       <dependency id="WebActivator" version="1.0.0.0" />
     </dependencies>
   </metadata>
