@@ -4,9 +4,14 @@ h2. Please refer to "attributerouting.net":http://attributerouting.net/ for docu
 
 h3. Changelog
 
+_3.5.3_
+
+* #216 - testing optional constraint for mvc against null/empty in addition to UrlParameter.Optional.
+* #211 - parsing defaults from complete url, including areas and prefixes.
+
 _3.5.2_
 
-* 214 - BUG FIX: fixed thread safety issues encountered when dealing with query string route constraints."
+* #214 - BUG FIX: fixed thread safety issues encountered when dealing with query string route constraints."
 
 _3.5.1_
 
