@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
 using AttributeRouting.Constraints;
-using AttributeRouting.Framework;
-using AttributeRouting.Web.Constraints;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -34,6 +31,15 @@ namespace AttributeRouting.Specs.Steps
 
             Assert.That(route, Is.Not.Null);
             Assert.That(route.Defaults[key], Is.EqualTo(value));
+        }
+
+        [Then(@"a default for ""(.*?)"" does not exist")]
+        public void ThenTheDefaultForDoesNotExist(string key)
+        {
+            var route = ScenarioContext.Current.GetFetchedRoutes().FirstOrDefault();
+
+            Assert.That(route, Is.Not.Null);
+            Assert.That(route.Defaults[key], Is.Null);
         }
 
         [Then(@"the route area is ""(.*?)""")]

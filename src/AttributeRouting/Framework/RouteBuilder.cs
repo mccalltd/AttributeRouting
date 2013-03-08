@@ -144,9 +144,7 @@ namespace AttributeRouting.Framework
             var tokenizedUrl = BuildTokenizedUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec);
             var urlParameters = GetUrlParameterContents(tokenizedUrl).ToList();
 
-            // Need to keep track of query params. 
-            // Can do this by detokenizing URL (which strips query), 
-            // and then taking all the URL parameters except those from the path part of the URL.
+            // Need to keep track of which are path and query params. 
             var pathOnlyUrl = RemoveQueryString(tokenizedUrl);
             var pathOnlyUrlParameters = GetUrlParameterContents(pathOnlyUrl);
             var queryStringParameters = urlParameters.Except(pathOnlyUrlParameters).ToList();
@@ -301,9 +299,11 @@ namespace AttributeRouting.Framework
                 { "action", routeSpec.ActionName }
             };
 
-            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).ToList();
+            // Work from a complete, tokenized url; ie: support defaults in area urls, route prefix urls, and route urls.
+            var tokenizedUrl = BuildTokenizedUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec);
+            var urlParameters = GetUrlParameterContents(tokenizedUrl).ToList();
 
-            // Inspect the url for optional parameters, specified with a trailing ?
+            // Inspect the url path for optional parameters, specified with a trailing ?
             foreach (var parameter in urlParameters.Where(p => p.EndsWith("?")))
             {
                 var parameterName = parameter.TrimEnd('?');
@@ -434,7 +434,6 @@ namespace AttributeRouting.Framework
             var tokenizedUrl = BuildTokenizedUrl(routeUrl, routePrefix, areaUrl, routeSpec);
             var tokenizedPath = RemoveQueryString(tokenizedUrl);
             var detokenizedPath = DetokenizeUrl(tokenizedPath);
-
             var urlParameterNames = GetUrlParameterContents(detokenizedPath).ToList();
 
             var urlBuilder = new StringBuilder(detokenizedPath);

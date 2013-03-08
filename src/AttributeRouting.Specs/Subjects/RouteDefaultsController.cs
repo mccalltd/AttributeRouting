@@ -22,5 +22,11 @@ namespace AttributeRouting.Specs.Subjects
         {
             return "is joe";
         }
+
+        [GET("Optionals/In/Query?{x?}")]
+        public string OptionalsInQuery()
+        {
+            return "optionals in query";
+        }
     }
 }

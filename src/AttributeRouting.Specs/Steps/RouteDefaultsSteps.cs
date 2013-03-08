@@ -2,7 +2,6 @@
 using System.Web.Http;
 using System.Web.Mvc;
 using AttributeRouting.Framework;
-using AttributeRouting.Web.Mvc.Framework;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 

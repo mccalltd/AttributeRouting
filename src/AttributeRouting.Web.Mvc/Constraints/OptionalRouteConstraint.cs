@@ -2,6 +2,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Constraints;
+using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Mvc.Constraints
 {
@@ -25,7 +26,8 @@ namespace AttributeRouting.Web.Mvc.Constraints
             if (route.Defaults.ContainsKey(parameterName)
                 && route.Defaults[parameterName] == UrlParameter.Optional)
             {
-                if (values[parameterName] == UrlParameter.Optional)
+                var value = values[parameterName];
+                if (value == UrlParameter.Optional || value.HasNoValue())
                     return true;
             }
 

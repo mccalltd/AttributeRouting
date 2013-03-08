@@ -66,9 +66,10 @@ namespace AttributeRouting.Logging
                 if (constraint.Value == null || constraint.Value is IInboundHttpMethodConstraint)
                     continue;
 
-                if (constraint.Value is RegexRouteConstraintBase)
+                var regexRouteConstraint = constraint.Value as RegexRouteConstraintBase;
+                if (regexRouteConstraint != null)
                 {
-                    item.Constraints.Add(constraint.Key, ((RegexRouteConstraintBase)constraint.Value).Pattern);
+                    item.Constraints.Add(constraint.Key, regexRouteConstraint.Pattern);
                 }
                 else
                 {
