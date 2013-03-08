@@ -46,6 +46,11 @@ namespace AttributeRouting.Framework
         bool? PreserveCaseForUrlParameters { get; set; }
 
         /// <summary>
+        /// Constraints dictionary for querystring constraints.
+        /// </summary>
+        IDictionary<string, object> QueryStringConstraints { get; set; }
+
+        /// <summary>
         /// The name of this route, for supporting named routes.
         /// </summary>
         string RouteName { get; set; }

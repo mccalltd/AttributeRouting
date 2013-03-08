@@ -34,7 +34,10 @@ namespace AttributeRouting.Specs.Steps
                 Assert.That(route, Is.Not.Null);
 
                 var constraint = route.Constraints[key];
-
+                if (constraint == null && route is IAttributeRoute)
+                {
+                    constraint = ((IAttributeRoute)route).QueryStringConstraints[key];
+                }
                 Assert.That(constraint, Is.Not.Null);
 
                 // If this is a querystring route constraint wrapper, then unwrap it.

@@ -16,8 +16,8 @@ namespace AttributeRouting.Constraints
         protected RegexRouteConstraintBase(string pattern, RegexOptions options)
         {
             Pattern = pattern;
-            // shouldn't these be included in the derrived classes by default: RegexOptions.CultureInvariant | RegexOptions.IgnoreCase?
-            Options = options;  //no need to tell user that it is 'compiled' option...so do not include in public options
+            // REVIEW: Shouldn't these be included in the derived classes by default: RegexOptions.CultureInvariant | RegexOptions.IgnoreCase?
+            Options = options;  // No need to tell user that it is 'compiled' option...so do not include in public options
             CompiledExpression = new Regex(pattern, options | RegexOptions.Compiled); 
         }
 

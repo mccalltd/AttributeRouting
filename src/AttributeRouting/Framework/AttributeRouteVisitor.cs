@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-using AttributeRouting.Constraints;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
@@ -18,8 +16,7 @@ namespace AttributeRouting.Framework
     /// </remarks>
     public class AttributeRouteVisitor
     {
-        private static readonly Lazy<Regex> PathAndQueryRegex =
-            new Lazy<Regex>(() => new Regex(@"(?<path>[^\?]*)(?<query>\?.*)?")); 
+        private static readonly Regex PathAndQueryRegex = new Regex(@"(?<path>[^\?]*)(?<query>\?.*)?");
 
         private readonly IAttributeRoute _route;
         private readonly ConfigurationBase _configuration;
@@ -124,50 +121,6 @@ namespace AttributeRouting.Framework
             }
 
             return fromTranslation(translation);
-        }
-
-        /// <summary>
-        /// Wraps calls to the GetVirtualPath method of routes, removing querystring route constraints
-        /// that would otherwise lead to generated routes with invalid urls.
-        /// </summary>
-        /// The type of virtual path data to be returned. 
-        /// This varies based on whether the route is a
-        /// System.Web.Routing.Route or System.Web.Http.Routing.HttpRoute.
-        /// <param name="fromBaseMethod">The base GetVirtualPath method call</param>
-        /// <returns>The result from the base call</returns>
-        public TVirtualPathData GetVirtualPath<TVirtualPathData>(Func<TVirtualPathData> fromBaseMethod)
-            where TVirtualPathData : class
-        {
-            // Remove querystring route constraints:
-            // the base GetVirtualPath will not inject route params that have constraints into the querystring.
-            var queryStringConstraints = new Dictionary<string, object>();
-            var constraintKeys = _route.Constraints.Keys.Select(k => k).ToList();
-            foreach (var constraintKey in constraintKeys)
-            {
-                var constraint = _route.Constraints[constraintKey];
-                var constraintToTest = constraint is IOptionalRouteConstraint
-                                           ? ((IOptionalRouteConstraint)constraint).Constraint
-                                           : constraint;
-
-                if (!(constraintToTest is IQueryStringRouteConstraint))
-                {
-                    continue;
-                }
-
-                queryStringConstraints.Add(constraintKey, constraint);
-                _route.Constraints.Remove(constraintKey);
-            }
-
-            // Let the underlying route do its thing.
-            var virtualPathData = fromBaseMethod();
-
-            // Add the querystring constraints back in.
-            foreach (var queryStringConstraint in queryStringConstraints)
-            {
-                _route.Constraints.Add(queryStringConstraint.Key, queryStringConstraint.Value);
-            }
-
-            return virtualPathData;
         }
 
         /// <summary>
@@ -280,6 +233,37 @@ namespace AttributeRouting.Framework
             return false;
         }
 
+        /// <summary>
+        /// Processes query constraints separately from route constraints.
+        /// </summary>
+        /// <param name="processConstraint">
+        /// Delegate used to process the query constraints according to the underlying route framework.
+        /// Accepts a constraint and parameter name and returns tru if the constraint passes.
+        /// </param>
+        /// <returns>True if all query string constraints pass or if there are none to test.</returns>
+        /// <remarks>
+        /// Need to separate path and query constraints because methods in the web stack
+        /// will not add query params to generated urls if there is a constraint for the param name
+        /// that is not present in the url template. See logic in:
+        /// - System.Web.Http.Routing.HttpParsedRoute.Bind(...)
+        /// - System.Web.Routing.ParsedRoute.Bind(...)
+        /// </remarks>
+        public bool ProcessQueryStringConstraints(Func<object, string, bool> processConstraint)
+        {
+            foreach (var queryStringConstraint in _route.QueryStringConstraints)
+            {
+                var parameterName = queryStringConstraint.Key;
+                var constraint = queryStringConstraint.Value;
+
+                if (!processConstraint(constraint, parameterName))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private static string AppendTrailingSlashToVirtualPath(string virtualPath)
         {
             string path, query;
@@ -296,7 +280,7 @@ namespace AttributeRouting.Framework
         private static void GetPathAndQuery(string virtualPath, out string path, out string query)
         {
             // NOTE: Do not lowercase the querystring vals
-            var match = PathAndQueryRegex.Value.Match(virtualPath);
+            var match = PathAndQueryRegex.Match(virtualPath);
 
             // Just covering my backside here in case the regex fails for some reason.
             if (!match.Success)

@@ -31,6 +31,7 @@ namespace AttributeRouting.Web.Mvc.Framework
         {
             _configuration = configuration;
             _visitor = new AttributeRouteVisitor(this, configuration);
+            QueryStringConstraints = new RouteValueDictionary();
         }
 
         public bool? AppendTrailingSlash { get; set; }
@@ -58,6 +59,8 @@ namespace AttributeRouting.Web.Mvc.Framework
         public List<string> MappedSubdomains { get; set; }
 
         public bool? PreserveCaseForUrlParameters { get; set; }
+        
+        public IDictionary<string, object> QueryStringConstraints { get; set; }
 
         public string RouteName { get; set; }
 
@@ -85,15 +88,20 @@ namespace AttributeRouting.Web.Mvc.Framework
                 return null;
             }
 
-            // Constrain by subdomain if configured
-            // Get the subdomain from the requested hostname.
+            // Constrain by querystring param if there are any.
+            if (!_visitor.ProcessQueryStringConstraints((constraint, parameterName) => ProcessConstraint(httpContext, constraint, parameterName, routeData.Values, RouteDirection.IncomingRequest)))
+            {
+                return null;
+            }
+
+            // Constrain by subdomain if configured.
             var requestedSubdomain = GetCachedValue(httpContext, RequestedSubdomainKey, () => _configuration.SubdomainParser(httpContext.SafeGet(c => c.Request.Headers["host"])));
             if (!_visitor.IsSubdomainMatched(requestedSubdomain))
             {
                 return null;
             }
 
-            // Constrain by culture name if configured
+            // Constrain by culture name if configured.
             var currentUICultureName = GetCachedValue(httpContext, CurrentUICultureNameKey, () => _configuration.CurrentUICultureResolver(httpContext, routeData));
             if (!_visitor.IsCultureNameMatched(currentUICultureName))
             {
@@ -105,8 +113,8 @@ namespace AttributeRouting.Web.Mvc.Framework
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
-            // Let the underlying route do its thing, and if it does, then add some functionality on top.
-            var virtualPathData = _visitor.GetVirtualPath(() => base.GetVirtualPath(requestContext, values));
+            // Let the underlying route do its thing.
+            var virtualPathData = base.GetVirtualPath(requestContext, values);
             if (virtualPathData == null)
             {
                 return null;

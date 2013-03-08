@@ -41,12 +41,12 @@ Scenario: Inline constraints in the querystring
 	Then the route url is "Inline-Constraints/Querystring"
 	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
 	And the parameter "y" is constrained by an inline AttributeRouting.Web.Constraints.QueryStringRouteConstraint
-	# Web API
-	Given I have registered the routes for the HttpInlineRouteConstraintsController
-	When I fetch the routes for the HttpInlineRouteConstraints controller's Querystring action
-	Then the route url is "Http-Inline-Constraints/Querystring"
-	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
-	And the parameter "y" is constrained by an inline AttributeRouting.Web.Constraints.QueryStringRouteConstraint
+	# Web API - NOTE: this won't work until web api vNext
+	#Given I have registered the routes for the HttpInlineRouteConstraintsController
+	#When I fetch the routes for the HttpInlineRouteConstraints controller's Querystring action
+	#Then the route url is "Http-Inline-Constraints/Querystring"
+	#And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	#And the parameter "y" is constrained by an inline AttributeRouting.Web.Constraints.QueryStringRouteConstraint
 
 Scenario: Multiple inline constraints per url segment
 	# MVC
@@ -147,6 +147,18 @@ Scenario Outline: Matching inline route constraints
 	| EnumValue/10                              | EnumValue    | is not    |
 	| WithOptional                              | WithOptional | is        |
 	| WithDefault                               | WithDefault  | is        |
+
+Scenario Outline: Matching inline route constraints in the querystring
+	# MVC
+	Given I have registered the routes for the InlineRouteConstraintsController
+	When a request for "Inline-Constraints/<url>" is made
+	Then the <action> action <condition> matched
+	# Web API - NOTE: these won't work until web api vNext.
+	#Given I have registered the routes for the HttpInlineRouteConstraintsController
+	#When a request for "Http-Inline-Constraints/<url>" is made
+	#Then the <action> action <condition> matched
+	Examples:
+	| url                                       | action       | condition |
 	| Querystring?x=123&y=hello                 | Querystring  | is        |
 	| Querystring?x=abc&y=hello                 | Querystring  | is not    |
 	| Querystring?x=abc                         | Querystring  | is not    |

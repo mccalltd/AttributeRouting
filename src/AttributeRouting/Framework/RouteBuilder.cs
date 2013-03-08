@@ -13,23 +13,15 @@ namespace AttributeRouting.Framework
     /// </summary>    
     public class RouteBuilder
     {
-        private static readonly Lazy<Regex> ConstraintParamsRegex =
-            new Lazy<Regex>(() => new Regex(@"^.*\(.*\)$", RegexOptions.Compiled));
+        private static readonly Regex ConstraintParamsRegex = new Regex(@"^.*\(.*\)$");
 
-        private static readonly Lazy<Regex> DetokenizeUrlRegex =
-            new Lazy<Regex>(() =>
-            {
-                var patterns = new List<string>
-                {
-                    @"(?<=\{)\?", // leading question mark (used to specify optional param)
-                    @"\?(?=\})", // trailing question mark (used to specify optional param)
-                    @"\(.*?\)(?=\})", // stuff inside parens (used to specify inline regex route constraint)
-                    @"\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))", // new inline constraint syntax
-                    @"(?<=\{.*)=.*?(?=\})", // equals and value (used to specify inline parameter default value)
-                };
-                var pattern = String.Join("|", patterns);
-                return new Regex(pattern);
-            });
+        private static readonly Regex DetokenizeUrlRegex =
+            new Regex(@"(?<=\{)\?" + // leading question mark (used to specify optional param)
+                      @"|\?(?=\})" + // trailing question mark (used to specify optional param)
+                      @"|\(.*?\)(?=\})" + // stuff inside parens (used to specify inline regex route constraint)
+                      @"|\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))" + // new inline constraint syntax
+                      @"|(?<=\{.*)=.*?(?=\})" // equals and value (used to specify inline parameter default value)
+                );
 
         private readonly ConfigurationBase _configuration;
         private readonly IParameterFactory _parameterFactory;
@@ -93,7 +85,9 @@ namespace AttributeRouting.Framework
         private IEnumerable<IAttributeRoute> BuildRoutes(RouteSpecification routeSpec)
         {
             var defaults = CreateRouteDefaults(routeSpec);
-            var constraints = CreateRouteConstraints(routeSpec);
+            IDictionary<string, object> constraints;
+            IDictionary<string, object> queryStringConstraints;
+            CreateRouteConstraints(routeSpec, out constraints, out queryStringConstraints);
             var dataTokens = CreateRouteDataTokens(routeSpec);
             var url = CreateRouteUrl(defaults, routeSpec);
 
@@ -108,6 +102,7 @@ namespace AttributeRouting.Framework
                     route.DataTokens.Add("routeName", routeName);
                 }
 
+                route.QueryStringConstraints = queryStringConstraints;
                 route.Translations = CreateRouteTranslations(routeSpec);
                 route.Subdomain = routeSpec.Subdomain;
                 route.UseLowercaseRoute = routeSpec.UseLowercaseRoute;
@@ -131,9 +126,13 @@ namespace AttributeRouting.Framework
             }
         }
 
-        private IDictionary<string, object> CreateRouteConstraints(RouteSpecification routeSpec)
+        private void CreateRouteConstraints(RouteSpecification routeSpec, out IDictionary<string, object> constraints, out IDictionary<string, object> queryStringConstraints)
         {
-            var constraints = new Dictionary<string, object>();
+            // Going to return individual collections for:
+            // - path routes constraints (which will go into the generated route's Constraints prop),
+            // - and query string route constraints (which will not work perfectly with the MS bits, and need special treatment by IAttributeRoute impls).
+            constraints = new Dictionary<string, object>();
+            queryStringConstraints = new Dictionary<string, object>();
 
             // Default constraints
             if (routeSpec.HttpMethods.Any())
@@ -170,7 +169,7 @@ namespace AttributeRouting.Framework
                 var cleanParameter = parameter.TrimEnd('?').Split('=').FirstOrDefault();
                 var sections = cleanParameter.SplitAndTrim(":");
                 
-                // Do not override default or legacy inline constraints
+                // Do not override default constraints
                 var parameterName = sections.First();
                 if (constraints.ContainsKey(parameterName))
                 {
@@ -185,7 +184,7 @@ namespace AttributeRouting.Framework
                     string constraintName;
                     object constraint;
 
-                    if (ConstraintParamsRegex.Value.IsMatch(definition))
+                    if (ConstraintParamsRegex.IsMatch(definition))
                     {
                         // Constraint of the form "firstName:string(50)"
                         var indexOfOpenParen = definition.IndexOf('(');
@@ -241,9 +240,15 @@ namespace AttributeRouting.Framework
                     finalConstraint = _routeConstraintFactory.CreateOptionalRouteConstraint(finalConstraint);
                 }
 
-                // Apply the constraint to the parameter.
-                constraints.Add(parameterName, finalConstraint);
-
+                // Add the constraints to the appropriate collection.
+                if (parameterIsInQueryString)
+                {
+                    queryStringConstraints.Add(parameterName, finalConstraint);
+                }
+                else
+                {
+                    constraints.Add(parameterName, finalConstraint);
+                }
             } // ... go to next parameter
 
             // Globally configured constraints
@@ -263,8 +268,6 @@ namespace AttributeRouting.Framework
                     constraints.Add(urlParameterName, defaultConstraint.Value);
                 }
             }
-
-            return constraints;
         }
 
         private IDictionary<string, object> CreateRouteDataTokens(RouteSpecification routeSpec)
@@ -384,8 +387,12 @@ namespace AttributeRouting.Framework
                 //*********************************************
                 // Otherwise, build a translated route
 
+                // REVIEW: Could probably forgo processing defaults, constraints, and data tokens for translated routes.
+
                 var defaults = CreateRouteDefaults(routeSpec);
-                var constraints = CreateRouteConstraints(routeSpec);
+                IDictionary<string, object> constraints;
+                IDictionary<string, object> queryStringConstraints;
+                CreateRouteConstraints(routeSpec, out constraints, out queryStringConstraints);
                 var dataTokens = CreateRouteDataTokens(routeSpec);
                 var routeUrl = CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
                                               translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
@@ -404,6 +411,7 @@ namespace AttributeRouting.Framework
                         translatedRoute.DataTokens.Add("routeName", routeName);
                     }
 
+                    translatedRoute.QueryStringConstraints = queryStringConstraints;
                     translatedRoute.CultureName = cultureName;
                     translatedRoute.DataTokens.Add("cultureName", cultureName);
 
@@ -476,7 +484,7 @@ namespace AttributeRouting.Framework
 
         private static string DetokenizeUrl(string url)
         {
-            return DetokenizeUrlRegex.Value.Replace(url, "");
+            return DetokenizeUrlRegex.Replace(url, "");
         }
 
         private static IEnumerable<string> GetUrlParameterContents(string url)

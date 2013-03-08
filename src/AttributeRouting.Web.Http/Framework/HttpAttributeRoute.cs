@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Routing;
+using System.Web.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
@@ -32,6 +32,7 @@ namespace AttributeRouting.Web.Http.Framework
         {
             _configuration = configuration;
             _visitor = new AttributeRouteVisitor(this, configuration);
+            QueryStringConstraints = new RouteValueDictionary();
         }
 
         public bool? AppendTrailingSlash { get; set; }
@@ -59,6 +60,8 @@ namespace AttributeRouting.Web.Http.Framework
         public List<string> MappedSubdomains { get; set; }
 
         public bool? PreserveCaseForUrlParameters { get; set; }
+        
+        public IDictionary<string, object> QueryStringConstraints { get; set; }
 
         public string RouteName { get; set; }
 
@@ -92,6 +95,13 @@ namespace AttributeRouting.Web.Http.Framework
                 return null;
             }
 
+            // Constrain by querystring param if there are any.
+            var routeValues = new HttpRouteValueDictionary(routeData.Values);
+            if (!_visitor.ProcessQueryStringConstraints((constraint, parameterName) => ProcessConstraint(request, constraint, parameterName, routeValues, HttpRouteDirection.UriResolution)))
+            {
+                return null;
+            }
+
             // Constrain by subdomain if configured
             var requestedSubdomain = GetCachedValue(request, RequestedSubdomainKey, () => _configuration.SubdomainParser(request.SafeGet(r => r.Headers.Host)));
             if (!_visitor.IsSubdomainMatched(requestedSubdomain))
@@ -111,8 +121,8 @@ namespace AttributeRouting.Web.Http.Framework
 
         public override IHttpVirtualPathData GetVirtualPath(HttpRequestMessage request, IDictionary<string, object> values)
         {
-            // Let the underlying route do its thing, and if it does, then add some functionality on top.
-            var virtualPathData = _visitor.GetVirtualPath(() => base.GetVirtualPath(request, values));
+            // Let the underlying route do its thing.
+            var virtualPathData = base.GetVirtualPath(request, values);
             if (virtualPathData == null)
             {
                 return null;
