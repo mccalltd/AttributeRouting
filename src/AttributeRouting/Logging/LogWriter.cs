@@ -13,7 +13,7 @@ namespace AttributeRouting.Logging
             writer.WriteLine(" ");
         }
 
-        public static void LogRoute(TextWriter writer, string name, AttributeRouteInfo routeInfo)
+        public static void LogRoute(TextWriter writer, string name, RouteLoggingInfo routeInfo)
         {
             writer.WriteLine("URL: {0} {1}", routeInfo.Url, routeInfo.HttpMethods);
 

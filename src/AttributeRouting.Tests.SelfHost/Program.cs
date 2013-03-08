@@ -23,7 +23,7 @@ namespace AttributeRouting.Tests.SelfHost
 
                 Console.WriteLine("Routes:");
 
-                config.Routes.Cast<HttpRoute>().LogTo(Console.Out);
+                config.Routes.Cast<HttpRoute>().ToArray().LogTo(Console.Out);
 
                 Console.WriteLine("Routes:");
                 Console.WriteLine("Press Enter to quit.");

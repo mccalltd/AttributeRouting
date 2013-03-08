@@ -105,7 +105,7 @@
     <Compile Include="Framework\RouteBuilder.cs" />
     <Compile Include="Framework\AttributeRoutingException.cs" />
     <Compile Include="IRouteAttribute.cs" />
-    <Compile Include="Logging\AttributeRouteInfo.cs" />
+    <Compile Include="Logging\RouteLoggingInfo.cs" />
     <Compile Include="Logging\LogWriter.cs" />
     <Compile Include="RouteConventionAttributeBase.cs" />
     <Compile Include="Framework\RouteNameBuilders.cs" />
