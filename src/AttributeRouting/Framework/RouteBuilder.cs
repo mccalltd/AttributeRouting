@@ -298,7 +298,8 @@ namespace AttributeRouting.Framework
                 { "action", routeSpec.ActionName }
             };
 
-            var urlParameters = GetUrlParameterContents(routeSpec.RouteUrl).ToList();
+            var tokenizedUrl = BuildTokenizedUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec);
+            var urlParameters = GetUrlParameterContents(tokenizedUrl).ToList();
 
             // Inspect the url for optional parameters, specified with a trailing ?
             foreach (var parameter in urlParameters.Where(p => p.EndsWith("?")))
