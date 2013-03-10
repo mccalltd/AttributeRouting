@@ -24,7 +24,7 @@
     }
 
     function parseSpecDescription(description) {
-        var parser = new RegExp(/should respond to (\w+) "([^\"]+)" with "?([^\"]+|\d+)"?/i),
+        var parser = new RegExp(/responds to (\w+) "([^\"]+)" with "?([^\"]+|\d+)"?/i),
             match = parser.exec(description);
 
         // Validate the format of the spec's description.

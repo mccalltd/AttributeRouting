@@ -128,11 +128,11 @@
     <Content Include="Integration\css\runner.css" />
     <Content Include="Integration\js\lib\jasmine-html.js" />
     <Content Include="Integration\js\lib\jasmine.js" />
-    <Content Include="Integration\js\specs\basics.js" />
-    <Content Include="Integration\js\specs\constraints.js" />
-    <Content Include="Integration\js\specs\defaults.js" />
-    <Content Include="Integration\js\specs\matchers.js" />
-    <Content Include="Integration\js\specs\specs.js" />
+    <Content Include="Integration\js\basics.js" />
+    <Content Include="Integration\js\constraints.js" />
+    <Content Include="Integration\js\defaults.js" />
+    <Content Include="Integration\js\matchers.js" />
+    <Content Include="Integration\js\specs.js" />
     <None Include="Integration\SpecRunner.cshtml" />
     <Content Include="Integration\js\lib\jquery-1.9.1.min.js" />
     <Content Include="Web.config" />
