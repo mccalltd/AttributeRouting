@@ -118,9 +118,9 @@
     <Compile Include="Subjects\Color.cs" />
     <Compile Include="Subjects\Mvc\BasicsController.cs" />
     <Compile Include="Subjects\Http\HttpBasicsController.cs" />
-    <Compile Include="Subjects\Http\HttpDefaultsController.cs" />
+    <Compile Include="Subjects\Http\HttpDefaultsControllers.cs" />
     <Compile Include="Subjects\Mvc\ConstraintsControllers.cs" />
-    <Compile Include="Subjects\Mvc\DefaultsController.cs" />
+    <Compile Include="Subjects\Mvc\DefaultsControllers.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Integration\css\jasmine.css" />

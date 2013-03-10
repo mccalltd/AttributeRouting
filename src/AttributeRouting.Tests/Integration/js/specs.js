@@ -23,30 +23,25 @@
         });
     }
 
-    function parseSpecDescription(description) {
+    function respondsWith() {
         var parser = new RegExp(/responds to (\w+) "([^\"]+)" with "?([^\"]+|\d+)"?/i),
-            match = parser.exec(description);
+            match = parser.exec(this.description),
+            method, url, expectedResponse;
 
         // Validate the format of the spec's description.
         if (!match || match.length !== 4) {
             throw new Error('The spec description is not valid.\n' +
-                'Expected: should respond to METHOD "/url" with {"response" or STATUS}');
+                'Expected: responds to METHOD "/url" with {"response" or STATUS}');
         }
 
         // Parse the relevant params from the description.
-        return {
-            method: match[1],
-            url: match[2],
-            expectedResponse: match[3]
-        };
-    }
-    
-    function respondsWith() {
-        var params = parseSpecDescription(this.description);
+        method = match[1];
+        url = match[2];
+        expectedResponse = match[3];
 
         // Ensure we get the expected response.
-        fetchResponse(params.method, params.url, function (response) {
-            expect(response).toEqualValue(params.expectedResponse);
+        fetchResponse(method, url, function (response) {
+            expect(response).toEqualValue(expectedResponse);
         });
     }
 

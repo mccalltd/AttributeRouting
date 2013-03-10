@@ -31,4 +31,24 @@ namespace AttributeRouting.Tests.Subjects.Mvc
             return "Defaults.ActionName";
         }
     }
+
+    [RouteArea("Defaults", AreaUrl = "Defaults/InAreaPrefix/{p=param}")]
+    public class DefaultsInAreaPrefixController : Controller
+    {
+        [GET("")]
+        public string Index(string p)
+        {
+            return "DefaultsInAreaPrefix.Index({0})".FormatWith(p);
+        }
+    }
+
+    [RoutePrefix("Defaults/InRoutePrefix/{p=param}")]
+    public class DefaultsInRoutePrefixController : Controller
+    {
+        [GET("")]
+        public string Index(string p)
+        {
+            return "DefaultsInRoutePrefix.Index({0})".FormatWith(p);
+        }
+    }
 }

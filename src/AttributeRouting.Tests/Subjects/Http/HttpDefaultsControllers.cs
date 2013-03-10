@@ -31,4 +31,24 @@ namespace AttributeRouting.Tests.Subjects.Http
             return "HttpDefaults.ActionName";
         }
     }
+
+    [RouteArea("HttpDefaults", AreaUrl = "HttpDefaults/InAreaPrefix/{p=param}")]
+    public class HttpDefaultsInAreaPrefixController : ApiController
+    {
+        [GET(""), HttpGet]
+        public string Index(string p)
+        {
+            return "HttpDefaultsInAreaPrefix.Index({0})".FormatWith(p);
+        }
+    }
+
+    [RoutePrefix("HttpDefaults/InRoutePrefix/{p=param}")]
+    public class HttpDefaultsInRoutePrefixController : ApiController
+    {
+        [GET(""), HttpGet]
+        public string Index(string p)
+        {
+            return "HttpDefaultsInRoutePrefix.Index({0})".FormatWith(p);
+        }
+    }
 }
