@@ -2,7 +2,7 @@
 using AttributeRouting.Helpers;
 using AttributeRouting.Web.Http;
 
-namespace AttributeRouting.Tests.Subjects
+namespace AttributeRouting.Tests.Subjects.Http
 {
     [RoutePrefix("HttpBasicUsage")]
     public class HttpBasicUsageController : ApiController

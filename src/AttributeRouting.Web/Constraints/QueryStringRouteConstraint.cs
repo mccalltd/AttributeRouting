@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Routing;
 using AttributeRouting.Constraints;
-using System.Linq;
+using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Constraints
 {
@@ -21,15 +21,18 @@ namespace AttributeRouting.Web.Constraints
 
         public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
         {
-            // If the query param does not exist, then fail.
+            // If the query param does not exist in the query or the route defaults, then fail.
             var queryString = httpContext.Request.QueryString;
-            if (!queryString.AllKeys.Contains(parameterName))
+            var value = queryString[parameterName] ?? values[parameterName];
+            if (value.HasNoValue())
+            {
                 return false;
+            }
 
             // Process the constraint.
             var queryRouteValues = new RouteValueDictionary
             {
-                { parameterName, queryString[parameterName] }
+                { parameterName, value }
             };
 
             return _constraint == null // ie: Simply ensure that the query param exists.

@@ -2,7 +2,7 @@
 using AttributeRouting.Helpers;
 using AttributeRouting.Web.Mvc;
 
-namespace AttributeRouting.Tests.Subjects
+namespace AttributeRouting.Tests.Subjects.Mvc
 {
     [RoutePrefix("BasicUsage")]
     public class BasicUsageController : Controller
