@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>AttributeRouting Integration Tests</title>
+        <link rel="stylesheet" type="text/css" href="css/jasmine.css">
+        <link rel="stylesheet" type="text/css" href="css/runner.css">
+    </head>
+
+    <body>
+        <a href="/routes.axd" class="view-all-routes">Wanna see all the registered routes?</a>
+        
+        <script src="js/lib/jasmine.js"></script>
+        <script src="js/lib/jasmine-html.js"></script>
+        <script src="js/lib/jquery-1.9.1.min.js"></script>
+        <script src="js/specs/specs.js"></script>
+        <script src="js/specs/basic-usage.js"></script>
+
+        <script>
+            (function () {
+                var jasmineEnv = jasmine.getEnv();
+                jasmineEnv.updateInterval = 1000;
+
+                var htmlReporter = new jasmine.HtmlReporter();
+
+                jasmineEnv.addReporter(htmlReporter);
+
+                jasmineEnv.specFilter = function (spec) {
+                    return htmlReporter.specFilter(spec);
+                };
+
+                var currentWindowOnload = window.onload;
+
+                window.onload = function () {
+                    if (currentWindowOnload) {
+                        currentWindowOnload();
+                    }
+                    execJasmine();
+                };
+
+                function execJasmine() {
+                    jasmineEnv.execute();
+                }
+
+            })();
+        </script>
+    </body>
+</html>
