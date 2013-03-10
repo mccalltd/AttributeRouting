@@ -1,6 +1,6 @@
 ﻿var specs = (function() {
 
-    var fetchResponse = function (method, url, callback) {
+    function fetchResponse(method, url, callback) {
         var response = undefined;
 
         $.ajax({
@@ -8,6 +8,9 @@
             url: url,
             success: function(res) {
                 response = res;
+            },
+            error: function(res) {
+                response = res.status + '';
             }
         });
 
@@ -18,32 +21,37 @@
         runs(function() {
             callback(response);
         });
-    };
+    }
 
-    var magic = function() {
-        var description = this.description,
-            parser = new RegExp(/should respond to (\w+) "([\w-\/\?=]+)" with "(.+?)"/i),
-            match = parser.exec(description),
-            method, url, expectedResponse;
+    function parseSpecDescription(description) {
+        var parser = new RegExp(/should respond to (\w+) "([^\"]+)" with "?([^\"]+|\d+)"?/i),
+            match = parser.exec(description);
 
         // Validate the format of the spec's description.
         if (!match || match.length !== 4) {
             throw new Error('The spec description is not valid.\n' +
-                'Expected: should respond to METHOD "/url" with "response"');
+                'Expected: should respond to METHOD "/url" with {"response" or STATUS}');
         }
 
         // Parse the relevant params from the description.
-        method = match[1];
-        url = match[2];
-        expectedResponse = match[3];
+        return {
+            method: match[1],
+            url: match[2],
+            expectedResponse: match[3]
+        };
+    }
+    
+    function respondsWith() {
+        var params = parseSpecDescription(this.description);
 
-        // Perform the assertion.
-        fetchResponse(method, url, function(response) {
-            expect(response).toEqual(expectedResponse);
+        // Ensure we get the expected response.
+        fetchResponse(params.method, params.url, function (response) {
+            expect(response).toEqualValue(params.expectedResponse);
         });
-    };
+    }
 
+    // Export shared specs:
     return {
-        magic: magic
+        respondsWith: respondsWith
     };
 }());

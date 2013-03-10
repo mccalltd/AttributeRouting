@@ -4,31 +4,31 @@ using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Tests.Subjects.Mvc
 {
-    [RoutePrefix("BasicUsage")]
-    public class BasicUsageController : Controller
+    [RoutePrefix("Basics")]
+    public class BasicsController : Controller
     {
         [GET("")]
         public string Index()
         {
-            return "BasicUsage.Index";
+            return "Basics.Index";
         }
 
         [POST("")]
         public string Create()
         {
-            return "BasicUsage.Create";
+            return "Basics.Create";
         }
 
         [PUT("{id}")]
         public string Update(string id)
         {
-            return "BasicUsage.Update({0})".FormatWith(id);
+            return "Basics.Update({0})".FormatWith(id);
         }
 
         [DELETE("{id}")]
         public string Delete(string id)
         {
-            return "BasicUsage.Delete({0})".FormatWith(id);
+            return "Basics.Delete({0})".FormatWith(id);
         }
     }
 }

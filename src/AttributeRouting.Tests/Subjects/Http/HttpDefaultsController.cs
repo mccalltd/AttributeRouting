@@ -4,31 +4,31 @@ using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Tests.Subjects.Http
 {
-    [RoutePrefix("HttpRouteDefaults")]
-    public class HttpRouteDefaultsController : ApiController
+    [RoutePrefix("HttpDefaults")]
+    public class HttpDefaultsController : ApiController
     {
         [GET("Inline/{p=param}?{q=query}"), HttpGet]
         public string Inline(string p, string q)
         {
-            return "HttpRouteDefaults.Inline({0}, {1})".FormatWith(p, q);
+            return "HttpDefaults.Inline({0}, {1})".FormatWith(p, q);
         }
 
         [GET("Optional/{p?}?{q?}"), HttpGet]
         public string Optional(string p = "", string q = "")
         {
-            return "HttpRouteDefaults.Optional({0}, {1})".FormatWith(p, q);
+            return "HttpDefaults.Optional({0}, {1})".FormatWith(p, q);
         }
 
         [GET("{controller}/ControllerName", IsAbsoluteUrl = true), HttpGet]
         public string ControllerName()
         {
-            return "HttpRouteDefaults.ControllerName";
+            return "HttpDefaults.ControllerName";
         }
 
         [GET("{action}"), HttpGet]
         public string ActionName()
         {
-            return "HttpRouteDefaults.ActionName";
+            return "HttpDefaults.ActionName";
         }
     }
 }

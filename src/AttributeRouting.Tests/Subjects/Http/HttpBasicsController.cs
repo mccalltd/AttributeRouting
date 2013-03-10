@@ -4,31 +4,31 @@ using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Tests.Subjects.Http
 {
-    [RoutePrefix("HttpBasicUsage")]
-    public class HttpBasicUsageController : ApiController
+    [RoutePrefix("HttpBasics")]
+    public class HttpBasicsController : ApiController
     {
         [GET(""), HttpGet]
         public string Index()
         {
-            return "HttpBasicUsage.Index";
+            return "HttpBasics.Index";
         }
 
         [POST(""), HttpPost]
         public string Create()
         {
-            return "HttpBasicUsage.Create";
+            return "HttpBasics.Create";
         }
 
         [PUT("{id}"), HttpPut]
         public string Update(string id)
         {
-            return "HttpBasicUsage.Update({0})".FormatWith(id);
+            return "HttpBasics.Update({0})".FormatWith(id);
         }
 
         [DELETE("{id}"), HttpDelete]
         public string Delete(string id)
         {
-            return "HttpBasicUsage.Delete({0})".FormatWith(id);
+            return "HttpBasics.Delete({0})".FormatWith(id);
         }
     }
 }

@@ -1,20 +1,23 @@
-﻿<!DOCTYPE html>
+﻿@inherits System.Web.Mvc.WebViewPage
+<!DOCTYPE html>
 <html>
     <head>
         <title>AttributeRouting Integration Tests</title>
-        <link rel="stylesheet" type="text/css" href="css/jasmine.css">
-        <link rel="stylesheet" type="text/css" href="css/runner.css">
+        <link rel="stylesheet" type="text/css" href="~/Integration/css/jasmine.css">
+        <link rel="stylesheet" type="text/css" href="~/Integration/css/runner.css">
     </head>
 
     <body>
         <a href="/routes.axd" class="view-all-routes">Wanna see all the registered routes?</a>
         
-        <script src="js/lib/jasmine.js"></script>
-        <script src="js/lib/jasmine-html.js"></script>
-        <script src="js/lib/jquery-1.9.1.min.js"></script>
-        <script src="js/specs/specs.js"></script>
-        <script src="js/specs/basic-usage.js"></script>
-        <script src="js/specs/route-defaults.js"></script>
+        <script src="~/Integration/js/lib/jasmine.js"></script>
+        <script src="~/Integration/js/lib/jasmine-html.js"></script>
+        <script src="~/Integration/js/lib/jquery-1.9.1.min.js"></script>
+        <script src="~/Integration/js/specs/matchers.js"></script>
+        <script src="~/Integration/js/specs/specs.js"></script>
+        <script src="~/Integration/js/specs/basics.js"></script>
+        <script src="~/Integration/js/specs/defaults.js"></script>
+        <script src="~/Integration/js/specs/constraints.js"></script>
 
         <script>
             (function () {
