@@ -8,6 +8,7 @@ describe('Basic Usage', function() {
         it('responds to PUT "/Basics/1" with "Basics.Update(1)"', specs.respondsWith);
         it('responds to DELETE "/Basics/1" with "Basics.Delete(1)"', specs.respondsWith);
     });
+    
     describe('HttpBasicsController', function () {
         it('responds to GET "/HttpBasics" with "HttpBasics.Index"', specs.respondsWith);
         it('responds to POST "/HttpBasics" with "HttpBasics.Create"', specs.respondsWith);

@@ -23,8 +23,8 @@ namespace AttributeRouting.Tests
             GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(cfg =>
             {
                 cfg.AddRoutesFromAssemblyOf<MvcApplication>();
-                cfg.InlineRouteConstraints.Add("color", typeof(HttpConstraints.EnumRouteConstraint<Color>));
-                cfg.InlineRouteConstraints.Add("colorValue", typeof(HttpConstraints.EnumValueRouteConstraint<Color>));                
+                cfg.InlineRouteConstraints.Add("color", typeof(WebConstraints.EnumRouteConstraint<Color>));
+                cfg.InlineRouteConstraints.Add("colorValue", typeof(WebConstraints.EnumValueRouteConstraint<Color>));                
             });
         }
     }
