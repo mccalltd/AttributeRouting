@@ -17,7 +17,7 @@ namespace AttributeRouting.Helpers
         /// Will walk the given expression tree to get the value at the leaf.
         /// If a NullReferenceException is thrown, the default for the leaf type will be returned.
         /// </summary>
-        public static TResult SafeGet<T, TResult>(this T obj, Expression<Func<T, TResult>> memberExpression)
+        public static TResult SafeGet<T, TResult>(this T obj, Func<T, TResult> memberExpression)
         {
             return SafeGet(obj, memberExpression, default(TResult));
         }
@@ -26,12 +26,11 @@ namespace AttributeRouting.Helpers
         /// Will walk the given expression tree to get the value at the leaf.
         /// If a NullReferenceException is thrown, the given default will be returned.
         /// </summary>
-        public static TResult SafeGet<T, TResult>(this T obj, Expression<Func<T, TResult>> memberExpression, TResult defaultValue)
+        public static TResult SafeGet<T, TResult>(this T obj, Func<T, TResult> memberExpression, TResult defaultValue)
         {
             try
             {
-                var result = memberExpression.Compile().Invoke(obj);
-                return result;
+                return memberExpression(obj);
             }
             catch (NullReferenceException)
             {
