@@ -4,6 +4,11 @@ h2. Please refer to "attributerouting.net":http://attributerouting.net/ for docu
 
 h3. Changelog
 
+_3.5.4_
+
+* #217 - Improved perf of ObjectExtensions.SafeGet. Thanks youssefm!
+* BUG FIX: fixed bug in handling of default values with querystring params.
+
 _3.5.3_
 
 * #216 - testing optional constraint for mvc against null/empty in addition to UrlParameter.Optional.
