@@ -67,9 +67,9 @@ namespace AttributeRouting.Helpers
 
 		public static bool IsAsyncController(this Type type)
 		{
-			for (Type t = type.BaseType; t != typeof(object); t = t.BaseType)
+			for (var t = type.BaseType; t != typeof(object); t = t.BaseType)
 			{
-				if (String.Equals(t.FullName, "System.Web.Mvc.AsyncController", StringComparison.InvariantCultureIgnoreCase))
+				if (t.FullName.ValueEquals("System.Web.Mvc.AsyncController"))
 					return true;
 			}
 			return false;
