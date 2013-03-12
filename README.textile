@@ -4,6 +4,10 @@ h2. Please refer to "attributerouting.net":http://attributerouting.net/ for docu
 
 h3. Changelog
 
+_3.5.5_
+
+* #218 - BUG FIX: fixed handling of querystring default values.
+
 _3.5.4_
 
 * #217 - Improved perf of ObjectExtensions.SafeGet. Thanks youssefm!
