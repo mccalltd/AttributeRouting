@@ -3,8 +3,7 @@ using System.Collections.Generic;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Abstraction used by <see cref="RouteBuilder"/> 
-    /// to generate routes with custom functionality.
+    /// Abstraction used by <see cref="RouteBuilder"/> to generate routes with custom functionality.
     /// </summary>
     /// <remarks>
     /// Due to different route implementations in

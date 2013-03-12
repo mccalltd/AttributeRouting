@@ -4,8 +4,7 @@ using AttributeRouting.Constraints;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Abstraction used by <see cref="RouteBuilder"/>
-    /// to generate route constraints for routes.
+    /// Abstraction used by <see cref="RouteBuilder"/> when generating a route constraint.
     /// </summary>
     /// <remarks>
     /// Due to 

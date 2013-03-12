@@ -55,6 +55,24 @@ namespace AttributeRouting.Framework
             return routeSpecs.SelectMany(BuildRoutes);
         }
 
+        private void ApplyDefaultRouteConstraint(IEnumerable<string> urlParameterNames, KeyValuePair<string, object> constraint, IDictionary<string, object> targetConstraints, bool inQueryString)
+        {
+            foreach (var name in urlParameterNames)
+            {
+                if (!Regex.IsMatch(name, constraint.Key) || targetConstraints.ContainsKey(name))
+                {
+                    continue;
+                }
+
+                var finalConstraint = constraint.Value;
+                if (inQueryString)
+                {
+                    finalConstraint = _routeConstraintFactory.CreateQueryStringRouteConstraint(finalConstraint);
+                }
+                targetConstraints.Add(name, finalConstraint);
+            }            
+        }
+
         private string BuildTokenizedUrl(string routeUrl, string routePrefixUrl, string areaUrl, RouteSpecification routeSpec)
         {
             var delimitedUrl = routeUrl + "/";
@@ -255,22 +273,16 @@ namespace AttributeRouting.Framework
                 }
             } // ... go to next parameter
 
-            // Globally configured constraints
+            // Globally configured constraints:
             var detokenizedUrl = DetokenizeUrl(tokenizedUrl);
-            var urlParameterNames = GetUrlParameterContents(detokenizedUrl).ToList();
+            string path, query;
+            detokenizedUrl.GetPathAndQuery(out path, out query);
+            var urlPathParameterNames = GetUrlParameterContents(path).ToArray();
+            var urlQueryParameterNames = GetUrlParameterContents(query).ToArray();
             foreach (var defaultConstraint in _configuration.DefaultRouteConstraints)
             {
-                var pattern = defaultConstraint.Key;
-
-                foreach (var urlParameterName in urlParameterNames.Where(n => Regex.IsMatch(n, pattern)))
-                {
-                    if (constraints.ContainsKey(urlParameterName))
-                    {
-                        continue;
-                    }
-
-                    constraints.Add(urlParameterName, defaultConstraint.Value);
-                }
+                ApplyDefaultRouteConstraint(urlPathParameterNames, defaultConstraint, constraints, false);
+                ApplyDefaultRouteConstraint(urlQueryParameterNames, defaultConstraint, queryStringConstraints, true);
             }
         }
 
@@ -297,7 +309,7 @@ namespace AttributeRouting.Framework
             return dataTokens;
         }
 
-        private IDictionary<string, object> CreateRouteDefaults(RouteSpecification routeSpec, out IDictionary<string, object> defaults, out IDictionary<string, object> queryStringDefaults)
+        private void CreateRouteDefaults(RouteSpecification routeSpec, out IDictionary<string, object> defaults, out IDictionary<string, object> queryStringDefaults)
         {
             // Going to return individual collections for:
             // - path routes defaults (which will go into the generated route's Defaults prop),
@@ -369,8 +381,6 @@ namespace AttributeRouting.Framework
                     defaults.Add(parameterName, defaultValue);                    
                 }
             }
-
-            return defaults;
         }
 
         private string CreateRouteName(RouteSpecification routeSpec)
@@ -521,7 +531,9 @@ namespace AttributeRouting.Framework
         private static IEnumerable<string> GetUrlParameterContents(string url)
         {
             if (!url.HasValue())
+            {
                 yield break;
+            }
 
             var urlSegments = url.SplitAndTrim(new[] { "/" });
             foreach (var urlSegment in urlSegments)

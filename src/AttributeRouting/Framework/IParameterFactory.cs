@@ -1,8 +1,7 @@
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Abstraction used by <see cref="RouteBuilder"/> 
-    /// when generating optional url parameters.
+    /// Abstraction used by <see cref="RouteBuilder"/> when generating a url parameter.
     /// </summary>
     /// <remarks>
     /// Due to 

@@ -254,7 +254,7 @@ namespace AttributeRouting.Framework
         /// </summary>
         /// <param name="processConstraint">
         /// Delegate used to process the query constraints according to the underlying route framework.
-        /// Accepts a constraint and parameter name and returns tru if the constraint passes.
+        /// Accepts a constraint and parameter name and returns true if the constraint passes.
         /// </param>
         /// <returns>True if all query string constraints pass or if there are none to test.</returns>
         /// <remarks>
@@ -283,7 +283,7 @@ namespace AttributeRouting.Framework
         private static string AppendTrailingSlashToVirtualPath(string virtualPath)
         {
             string path, query;
-            GetPathAndQuery(virtualPath, out path, out query);
+            virtualPath.GetPathAndQuery(out path, out query);
 
             if (path.HasValue() && !path.EndsWith("/"))
             {
@@ -293,28 +293,10 @@ namespace AttributeRouting.Framework
             return path + query;
         }
 
-        private static void GetPathAndQuery(string virtualPath, out string path, out string query)
-        {
-            // NOTE: Do not lowercase the querystring vals
-            var match = PathAndQueryRegex.Match(virtualPath);
-
-            // Just covering my backside here in case the regex fails for some reason.
-            if (!match.Success)
-            {
-                path = virtualPath;
-                query = null;
-            }
-            else
-            {
-                path = match.Groups["path"].Value;
-                query = match.Groups["query"].Value;
-            }
-        }
-
         private static string TransformVirtualPathToLowercase(string virtualPath)
         {
             string path, query;
-            GetPathAndQuery(virtualPath, out path, out query);
+            virtualPath.GetPathAndQuery(out path, out query);
 
             return path.ToLowerInvariant() + query;
         }

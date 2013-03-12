@@ -3,8 +3,7 @@ using System.Collections.Generic;
 namespace AttributeRouting.Framework
 {
     /// <summary>
-    /// Abstraction used by <see cref="RouteBuilder"/>
-    /// to put custom routes in the underlying route table.
+    /// Abstraction used by <see cref="RouteBuilder"/> when generating an <see cref="IAttributeRoute"/>.
     /// </summary>
     /// <remarks>
     /// Due to different route implementations in
