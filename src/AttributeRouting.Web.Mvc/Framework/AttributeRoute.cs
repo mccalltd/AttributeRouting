@@ -32,6 +32,7 @@ namespace AttributeRouting.Web.Mvc.Framework
             _configuration = configuration;
             _visitor = new AttributeRouteVisitor(this, configuration);
             QueryStringConstraints = new RouteValueDictionary();
+            QueryStringDefaults = new RouteValueDictionary();
         }
 
         public bool? AppendTrailingSlash { get; set; }
@@ -61,6 +62,8 @@ namespace AttributeRouting.Web.Mvc.Framework
         public bool? PreserveCaseForUrlParameters { get; set; }
         
         public IDictionary<string, object> QueryStringConstraints { get; set; }
+
+        public IDictionary<string, object> QueryStringDefaults { get; set; }
 
         public string RouteName { get; set; }
 
@@ -113,6 +116,9 @@ namespace AttributeRouting.Web.Mvc.Framework
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
+            // Add querystring default values if applicable.
+            _visitor.AddQueryStringDefaultsToRouteValues(values);
+
             // Let the underlying route do its thing.
             var virtualPathData = base.GetVirtualPath(requestContext, values);
             if (virtualPathData == null)

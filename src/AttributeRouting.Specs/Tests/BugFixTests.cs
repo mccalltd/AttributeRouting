@@ -20,6 +20,28 @@ namespace AttributeRouting.Specs.Tests
     public class BugFixTests
     {
         [Test]
+        public void Issue218_Url_generation_with_optional_query_params()
+        {
+            // re: issue #218
+
+            var routes = RouteTable.Routes;
+            routes.Clear();
+            routes.MapAttributeRoutes(config => config.AddRoutesFromController<Issue218TestController>());
+            RouteTable.Routes.Cast<Route>().LogTo(Console.Out);
+            
+            var urlHelper = new UrlHelper(MockBuilder.BuildRequestContext());
+
+            Assert.That(urlHelper.Action("NoQuery", "Issue218Test", new { categoryId = 12 }),
+                        Is.EqualTo("/Issue-218/No-Query?categoryId=12"));
+
+            Assert.That(urlHelper.Action("OptionalQuery", "Issue218Test", new { categoryId = 12 }),
+                        Is.EqualTo("/Issue-218/Optional-Query?categoryId=12"));
+
+            Assert.That(urlHelper.Action("DefaultQuery", "Issue218Test"),
+                        Is.EqualTo("/Issue-218/Default-Query?categoryId=123"));
+        }
+
+        [Test]
         public void Issue161_Querystring_param_constraints_mucks_up_url_generation()
         {
             // re: issue #161

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -49,6 +50,21 @@ namespace AttributeRouting.Framework
                 }
                 return _staticLeftPartOfUrl;
             }
+        }
+
+        /// <summary>
+        /// Adds querystring default values to route values collection if they aren't already present.
+        /// </summary>
+        /// <param name="routeValues">The route values.</param>
+        public void AddQueryStringDefaultsToRouteValues(IDictionary<string, object> routeValues)
+        {
+            foreach (var queryStringDefault in _route.QueryStringDefaults)
+            {
+                if (!routeValues.ContainsKey(queryStringDefault.Key))
+                {
+                    routeValues.Add(queryStringDefault.Key, queryStringDefault.Value);
+                }
+            }            
         }
 
         /// <summary>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
 
 namespace AttributeRouting.Helpers
 {
@@ -14,7 +13,7 @@ namespace AttributeRouting.Helpers
         }
 
         /// <summary>
-        /// Will walk the given expression tree to get the value at the leaf.
+        /// Will attempt to get the value returned from the delegate.
         /// If a NullReferenceException is thrown, the default for the leaf type will be returned.
         /// </summary>
         public static TResult SafeGet<T, TResult>(this T obj, Func<T, TResult> memberExpression)
@@ -23,7 +22,7 @@ namespace AttributeRouting.Helpers
         }
 
         /// <summary>
-        /// Will walk the given expression tree to get the value at the leaf.
+        /// Will attempt to get the value returned from the delegate.
         /// If a NullReferenceException is thrown, the given default will be returned.
         /// </summary>
         public static TResult SafeGet<T, TResult>(this T obj, Func<T, TResult> memberExpression, TResult defaultValue)

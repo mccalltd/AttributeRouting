@@ -51,6 +51,11 @@ namespace AttributeRouting.Framework
         IDictionary<string, object> QueryStringConstraints { get; set; }
 
         /// <summary>
+        /// Defaults dictionary for querystring defaults.
+        /// </summary>
+        IDictionary<string, object> QueryStringDefaults { get; set; }
+
+        /// <summary>
         /// The name of this route, for supporting named routes.
         /// </summary>
         string RouteName { get; set; }

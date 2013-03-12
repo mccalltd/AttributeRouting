@@ -84,15 +84,20 @@ namespace AttributeRouting.Framework
 
         private IEnumerable<IAttributeRoute> BuildRoutes(RouteSpecification routeSpec)
         {
-            var defaults = CreateRouteDefaults(routeSpec);
+            // Get info needed to construct IAttributeRoute via factory method.
+            IDictionary<string, object> defaults;
+            IDictionary<string, object> queryStringDefaults;
+            CreateRouteDefaults(routeSpec, out defaults, out queryStringDefaults);
             IDictionary<string, object> constraints;
             IDictionary<string, object> queryStringConstraints;
             CreateRouteConstraints(routeSpec, out constraints, out queryStringConstraints);
             var dataTokens = CreateRouteDataTokens(routeSpec);
             var url = CreateRouteUrl(defaults, routeSpec);
 
+            // Build the route.
             var routes = _routeFactory.CreateAttributeRoutes(url, defaults, constraints, dataTokens);
 
+            // Extend the factory generated route:
             foreach (var route in routes)
             {
                 var routeName = CreateRouteName(routeSpec);
@@ -103,6 +108,7 @@ namespace AttributeRouting.Framework
                 }
 
                 route.QueryStringConstraints = queryStringConstraints;
+                route.QueryStringDefaults = queryStringDefaults;
                 route.Translations = CreateRouteTranslations(routeSpec);
                 route.Subdomain = routeSpec.Subdomain;
                 route.UseLowercaseRoute = routeSpec.UseLowercaseRoute;
@@ -291,28 +297,40 @@ namespace AttributeRouting.Framework
             return dataTokens;
         }
 
-        private IDictionary<string, object> CreateRouteDefaults(RouteSpecification routeSpec)
+        private IDictionary<string, object> CreateRouteDefaults(RouteSpecification routeSpec, out IDictionary<string, object> defaults, out IDictionary<string, object> queryStringDefaults)
         {
-            var defaults = new Dictionary<string, object>
+            // Going to return individual collections for:
+            // - path routes defaults (which will go into the generated route's Defaults prop),
+            // - and query string route defaults (which will not work perfectly with the MS bits, and need special treatment by IAttributeRoute impls).
+            defaults = new Dictionary<string, object>
             {
                 { "controller", routeSpec.ControllerName },
                 { "action", routeSpec.ActionName }
             };
+            queryStringDefaults = new Dictionary<string, object>();
 
-            // Work from a complete, tokenized url; ie: support defaults in area urls, route prefix urls, and route urls.
+            // Work from a complete, tokenized url; ie: support constraints in area urls, route prefix urls, and route urls.
             var tokenizedUrl = BuildTokenizedUrl(routeSpec.RouteUrl, routeSpec.RoutePrefixUrl, routeSpec.AreaUrl, routeSpec);
             var urlParameters = GetUrlParameterContents(tokenizedUrl).ToList();
 
+            // Need to keep track of which are path and query params. 
+            var pathOnlyUrl = RemoveQueryString(tokenizedUrl);
+            var pathOnlyUrlParameters = GetUrlParameterContents(pathOnlyUrl).ToList();
+            var queryStringParameters = urlParameters.Except(pathOnlyUrlParameters).ToList();
+
             // Inspect the url path for optional parameters, specified with a trailing ?
-            foreach (var parameter in urlParameters.Where(p => p.EndsWith("?")))
+            foreach (var parameter in pathOnlyUrlParameters.Where(p => p.EndsWith("?")))
             {
+                // Strip off any optional tokens.
                 var parameterName = parameter.TrimEnd('?');
                 
+                // Strip off any inline constraints.
                 if (parameterName.Contains(':'))
                 {
                     parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
                 }
 
+                // Do not override default defaults.
                 if (defaults.ContainsKey(parameterName))
                 {
                     continue;
@@ -326,19 +344,30 @@ namespace AttributeRouting.Framework
             {
                 var indexOfEquals = parameter.IndexOf('=');
                 var parameterName = parameter.Substring(0, indexOfEquals);
+                var parameterIsInQueryString = queryStringParameters.Contains(parameter);
 
+                // Strip off inline constraints
                 if (parameterName.Contains(':'))
                 {
                     parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
                 }
 
+                // Do not override default defaults.
                 if (defaults.ContainsKey(parameterName))
                 {
                     continue;
                 }
 
                 var defaultValue = parameter.Substring(indexOfEquals + 1, parameter.Length - indexOfEquals - 1);
-                defaults.Add(parameterName, defaultValue);
+                
+                if (parameterIsInQueryString)
+                {
+                    queryStringDefaults.Add(parameterName, defaultValue);
+                }
+                else
+                {
+                    defaults.Add(parameterName, defaultValue);                    
+                }
             }
 
             return defaults;
@@ -389,7 +418,9 @@ namespace AttributeRouting.Framework
 
                 // REVIEW: Could probably forgo processing defaults, constraints, and data tokens for translated routes.
 
-                var defaults = CreateRouteDefaults(routeSpec);
+                IDictionary<string, object> defaults;
+                IDictionary<string, object> queryStringDefaults;
+                CreateRouteDefaults(routeSpec, out defaults, out queryStringDefaults);
                 IDictionary<string, object> constraints;
                 IDictionary<string, object> queryStringConstraints;
                 CreateRouteConstraints(routeSpec, out constraints, out queryStringConstraints);
@@ -412,6 +443,7 @@ namespace AttributeRouting.Framework
                     }
 
                     translatedRoute.QueryStringConstraints = queryStringConstraints;
+                    translatedRoute.QueryStringDefaults = queryStringDefaults;
                     translatedRoute.CultureName = cultureName;
                     translatedRoute.DataTokens.Add("cultureName", cultureName);
 

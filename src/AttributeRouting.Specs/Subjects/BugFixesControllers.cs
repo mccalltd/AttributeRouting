@@ -5,6 +5,28 @@ using AttributeRouting.Web.Mvc;
 
 namespace AttributeRouting.Specs.Subjects
 {
+    [RoutePrefix("Issue-218")]
+    public class Issue218TestController : Controller
+    {
+        [GET("Optional-Query?{categoryId:long?}")]
+        public string OptionalQuery(long categoryId = 0)
+        {
+            return "Category id = " + categoryId;
+        }
+
+        [GET("Default-Query?{categoryId:long=123}")]
+        public string DefaultQuery(long categoryId)
+        {
+            return "Category id = " + categoryId;
+        }
+
+        [GET("No-Query")]
+        public string NoQuery(long categoryId = 0)
+        {
+            return "Category id = " + categoryId;
+        }
+    }
+
     [RoutePrefix("BugFixes")]
     public class BugFixesController : Controller
     {
