@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Constraints;
+using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Mvc.Constraints
@@ -22,13 +24,18 @@ namespace AttributeRouting.Web.Mvc.Constraints
 
         public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
         {
+            var attributeRoute = (IAttributeRoute)route;
+            var allDefaults = new Dictionary<string, object>();
+            allDefaults.Merge(attributeRoute.Defaults);
+            allDefaults.Merge(attributeRoute.QueryStringDefaults);
+            
             // If the param is optional and has no value, then pass the constraint
-            if (route.Defaults.ContainsKey(parameterName)
-                && route.Defaults[parameterName] == UrlParameter.Optional)
+            if (allDefaults.ContainsKey(parameterName) && allDefaults[parameterName] == UrlParameter.Optional)
             {
-                var value = values[parameterName];
-                if (value == UrlParameter.Optional || value.HasNoValue())
+                if (values[parameterName].HasNoValue())
+                {
                     return true;
+                }
             }
 
             return _constraint.Match(httpContext, route, parameterName, values, routeDirection);

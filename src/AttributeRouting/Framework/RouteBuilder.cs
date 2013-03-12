@@ -14,13 +14,20 @@ namespace AttributeRouting.Framework
     public class RouteBuilder
     {
         private static readonly Regex ConstraintParamsRegex = new Regex(@"^.*\(.*\)$");
+        
+        private static readonly Regex DetokenizeUrlParamContentsRegex 
+            = new Regex(@"(" +
+                        @":.+" + // inline constraints
+                        @"|=.+" + // or inline defaults
+                        @"|\?" + // or inline optionals
+                        @")$" // at end of string
+                        );
 
         private static readonly Regex DetokenizeUrlRegex =
-            new Regex(@"(?<=\{)\?" + // leading question mark (used to specify optional param)
-                      @"|\?(?=\})" + // trailing question mark (used to specify optional param)
-                      @"|\(.*?\)(?=\})" + // stuff inside parens (used to specify inline regex route constraint)
-                      @"|\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))" + // new inline constraint syntax
-                      @"|(?<=\{.*)=.*?(?=\})" // equals and value (used to specify inline parameter default value)
+            new Regex(@"\?(?=\})" + // trailing question mark (used to specify optional param)
+                      @"|\(.*?\)(?=\})" + // or stuff inside parens (used to specify inline regex route constraint)
+                      @"|\:(.*?)(\(.*?\))?((?=\})|(?=\?\}))" + // or new inline constraint syntax
+                      @"|(?<=\{.*)=.*?(?=\})" // or equals and value (used to specify inline parameter default value)
                 );
 
         private readonly ConfigurationBase _configuration;
@@ -331,39 +338,22 @@ namespace AttributeRouting.Framework
             var pathOnlyUrlParameters = GetUrlParameterContents(pathOnlyUrl).ToList();
             var queryStringParameters = urlParameters.Except(pathOnlyUrlParameters).ToList();
 
-            // Inspect the url path for optional parameters, specified with a trailing ?
-            foreach (var parameter in pathOnlyUrlParameters.Where(p => p.EndsWith("?")))
+            // Inspect the url path for optional parameters and default values.
+            foreach (var parameter in urlParameters)
             {
-                // Strip off any optional tokens.
-                var parameterName = parameter.TrimEnd('?');
-                
-                // Strip off any inline constraints.
-                if (parameterName.Contains(':'))
-                {
-                    parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
-                }
-
-                // Do not override default defaults.
-                if (defaults.ContainsKey(parameterName))
+                // Does this param have a default value or is it optional?
+                var isOptional = parameter.EndsWith("?");
+                var indexOfEquals = parameter.IndexOf('=');
+                if (!isOptional && indexOfEquals == -1)
                 {
                     continue;
                 }
 
-                defaults.Add(parameterName, _parameterFactory.Optional());
-            }
-
-            // Inline defaults
-            foreach (var parameter in urlParameters.Where(p => p.Contains('=')))
-            {
-                var indexOfEquals = parameter.IndexOf('=');
-                var parameterName = parameter.Substring(0, indexOfEquals);
+                // Keep track if this is a querystring param
                 var parameterIsInQueryString = queryStringParameters.Contains(parameter);
 
-                // Strip off inline constraints
-                if (parameterName.Contains(':'))
-                {
-                    parameterName = parameterName.Substring(0, parameterName.IndexOf(':'));
-                }
+                // Strip off inline constraints, defaults, and optional tokens.
+                var parameterName = DetokenizeUrlParamContentsRegex.Replace(parameter, "");
 
                 // Do not override default defaults.
                 if (defaults.ContainsKey(parameterName))
@@ -371,7 +361,15 @@ namespace AttributeRouting.Framework
                     continue;
                 }
 
-                var defaultValue = parameter.Substring(indexOfEquals + 1, parameter.Length - indexOfEquals - 1);
+                object defaultValue;
+                if (isOptional)
+                {
+                    defaultValue = _parameterFactory.Optional();
+                }
+                else // It has a default value.
+                {
+                    defaultValue = parameter.Substring(indexOfEquals + 1, parameter.Length - indexOfEquals - 1);
+                }
                 
                 if (parameterIsInQueryString)
                 {

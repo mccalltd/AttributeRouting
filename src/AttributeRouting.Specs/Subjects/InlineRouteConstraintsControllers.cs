@@ -33,6 +33,12 @@ namespace AttributeRouting.Specs.Subjects
             return "";
         }
 
+        [GET("QuerystringOptional?{x:int?}")]
+        public string QuerystringOptional(int x, string y)
+        {
+            return "";
+        }
+
         [GET("Alpha/{x:alpha}")]
         public string Alpha(string x)
         {

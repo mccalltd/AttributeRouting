@@ -92,6 +92,7 @@
     <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
     <Compile Include="Framework\ThreeSectionSubdomainParser.cs" />
     <Compile Include="Framework\UniqueRouteNameBuilder.cs" />
+    <Compile Include="Helpers\DictionaryExtensions.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\ObjectExtensions.cs" />
     <Compile Include="Helpers\ParsingExtensions.cs" />

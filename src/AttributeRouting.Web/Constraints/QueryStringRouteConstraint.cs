@@ -22,8 +22,7 @@ namespace AttributeRouting.Web.Constraints
         public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
         {
             // If the query param does not exist in the query or the route defaults, then fail.
-            var queryString = httpContext.Request.QueryString;
-            var value = queryString[parameterName] ?? values[parameterName];
+            var value = httpContext.Request.QueryString[parameterName] ?? values[parameterName];
             if (value.HasNoValue())
             {
                 return false;

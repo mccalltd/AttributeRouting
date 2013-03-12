@@ -60,6 +60,13 @@ namespace AttributeRouting.Framework
         {
             foreach (var queryStringDefault in _route.QueryStringDefaults)
             {
+                // Don't add optional params.
+                if (queryStringDefault.Value.HasNoValue())
+                {
+                    continue;
+                }
+
+                // Add default if no value is present in the current route values.
                 if (!routeValues.ContainsKey(queryStringDefault.Key))
                 {
                     routeValues.Add(queryStringDefault.Key, queryStringDefault.Value);

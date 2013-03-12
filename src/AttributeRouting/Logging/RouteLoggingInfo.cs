@@ -34,41 +34,22 @@ namespace AttributeRouting.Logging
             //************************
             // Defaults
 
-            if (defaults != null)
+            var allDefaults = new Dictionary<string, object>();
+            allDefaults.Merge(defaults);
+            allDefaults.Merge(queryStringDefaults);
+            
+            foreach (var @default in allDefaults)
             {
-                foreach (var @default in defaults)
-                {
-                    var defaultValue = @default.Value.ToString();
-                    item.Defaults.Add(@default.Key, defaultValue.ValueOr("Optional"));
-                }
-            }
-            if (queryStringDefaults != null)
-            {
-                foreach (var @default in queryStringDefaults)
-                {
-                    var defaultValue = @default.Value.ToString();
-                    item.Defaults.Add(@default.Key, defaultValue);
-                }
+                var defaultValue = @default.Value.ToString();
+                item.Defaults.Add(@default.Key, defaultValue);
             }
 
             //************************
             // Constraints
 
             var allConstraints = new Dictionary<string, object>();
-            if (constraints != null)
-            {
-                foreach (var constraint in constraints)
-                {
-                    allConstraints.Add(constraint.Key, constraint.Value);                    
-                }
-            }
-            if (queryStringConstraints != null)
-            {
-                foreach (var constraint in queryStringConstraints)
-                {
-                    allConstraints.Add(constraint.Key, constraint.Value);
-                }
-            }
+            allConstraints.Merge(constraints);
+            allConstraints.Merge(queryStringConstraints);
 
             foreach (var constraint in allConstraints)
             {

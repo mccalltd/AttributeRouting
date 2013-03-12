@@ -315,6 +315,7 @@ this.ScenarioSetup(scenarioInfo);
         [NUnit.Framework.TestCaseAttribute("Querystring?x=abc&y=hello", "Querystring", "is not", null)]
         [NUnit.Framework.TestCaseAttribute("Querystring?x=abc", "Querystring", "is not", null)]
         [NUnit.Framework.TestCaseAttribute("Querystring?y=hello", "Querystring", "is not", null)]
+        [NUnit.Framework.TestCaseAttribute("QuerystringOptional", "QuerystringOptional", "is", null)]
         public virtual void MatchingInlineRouteConstraintsInTheQuerystring(string url, string action, string condition, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Matching inline route constraints in the querystring", exampleTags);

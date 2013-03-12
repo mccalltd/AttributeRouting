@@ -158,8 +158,9 @@ Scenario Outline: Matching inline route constraints in the querystring
 	#When a request for "Http-Inline-Constraints/<url>" is made
 	#Then the <action> action <condition> matched
 	Examples:
-	| url                                       | action       | condition |
-	| Querystring?x=123&y=hello                 | Querystring  | is        |
-	| Querystring?x=abc&y=hello                 | Querystring  | is not    |
-	| Querystring?x=abc                         | Querystring  | is not    |
-	| Querystring?y=hello                       | Querystring  | is not    |
+	| url                       | action              | condition |
+	| Querystring?x=123&y=hello | Querystring         | is        |
+	| Querystring?x=abc&y=hello | Querystring         | is not    |
+	| Querystring?x=abc         | Querystring         | is not    |
+	| Querystring?y=hello       | Querystring         | is not    |
+	| QuerystringOptional       | QuerystringOptional | is        |
