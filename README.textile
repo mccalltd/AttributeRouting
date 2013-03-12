@@ -4,6 +4,11 @@ h2. Please refer to "attributerouting.net":http://attributerouting.net/ for docu
 
 h3. Changelog
 
+_3.5.6_
+
+* #219 - BUG FIX: with handling of querystring optionals.
+* Now applying default constraints to matching query string params.
+
 _3.5.5_
 
 * #218 - BUG FIX: fixed handling of querystring default values.
