@@ -273,12 +273,13 @@ namespace AttributeRouting.Framework
                 }
             } // ... go to next parameter
 
-            // Globally configured constraints:
+            // Globally configured constraints - have to treat path params differently than query params.
             var detokenizedUrl = DetokenizeUrl(tokenizedUrl);
             string path, query;
             detokenizedUrl.GetPathAndQuery(out path, out query);
             var urlPathParameterNames = GetUrlParameterContents(path).ToArray();
             var urlQueryParameterNames = GetUrlParameterContents(query).ToArray();
+
             foreach (var defaultConstraint in _configuration.DefaultRouteConstraints)
             {
                 ApplyDefaultRouteConstraint(urlPathParameterNames, defaultConstraint, constraints, false);
