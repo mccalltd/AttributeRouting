@@ -28,6 +28,7 @@ namespace AttributeRouting.Web.Logging
             var name = attributeRoute.SafeGet(r => r.RouteName);
             var info = RouteLoggingInfo.GetRouteInfo(route.Url,
                                                      route.Defaults,
+                                                     attributeRoute.SafeGet(r => r.QueryStringDefaults),
                                                      route.Constraints,
                                                      attributeRoute.SafeGet(r => r.QueryStringConstraints),
                                                      route.DataTokens);

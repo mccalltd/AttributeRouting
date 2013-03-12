@@ -23,6 +23,7 @@ namespace AttributeRouting.Logging
 
         public static RouteLoggingInfo GetRouteInfo(string url,
                                                       IDictionary<string, object> defaults,
+                                                      IDictionary<string, object> queryStringDefaults,
                                                       IDictionary<string, object> constraints,
                                                       IDictionary<string, object> queryStringConstraints,
                                                       IDictionary<string, object> dataTokens)
@@ -39,6 +40,14 @@ namespace AttributeRouting.Logging
                 {
                     var defaultValue = @default.Value.ToString();
                     item.Defaults.Add(@default.Key, defaultValue.ValueOr("Optional"));
+                }
+            }
+            if (queryStringDefaults != null)
+            {
+                foreach (var @default in queryStringDefaults)
+                {
+                    var defaultValue = @default.Value.ToString();
+                    item.Defaults.Add(@default.Key, defaultValue);
                 }
             }
 

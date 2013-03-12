@@ -24,8 +24,9 @@ namespace AttributeRouting.Web.Http.SelfHost.Logging
             var attributeRoute = route as IAttributeRoute;
             var info = RouteLoggingInfo.GetRouteInfo(route.RouteTemplate,
                                                      route.Defaults,
+                                                     attributeRoute.SafeGet(r => r.QueryStringDefaults),
                                                      route.Constraints,
-                                                     attributeRoute.SafeGet(x => x.QueryStringConstraints),
+                                                     attributeRoute.SafeGet(r => r.QueryStringConstraints),
                                                      route.DataTokens);
 
             LogWriter.LogRoute(writer, route.RouteTemplate, info);

@@ -95,13 +95,14 @@ namespace AttributeRouting.Web.Logging
 
         private static IEnumerable<object> GetRouteInfo()
         {
-            return from r in RouteTable.Routes.OfType<Route>()
-                   let ar = r as IAttributeRoute
-                   let routeInfo = RouteLoggingInfo.GetRouteInfo(r.Url,
-                                                                 r.Defaults,
-                                                                 r.Constraints,
-                                                                 ar.SafeGet(x => x.QueryStringConstraints),
-                                                                 r.DataTokens)
+            return from route in RouteTable.Routes.OfType<Route>()
+                   let attributeRoute = route as IAttributeRoute
+                   let routeInfo = RouteLoggingInfo.GetRouteInfo(route.Url,
+                                                                 route.Defaults,
+                                                                 attributeRoute.SafeGet(r => r.QueryStringDefaults),
+                                                                 route.Constraints,
+                                                                 attributeRoute.SafeGet(r => r.QueryStringConstraints),
+                                                                 route.DataTokens)
                    select new
                    {
                        methods = routeInfo.HttpMethods,
