@@ -108,26 +108,5 @@ namespace AttributeRouting.Framework
 
             return true;
         }
-
-        private static string AppendTrailingSlashToVirtualPath(string virtualPath)
-        {
-            string path, query;
-            virtualPath.GetPathAndQuery(out path, out query);
-
-            if (path.HasValue() && !path.EndsWith("/"))
-            {
-                path += "/";
-            }
-
-            return path + query;
-        }
-
-        private static string TransformVirtualPathToLowercase(string virtualPath)
-        {
-            string path, query;
-            virtualPath.GetPathAndQuery(out path, out query);
-
-            return path.ToLowerInvariant() + query;
-        }
     }
 }
