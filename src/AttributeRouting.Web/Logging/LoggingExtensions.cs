@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Web.Routing;
 using AttributeRouting.Framework;
@@ -10,13 +9,11 @@ namespace AttributeRouting.Web.Logging
 {
     public static class LoggingExtensions
     {
-        public static void LogTo(this IEnumerable<Route> routes, TextWriter writer)
+        public static void LogTo(this RouteCollection routes, TextWriter writer)
         {
-            var enumerable = routes as Route[] ?? routes.ToArray();
-            
-            LogWriter.LogNumberOfRoutes(enumerable.Count(), writer);
+            LogWriter.LogNumberOfRoutes(routes.Count(), writer);
 
-            foreach (var route in enumerable)
+            foreach (var route in routes.Cast<Route>())
             {
                 route.LogTo(writer);
             }

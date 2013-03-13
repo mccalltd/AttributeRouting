@@ -6,7 +6,7 @@ using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
 using AttributeRouting.Logging;
 
-namespace AttributeRouting.Web.Http.SelfHost.Logging
+namespace AttributeRouting.Web.Http.Logging
 {
     public static class LoggingExtensions
     {
