@@ -106,7 +106,7 @@ namespace AttributeRouting.Framework
             }
 
             // If given an area name, then use it.
-            // Otherwise, use the last section of the namespace of the controller, as a convention.
+            // Otherwise, get the area name from the namespace of the controller, as a convention.
             return routeAreaAttribute.AreaName ?? controllerType.GetConventionalAreaName();
         }
 

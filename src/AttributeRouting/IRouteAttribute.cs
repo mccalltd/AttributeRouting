@@ -46,7 +46,7 @@ namespace AttributeRouting
         string RouteName { get; set; }
 
         /// <summary>
-        /// If true, the generated route url will be applied from the root, skipping any relevant area name or route prefix.
+        /// If true, the generated route url will be applied from the root, skipping any relevant area or route prefix.
         /// </summary>
         bool IsAbsoluteUrl { get; set; }
 
