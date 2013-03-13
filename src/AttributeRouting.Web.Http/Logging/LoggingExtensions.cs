@@ -10,7 +10,7 @@ namespace AttributeRouting.Web.Http.Logging
 {
     public static class LoggingExtensions
     {
-        public static void LogTo(HttpRouteCollection routes, TextWriter writer)
+        public static void LogTo(this HttpRouteCollection routes, TextWriter writer)
         {
             LogWriter.LogNumberOfRoutes(routes.Count(), writer);
 
