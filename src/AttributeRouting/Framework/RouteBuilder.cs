@@ -54,11 +54,6 @@ namespace AttributeRouting.Framework
             var reflector = new AttributeReflector(_configuration);
             var routeSpecs = reflector.BuildRouteSpecifications().ToList();
 
-            // Update the config object with context.
-            _configuration.MappedSubdomains = (from s in routeSpecs
-                                               where s.Subdomain.HasValue()
-                                               select s.Subdomain).Distinct().ToList();
-
             return routeSpecs.SelectMany(BuildRoutes);
         }
 
@@ -134,26 +129,9 @@ namespace AttributeRouting.Framework
 
                 route.QueryStringConstraints = queryStringConstraints;
                 route.QueryStringDefaults = queryStringDefaults;
-                route.Translations = CreateRouteTranslations(routeSpec);
-                route.Subdomain = routeSpec.Subdomain;
-                route.UseLowercaseRoute = routeSpec.UseLowercaseRoute;
-                route.PreserveCaseForUrlParameters = routeSpec.PreserveCaseForUrlParameters;
-                route.AppendTrailingSlash = routeSpec.AppendTrailingSlash;
 
-                // Yield the default route first
+                // Yield the route.
                 yield return route;
-
-                // Then yield the translations
-                if (route.Translations != null)
-                {
-                    foreach (var translation in route.Translations)
-                    {
-                        // Backreference the default route.
-                        translation.SourceLanguageRoute = route;
-
-                        yield return translation;
-                    }
-                }
             }
         }
 
@@ -299,8 +277,6 @@ namespace AttributeRouting.Framework
             var dataTokens = new Dictionary<string, object>
             {
                 { "namespaces", new[] { routeSpec.ControllerType.Namespace } },
-                { "actionMethod", routeSpec.ActionMethod },
-                { "defaultSubdomain", _configuration.DefaultSubdomain}
             };
 
             if (routeSpec.HttpMethods.Any())
@@ -389,76 +365,12 @@ namespace AttributeRouting.Framework
                 return routeSpec.RouteName;
             }
 
-            return _configuration.AutoGenerateRouteNames ? _configuration.RouteNameBuilder(routeSpec) : null;
-        }
-
-        private IEnumerable<IAttributeRoute> CreateRouteTranslations(RouteSpecification routeSpec)
-        {
-            // If no translation provider, then get out of here.
-            if (!_configuration.TranslationProviders.Any())
-                yield break;
-
-            // Merge all the culture names from the various providers.
-            var cultureNames = _configuration.GetTranslationProviderCultureNames();
-
-            // Built the route translations, 
-            // choosing the first available translated route component from among the providers
-            foreach (var cultureName in cultureNames)
+            if (_configuration.AutoGenerateRouteNames)
             {
-                string translatedRouteUrl = null,
-                       translatedRoutePrefix = null,
-                       translatedAreaUrl = null;
-
-                foreach (var provider in _configuration.TranslationProviders)
-                {
-                    translatedRouteUrl = translatedRouteUrl ?? provider.TranslateRouteUrl(cultureName, routeSpec);
-                    translatedRoutePrefix = translatedRoutePrefix ?? provider.TranslateRoutePrefix(cultureName, routeSpec);
-                    translatedAreaUrl = translatedAreaUrl ?? provider.TranslateAreaUrl(cultureName, routeSpec);
-                }
-
-                // If nothing is translated, then bail.
-                if (translatedRouteUrl == null && translatedRoutePrefix == null && translatedAreaUrl == null)
-                {
-                    continue;
-                }
-
-                //*********************************************
-                // Otherwise, build a translated route
-
-                // REVIEW: Could probably forgo processing defaults, constraints, and data tokens for translated routes.
-
-                IDictionary<string, object> defaults;
-                IDictionary<string, object> queryStringDefaults;
-                CreateRouteDefaults(routeSpec, out defaults, out queryStringDefaults);
-                IDictionary<string, object> constraints;
-                IDictionary<string, object> queryStringConstraints;
-                CreateRouteConstraints(routeSpec, out constraints, out queryStringConstraints);
-                var dataTokens = CreateRouteDataTokens(routeSpec);
-                var routeUrl = CreateRouteUrl(translatedRouteUrl ?? routeSpec.RouteUrl,
-                                              translatedRoutePrefix ?? routeSpec.RoutePrefixUrl,
-                                              translatedAreaUrl ?? routeSpec.AreaUrl,
-                                              defaults,
-                                              routeSpec);
-
-                var translatedRoutes = _routeFactory.CreateAttributeRoutes(routeUrl, defaults, constraints, dataTokens);
-
-                foreach (var translatedRoute in translatedRoutes)
-                {
-                    var routeName = CreateRouteName(routeSpec);
-                    if (routeName != null)
-                    {
-                        translatedRoute.RouteName = routeName;
-                        translatedRoute.DataTokens.Add("routeName", routeName);
-                    }
-
-                    translatedRoute.QueryStringConstraints = queryStringConstraints;
-                    translatedRoute.QueryStringDefaults = queryStringDefaults;
-                    translatedRoute.CultureName = cultureName;
-                    translatedRoute.DataTokens.Add("cultureName", cultureName);
-
-                    yield return translatedRoute;
-                }
+                return _configuration.RouteNameBuilder.Execute(routeSpec);
             }
+            
+            return null;
         }
 
         private string CreateRouteUrl(IDictionary<string, object> defaults, RouteSpecification routeSpec)
@@ -496,27 +408,6 @@ namespace AttributeRouting.Framework
             {
                 throw new AttributeRoutingException(
                     "{area} url parameters are not allowed. Specify the area name by using the RouteAreaAttribute.");
-            }
-
-            // If we are lowercasing routes, then lowercase everything but the route params
-            var lower = routeSpec.UseLowercaseRoute.GetValueOrDefault(_configuration.UseLowercaseRoutes);
-            if (lower)
-            {
-                for (var i = 0; i < urlBuilder.Length; i++)
-                {
-                    var c = urlBuilder[i];
-                    if (Char.IsUpper(c))
-                    {
-                        urlBuilder[i] = Char.ToLower(c);
-                    }
-                    else if (c == '{')
-                    {
-                        while (urlBuilder[i] != '}' && i < urlBuilder.Length)
-                        {
-                            i++;
-                        }
-                    }
-                }
             }
 
             return urlBuilder.ToString().Trim('/');

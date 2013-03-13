@@ -73,44 +73,6 @@ namespace AttributeRouting
         bool IsAbsoluteUrl { get; set; }
 
         /// <summary>
-        /// Key used by translation provider to lookup the translation for the <see cref="RouteUrl"/>.
-        /// </summary>
-        string TranslationKey { get; set; }
-
-        /// <summary>
-        /// If set, will override <see cref="ConfigurationBase.UseLowercaseRoutes"/>
-        /// set via global configuration for this route.
-        /// </summary>
-        bool UseLowercaseRoute { get; set; }
-
-        /// <summary>
-        /// Gets the tri-state value for UseLowercaseRoutes.
-        /// </summary>
-        bool? UseLowercaseRouteFlag { get; }
-
-        /// <summary>
-        /// If set, will override <see cref="ConfigurationBase.PreserveCaseForUrlParameters"/>
-        /// set via global configuration for this route.
-        /// </summary>
-        bool PreserveCaseForUrlParameters { get; set; }
-
-        /// <summary>
-        /// Gets the tri-state value for PreserveCaseForUrlParameters.
-        /// </summary>
-        bool? PreserveCaseForUrlParametersFlag { get; }
-
-        /// <summary>
-        /// If true, will override <see cref="ConfigurationBase.AppendTrailingSlash"/>
-        /// set via global configuration for this route.
-        /// </summary>
-        bool AppendTrailingSlash { get; set; }
-
-        /// <summary>
-        /// Gets the tri-state value for AppendTrailingSlash.
-        /// </summary>
-        bool? AppendTrailingSlashFlag { get; }
-
-        /// <summary>
         /// If true, will ignore any route prefix specified via the <see cref="RoutePrefixAttribute"/>
         /// when building up the route URL.
         /// </summary>

@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Web.Http.Routing;
 using System.Web.Routing;
 using AttributeRouting.Framework;
-using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Http.Framework
 {
@@ -14,10 +13,6 @@ namespace AttributeRouting.Web.Http.Framework
     public class HttpAttributeRoute : HttpRoute, IAttributeRoute
     {
         private const string RequestedPathKey = "__AttributeRouting:RequestedPath";
-        private const string RequestedSubdomainKey = "__AttributeRouting:RequestedSubdomain";
-        private const string CurrentUICultureNameKey = "__AttributeRouting:CurrentUICulture";
-
-        private readonly HttpConfigurationBase _configuration;
         private readonly AttributeRouteVisitor _visitor;
 
         /// <summary>
@@ -27,24 +22,19 @@ namespace AttributeRouting.Web.Http.Framework
                                   HttpRouteValueDictionary defaults,
                                   HttpRouteValueDictionary constraints,
                                   HttpRouteValueDictionary dataTokens,
-                                  HttpConfigurationBase configuration)
+                                  HttpConfiguration configuration)
             : base(url, defaults, constraints, dataTokens, configuration.MessageHandler)
         {
-            _configuration = configuration;
-            _visitor = new AttributeRouteVisitor(this, configuration);
+            _visitor = new AttributeRouteVisitor(this);
             QueryStringConstraints = new RouteValueDictionary();
             QueryStringDefaults = new RouteValueDictionary();
         }
-
-        public bool? AppendTrailingSlash { get; set; }
 
         IDictionary<string, object> IAttributeRoute.Constraints
         {
             get { return Constraints; }
             set { throw new NotImplementedException("HttpRoute.Constraints has no setter."); }
         }
-
-        public string CultureName { get; set; }
 
         IDictionary<string, object> IAttributeRoute.DataTokens
         {
@@ -58,29 +48,17 @@ namespace AttributeRouting.Web.Http.Framework
             set { throw new NotImplementedException("HttpRoute.Defaults has no setter."); }
         }
 
-        public List<string> MappedSubdomains { get; set; }
-
-        public bool? PreserveCaseForUrlParameters { get; set; }
-        
         public IDictionary<string, object> QueryStringConstraints { get; set; }
         
         public IDictionary<string, object> QueryStringDefaults { get; set; }
 
         public string RouteName { get; set; }
 
-        public IAttributeRoute SourceLanguageRoute { get; set; }
-
-        public string Subdomain { get; set; }
-
-        public IEnumerable<IAttributeRoute> Translations { get; set; }
-
         public string Url
         {
             get { return RouteTemplate; }
             set { throw new NotImplementedException("IHttpRoute.RouteTemplate has no setter."); }
         }
-
-        public bool? UseLowercaseRoute { get; set; }
 
         public override IHttpRouteData GetRouteData(string virtualPathRoot, HttpRequestMessage request)
         {
@@ -105,20 +83,6 @@ namespace AttributeRouting.Web.Http.Framework
                 return null;
             }
 
-            // Constrain by subdomain if configured
-            var requestedSubdomain = GetCachedValue(request, RequestedSubdomainKey, () => _configuration.SubdomainParser(request.SafeGet(r => r.Headers.Host)));
-            if (!_visitor.IsSubdomainMatched(requestedSubdomain))
-            {
-                return null;
-            }
-
-            // Constrain by culture name if configured
-            var currentUICultureName = GetCachedValue(request, CurrentUICultureNameKey, () => _configuration.CurrentUICultureResolver(request, routeData));
-            if (!_visitor.IsCultureNameMatched(currentUICultureName))
-            {
-                return null;
-            }
-
             return routeData;
         }
 
@@ -134,17 +98,7 @@ namespace AttributeRouting.Web.Http.Framework
                 return null;
             }
 
-            // Translate this path if a translation is available.
-            var translatedVirtualPath = _visitor.GetTranslatedVirtualPath(t => ((HttpRoute)t).GetVirtualPath(request, values));
-            if (translatedVirtualPath != null)
-            {
-                virtualPathData = translatedVirtualPath;
-            }
-
-            // Lowercase, append trailing slash, etc.
-            var virtualPath = _visitor.GetFinalVirtualPath(virtualPathData.VirtualPath);
-
-            return new HttpVirtualPathData(virtualPathData.Route, virtualPath);
+            return new HttpVirtualPathData(virtualPathData.Route, virtualPathData.VirtualPath);
         }
 
         private static T GetCachedValue<T>(HttpRequestMessage context, string key, Func<T> initializeValue)

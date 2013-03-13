@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using AttributeRouting.Web.Constraints;
+using AttributeRouting.Web.Mvc.Constraints;
 using AttributeRouting.Web.Mvc.Framework;
 
 namespace AttributeRouting.Web.Mvc
@@ -15,9 +13,7 @@ namespace AttributeRouting.Web.Mvc
             AttributeRouteFactory = new AttributeRouteFactory(this);
             ParameterFactory = new RouteParameterFactory();
             RouteConstraintFactory = new RouteConstraintFactory(this);
-
             RouteHandlerFactory = () => new MvcRouteHandler();
-            CurrentUICultureResolver = (ctx, data) => Thread.CurrentThread.CurrentUICulture.Name;
             RegisterDefaultInlineRouteConstraints<IRouteConstraint>(typeof(RegexRouteConstraint).Assembly);
         }
 
@@ -49,13 +45,6 @@ namespace AttributeRouting.Web.Mvc
         {
             AddRoutesFromControllersOfType(typeof(T));
         }
-
-        /// <summary>
-        /// This delegate returns the current UI culture name,
-        /// which is used when constraining inbound routes by culture.
-        /// The default delegate returns the CurrentUICulture name of the current thread.
-        /// </summary>
-        public Func<HttpContextBase, RouteData, string> CurrentUICultureResolver { get; set; }
 
         /// <summary>
         /// The controller type applicable to this context.

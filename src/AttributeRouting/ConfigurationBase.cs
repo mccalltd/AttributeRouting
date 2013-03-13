@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
-using AttributeRouting.Framework.Localization;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting
@@ -15,8 +14,6 @@ namespace AttributeRouting
     /// </summary>
     public abstract class ConfigurationBase
     {
-        private List<string> _mappedSubdomains = new List<string>();
-
         /// <summary>
         /// Creates and initializes a new configuration object.
         /// </summary>
@@ -30,23 +27,9 @@ namespace AttributeRouting
             DefaultRouteConstraints = new Dictionary<string, object>();
             InlineRouteConstraints = new Dictionary<string, Type>();
 
-            // Translation setting initialization
-            TranslationProviders = new List<TranslationProviderBase>();
-
-            // Subdomain config setting initialization
-            AreaSubdomainOverrides = new Dictionary<string, string>();
-            DefaultSubdomain = "www";
-            SubdomainParser = SubdomainParsers.ThreeSection;
-
             // AutoGenerateRouteNames config setting initialization
-            RouteNameBuilder = RouteNameBuilders.FirstInWins;
+            RouteNameBuilder = new FirstInWinsRouteNameBuilder();
         }
-
-        /// <summary>
-        /// When true, the generated routes will have a trailing slash on the path of outbound URLs.
-        /// The default is false.
-        /// </summary>
-        public bool AppendTrailingSlash { get; set; }
 
         /// <summary>
         /// Factory for generating routes used by AttributeRouting.
@@ -58,18 +41,6 @@ namespace AttributeRouting
         /// The default is false.
         /// </summary>
         public bool AutoGenerateRouteNames { get; set; }
-
-        /// <summary>
-        /// Constrains translated routes by the thread's current UI culture.
-        /// The default is false.
-        /// </summary>
-        public bool ConstrainTranslatedRoutesByCurrentUICulture { get; set; }
-
-        /// <summary>
-        /// Specify the default subdomain for this application.
-        /// The default is www.
-        /// </summary>
-        public string DefaultSubdomain { get; set; }
 
         /// <summary>
         /// Type of the framework controller (IController, IHttpController).
@@ -89,24 +60,9 @@ namespace AttributeRouting
         public bool InheritActionsFromBaseController { get; set; }
 
         /// <summary>
-        /// List of all the subdomains mapped via AttributeRouting.
-        /// </summary>
-        public IList<string> MappedSubdomains
-        {
-            get { return _mappedSubdomains.AsReadOnly(); }
-            internal set { _mappedSubdomains = new List<string>(value); }
-        }
-
-        /// <summary>
         /// Factory for generating optional route parameters.
         /// </summary>
         public IParameterFactory ParameterFactory { get; set; }
-
-        /// <summary>
-        /// When true, the generated routes will not lowercase URL parameter values.
-        /// The default is false.
-        /// </summary>
-        public bool PreserveCaseForUrlParameters { get; set; }
 
         /// <summary>
         /// Factory for generating route constraints.
@@ -117,31 +73,19 @@ namespace AttributeRouting
         /// Given a route specification, this delegate returns the route name 
         /// to use when <see cref="AutoGenerateRouteNames"/> is true;
         /// </summary>
-        public Func<RouteSpecification, string> RouteNameBuilder { get; set; }
-
-        /// <summary>
-        /// Given the requested hostname, this delegate parses the subdomain.
-        /// The default yields everything before the domain name;
-        /// eg: www.example.com yields www, and example.com yields null.
-        /// </summary>
-        public Func<string, string> SubdomainParser { get; set; }
-
-        /// <summary>
-        /// Translation providers.
-        /// </summary>
-        public List<TranslationProviderBase> TranslationProviders { get; set; }
-
-        /// <summary>
-        /// When true, the generated routes will produce lowercase URLs.
-        /// The default is false.
-        /// </summary>
-        public bool UseLowercaseRoutes { get; set; }
-
-        internal IDictionary<string, string> AreaSubdomainOverrides { get; set; }
+        public IRouteNameBuilder RouteNameBuilder { get; set; }
 
         internal IDictionary<string, object> DefaultRouteConstraints { get; set; }
-        
+
         internal List<Type> OrderedControllerTypes { get; set; }
+
+        protected void AddDefaultRouteConstraint(string keyRegex, object constraint)
+        {
+            if (!DefaultRouteConstraints.ContainsKey(keyRegex))
+            {
+                DefaultRouteConstraints.Add(keyRegex, constraint);
+            }
+        }
 
         /// <summary>
         /// Appends the routes from all controllers in the specified assembly to the route collection.
@@ -214,68 +158,6 @@ namespace AttributeRouting
             foreach (var controllerType in controllerTypes)
             {
                 AddRoutesFromControllerInternal(controllerType, true);
-            }
-        }
-
-        /// <summary>
-        /// Add a provider for translating components of routes.
-        /// </summary>
-        public void AddTranslationProvider<TTranslationProvider>()
-            where TTranslationProvider : TranslationProviderBase, new()
-        {
-            TranslationProviders.Add(new TTranslationProvider());
-        }
-
-        /// <summary>
-        /// Add a provider for translating components of routes.
-        /// Use <see cref="FluentTranslationProvider"/> for a default implementation.
-        /// </summary>
-        public void AddTranslationProvider(TranslationProviderBase provider)
-        {
-            TranslationProviders.Add(provider);
-        }
-
-        /// <summary>
-        /// Returns a utility for configuring areas when initializing AttributeRouting framework.
-        /// </summary>
-        /// <param name="name">The name of the area to configure</param>
-        public AreaConfiguration MapArea(string name)
-        {
-            return new AreaConfiguration(name, this);
-        }
-
-        /// <summary>
-        /// Scans the specified assembly for routes to register.
-        /// </summary>
-        /// <param name="assembly">The assembly.</param>
-        [Obsolete("Prefer using AddRoutesFromController, AddRoutesFromControllersOfType, and AddRoutesFromAssembly.")]
-        public void ScanAssembly(Assembly assembly)
-        {
-            AddRoutesFromAssembly(assembly);
-        }
-
-        /// <summary>
-        /// Scans the assembly of the specified controller for routes to register.
-        /// </summary>
-        /// <typeparam name="T">The type used to specify the assembly.</typeparam>
-        [Obsolete("Prefer using AddRoutesFromController, AddRoutesFromControllersOfType, and AddRoutesFromAssembly.")]
-        public void ScanAssemblyOf<T>()
-        {
-            ScanAssembly(typeof(T).Assembly);
-        }
-
-        internal IEnumerable<string> GetTranslationProviderCultureNames()
-        {
-            return (from provider in TranslationProviders
-                    from cultureName in provider.CultureNames
-                    select cultureName).Distinct().ToList();
-        }
-
-        protected void AddDefaultRouteConstraint(string keyRegex, object constraint)
-        {
-            if (!DefaultRouteConstraints.ContainsKey(keyRegex))
-            {
-                DefaultRouteConstraints.Add(keyRegex, constraint);
             }
         }
 

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
 using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Framework
@@ -17,24 +14,18 @@ namespace AttributeRouting.Framework
     /// </remarks>
     public class AttributeRouteVisitor
     {
-        private static readonly Regex PathAndQueryRegex = new Regex(@"(?<path>[^\?]*)(?<query>\?.*)?");
-
         private readonly IAttributeRoute _route;
-        private readonly ConfigurationBase _configuration;
         private string _staticLeftPartOfUrl;
 
         /// <summary>
         /// Creates a new visitor extending implementations of IAttributeRoute with common logic.
         /// </summary>
         /// <param name="route">The route</param>
-        /// <param name="configuration">The route's configuration</param>
-        public AttributeRouteVisitor(IAttributeRoute route, ConfigurationBase configuration)
+        public AttributeRouteVisitor(IAttributeRoute route)
         {
             if (route == null) throw new ArgumentNullException("route");
-            if (configuration == null) throw new ArgumentNullException("configuration");
 
             _route = route;
-            _configuration = configuration;
         }
         
         private string StaticLeftPartOfUrl
@@ -75,145 +66,6 @@ namespace AttributeRouting.Framework
         }
 
         /// <summary>
-        /// Performs lowercasing and appends trailing slash if this route is so configured.
-        /// </summary>
-        /// <param name="virtualPath">The current virtual path, after translation</param>
-        /// <returns>The final virtual path</returns>
-        public string GetFinalVirtualPath(string virtualPath)
-        {
-            /**
-             * Lowercase urls.
-             * NOTE: The initial lowercasing of all BUT url params occurs in RouteBuilder.CreateRouteUrl().
-             * This is just a final lowercasing of the final, parameter-replaced url.
-             */
-
-            var lower = _route.UseLowercaseRoute.GetValueOrDefault(_configuration.UseLowercaseRoutes);
-            var preserve = _route.PreserveCaseForUrlParameters.GetValueOrDefault(_configuration.PreserveCaseForUrlParameters);
-            
-            if (lower && !preserve)
-            {
-                virtualPath = TransformVirtualPathToLowercase(virtualPath);
-            }
-
-            /**
-             * Append trailing slashes
-             */
-
-            var appendTrailingSlash = _route.AppendTrailingSlash.GetValueOrDefault(_configuration.AppendTrailingSlash);
-            if (appendTrailingSlash)
-            {
-                virtualPath = AppendTrailingSlashToVirtualPath(virtualPath);
-            }
-
-            return virtualPath;
-        }
-
-        /// <summary>
-        /// Gets the translated virtual path for this route.
-        /// </summary>
-        /// <typeparam name="TVirtualPathData">
-        /// The type of virtual path data to be returned. 
-        /// This varies based on whether the route is a
-        /// System.Web.Routing.Route or System.Web.Http.Routing.HttpRoute.
-        /// </typeparam>
-        /// <param name="fromTranslation">A delegate that can get the TVirtualPathData from a translated route</param>
-        /// <returns>Returns null if no translation is available.</returns>
-        public TVirtualPathData GetTranslatedVirtualPath<TVirtualPathData>(Func<IAttributeRoute, TVirtualPathData> fromTranslation)
-            where TVirtualPathData : class
-        {
-            if (_route.Translations == null)
-            {
-                return null;
-            }
-
-            var translations = _route.Translations.ToArray();
-            if (!translations.Any())
-            {
-                return null;
-            }
-
-            var currentCultureName = Thread.CurrentThread.CurrentUICulture.Name;
-
-            // Try and get the language-culture translation, then fall back to language translation
-            var translation = translations.FirstOrDefault(t => t.CultureName == currentCultureName)
-                              ?? translations.FirstOrDefault(t => currentCultureName.StartsWith(t.CultureName));
-
-            if (translation == null)
-            {
-                return null;
-            }
-
-            return fromTranslation(translation);
-        }
-
-        /// <summary>
-        /// Tests whether the route matches the current UI culture.
-        /// </summary>
-        /// <param name="cultureName">The name of the UI culture to test to test.</param>
-        /// <returns></returns>
-        public bool IsCultureNameMatched(string cultureName)
-        {
-            // If not constraining by culture, then do not apply this check.
-            if (!_configuration.ConstrainTranslatedRoutesByCurrentUICulture)
-            {
-                return true;
-            }
-
-            // If no translations are available, then true.
-            if (!_configuration.TranslationProviders.Any())
-            {
-                return true;
-            }
-
-            // Need the neutral culture as a fallback during matching.
-            var neutralCultureName = cultureName.Split('-').First();
-
-            if (_route.SourceLanguageRoute == null)
-            {
-                // This is a source language route:
-                
-                // Match if this route has no translations.
-                var translations = _route.Translations.ToArray();
-                if (!translations.Any())
-                {
-                    return true;
-                }
-
-                // Match if this route has no translations for the current UI culture's language.
-                if (!translations.Any(t => t.CultureName.ValueEquals(neutralCultureName)))
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                // This is a translated route:
-
-                var routeCultureName = _route.CultureName;
-
-                // Match if the current UI culture is the culture of this route.
-                if (cultureName.ValueEquals(routeCultureName))
-                {
-                    return true;
-                }
-
-                // Match if:
-                // - the route's culture name is neutral,
-                // - and it matches the current UI culture's language,
-                // - and no translation exists for the specific current UI culture.
-                if (routeCultureName.Split('-').Length == 1 /* neutral culture name */
-                    && neutralCultureName == routeCultureName /* matches the current UI culture's language */
-                    && !_route.SourceLanguageRoute.Translations.Any(t => t.CultureName.ValueEquals(cultureName)))
-                {
-                    return true;
-                }
-            }
-
-            // Otherwise, don't match.
-            return false;
-        }
-
-        /// <summary>
         /// Optimizes route matching by comparing the static left part of a route's URL with the requested path.
         /// </summary>
         /// <param name="requestedPath">The path of the requested URL.</param>
@@ -224,36 +76,6 @@ namespace AttributeRouting.Framework
             // Compare the left part with the requested path
             var comparableRequestedPath = requestedPath.TrimEnd('/');
             return comparableRequestedPath.StartsWith(StaticLeftPartOfUrl, StringComparison.OrdinalIgnoreCase);
-        }
-
-        /// <summary>
-        /// Tests whether the configured subdomain (if any) matches the current host.
-        /// </summary>
-        /// <param name="requestedSubdomain">The subdomain part of the host from the current request</param>
-        /// <returns>True if the subdomain for this route matches the current request host.</returns>
-        public bool IsSubdomainMatched(string requestedSubdomain)
-        {
-            // If no subdomains are mapped with AR, then yes.
-            if (!_configuration.MappedSubdomains.Any())
-            {
-                return true;
-            }
-
-            // Match if subdomain is null and this route has no subdomain.
-            if (requestedSubdomain.HasNoValue() && _route.Subdomain.HasNoValue())
-            {
-                return true;
-            }
-
-            // Match if this route is mapped to the requested host's subdomain
-            var routeSubdomain = _route.Subdomain ?? _configuration.DefaultSubdomain;
-            if (routeSubdomain.ValueEquals(requestedSubdomain))
-            {
-                return true;
-            }
-
-            // Otherwise, this route does not match the request.
-            return false;
         }
 
         /// <summary>

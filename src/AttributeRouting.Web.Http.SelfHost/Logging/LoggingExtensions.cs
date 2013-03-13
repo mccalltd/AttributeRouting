@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Web.Http;
 using System.Web.Http.Routing;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
@@ -9,7 +10,7 @@ namespace AttributeRouting.Web.Http.SelfHost.Logging
 {
     public static class LoggingExtensions
     {
-        public static void LogTo(this HttpRoute[] routes, TextWriter writer)
+        public static void LogTo(HttpRouteCollection routes, TextWriter writer)
         {
             LogWriter.LogNumberOfRoutes(routes.Count(), writer);
 
@@ -19,7 +20,7 @@ namespace AttributeRouting.Web.Http.SelfHost.Logging
             }
         }
 
-        public static void LogTo(this HttpRoute route, TextWriter writer)
+        public static void LogTo(this IHttpRoute route, TextWriter writer)
         {
             var attributeRoute = route as IAttributeRoute;
             var info = RouteLoggingInfo.GetRouteInfo(route.RouteTemplate,

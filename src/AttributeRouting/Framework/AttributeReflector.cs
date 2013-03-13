@@ -34,15 +34,13 @@ namespace AttributeRouting.Framework
                 from controllerType in _configuration.OrderedControllerTypes
                 let controllerIndex = controllerCount++
                 let isAsyncController = controllerType.IsAsyncController()
-                let convention = controllerType.GetCustomAttribute<RouteConventionAttributeBase>(true)
-                let routeAreaAttribute = GetRouteAreaAttribute(controllerType, convention)
-                let subdomain = GetAreaSubdomain(routeAreaAttribute)
+                let routeAreaAttribute = GetRouteAreaAttribute(controllerType)
                 // Each action
                 from actionMethod in controllerType.GetActionMethods(inheritActionsFromBaseController)
                 let actionName = GetActionName(actionMethod, isAsyncController)
-                let routePrefixAttributes = GetRoutePrefixAttributes(controllerType, convention, actionMethod)
+                let routePrefixAttributes = GetRoutePrefixAttributes(controllerType, actionMethod)
                 // Each route attribute
-                from routeAttribute in GetRouteAttributes(actionMethod, convention)
+                from routeAttribute in GetRouteAttributes(actionMethod)
                 // Each prefix so that the route is prefixed with each one available.
                 // Using DefaultIfEmpty to simulate the notion of a left-join with the route attribute.
                 // Taking only the first if ignoring route prefixes because prefixes will have no effect.
@@ -53,10 +51,8 @@ namespace AttributeRouting.Framework
                     ActionMethod = actionMethod,
                     ActionName = actionName,
                     ActionPrecedence = GetSortableOrder(routeAttribute.ActionPrecedence),
-                    AppendTrailingSlash = routeAttribute.AppendTrailingSlashFlag,
                     AreaName = GetAreaName(routeAreaAttribute, controllerType),
-                    AreaUrl = GetAreaUrl(routeAreaAttribute, subdomain, controllerType),
-                    AreaUrlTranslationKey = routeAreaAttribute.SafeGet(a => a.TranslationKey),
+                    AreaUrl = GetAreaUrl(routeAreaAttribute, controllerType),
                     ControllerIndex = controllerIndex,
                     ControllerName = controllerType.GetControllerName(),
                     ControllerPrecedence = GetSortableOrder(routeAttribute.ControllerPrecedence),
@@ -66,15 +62,10 @@ namespace AttributeRouting.Framework
                     IgnoreRoutePrefix = routeAttribute.IgnoreRoutePrefix,
                     IsAbsoluteUrl = routeAttribute.IsAbsoluteUrl,
                     PrefixPrecedence = GetSortableOrder(routePrefixAttribute.SafeGet(a => a.Precedence, int.MaxValue)),
-                    PreserveCaseForUrlParameters = routeAttribute.PreserveCaseForUrlParametersFlag,
                     RouteName = routeAttribute.RouteName,
                     RoutePrefixUrl = GetRoutePrefixUrl(routePrefixAttribute, controllerType),
-                    RoutePrefixUrlTranslationKey = routePrefixAttribute.SafeGet(a => a.TranslationKey),
                     RouteUrl = routeAttribute.RouteUrl ?? actionName,
-                    RouteUrlTranslationKey = routeAttribute.TranslationKey,
                     SitePrecedence = GetSortableOrder(routeAttribute.SitePrecedence),
-                    Subdomain = subdomain,
-                    UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
                 };
 
             // Return specs ordered by route precedence: 
@@ -97,26 +88,14 @@ namespace AttributeRouting.Framework
             return actionName;
         }
 
-        private static IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod, RouteConventionAttributeBase convention)
+        private static IEnumerable<IRouteAttribute> GetRouteAttributes(MethodInfo actionMethod)
         {
-            var attributes = new List<IRouteAttribute>();
-
-            // Add convention-based attributes
-            if (convention != null)
-            {
-                attributes.AddRange(convention.GetRouteAttributes(actionMethod));
-            }
-
-            // Add explicitly-defined attributes
-            attributes.AddRange(actionMethod.GetCustomAttributes<IRouteAttribute>(false));
-
-            return attributes;
+            return actionMethod.GetCustomAttributes<IRouteAttribute>(false);
         }
 
-        private static RouteAreaAttribute GetRouteAreaAttribute(Type controllerType, RouteConventionAttributeBase convention)
+        private static RouteAreaAttribute GetRouteAreaAttribute(Type controllerType)
         {
-            return controllerType.GetCustomAttribute<RouteAreaAttribute>(true)
-                   ?? convention.SafeGet(x => x.GetDefaultRouteArea(controllerType));
+            return controllerType.GetCustomAttribute<RouteAreaAttribute>(true);
         }
 
         private static string GetAreaName(RouteAreaAttribute routeAreaAttribute, Type controllerType)
@@ -131,18 +110,14 @@ namespace AttributeRouting.Framework
             return routeAreaAttribute.AreaName ?? controllerType.GetConventionalAreaName();
         }
 
-        private static string GetAreaUrl(RouteAreaAttribute routeAreaAttribute, string subdomain, Type controllerType)
+        private static string GetAreaUrl(RouteAreaAttribute routeAreaAttribute, Type controllerType)
         {
             if (routeAreaAttribute == null)
             {
                 return null;
             }
 
-            // If a subdomain is specified for the area either in the RouteAreaAttribute 
-            // or via configuration, then assume the area url is blank; eg: admin.badass.com.
-            // However, our fearless coder can decide to explicitly specify an area url if desired;
-            // eg: internal.badass.com/admin.
-            if (subdomain.HasValue() && routeAreaAttribute.AreaUrl.HasNoValue())
+            if (routeAreaAttribute.AreaUrl.HasNoValue())
             {
                 return null;
             }
@@ -153,41 +128,9 @@ namespace AttributeRouting.Framework
             return areaUrlOrName ?? controllerType.GetConventionalAreaName();
         }
 
-        private string GetAreaSubdomain(RouteAreaAttribute routeAreaAttribute)
+        private static IEnumerable<RoutePrefixAttribute> GetRoutePrefixAttributes(Type controllerType, MethodInfo actionMethod)
         {
-            if (routeAreaAttribute == null)
-            {
-                return null;
-            }
-
-            // Check for a subdomain override specified via configuration object.
-            var subdomainOverride = (from o in _configuration.AreaSubdomainOverrides
-                                     where o.Key == routeAreaAttribute.AreaName
-                                     select o.Value).FirstOrDefault();
-
-            return subdomainOverride ?? routeAreaAttribute.Subdomain;
-        }
-
-        private static IEnumerable<RoutePrefixAttribute> GetRoutePrefixAttributes(Type controllerType, RouteConventionAttributeBase convention, MethodInfo actionMethod)
-        {
-            // If there are any explicit route prefixes defined, use them.
-            var routePrefixAttributes = controllerType.GetCustomAttributes<RoutePrefixAttribute>(true).ToList();
-
-            // Otherwise apply conventional prefixes.
-            if (!routePrefixAttributes.Any() && convention != null)
-            {
-                var oldConventionalRoutePrefix = convention.GetDefaultRoutePrefix(actionMethod);
-                if (oldConventionalRoutePrefix.HasValue())
-                {
-                    routePrefixAttributes.Add(new RoutePrefixAttribute(oldConventionalRoutePrefix));
-                }
-                else
-                {
-                    routePrefixAttributes.AddRange(convention.GetDefaultRoutePrefixes(controllerType));
-                }
-            }
-
-            return routePrefixAttributes.OrderBy(a => GetSortableOrder(a.Precedence));
+            return controllerType.GetCustomAttributes<RoutePrefixAttribute>(true).ToList();
         }
 
         private static string GetRoutePrefixUrl(RoutePrefixAttribute routePrefixAttribute, Type controllerType)

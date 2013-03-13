@@ -31,8 +31,6 @@ namespace AttributeRouting.Web.Mvc
         public RouteAttribute(string routeUrl)
             : this()
         {
-            if (routeUrl == null) throw new ArgumentNullException("routeUrl");
-
             RouteUrl = routeUrl;
         }
 
@@ -58,8 +56,7 @@ namespace AttributeRouting.Web.Mvc
             HttpMethods = allowedMethods.Select(m => m.ToString().ToUpperInvariant()).ToArray();
         }
 
-        public string RouteUrl { get; private set; }
-
+        public int ControllerPrecedence { get; set; }
         public string[] HttpMethods { get; protected set; }
 
         [Obsolete("Prefer ActionPrecedence for clarity of intent.")]
@@ -68,8 +65,18 @@ namespace AttributeRouting.Web.Mvc
             get { return ActionPrecedence; }
             set { ActionPrecedence = value; }
         }
-        
+
         public int ActionPrecedence { get; set; }
+
+        public bool IgnoreAreaUrl { get; set; }
+
+        public bool IsAbsoluteUrl
+        {
+            get { return IgnoreAreaUrl && IgnoreRoutePrefix; }
+            set { IgnoreAreaUrl = IgnoreRoutePrefix = value; }
+        }
+
+        public bool IgnoreRoutePrefix { get; set; }
 
         [Obsolete("Prefer ControllerPrecedence for clarity of intent.")]
         public int Precedence
@@ -78,47 +85,11 @@ namespace AttributeRouting.Web.Mvc
             set { ControllerPrecedence = value; }
         }
 
-        public int ControllerPrecedence { get; set; }
-
-        public int SitePrecedence { get; set; }
-
         public string RouteName { get; set; }
 
-        public bool IsAbsoluteUrl
-        {
-            get { return IgnoreAreaUrl && IgnoreRoutePrefix; }
-            set { IgnoreAreaUrl = IgnoreRoutePrefix = value; }
-        }
+        public string RouteUrl { get; private set; }
 
-        public string TranslationKey { get; set; }
-
-        public bool UseLowercaseRoute
-        {
-            get { return UseLowercaseRouteFlag.GetValueOrDefault(); }
-            set { UseLowercaseRouteFlag = value; }
-        }
-
-        public bool? UseLowercaseRouteFlag { get; private set; }
-
-        public bool PreserveCaseForUrlParameters 
-        {
-            get { return PreserveCaseForUrlParametersFlag.GetValueOrDefault(); }
-            set { PreserveCaseForUrlParametersFlag = value; }
-        }
-        
-        public bool? PreserveCaseForUrlParametersFlag { get; private set; }
-
-        public bool AppendTrailingSlash
-        {
-            get { return AppendTrailingSlashFlag.GetValueOrDefault(); }
-            set { AppendTrailingSlashFlag = value; }
-        }
-
-        public bool? AppendTrailingSlashFlag { get; private set; }
-        
-        public bool IgnoreRoutePrefix { get; set; }
-        
-        public bool IgnoreAreaUrl { get; set; }
+        public int SitePrecedence { get; set; }
 
         public override bool IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
         {

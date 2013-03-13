@@ -20,7 +20,9 @@ namespace AttributeRouting.Framework
             var routeNameBuilder = new StringBuilder();
 
             if (routeSpec.AreaName.HasValue())
+            {
                 routeNameBuilder.AppendFormat("{0}_", routeSpec.AreaName);
+            }
 
             routeNameBuilder.Append(routeSpec.ControllerName);
             routeNameBuilder.AppendFormat("_{0}", routeSpec.ActionName);

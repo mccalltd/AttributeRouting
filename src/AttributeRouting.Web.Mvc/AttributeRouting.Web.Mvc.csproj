@@ -84,10 +84,22 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Configuration.cs" />
+    <Compile Include="Constraints\AlphaRouteConstraint.cs" />
+    <Compile Include="Constraints\CompoundRouteConstraint.cs" />
+    <Compile Include="Constraints\EnumRouteConstraint.cs" />
+    <Compile Include="Constraints\EnumValueRouteConstraint.cs" />
     <Compile Include="Constraints\InboundHttpMethodConstraint.cs" />
+    <Compile Include="Constraints\LengthRouteConstraint.cs" />
+    <Compile Include="Constraints\MaxLengthRouteConstraint.cs" />
+    <Compile Include="Constraints\MaxRouteConstraint.cs" />
+    <Compile Include="Constraints\MinLengthRouteConstraint.cs" />
+    <Compile Include="Constraints\MinRouteConstraint.cs" />
     <Compile Include="Constraints\OptionalRouteConstraint.cs" />
+    <Compile Include="Constraints\QueryStringRouteConstraint.cs" />
+    <Compile Include="Constraints\RangeRouteConstraint.cs" />
+    <Compile Include="Constraints\RegexRouteConstraint.cs" />
+    <Compile Include="Constraints\TypeOfRouteConstraints.cs" />
     <Compile Include="DELETEAttribute.cs" />
-    <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Framework\AttributeRoute.cs" />
     <Compile Include="Framework\AttributeRouteFactory.cs" />
     <Compile Include="Framework\RouteParameterFactory.cs" />
@@ -97,7 +109,6 @@
     <Compile Include="PUTAttribute.cs" />
     <Compile Include="RouteAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RestfulRouteConventionAttribute.cs" />
     <Compile Include="RouteCollectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

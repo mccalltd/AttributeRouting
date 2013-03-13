@@ -43,10 +43,5 @@ namespace AttributeRouting
         /// Negative integers denote bottom routes: -1 is last, -2 is second to last, etc....
         /// </remarks>
         public int Precedence { get; set; }
-
-        /// <summary>
-        /// Key used by translation provider to lookup the translation for the <see cref="Url"/>.
-        /// </summary>
-        public string TranslationKey { get; set; }
     }
 }

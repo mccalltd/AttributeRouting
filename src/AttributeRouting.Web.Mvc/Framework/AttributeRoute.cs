@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Routing;
 using AttributeRouting.Framework;
-using AttributeRouting.Helpers;
 
 namespace AttributeRouting.Web.Mvc.Framework
 {
@@ -13,10 +12,7 @@ namespace AttributeRouting.Web.Mvc.Framework
     public class AttributeRoute : Route, IAttributeRoute
     {
         private const string RequestedPathKey = "__AttributeRouting:RequestedPath";
-        private const string RequestedSubdomainKey = "__AttributeRouting:RequestedSubdomain";
-        private const string CurrentUICultureNameKey = "__AttributeRouting:CurrentUICulture";
-
-        private readonly Configuration _configuration;
+        
         private readonly AttributeRouteVisitor _visitor;
 
         /// <summary>
@@ -29,21 +25,16 @@ namespace AttributeRouting.Web.Mvc.Framework
                               Configuration configuration)
             : base(url, defaults, constraints, dataTokens, configuration.RouteHandlerFactory())
         {
-            _configuration = configuration;
-            _visitor = new AttributeRouteVisitor(this, configuration);
+            _visitor = new AttributeRouteVisitor(this);
             QueryStringConstraints = new RouteValueDictionary();
             QueryStringDefaults = new RouteValueDictionary();
         }
-
-        public bool? AppendTrailingSlash { get; set; }
 
         IDictionary<string, object> IAttributeRoute.Constraints
         {
             get { return Constraints; }
             set { Constraints = new RouteValueDictionary(value); }
         }
-
-        public string CultureName { get; set; }
 
         IDictionary<string, object> IAttributeRoute.DataTokens
         {
@@ -57,23 +48,11 @@ namespace AttributeRouting.Web.Mvc.Framework
             set { Defaults = new RouteValueDictionary(value); }
         }
 
-        public List<string> MappedSubdomains { get; set; }
-
-        public bool? PreserveCaseForUrlParameters { get; set; }
-        
         public IDictionary<string, object> QueryStringConstraints { get; set; }
 
         public IDictionary<string, object> QueryStringDefaults { get; set; }
 
         public string RouteName { get; set; }
-
-        public string Subdomain { get; set; }
-
-        public bool? UseLowercaseRoute { get; set; }
-
-        public IAttributeRoute SourceLanguageRoute { get; set; }
-        
-        public IEnumerable<IAttributeRoute> Translations { get; set; }
 
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
@@ -97,20 +76,6 @@ namespace AttributeRouting.Web.Mvc.Framework
                 return null;
             }
 
-            // Constrain by subdomain if configured.
-            var requestedSubdomain = GetCachedValue(httpContext, RequestedSubdomainKey, () => _configuration.SubdomainParser(httpContext.SafeGet(c => c.Request.Headers["host"])));
-            if (!_visitor.IsSubdomainMatched(requestedSubdomain))
-            {
-                return null;
-            }
-
-            // Constrain by culture name if configured.
-            var currentUICultureName = GetCachedValue(httpContext, CurrentUICultureNameKey, () => _configuration.CurrentUICultureResolver(httpContext, routeData));
-            if (!_visitor.IsCultureNameMatched(currentUICultureName))
-            {
-                return null;
-            }
-
             return routeData;
         }
 
@@ -125,16 +90,6 @@ namespace AttributeRouting.Web.Mvc.Framework
             {
                 return null;
             }
-
-            // Translate this path if a translation is available.
-            var translatedVirtualPath = _visitor.GetTranslatedVirtualPath(t => ((Route)t).GetVirtualPath(requestContext, values));
-            if (translatedVirtualPath != null)
-            {
-                virtualPathData = translatedVirtualPath;
-            }
-
-            // Lowercase, append trailing slash, etc.
-            virtualPathData.VirtualPath = _visitor.GetFinalVirtualPath(virtualPathData.VirtualPath);
 
             return virtualPathData;
         }

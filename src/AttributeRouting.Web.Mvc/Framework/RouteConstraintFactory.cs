@@ -5,7 +5,6 @@ using System.Web.Routing;
 using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
 using AttributeRouting.Helpers;
-using AttributeRouting.Web.Constraints;
 using AttributeRouting.Web.Mvc.Constraints;
 
 namespace AttributeRouting.Web.Mvc.Framework

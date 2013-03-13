@@ -63,7 +63,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AreaConfiguration.cs" />
     <Compile Include="ConfigurationBase.cs" />
     <Compile Include="Constraints\AlphaRouteConstraintBase.cs" />
     <Compile Include="Constraints\EnumValueRouteConstraintBase.cs" />
@@ -88,9 +87,6 @@
     <Compile Include="Framework\FirstInWinsRouteNameBuilder.cs" />
     <Compile Include="Framework\IAttributeRoute.cs" />
     <Compile Include="Framework\IRouteNameBuilder.cs" />
-    <Compile Include="Framework\ISubdomainParser.cs" />
-    <Compile Include="Framework\Localization\ControllerTranslationBuilder.cs" />
-    <Compile Include="Framework\ThreeSectionSubdomainParser.cs" />
     <Compile Include="Framework\UniqueRouteNameBuilder.cs" />
     <Compile Include="Helpers\DictionaryExtensions.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
@@ -98,24 +94,16 @@
     <Compile Include="Helpers\ParsingExtensions.cs" />
     <Compile Include="Helpers\ReflectionExtensions.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
-    <Compile Include="Framework\Localization\TranslationBuilder.cs" />
-    <Compile Include="Framework\Localization\FluentTranslationProvider.cs" />
-    <Compile Include="Framework\Localization\TranslationKeyGenerator.cs" />
-    <Compile Include="Framework\Localization\TranslationProviderBase.cs" />
-    <Compile Include="Framework\Localization\TranslationsDictionary.cs" />
     <Compile Include="Framework\RouteBuilder.cs" />
     <Compile Include="Framework\AttributeRoutingException.cs" />
     <Compile Include="IRouteAttribute.cs" />
     <Compile Include="Logging\RouteLoggingInfo.cs" />
     <Compile Include="Logging\LogWriter.cs" />
-    <Compile Include="RouteConventionAttributeBase.cs" />
-    <Compile Include="Framework\RouteNameBuilders.cs" />
     <Compile Include="RoutePrefixAttribute.cs" />
     <Compile Include="RouteAreaAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\RouteSpecification.cs" />
     <Compile Include="Framework\AttributeReflector.cs" />
-    <Compile Include="Framework\SubdomainParsers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AttributeRouting.snk" />

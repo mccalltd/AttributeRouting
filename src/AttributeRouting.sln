@@ -8,18 +8,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{38404E
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{840281A8-8870-417F-9B24-ED0E866608A2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{DE34F753-6251-493F-902B-D520D655F69A}"
 	ProjectSection(SolutionItems) = preProject
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting", "AttributeRouting\AttributeRouting.csproj", "{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Specs", "AttributeRouting.Specs\AttributeRouting.Specs.csproj", "{E832A82B-2302-4113-83E3-261446E22C87}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Tests.Web", "AttributeRouting.Tests.Web\AttributeRouting.Tests.Web.csproj", "{486087C6-E95B-4FE2-8263-7B6B2DF81888}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web.Http.WebHost", "AttributeRouting.Web.Http.WebHost\AttributeRouting.Web.Http.WebHost.csproj", "{A018FEC5-45F8-44FB-BB6C-33697B418434}"
 EndProject
@@ -28,8 +22,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web.Mvc", "AttributeRouting.Web.Mvc\AttributeRouting.Web.Mvc.csproj", "{4604C450-EBF8-4A7F-BD3A-A24655C41FA4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web.Http.SelfHost", "AttributeRouting.Web.Http.SelfHost\AttributeRouting.Web.Http.SelfHost.csproj", "{246F7AEC-9429-4FBB-8747-92A3F025C711}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Tests.SelfHost", "AttributeRouting.Tests.SelfHost\AttributeRouting.Tests.SelfHost.csproj", "{0D2A13E6-A092-402E-B8FE-035F3A620B86}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web.Http", "AttributeRouting.Web.Http\AttributeRouting.Web.Http.csproj", "{CCDE9AD7-3822-4B0B-AA19-DF6698A85D3D}"
 EndProject
@@ -57,26 +49,6 @@ Global
 		{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{871A79CF-C705-4C6B-8938-F9AA1E02AEA4}.Release|x86.ActiveCfg = Release|Any CPU
-		{E832A82B-2302-4113-83E3-261446E22C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E832A82B-2302-4113-83E3-261446E22C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E832A82B-2302-4113-83E3-261446E22C87}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E832A82B-2302-4113-83E3-261446E22C87}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{E832A82B-2302-4113-83E3-261446E22C87}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E832A82B-2302-4113-83E3-261446E22C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E832A82B-2302-4113-83E3-261446E22C87}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E832A82B-2302-4113-83E3-261446E22C87}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{E832A82B-2302-4113-83E3-261446E22C87}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{E832A82B-2302-4113-83E3-261446E22C87}.Release|x86.ActiveCfg = Release|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Any CPU.Build.0 = Release|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888}.Release|x86.ActiveCfg = Release|Any CPU
 		{A018FEC5-45F8-44FB-BB6C-33697B418434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A018FEC5-45F8-44FB-BB6C-33697B418434}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A018FEC5-45F8-44FB-BB6C-33697B418434}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -117,16 +89,6 @@ Global
 		{246F7AEC-9429-4FBB-8747-92A3F025C711}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{246F7AEC-9429-4FBB-8747-92A3F025C711}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{246F7AEC-9429-4FBB-8747-92A3F025C711}.Release|x86.ActiveCfg = Release|Any CPU
-		{0D2A13E6-A092-402E-B8FE-035F3A620B86}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{0D2A13E6-A092-402E-B8FE-035F3A620B86}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{0D2A13E6-A092-402E-B8FE-035F3A620B86}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{0D2A13E6-A092-402E-B8FE-035F3A620B86}.Debug|x86.ActiveCfg = Debug|x86
-		{0D2A13E6-A092-402E-B8FE-035F3A620B86}.Debug|x86.Build.0 = Debug|x86
-		{0D2A13E6-A092-402E-B8FE-035F3A620B86}.Release|Any CPU.ActiveCfg = Release|x86
-		{0D2A13E6-A092-402E-B8FE-035F3A620B86}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{0D2A13E6-A092-402E-B8FE-035F3A620B86}.Release|Mixed Platforms.Build.0 = Release|x86
-		{0D2A13E6-A092-402E-B8FE-035F3A620B86}.Release|x86.ActiveCfg = Release|x86
-		{0D2A13E6-A092-402E-B8FE-035F3A620B86}.Release|x86.Build.0 = Release|x86
 		{CCDE9AD7-3822-4B0B-AA19-DF6698A85D3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CCDE9AD7-3822-4B0B-AA19-DF6698A85D3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCDE9AD7-3822-4B0B-AA19-DF6698A85D3D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -140,10 +102,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{E832A82B-2302-4113-83E3-261446E22C87} = {840281A8-8870-417F-9B24-ED0E866608A2}
-		{486087C6-E95B-4FE2-8263-7B6B2DF81888} = {840281A8-8870-417F-9B24-ED0E866608A2}
-		{0D2A13E6-A092-402E-B8FE-035F3A620B86} = {840281A8-8870-417F-9B24-ED0E866608A2}
 	EndGlobalSection
 EndGlobal
