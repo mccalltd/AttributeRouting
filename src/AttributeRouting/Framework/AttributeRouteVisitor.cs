@@ -74,8 +74,7 @@ namespace AttributeRouting.Framework
         public bool IsStaticLeftPartOfUrlMatched(string requestedPath)
         {
             // Compare the left part with the requested path
-            var comparableRequestedPath = requestedPath.TrimEnd('/');
-            return comparableRequestedPath.StartsWith(StaticLeftPartOfUrl, StringComparison.OrdinalIgnoreCase);
+            return requestedPath.StartsWith(StaticLeftPartOfUrl, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>

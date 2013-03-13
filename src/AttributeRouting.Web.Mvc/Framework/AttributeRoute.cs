@@ -57,7 +57,7 @@ namespace AttributeRouting.Web.Mvc.Framework
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
             // Optimize matching by comparing the static left part of the route url with the requested path.
-            var requestedPath = GetCachedValue(httpContext, RequestedPathKey, () => httpContext.Request.AppRelativeCurrentExecutionFilePath.Substring(2) + httpContext.Request.PathInfo);
+            var requestedPath = GetCachedValue(httpContext, RequestedPathKey, () => (httpContext.Request.AppRelativeCurrentExecutionFilePath.Substring(2) + httpContext.Request.PathInfo).TrimEnd('/'));
             if (!_visitor.IsStaticLeftPartOfUrlMatched(requestedPath))
             {
                 return null;
