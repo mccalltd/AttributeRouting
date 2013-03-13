@@ -57,14 +57,8 @@ namespace AttributeRouting.Web.Mvc
         }
 
         public int ControllerPrecedence { get; set; }
+        
         public string[] HttpMethods { get; protected set; }
-
-        [Obsolete("Prefer ActionPrecedence for clarity of intent.")]
-        public int Order
-        {
-            get { return ActionPrecedence; }
-            set { ActionPrecedence = value; }
-        }
 
         public int ActionPrecedence { get; set; }
 
@@ -77,13 +71,6 @@ namespace AttributeRouting.Web.Mvc
         }
 
         public bool IgnoreRoutePrefix { get; set; }
-
-        [Obsolete("Prefer ControllerPrecedence for clarity of intent.")]
-        public int Precedence
-        {
-            get { return ControllerPrecedence; }
-            set { ControllerPrecedence = value; }
-        }
 
         public string RouteName { get; set; }
 

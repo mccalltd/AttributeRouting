@@ -69,20 +69,6 @@ namespace AttributeRouting.Web.Http
             set { IgnoreAreaUrl = IgnoreRoutePrefix = value; }
         }
 
-        [Obsolete("Prefer ActionPrecedence for clarity of intent.")]
-        public int Order
-        {
-            get { return ActionPrecedence; }
-            set { ActionPrecedence = value; }
-        }
-
-        [Obsolete("Prefer ControllerPrecedence for clarity of intent.")]
-        public int Precedence
-        {
-            get { return ControllerPrecedence; }
-            set { ControllerPrecedence = value; }
-        }
-
         public string RouteName { get; set; }
 
         public string RouteUrl { get; private set; }
