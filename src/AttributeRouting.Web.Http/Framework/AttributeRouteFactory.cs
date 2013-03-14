@@ -6,9 +6,9 @@ namespace AttributeRouting.Web.Http.Framework
 {
     internal class AttributeRouteFactory : IAttributeRouteFactory
     {
-        private readonly HttpConfigurationBase _configuration;
+        private readonly HttpRouteConfigurationBase _configuration;
 
-        public AttributeRouteFactory(HttpConfigurationBase configuration)
+        public AttributeRouteFactory(HttpRouteConfigurationBase configuration)
         {
             _configuration = configuration;
         }

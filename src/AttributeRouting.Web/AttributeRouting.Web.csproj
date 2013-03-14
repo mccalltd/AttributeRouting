@@ -59,19 +59,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Constraints\AlphaRouteConstraint.cs" />
-    <Compile Include="Constraints\CompoundRouteConstraint.cs" />
-    <Compile Include="Constraints\EnumRouteConstraint.cs" />
-    <Compile Include="Constraints\EnumValueRouteConstraint.cs" />
-    <Compile Include="Constraints\LengthRouteConstraint.cs" />
-    <Compile Include="Constraints\MaxLengthRouteConstraint.cs" />
-    <Compile Include="Constraints\MaxRouteConstraint.cs" />
-    <Compile Include="Constraints\MinLengthRouteConstraint.cs" />
-    <Compile Include="Constraints\MinRouteConstraint.cs" />
-    <Compile Include="Constraints\QueryStringRouteConstraint.cs" />
-    <Compile Include="Constraints\RangeRouteConstraint.cs" />
-    <Compile Include="Constraints\RegexRouteConstraint.cs" />
-    <Compile Include="Constraints\TypeOfRouteConstraints.cs" />
     <Compile Include="Logging\LoggingExtensions.cs" />
     <Compile Include="Logging\LogRoutesHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,6 +79,7 @@
       <Name>AttributeRouting</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

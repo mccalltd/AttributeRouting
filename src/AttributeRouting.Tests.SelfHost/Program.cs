@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Web.Http.Routing;
 using System.Web.Http.SelfHost;
 using AttributeRouting.Web.Http.SelfHost;
-using AttributeRouting.Web.Http.SelfHost.Logging;
+using AttributeRouting.Web.Http.Logging;
 
 namespace AttributeRouting.Tests.SelfHost
 {
@@ -23,7 +21,7 @@ namespace AttributeRouting.Tests.SelfHost
 
                 Console.WriteLine("Routes:");
 
-                config.Routes.Cast<HttpRoute>().ToArray().LogTo(Console.Out);
+                config.Routes.LogTo(Console.Out);
 
                 Console.WriteLine("Routes:");
                 Console.WriteLine("Press Enter to quit.");

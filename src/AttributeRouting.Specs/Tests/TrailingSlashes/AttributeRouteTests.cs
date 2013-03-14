@@ -115,7 +115,7 @@ namespace AttributeRouting.Specs.Tests.TrailingSlashes
 
         private Route BuildAttributeRoute(string url, bool useLowercaseRoutes, bool appendTrailingSlash)
         {
-            var configuration = new Configuration
+            var configuration = new RouteConfiguration
             {
                 UseLowercaseRoutes = useLowercaseRoutes,
                 AppendTrailingSlash = appendTrailingSlash,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Web;
 using System.Web.Routing;
 using Moq;
@@ -17,6 +18,7 @@ namespace AttributeRouting.Specs.Tests
             requestMock.SetupGet(x => x.Form).Returns(new NameValueCollection());
             requestMock.SetupGet(x => x.Headers).Returns(new NameValueCollection());
             requestMock.SetupGet(x => x.HttpMethod).Returns("GET");
+            requestMock.SetupGet(x => x.InputStream).Returns(new MemoryStream());
             requestMock.SetupGet(x => x.PathInfo).Returns("");
             requestMock.SetupGet(x => x.QueryString).Returns(new NameValueCollection());
             requestMock.SetupGet(x => x.ServerVariables).Returns(new NameValueCollection());

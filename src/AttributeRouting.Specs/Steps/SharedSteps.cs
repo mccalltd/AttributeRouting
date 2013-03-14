@@ -10,9 +10,10 @@ using AttributeRouting.Helpers;
 using AttributeRouting.Specs.Subjects;
 using AttributeRouting.Specs.Subjects.Http;
 using AttributeRouting.Specs.Tests;
-using AttributeRouting.Web.Constraints;
+using AttributeRouting.Web.Http.Constraints;
 using AttributeRouting.Web.Http.WebHost;
 using AttributeRouting.Web.Mvc;
+using AttributeRouting.Web.Mvc.Constraints;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -21,16 +22,16 @@ namespace AttributeRouting.Specs.Steps
     [Binding]
     public class SharedSteps
     {
-        private Configuration _configuration;
-        private HttpWebConfiguration _httpConfiguration;
+        private RouteConfiguration _configuration;
+        private HttpWebRouteConfiguration _httpConfiguration;
 
-        private Configuration Configuration
+        private RouteConfiguration Configuration
         {
             get
             {
                 if (_configuration == null)
                 {
-                    _configuration = new Configuration();
+                    _configuration = new RouteConfiguration();
                     _configuration.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
                     _configuration.InlineRouteConstraints.Add("colorValue", typeof(EnumValueRouteConstraint<Color>));
                 }
@@ -39,15 +40,15 @@ namespace AttributeRouting.Specs.Steps
             set { _configuration = value; }
         }
 
-        private HttpWebConfiguration HttpConfiguration
+        private HttpWebRouteConfiguration HttpRouteConfiguration
         {
             get
             {
                 if (_httpConfiguration == null)
                 {
-                    _httpConfiguration = new HttpWebConfiguration();
-                    _httpConfiguration.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
-                    _httpConfiguration.InlineRouteConstraints.Add("colorValue", typeof(EnumValueRouteConstraint<Color>));
+                    _httpConfiguration = new HttpWebRouteConfiguration();
+                    _httpConfiguration.InlineRouteConstraints.Add("color", typeof(EnumHttpRouteConstraint<Color>));
+                    _httpConfiguration.InlineRouteConstraints.Add("colorValue", typeof(EnumValueHttpRouteConstraint<Color>));
                 }
                 return _httpConfiguration;
             }
@@ -70,8 +71,8 @@ namespace AttributeRouting.Specs.Steps
             GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(x =>
             {
                 x.AddRoutesFromAssemblyOf<HttpStandardUsageController>();
-                x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
-                x.InlineRouteConstraints.Add("colorValue", typeof(EnumValueRouteConstraint<Color>));
+                x.InlineRouteConstraints.Add("color", typeof(EnumHttpRouteConstraint<Color>));
+                x.InlineRouteConstraints.Add("colorValue", typeof(EnumValueHttpRouteConstraint<Color>));
                 x.InheritActionsFromBaseController = true;
             });
         }
@@ -88,8 +89,8 @@ namespace AttributeRouting.Specs.Steps
                 GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(x =>
                 {
                     x.AddRoutesFromController(type);
-                    x.InlineRouteConstraints.Add("color", typeof(EnumRouteConstraint<Color>));
-                    x.InlineRouteConstraints.Add("colorValue", typeof(EnumValueRouteConstraint<Color>));
+                    x.InlineRouteConstraints.Add("color", typeof(EnumHttpRouteConstraint<Color>));
+                    x.InlineRouteConstraints.Add("colorValue", typeof(EnumValueHttpRouteConstraint<Color>));
                     x.InheritActionsFromBaseController = true;
                 });                
             }
@@ -109,7 +110,7 @@ namespace AttributeRouting.Specs.Steps
         public void GivenIHaveANewConfigurationObject()
         {
             Configuration = null;
-            HttpConfiguration = null;
+            HttpRouteConfiguration = null;
         }
 
         [Given(@"I add the routes from the (.*) controller")]
@@ -119,7 +120,7 @@ namespace AttributeRouting.Specs.Steps
             
             if (controllerName.StartsWith("Http"))
             {
-                HttpConfiguration.AddRoutesFromController(controllerType);
+                HttpRouteConfiguration.AddRoutesFromController(controllerType);
             }
             else
             {
@@ -134,7 +135,7 @@ namespace AttributeRouting.Specs.Steps
             
             if (baseControllerName.StartsWith("Http"))
             {
-                HttpConfiguration.AddRoutesFromControllersOfType(baseControllerType);
+                HttpRouteConfiguration.AddRoutesFromControllersOfType(baseControllerType);
             }
             else
             {
@@ -153,7 +154,7 @@ namespace AttributeRouting.Specs.Steps
             }
             else
             {
-                HttpConfiguration.AddRoutesFromAssembly(executingAssembly);
+                HttpRouteConfiguration.AddRoutesFromAssembly(executingAssembly);
             }
         }
 
@@ -170,7 +171,7 @@ namespace AttributeRouting.Specs.Steps
 
             if (_httpConfiguration != null)
             {
-                GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(HttpConfiguration);
+                GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(HttpRouteConfiguration);
             }
         }
 

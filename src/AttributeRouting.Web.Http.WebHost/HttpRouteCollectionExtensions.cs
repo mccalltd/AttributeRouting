@@ -19,7 +19,7 @@ namespace AttributeRouting.Web.Http.WebHost
         /// </summary>
         public static void MapHttpAttributeRoutes(this HttpRouteCollection routes)
         {
-            var configuration = new HttpWebConfiguration();
+            var configuration = new HttpWebRouteConfiguration();
             configuration.AddRoutesFromAssembly(Assembly.GetCallingAssembly());
 
             routes.MapHttpAttributeRoutesInternal(configuration);
@@ -31,14 +31,14 @@ namespace AttributeRouting.Web.Http.WebHost
         /// </summary>
         /// <param name="routes"></param>
         /// <param name="configurationAction">The initialization action that builds the configuration object</param>
-        public static void MapHttpAttributeRoutes(this HttpRouteCollection routes, Action<HttpWebConfiguration> configurationAction)
+        public static void MapHttpAttributeRoutes(this HttpRouteCollection routes, Action<HttpWebRouteConfiguration> configurationAction)
         {
-            var configuration = new HttpWebConfiguration();
+            var configuration = new HttpWebRouteConfiguration();
             configurationAction.Invoke(configuration);
 
             if (configuration.InMemory)
             {
-                var newConfig = new HttpWebConfiguration(inMemory: true);
+                var newConfig = new HttpWebRouteConfiguration(inMemory: true);
                 configurationAction.Invoke(newConfig);
                 routes.MapHttpAttributeRoutesInternal(newConfig);
             }
@@ -54,12 +54,12 @@ namespace AttributeRouting.Web.Http.WebHost
         /// </summary>
         /// <param name="routes"> </param>
         /// <param name="configuration">The configuration object</param>
-        public static void MapHttpAttributeRoutes(this HttpRouteCollection routes, HttpWebConfiguration configuration)
+        public static void MapHttpAttributeRoutes(this HttpRouteCollection routes, HttpWebRouteConfiguration configuration)
         {
             routes.MapHttpAttributeRoutesInternal(configuration);
         }
 
-        private static void MapHttpAttributeRoutesInternal(this HttpRouteCollection routes, HttpWebConfiguration configuration)
+        private static void MapHttpAttributeRoutesInternal(this HttpRouteCollection routes, HttpWebRouteConfiguration configuration)
         {
             new RouteBuilder(configuration).BuildAllRoutes()
                                            .Cast<HttpAttributeRoute>()

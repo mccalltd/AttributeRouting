@@ -66,27 +66,27 @@ namespace AttributeRouting.Specs.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Inline constraints")]
-        [NUnit.Framework.TestCaseAttribute("Alpha", "AlphaRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Int", "IntRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Long", "LongRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Float", "FloatRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Double", "DoubleRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Decimal", "DecimalRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Bool", "BoolRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Guid", "GuidRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("DateTime", "DateTimeRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Length", "LengthRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("MinLength", "MinLengthRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("MaxLength", "MaxLengthRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("LengthRange", "LengthRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Min", "MinRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Max", "MaxRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Range", "RangeRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Regex", "RegexRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("RegexRange", "RegexRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Compound", "IntRouteConstraint", null)]
-        [NUnit.Framework.TestCaseAttribute("Compound", "MaxRouteConstraint", null)]
-        public virtual void InlineConstraints(string actionName, string constraintTypeName, string[] exampleTags)
+        [NUnit.Framework.TestCaseAttribute("Alpha", "Alpha", null)]
+        [NUnit.Framework.TestCaseAttribute("Int", "Int", null)]
+        [NUnit.Framework.TestCaseAttribute("Long", "Long", null)]
+        [NUnit.Framework.TestCaseAttribute("Float", "Float", null)]
+        [NUnit.Framework.TestCaseAttribute("Double", "Double", null)]
+        [NUnit.Framework.TestCaseAttribute("Decimal", "Decimal", null)]
+        [NUnit.Framework.TestCaseAttribute("Bool", "Bool", null)]
+        [NUnit.Framework.TestCaseAttribute("Guid", "Guid", null)]
+        [NUnit.Framework.TestCaseAttribute("DateTime", "DateTime", null)]
+        [NUnit.Framework.TestCaseAttribute("Length", "Length", null)]
+        [NUnit.Framework.TestCaseAttribute("MinLength", "MinLength", null)]
+        [NUnit.Framework.TestCaseAttribute("MaxLength", "MaxLength", null)]
+        [NUnit.Framework.TestCaseAttribute("LengthRange", "Length", null)]
+        [NUnit.Framework.TestCaseAttribute("Min", "Min", null)]
+        [NUnit.Framework.TestCaseAttribute("Max", "Max", null)]
+        [NUnit.Framework.TestCaseAttribute("Range", "Range", null)]
+        [NUnit.Framework.TestCaseAttribute("Regex", "Regex", null)]
+        [NUnit.Framework.TestCaseAttribute("RegexRange", "Regex", null)]
+        [NUnit.Framework.TestCaseAttribute("Compound", "Int", null)]
+        [NUnit.Framework.TestCaseAttribute("Compound", "Max", null)]
+        public virtual void InlineConstraints(string actionName, string constraintName, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inline constraints", exampleTags);
 #line 3
@@ -98,8 +98,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 7
  testRunner.Then(string.Format("the route url is \"Inline-Constraints/{0}/{{x}}\"", actionName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 8
- testRunner.And(string.Format("the parameter \"x\" is constrained by an inline AttributeRouting.Web.Constraints.{0" +
-                        "}", constraintTypeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the parameter \"x\" is constrained by an inline {0}RouteConstraint", constraintName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10
  testRunner.Given("I have registered the routes for the HttpInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
@@ -107,8 +106,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 12
  testRunner.Then(string.Format("the route url is \"Http-Inline-Constraints/{0}/{{x}}\"", actionName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
- testRunner.And(string.Format("the parameter \"x\" is constrained by an inline AttributeRouting.Web.Constraints.{0" +
-                        "}", constraintTypeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the parameter \"x\" is constrained by an inline {0}HttpRouteConstraint", constraintName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -128,11 +126,9 @@ this.ScenarioSetup(scenarioInfo);
 #line 41
  testRunner.Then("the route url is \"Inline-Constraints/Querystring\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 42
- testRunner.And("the parameter \"x\" is constrained by an inline AttributeRouting.Web.Constraints.In" +
-                    "tRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the parameter \"x\" is constrained by an inline IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 43
- testRunner.And("the parameter \"y\" is constrained by an inline AttributeRouting.Web.Constraints.Qu" +
-                    "eryStringRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the parameter \"y\" is constrained by an inline QueryStringRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -152,11 +148,9 @@ this.ScenarioSetup(scenarioInfo);
 #line 55
  testRunner.Then("the route url is \"Inline-Constraints/avatar/{width}x{height}/{image}\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 56
- testRunner.And("the parameter \"width\" is constrained by an inline AttributeRouting.Web.Constraint" +
-                    "s.IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the parameter \"width\" is constrained by an inline IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 57
- testRunner.And("the parameter \"height\" is constrained by an inline AttributeRouting.Web.Constrain" +
-                    "ts.IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the parameter \"height\" is constrained by an inline IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 59
  testRunner.Given("I have registered the routes for the HttpInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 60
@@ -165,11 +159,9 @@ this.ScenarioSetup(scenarioInfo);
 #line 61
  testRunner.Then("the route url is \"Http-Inline-Constraints/avatar/{width}x{height}/{image}\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 62
- testRunner.And("the parameter \"width\" is constrained by an inline AttributeRouting.Web.Constraint" +
-                    "s.IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the parameter \"width\" is constrained by an inline IntHttpRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 63
- testRunner.And("the parameter \"height\" is constrained by an inline AttributeRouting.Web.Constrain" +
-                    "ts.IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the parameter \"height\" is constrained by an inline IntHttpRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -189,8 +181,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 69
  testRunner.Then("the route url is \"Prefixed-Inline-Constraints/{id}/Howdy\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 70
- testRunner.And("the parameter \"id\" is constrained by an inline AttributeRouting.Web.Constraints.I" +
-                    "ntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the parameter \"id\" is constrained by an inline IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 72
  testRunner.Given("I have registered the routes for the HttpPrefixedInlineRouteConstraintsController" +
                     "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
@@ -200,8 +191,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 74
  testRunner.Then("the route url is \"Http-Prefixed-Inline-Constraints/{id}/Howdy\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 75
- testRunner.And("the parameter \"id\" is constrained by an inline AttributeRouting.Web.Constraints.I" +
-                    "ntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the parameter \"id\" is constrained by an inline IntHttpRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -220,8 +210,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 81
  testRunner.Then("the route url is \"Area-Inline-Constraints/{id}/Howdy\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 82
- testRunner.And("the parameter \"id\" is constrained by an inline AttributeRouting.Web.Constraints.I" +
-                    "ntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the parameter \"id\" is constrained by an inline IntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 84
  testRunner.Given("I have registered the routes for the HttpAreaInlineRouteConstraintsController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 85
@@ -230,8 +219,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 86
  testRunner.Then("the route url is \"Http-Area-Inline-Constraints/{id}/Howdy\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 87
- testRunner.And("the parameter \"id\" is constrained by an inline AttributeRouting.Web.Constraints.I" +
-                    "ntRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the parameter \"id\" is constrained by an inline IntHttpRouteConstraint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

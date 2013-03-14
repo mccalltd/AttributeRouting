@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using AttributeRouting.Constraints;
 using AttributeRouting.Framework;
-using AttributeRouting.Web.Constraints;
-using AttributeRouting.Web.Mvc.Framework;
+using AttributeRouting.Web.Mvc.Constraints;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -50,11 +49,11 @@ namespace AttributeRouting.Specs.Steps
                 var compoundRouteConstraint = constraint as ICompoundRouteConstraint;
                 if (compoundRouteConstraint != null)
                 {
-                    Assert.That(compoundRouteConstraint.Constraints.Any(c => c.GetType().FullName == type), Is.True);
+                    Assert.That(compoundRouteConstraint.Constraints.Any(c => c.GetType().Name == type), Is.True);
                 }
                 else
                 {
-                    Assert.That(constraint.GetType().FullName, Is.EqualTo(type));
+                    Assert.That(constraint.GetType().Name, Is.EqualTo(type));
                 }
             }
         }

@@ -78,7 +78,7 @@ namespace AttributeRouting
         string TranslationKey { get; set; }
 
         /// <summary>
-        /// If set, will override <see cref="ConfigurationBase.UseLowercaseRoutes"/>
+        /// If set, will override <see cref="RouteConfigurationBase.UseLowercaseRoutes"/>
         /// set via global configuration for this route.
         /// </summary>
         bool UseLowercaseRoute { get; set; }
@@ -89,7 +89,7 @@ namespace AttributeRouting
         bool? UseLowercaseRouteFlag { get; }
 
         /// <summary>
-        /// If set, will override <see cref="ConfigurationBase.PreserveCaseForUrlParameters"/>
+        /// If set, will override <see cref="RouteConfigurationBase.PreserveCaseForUrlParameters"/>
         /// set via global configuration for this route.
         /// </summary>
         bool PreserveCaseForUrlParameters { get; set; }
@@ -100,7 +100,7 @@ namespace AttributeRouting
         bool? PreserveCaseForUrlParametersFlag { get; }
 
         /// <summary>
-        /// If true, will override <see cref="ConfigurationBase.AppendTrailingSlash"/>
+        /// If true, will override <see cref="RouteConfigurationBase.AppendTrailingSlash"/>
         /// set via global configuration for this route.
         /// </summary>
         bool AppendTrailingSlash { get; set; }

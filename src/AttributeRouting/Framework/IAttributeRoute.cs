@@ -13,7 +13,7 @@ namespace AttributeRouting.Framework
     public interface IAttributeRoute
     {
         /// <summary>
-        /// If true, will override <see cref="ConfigurationBase.AppendTrailingSlash"/>
+        /// If true, will override <see cref="RouteConfigurationBase.AppendTrailingSlash"/>
         /// set via global configuration and the generated route will have a trailing slash on the path of outbound URLs.
         /// </summary>
         bool? AppendTrailingSlash { get; set; }
@@ -39,7 +39,7 @@ namespace AttributeRouting.Framework
         IDictionary<string, object> Defaults { get; set; }
 
         /// <summary>
-        /// If true, will override <see cref="ConfigurationBase.PreserveCaseForUrlParameters"/>
+        /// If true, will override <see cref="RouteConfigurationBase.PreserveCaseForUrlParameters"/>
         /// set via global configuration and the generated route will not lowercase URL parameter values.
         /// </summary>
         bool? PreserveCaseForUrlParameters { get; set; }
@@ -75,7 +75,7 @@ namespace AttributeRouting.Framework
         IEnumerable<IAttributeRoute> Translations { get; set; }
 
         /// <summary>
-        /// If true, will override <see cref="ConfigurationBase.UseLowercaseRoutes"/>
+        /// If true, will override <see cref="RouteConfigurationBase.UseLowercaseRoutes"/>
         /// set via global configuration and the generated route will have a lowercase URL.
         /// </summary>
         bool? UseLowercaseRoute { get; set; }

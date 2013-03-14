@@ -18,7 +18,7 @@ namespace AttributeRouting.Web.Mvc
         /// </summary>
         public static void MapAttributeRoutes(this RouteCollection routes)
         {
-            var configuration = new Configuration();
+            var configuration = new RouteConfiguration();
             configuration.AddRoutesFromAssembly(Assembly.GetCallingAssembly());
 
             routes.MapAttributeRoutesInternal(configuration);
@@ -30,9 +30,9 @@ namespace AttributeRouting.Web.Mvc
         /// </summary>
         /// <param name="routes"> </param>
         /// <param name="configurationAction">The initialization action that builds the configuration object</param>
-        public static void MapAttributeRoutes(this RouteCollection routes, Action<Configuration> configurationAction)
+        public static void MapAttributeRoutes(this RouteCollection routes, Action<RouteConfiguration> configurationAction)
         {
-            var configuration = new Configuration();
+            var configuration = new RouteConfiguration();
             configurationAction.Invoke(configuration);
 
             routes.MapAttributeRoutesInternal(configuration);
@@ -44,12 +44,12 @@ namespace AttributeRouting.Web.Mvc
         /// </summary>
         /// <param name="routes"></param>
         /// <param name="configuration">The configuration object</param>
-        public static void MapAttributeRoutes(this RouteCollection routes, Configuration configuration)
+        public static void MapAttributeRoutes(this RouteCollection routes, RouteConfiguration configuration)
         {
             routes.MapAttributeRoutesInternal(configuration);
         }
 
-        private static void MapAttributeRoutesInternal(this RouteCollection routes, Configuration configuration)
+        private static void MapAttributeRoutesInternal(this RouteCollection routes, RouteConfiguration configuration)
         {
             new RouteBuilder(configuration).BuildAllRoutes()
                                            .Cast<AttributeRoute>()

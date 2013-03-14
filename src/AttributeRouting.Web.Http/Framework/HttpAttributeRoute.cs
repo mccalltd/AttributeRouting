@@ -17,7 +17,7 @@ namespace AttributeRouting.Web.Http.Framework
         private const string RequestedSubdomainKey = "__AttributeRouting:RequestedSubdomain";
         private const string CurrentUICultureNameKey = "__AttributeRouting:CurrentUICulture";
 
-        private readonly HttpConfigurationBase _configuration;
+        private readonly HttpRouteConfigurationBase _configuration;
         private readonly AttributeRouteVisitor _visitor;
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace AttributeRouting.Web.Http.Framework
                                   HttpRouteValueDictionary defaults,
                                   HttpRouteValueDictionary constraints,
                                   HttpRouteValueDictionary dataTokens,
-                                  HttpConfigurationBase configuration)
+                                  HttpRouteConfigurationBase configuration)
             : base(url, defaults, constraints, dataTokens, configuration.MessageHandler)
         {
             _configuration = configuration;

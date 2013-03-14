@@ -9,7 +9,7 @@ namespace AttributeRouting.Framework
 {
     /// <summary>
     /// Creates <see cref="IAttributeRoute"/> objects according to the 
-    /// options set in implementations of <see cref="ConfigurationBase"/>.
+    /// options set in implementations of <see cref="RouteConfigurationBase"/>.
     /// </summary>    
     public class RouteBuilder
     {
@@ -30,12 +30,12 @@ namespace AttributeRouting.Framework
                       @"|(?<=\{.*)=.*?(?=\})" // or equals and value (used to specify inline parameter default value)
                 );
 
-        private readonly ConfigurationBase _configuration;
+        private readonly RouteConfigurationBase _configuration;
         private readonly IParameterFactory _parameterFactory;
         private readonly IAttributeRouteFactory _routeFactory;
         private readonly IRouteConstraintFactory _routeConstraintFactory;
 
-        public RouteBuilder(ConfigurationBase configuration)
+        public RouteBuilder(RouteConfigurationBase configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 

@@ -179,21 +179,21 @@ namespace AttributeRouting.Specs.Tests
             inMemoryConfig.Routes.MapHttpAttributeRoutes(x => x.AddRoutesFromController<HttpStandardUsageController>());
 
             Assert.AreEqual(6, inMemoryConfig.Routes.Count);
-            Assert.True(inMemoryConfig.Routes.All(x => x.Constraints.All(c => c.Value.GetType() == typeof(Web.Http.WebHost.Constraints.InboundHttpMethodConstraint))));
+            Assert.True(inMemoryConfig.Routes.All(x => x.Constraints.All(c => c.Value.GetType() == typeof(Web.Http.Constraints.InboundHttpMethodConstraint))));
         }
 
         [Test]
         public void Issue191_in_memory_web_config_inits_general_http_constraint_factory()
         {
-            var inMemoryConfig = new HttpWebConfiguration(inMemory:true);
+            var inMemoryConfig = new HttpWebRouteConfiguration(inMemory:true);
             Assert.IsAssignableFrom<AttributeRouting.Web.Http.Framework.RouteConstraintFactory>(inMemoryConfig.RouteConstraintFactory);
         }
 
         [Test]
         public void Issue191_default_web_config_inits_web_http_constraint_factory()
         {
-            var inMemoryConfig = new HttpWebConfiguration();
-            Assert.IsAssignableFrom<AttributeRouting.Web.Http.WebHost.Framework.RouteConstraintFactory>(inMemoryConfig.RouteConstraintFactory);
+            var inMemoryConfig = new HttpWebRouteConfiguration();
+            Assert.IsAssignableFrom<AttributeRouting.Web.Http.Framework.RouteConstraintFactory>(inMemoryConfig.RouteConstraintFactory);
         }
     }
 }

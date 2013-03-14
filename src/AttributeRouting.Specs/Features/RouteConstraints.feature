@@ -5,86 +5,86 @@ Scenario Outline: Inline constraints
 	Given I have registered the routes for the InlineRouteConstraintsController
 	When I fetch the routes for the InlineRouteConstraints controller's <actionName> action
 	Then the route url is "Inline-Constraints/<actionName>/{x}"
-	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.<constraintTypeName>
+	And the parameter "x" is constrained by an inline <constraintName>RouteConstraint
 	# Web API
 	Given I have registered the routes for the HttpInlineRouteConstraintsController
 	When I fetch the routes for the HttpInlineRouteConstraints controller's <actionName> action
 	Then the route url is "Http-Inline-Constraints/<actionName>/{x}"
-	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.<constraintTypeName>
+	And the parameter "x" is constrained by an inline <constraintName>HttpRouteConstraint
 	Examples: 
-	| actionName  | constraintTypeName       |
-	| Alpha       | AlphaRouteConstraint     |
-	| Int         | IntRouteConstraint       |
-	| Long        | LongRouteConstraint      |
-	| Float       | FloatRouteConstraint     |
-	| Double      | DoubleRouteConstraint    |
-	| Decimal     | DecimalRouteConstraint   |
-	| Bool        | BoolRouteConstraint      |
-	| Guid        | GuidRouteConstraint      |
-	| DateTime    | DateTimeRouteConstraint  |
-	| Length      | LengthRouteConstraint    |
-	| MinLength   | MinLengthRouteConstraint |
-	| MaxLength   | MaxLengthRouteConstraint |
-	| LengthRange | LengthRouteConstraint    |
-	| Min         | MinRouteConstraint       |
-	| Max         | MaxRouteConstraint       |
-	| Range       | RangeRouteConstraint     |
-	| Regex       | RegexRouteConstraint     |
-	| RegexRange  | RegexRouteConstraint     |
-	| Compound    | IntRouteConstraint       |
-	| Compound    | MaxRouteConstraint       |
+	| actionName  | constraintName |
+	| Alpha       | Alpha          |
+	| Int         | Int            |
+	| Long        | Long           |
+	| Float       | Float          |
+	| Double      | Double         |
+	| Decimal     | Decimal        |
+	| Bool        | Bool           |
+	| Guid        | Guid           |
+	| DateTime    | DateTime       |
+	| Length      | Length         |
+	| MinLength   | MinLength      |
+	| MaxLength   | MaxLength      |
+	| LengthRange | Length         |
+	| Min         | Min            |
+	| Max         | Max            |
+	| Range       | Range          |
+	| Regex       | Regex          |
+	| RegexRange  | Regex          |
+	| Compound    | Int            |
+	| Compound    | Max            |
 
 Scenario: Inline constraints in the querystring
 	# MVC
 	Given I have registered the routes for the InlineRouteConstraintsController
 	When I fetch the routes for the InlineRouteConstraints controller's Querystring action
 	Then the route url is "Inline-Constraints/Querystring"
-	And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
-	And the parameter "y" is constrained by an inline AttributeRouting.Web.Constraints.QueryStringRouteConstraint
+	And the parameter "x" is constrained by an inline IntRouteConstraint
+	And the parameter "y" is constrained by an inline QueryStringRouteConstraint
 	# Web API - NOTE: this won't work until web api vNext
 	#Given I have registered the routes for the HttpInlineRouteConstraintsController
 	#When I fetch the routes for the HttpInlineRouteConstraints controller's Querystring action
 	#Then the route url is "Http-Inline-Constraints/Querystring"
-	#And the parameter "x" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
-	#And the parameter "y" is constrained by an inline AttributeRouting.Web.Constraints.QueryStringRouteConstraint
+	#And the parameter "x" is constrained by an inline IntHttpRouteConstraint
+	#And the parameter "y" is constrained by an inline QueryStringHttpRouteConstraint
 
 Scenario: Multiple inline constraints per url segment
 	# MVC
 	Given I have registered the routes for the InlineRouteConstraintsController
 	When I fetch the routes for the InlineRouteConstraints controller's MultipleWithinUrlSegment action
 	Then the route url is "Inline-Constraints/avatar/{width}x{height}/{image}"
-	And the parameter "width" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
-	And the parameter "height" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	And the parameter "width" is constrained by an inline IntRouteConstraint
+	And the parameter "height" is constrained by an inline IntRouteConstraint
 	# Web API
 	Given I have registered the routes for the HttpInlineRouteConstraintsController
 	When I fetch the routes for the HttpInlineRouteConstraints controller's MultipleWithinUrlSegment action
 	Then the route url is "Http-Inline-Constraints/avatar/{width}x{height}/{image}"
-	And the parameter "width" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
-	And the parameter "height" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	And the parameter "width" is constrained by an inline IntHttpRouteConstraint
+	And the parameter "height" is constrained by an inline IntHttpRouteConstraint
 
 Scenario: Inline constraints specified in the RoutePrefixAttribute
 	# MVC
 	Given I have registered the routes for the PrefixedInlineRouteConstraintsController
 	When I fetch the routes for the PrefixedInlineRouteConstraints controller's Index action
 	Then the route url is "Prefixed-Inline-Constraints/{id}/Howdy"
-	And the parameter "id" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	And the parameter "id" is constrained by an inline IntRouteConstraint
 	# Web API
 	Given I have registered the routes for the HttpPrefixedInlineRouteConstraintsController
 	When I fetch the routes for the HttpPrefixedInlineRouteConstraints controller's Index action
 	Then the route url is "Http-Prefixed-Inline-Constraints/{id}/Howdy"
-	And the parameter "id" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	And the parameter "id" is constrained by an inline IntHttpRouteConstraint
 
 Scenario: Inline constraints specified in the RouteAreaAttribute
 	# MVC
 	Given I have registered the routes for the AreaInlineRouteConstraintsController
 	When I fetch the routes for the AreaInlineRouteConstraints controller's Index action
 	Then the route url is "Area-Inline-Constraints/{id}/Howdy"
-	And the parameter "id" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	And the parameter "id" is constrained by an inline IntRouteConstraint
 	# Web API
 	Given I have registered the routes for the HttpAreaInlineRouteConstraintsController
 	When I fetch the routes for the HttpAreaInlineRouteConstraints controller's Index action
 	Then the route url is "Http-Area-Inline-Constraints/{id}/Howdy"
-	And the parameter "id" is constrained by an inline AttributeRouting.Web.Constraints.IntRouteConstraint
+	And the parameter "id" is constrained by an inline IntHttpRouteConstraint
 
 Scenario Outline: Matching inline route constraints
 	# MVC

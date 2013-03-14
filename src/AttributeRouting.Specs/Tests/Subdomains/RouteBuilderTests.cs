@@ -16,7 +16,7 @@ namespace AttributeRouting.Specs.Tests.Subdomains
             var routes = RouteTable.Routes;
             routes.Clear();
 
-            var configuration = new Configuration();
+            var configuration = new RouteConfiguration();
             configuration.AddRoutesFromController<SubdomainController>();
             routes.MapAttributeRoutes(configuration);
 

@@ -8,13 +8,13 @@ namespace AttributeRouting.Framework
 {
     /// <summary>
     /// Creates <see cref="RouteSpecification"/> objects according to the 
-    /// options set in implementations of <see cref="ConfigurationBase"/>.
+    /// options set in implementations of <see cref="RouteConfigurationBase"/>.
     /// </summary>    
     public class AttributeReflector
     {
-        private readonly ConfigurationBase _configuration;
+        private readonly RouteConfigurationBase _configuration;
 
-        public AttributeReflector(ConfigurationBase configuration)
+        public AttributeReflector(RouteConfigurationBase configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 

@@ -6,9 +6,9 @@ using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Tests.Web.Areas.Api.Controllers;
 using AttributeRouting.Tests.Web.Controllers;
-using AttributeRouting.Web.Constraints;
 using AttributeRouting.Web.Http.WebHost;
 using AttributeRouting.Web.Mvc;
+using AttributeRouting.Web.Mvc.Constraints;
 
 namespace AttributeRouting.Tests.Web
 {
@@ -66,8 +66,7 @@ namespace AttributeRouting.Tests.Web
             GlobalConfiguration.Configuration.Routes.MapHttpAttributeRoutes(config =>
             {
                 config.AddRoutesFromAssemblyOf<MvcApplication>();
-                config.AddDefaultRouteConstraint(@"[Ii]d$", new RegexRouteConstraint(@"^\d+$"));
-                config.UseRouteHandler(() => new HttpCultureAwareRoutingHandler());
+                config.AddDefaultRouteConstraint(@"[Ii]d$", new AttributeRouting.Web.Http.Constraints.RegexHttpRouteConstraint(@"^\d+$"));
                 config.AddTranslationProvider(translationProvider);                
                 config.UseLowercaseRoutes = true;
                 config.InheritActionsFromBaseController = true;

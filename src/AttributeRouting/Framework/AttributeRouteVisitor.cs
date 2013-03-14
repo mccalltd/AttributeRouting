@@ -20,7 +20,7 @@ namespace AttributeRouting.Framework
         private static readonly Regex PathAndQueryRegex = new Regex(@"(?<path>[^\?]*)(?<query>\?.*)?");
 
         private readonly IAttributeRoute _route;
-        private readonly ConfigurationBase _configuration;
+        private readonly RouteConfigurationBase _configuration;
         private string _staticLeftPartOfUrl;
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace AttributeRouting.Framework
         /// </summary>
         /// <param name="route">The route</param>
         /// <param name="configuration">The route's configuration</param>
-        public AttributeRouteVisitor(IAttributeRoute route, ConfigurationBase configuration)
+        public AttributeRouteVisitor(IAttributeRoute route, RouteConfigurationBase configuration)
         {
             if (route == null) throw new ArgumentNullException("route");
             if (configuration == null) throw new ArgumentNullException("configuration");

@@ -12,16 +12,16 @@ namespace AttributeRouting.Web.Http.Framework
 {
     public class RouteConstraintFactory : IRouteConstraintFactory
     {
-        private readonly HttpConfigurationBase _configuration;
+        private readonly HttpRouteConfigurationBase _configuration;
 
-        public RouteConstraintFactory(HttpConfigurationBase configuration)
+        public RouteConstraintFactory(HttpRouteConfigurationBase configuration)
         {
             _configuration = configuration;
         }
 
         public RegexRouteConstraintBase CreateRegexRouteConstraint(string pattern, RegexOptions options = RegexOptions.None)
         {
-            return new RegexRouteConstraint(pattern, options);
+            return new RegexHttpRouteConstraint(pattern, options);
         }
 
         public IInboundHttpMethodConstraint CreateInboundHttpMethodConstraint(string[] httpMethods)
@@ -49,17 +49,17 @@ namespace AttributeRouting.Web.Http.Framework
 
         public ICompoundRouteConstraint CreateCompoundRouteConstraint(params object[] constraints)
         {
-            return new CompoundRouteConstraint(constraints.Cast<IHttpRouteConstraint>().ToArray());
+            return new CompoundHttpRouteConstraint(constraints.Cast<IHttpRouteConstraint>().ToArray());
         }
 
         public IOptionalRouteConstraint CreateOptionalRouteConstraint(object constraint)
         {
-            return new OptionalRouteConstraint((IHttpRouteConstraint)constraint);
+            return new OptionalHttpRouteConstraint((IHttpRouteConstraint)constraint);
         }
 
         public IQueryStringRouteConstraint CreateQueryStringRouteConstraint(object constraint)
         {
-            return new QueryStringRouteConstraint((IHttpRouteConstraint)constraint);
+            return new QueryStringHttpRouteConstraint((IHttpRouteConstraint)constraint);
         }
     }
 }
