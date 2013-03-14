@@ -48,7 +48,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>AttributeRouting.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\AttributeRouting.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -118,9 +118,10 @@
     <Compile Include="Framework\SubdomainParsers.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AttributeRouting.snk" />
+    <None Include="..\AttributeRouting.snk">
+      <Link>AttributeRouting.snk</Link>
+    </None>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

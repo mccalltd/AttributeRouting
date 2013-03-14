@@ -40,7 +40,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>AttributeRouting.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\AttributeRouting.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -84,7 +84,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AttributeRouting.snk" />
+    <None Include="..\AttributeRouting.snk">
+      <Link>AttributeRouting.snk</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
