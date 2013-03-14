@@ -13,12 +13,8 @@ namespace AttributeRouting.Web.Http
         /// <summary>
         /// Specify the route information for an action.
         /// </summary>
-        /// <param name="routeUrl">The url that is associated with this action</param>
-        public HttpRouteAttribute(string routeUrl)
+        public HttpRouteAttribute()
         {
-            if (routeUrl == null) throw new ArgumentNullException("routeUrl");
-
-            RouteUrl = routeUrl;
             HttpMethods = new string[0];
             ActionPrecedence = int.MaxValue;
             ControllerPrecedence = int.MaxValue;
@@ -29,11 +25,34 @@ namespace AttributeRouting.Web.Http
         /// Specify the route information for an action.
         /// </summary>
         /// <param name="routeUrl">The url that is associated with this action</param>
+        public HttpRouteAttribute(string routeUrl)
+            : this()
+        {
+            if (routeUrl == null) throw new ArgumentNullException("routeUrl");
+
+            RouteUrl = routeUrl;
+        }
+
+        /// <summary>
+        /// Specify the route information for an action.
+        /// </summary>
+        /// <param name="routeUrl">The url that is associated with this action</param>
+        /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
+        public HttpRouteAttribute(params HttpMethod[] allowedMethods)
+            : this()
+        {
+            HttpMethods = allowedMethods.Select(m => m.Method.ToUpperInvariant()).ToArray();
+        }
+
+        /// <summary>
+        /// Specify the route information for an action.
+        /// </summary>
+        /// <param name="routeUrl">The url that is associated with this action</param>
         /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
         public HttpRouteAttribute(string routeUrl, params HttpMethod[] allowedMethods)
             : this(routeUrl)
         {
-            HttpMethods = allowedMethods.Select(m => m.Method.ToUpper()).ToArray();
+            HttpMethods = allowedMethods.Select(m => m.Method.ToUpperInvariant()).ToArray();
         }
 
         public string RouteUrl { get; private set; }

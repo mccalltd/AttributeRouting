@@ -27,7 +27,7 @@ namespace AttributeRouting.Specs.Tests
             var routes = RouteTable.Routes;
             routes.Clear();
             routes.MapAttributeRoutes(config => config.AddRoutesFromController<Issue218TestController>());
-            RouteTable.Routes.Cast<Route>().LogTo(Console.Out);
+            RouteTable.Routes.LogTo(Console.Out);
             
             var urlHelper = new UrlHelper(MockBuilder.BuildRequestContext());
 
@@ -105,7 +105,7 @@ namespace AttributeRouting.Specs.Tests
             RouteTable.Routes.Clear();
             RouteTable.Routes.MapAttributeRoutes(config => config.AddRoutesFromController<BugFixesController>());
 
-            RouteTable.Routes.Cast<Route>().LogTo(Console.Out);
+            RouteTable.Routes.LogTo(Console.Out);
 
             "~/BugFixes/Gallery/_CenterImage"
                 .ShouldMapTo<BugFixesController>(
@@ -134,7 +134,7 @@ namespace AttributeRouting.Specs.Tests
                 };
             });
 
-            RouteTable.Routes.Cast<Route>().LogTo(Console.Out);
+            RouteTable.Routes.LogTo(Console.Out);
 
             "~/en/cms/home".ShouldMapTo<CulturePrefixController>(x => x.Index());
             Assert.That("~/en/cms/inicio".Route(), Is.Null);

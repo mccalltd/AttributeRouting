@@ -46,7 +46,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             Assert.That(translatedRoute, Is.Not.Null);
             Assert.That(translatedRoute.Url, Is.EqualTo("es-Area/es-Prefix/es-Index"));
 
-            RouteTable.Routes.Cast<Route>().LogTo(Console.Out);
+            RouteTable.Routes.LogTo(Console.Out);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             Assert.That(translatedRoute, Is.Not.Null);
             Assert.That(translatedRoute.Url, Is.EqualTo("Area/Prefix/es-Index"));
 
-            RouteTable.Routes.Cast<Route>().LogTo(Console.Out);
+            RouteTable.Routes.LogTo(Console.Out);
         }
         
         [Test]
@@ -117,7 +117,7 @@ namespace AttributeRouting.Specs.Tests.Localization
             Assert.That(translatedRoute, Is.Not.Null);
             Assert.That(translatedRoute.Url, Is.EqualTo("es-Area/es-Prefix/es-Index"));
 
-            RouteTable.Routes.Cast<Route>().LogTo(Console.Out);
+            RouteTable.Routes.LogTo(Console.Out);
         }
     }
 }

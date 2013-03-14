@@ -21,7 +21,7 @@ namespace AttributeRouting.Specs.Tests.LowercaseUrls
                 c.UseLowercaseRoutes = true;
             });
 
-            routes.Cast<Route>().LogTo(Console.Out);
+            routes.LogTo(Console.Out);
 
             var route = routes.Cast<Route>().FirstOrDefault();
             Assert.That(route, Is.Not.Null);
@@ -35,7 +35,7 @@ namespace AttributeRouting.Specs.Tests.LowercaseUrls
             routes.Clear();
             routes.MapAttributeRoutes(c => c.AddRoutesFromController<LowercaseUrlController>());
 
-            routes.Cast<Route>().LogTo(Console.Out);
+            routes.LogTo(Console.Out);
 
             var route = routes.Cast<Route>().ElementAt(1);
             Assert.That(route, Is.Not.Null);
@@ -49,7 +49,7 @@ namespace AttributeRouting.Specs.Tests.LowercaseUrls
             routes.Clear();
             routes.MapAttributeRoutes(c => c.AddRoutesFromController<LowercaseUrlController>());
 
-            routes.Cast<Route>().LogTo(Console.Out);
+            routes.LogTo(Console.Out);
 
             var route = routes.Cast<Route>().FirstOrDefault();
             Assert.That(route, Is.Not.Null);
