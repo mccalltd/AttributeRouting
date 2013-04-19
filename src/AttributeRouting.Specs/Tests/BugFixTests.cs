@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Web.Http;
-using System.Web.Mvc;
+using System.Web.Http.Routing;
 using System.Web.Routing;
 using AttributeRouting.Framework.Localization;
 using AttributeRouting.Specs.Subjects;
 using AttributeRouting.Specs.Subjects.Http;
 using AttributeRouting.Web.Http.Constraints;
+using AttributeRouting.Web.Http.Framework;
 using AttributeRouting.Web.Http.WebHost;
 using AttributeRouting.Web.Logging;
 using AttributeRouting.Web.Mvc;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
+using UrlHelper = System.Web.Mvc.UrlHelper;
 
 namespace AttributeRouting.Specs.Tests
 {
@@ -194,6 +197,67 @@ namespace AttributeRouting.Specs.Tests
         {
             var inMemoryConfig = new HttpWebConfiguration();
             Assert.IsAssignableFrom<AttributeRouting.Web.Http.WebHost.Framework.RouteConstraintFactory>(inMemoryConfig.RouteConstraintFactory);
+        }
+
+        [Test]
+        public void Issue241_httpRoute_matches_request_for_route_at_root()
+        {
+            var route = BuildHttpAttributeRoute("Controller/Action", false, false);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/Controller/Action");
+            var routeData = route.GetRouteData("/", request);
+
+            Assert.That(routeData, Is.Not.Null);
+            Assert.That(routeData.Route, Is.EqualTo(route));
+        }
+
+        [Test]
+        public void Issue241_httpRoute_doesnt_match_root_request_for_route_under_a_virtual_path()
+        {
+            var route = BuildHttpAttributeRoute("Controller/Action", false, false);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/Controller/Action");
+            var routeData = route.GetRouteData("/virtual/", request);
+
+            Assert.That(routeData, Is.Null);
+        }
+
+        [Test]
+        public void Issue241_httpRoute_doesnt_match_virtual_path_request_for_route_at_root_path()
+        {
+            var route = BuildHttpAttributeRoute("Controller/Action", false, false);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/virtual/Controller/Action");
+            var routeData = route.GetRouteData("/", request);
+
+            Assert.That(routeData, Is.Null);
+        }
+
+        [Test]
+        public void Issue241_httpRoute_matches_virtual_path_request_for_route_under_a_virtual_path()
+        {
+            var route = BuildHttpAttributeRoute("Controller/Action", false, false);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/virtual/Controller/Action");
+            var routeData = route.GetRouteData("/virtual/", request);
+
+            Assert.That(routeData, Is.Not.Null);
+            Assert.That(routeData.Route, Is.EqualTo(route));
+        }
+
+        private HttpRoute BuildHttpAttributeRoute(string url, bool useLowercaseRoutes, bool appendTrailingSlash)
+        {
+            var configuration = new Web.Http.HttpConfiguration
+            {
+                UseLowercaseRoutes = useLowercaseRoutes,
+                AppendTrailingSlash = appendTrailingSlash,
+            };
+
+            return new HttpAttributeRoute(url,
+                                      new HttpRouteValueDictionary(),
+                                      new HttpRouteValueDictionary(),
+                                      new HttpRouteValueDictionary(),
+                                      configuration);
         }
     }
 }
