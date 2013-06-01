@@ -1,7 +1,7 @@
 ﻿Imports System.Web.Http
 Imports AttributeRouting.Web.Http.WebHost
 
-<assembly: WebActivator.PreApplicationStartMethod(GetType($rootnamespace$.AttributeRoutingHttpConfig), "Start")>
+<assembly: WebActivatorEx.PreApplicationStartMethod(GetType($rootnamespace$.AttributeRoutingHttpConfig), "Start")>
 
 Namespace $rootnamespace$
     Public Class AttributeRoutingHttpConfig
