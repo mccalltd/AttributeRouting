@@ -581,7 +581,7 @@ namespace AttributeRouting.Framework
                 // Fast-forward past url param contents
                 if (c == '{')
                 {
-                    while (url[i] != '}' && i < length)
+                    while (i < length && url[i] != '}') //check length prior to accessing the character
                     {
                         i++;
                     }
