@@ -85,7 +85,7 @@ namespace AttributeRouting.Web.Http.Framework
         public override IHttpRouteData GetRouteData(string virtualPathRoot, HttpRequestMessage request)
         {
             // Optimize matching by comparing the static left part of the route url with the requested path.
-            var requestedPath = GetCachedValue(request, RequestedPathKey, () => request.RequestUri.AbsolutePath.Substring(1));
+            var requestedPath = GetCachedValue(request, RequestedPathKey, () => request.RequestUri.AbsolutePath.Substring(virtualPathRoot.Length));
             if (!_visitor.IsStaticLeftPartOfUrlMatched(requestedPath))
             {
                 return null;
