@@ -1,7 +1,7 @@
 ﻿using System.Web.Routing;
 using AttributeRouting.Web.Mvc;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof($rootnamespace$.AttributeRoutingConfig), "Start")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof($rootnamespace$.AttributeRoutingConfig), "Start")]
 
 namespace $rootnamespace$ 
 {
