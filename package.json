@@ -1,0 +1,9 @@
+{
+  "name": "AttributeRouting",
+  "version": "0.0.0",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-msbuild": "~0.1.0",
+    "wrench": "~1.5.1"
+  }
+}

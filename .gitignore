@@ -13,10 +13,13 @@ _ReSharper.*
 *.suo
 *.cache
 
-** Ignore certain dirs in projects
+# Ignore certain dirs in projects
 App_Data/
 packages/
 nuget/**/*.nuspec
 
-** Ignore relics from merge conflict
+# Ignore relics from merge conflict
 *.orig
+
+# Ignore node modules
+node_modules/

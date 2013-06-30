@@ -33,11 +33,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Tests.Self
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeRouting.Web.Http", "AttributeRouting.Web.Http\AttributeRouting.Web.Http.csproj", "{CCDE9AD7-3822-4B0B-AA19-DF6698A85D3D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{DB371B99-47B8-4221-B728-B234FF3AE67B}"
+EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -145,5 +143,9 @@ Global
 		{E832A82B-2302-4113-83E3-261446E22C87} = {840281A8-8870-417F-9B24-ED0E866608A2}
 		{486087C6-E95B-4FE2-8263-7B6B2DF81888} = {840281A8-8870-417F-9B24-ED0E866608A2}
 		{0D2A13E6-A092-402E-B8FE-035F3A620B86} = {840281A8-8870-417F-9B24-ED0E866608A2}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

@@ -247,7 +247,7 @@ namespace AttributeRouting.Specs.Tests
 
         private HttpRoute BuildHttpAttributeRoute(string url, bool useLowercaseRoutes, bool appendTrailingSlash)
         {
-            var configuration = new Web.Http.HttpConfiguration
+            var configuration = new HttpWebRouteConfiguration
             {
                 UseLowercaseRoutes = useLowercaseRoutes,
                 AppendTrailingSlash = appendTrailingSlash,
