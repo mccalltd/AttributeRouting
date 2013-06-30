@@ -114,11 +114,25 @@ namespace AttributeRouting.Logging
                 {
                     if (token.Key.ValueEquals("namespaces"))
                     {
-                        item.DataTokens.Add(token.Key, String.Join(", ", (string[])token.Value));
+                        if (token.Value is string[])
+                        {
+                            item.DataTokens.Add(token.Key, String.Join(", ", (string[])token.Value));
+                        }
+                        else
+                        {
+                            item.DataTokens.Add(token.Key, String.Join(", ", (new string[] { token.Value.ToString() })));
+                        }
                     }
                     else if (token.Key.ValueEquals("httpMethods"))
                     {
-                        item.HttpMethods = String.Join(", ", (string[])token.Value);
+                        if (token.Value is string[])
+                        {
+                            item.HttpMethods = String.Join(", ", (string[])token.Value);
+                        }
+                        else 
+                        {
+                            item.HttpMethods = String.Join(", ", (new string[] { token.Value.ToString() }));
+                        }
                     }
                     else if (!token.Key.ValueEquals("actionMethod"))
                     {
