@@ -37,5 +37,11 @@ namespace AttributeRouting.Tests.Web.Areas.Api.Controllers
         public void Delete(int id)
         {
         }
+
+        // PATCH /api/plain/5
+        [PATCH("{id}")]
+        public void Patch()
+        {
+        }
     }
 }

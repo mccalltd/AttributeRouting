@@ -42,9 +42,19 @@ namespace AttributeRouting.Web.Mvc
         /// </summary>
         /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
         public RouteAttribute(params HttpVerbs[] allowedMethods)
+            : this(allowedMethods.Select(m => m.ToString()).ToArray())
+        {
+        }
+
+        /// <summary>
+        /// Specify the route information for an action.
+        /// The route URL will be the name of the action.
+        /// </summary>
+        /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
+        public RouteAttribute(params string[] allowedMethods)
             : this()
         {
-            HttpMethods = allowedMethods.Select(m => m.ToString().ToUpperInvariant()).ToArray();
+            HttpMethods = allowedMethods.Select(m => m.ToUpperInvariant()).ToArray();
         }
 
         /// <summary>
@@ -53,9 +63,19 @@ namespace AttributeRouting.Web.Mvc
         /// <param name="routeUrl">The url that is associated with this action</param>
         /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
         public RouteAttribute(string routeUrl, params HttpVerbs[] allowedMethods)
+            : this(routeUrl, allowedMethods.Select(m => m.ToString()).ToArray())
+        {
+        }
+
+        /// <summary>
+        /// Specify the route information for an action.
+        /// </summary>
+        /// <param name="routeUrl">The url that is associated with this action</param>
+        /// <param name="allowedMethods">The httpMethods against which to constrain the route</param>
+        public RouteAttribute(string routeUrl, params string[] allowedMethods)
             : this(routeUrl)
         {
-            HttpMethods = allowedMethods.Select(m => m.ToString().ToUpperInvariant()).ToArray();
+            HttpMethods = allowedMethods.Select(m => m.ToUpperInvariant()).ToArray();
         }
 
         public string RouteUrl { get; private set; }

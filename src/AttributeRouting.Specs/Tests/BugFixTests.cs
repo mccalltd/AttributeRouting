@@ -169,7 +169,7 @@ namespace AttributeRouting.Specs.Tests
                     x.AddRoutesFromController<HttpStandardUsageController>();
                 });
 
-            Assert.AreEqual(6, inMemoryConfig.Routes.Count);
+            Assert.AreEqual(7, inMemoryConfig.Routes.Count);
             Assert.True(inMemoryConfig.Routes.All(x => x.Constraints.All(c => c.Value.GetType() == typeof(InboundHttpMethodConstraint))));
         }
 
@@ -181,7 +181,7 @@ namespace AttributeRouting.Specs.Tests
 
             inMemoryConfig.Routes.MapHttpAttributeRoutes(x => x.AddRoutesFromController<HttpStandardUsageController>());
 
-            Assert.AreEqual(6, inMemoryConfig.Routes.Count);
+            Assert.AreEqual(7, inMemoryConfig.Routes.Count);
             Assert.True(inMemoryConfig.Routes.All(x => x.Constraints.All(c => c.Value.GetType() == typeof(Web.Http.WebHost.Constraints.InboundHttpMethodConstraint))));
         }
 

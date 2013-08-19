@@ -93,6 +93,7 @@
     <Compile Include="Framework\RouteParameterFactory.cs" />
     <Compile Include="Framework\RouteConstraintFactory.cs" />
     <Compile Include="GETAttribute.cs" />
+    <Compile Include="PATCHAttribute.cs" />
     <Compile Include="POSTAttribute.cs" />
     <Compile Include="PUTAttribute.cs" />
     <Compile Include="RouteAttribute.cs" />

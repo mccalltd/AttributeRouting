@@ -29,6 +29,12 @@ namespace AttributeRouting.Specs.Subjects.Http
             return "";
         }
 
+        [PATCH("api/{id}")]
+        public string Patch()
+        {
+            return "";
+        }
+
         [GET("api/Wildcards/{*pathInfo}")]
         public string Wildcards()
         {

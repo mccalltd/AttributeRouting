@@ -30,6 +30,12 @@ namespace AttributeRouting.Specs.Subjects
             return Content("");
         }
 
+        [PATCH("PartialUpdate/{id}")]
+        public ActionResult PartialUpdate()
+        {
+            return Content("");
+        }
+
         [GET("Wildcards/{*pathInfo}")]
         public ActionResult Wildcards()
         {
@@ -62,6 +68,12 @@ namespace AttributeRouting.Specs.Subjects
 
         [DELETE]
         public ActionResult DeleteDefault()
+        {
+            return Content("");
+        }
+
+        [PATCH]
+        public ActionResult PatchDefault()
         {
             return Content("");
         }
