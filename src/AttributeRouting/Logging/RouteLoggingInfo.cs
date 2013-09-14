@@ -40,7 +40,7 @@ namespace AttributeRouting.Logging
             
             foreach (var @default in allDefaults)
             {
-                var defaultValue = @default.Value.ToString();
+                var defaultValue = (@default.Value ?? string.Empty).ToString();
                 item.Defaults.Add(@default.Key, defaultValue);
             }
 
