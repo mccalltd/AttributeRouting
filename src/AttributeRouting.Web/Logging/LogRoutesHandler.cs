@@ -50,7 +50,7 @@ namespace AttributeRouting.Web.Logging
 
         public void ProcessRequest(HttpContext context)
         {
-            if (context.Request.IsLocal)
+            if (!context.Request.IsLocal)
             {
                 context.Response.StatusCode = 404;
                 return;
