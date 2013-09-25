@@ -50,6 +50,12 @@ namespace AttributeRouting.Web.Logging
 
         public void ProcessRequest(HttpContext context)
         {
+            if (context.Request.IsLocal)
+            {
+                context.Response.StatusCode = 404;
+                return;
+            }
+
             var writer = context.Response.Output;
 
             var output = GetOutput();
