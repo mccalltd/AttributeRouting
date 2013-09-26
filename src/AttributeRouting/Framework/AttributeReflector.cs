@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AttributeRouting.Helpers;
+using System.Diagnostics;
 
 namespace AttributeRouting.Framework
 {
@@ -29,7 +30,7 @@ namespace AttributeRouting.Framework
             var controllerCount = 0; // needed to increment controller index
             var inheritActionsFromBaseController = _configuration.InheritActionsFromBaseController;
 
-            var specs =
+            var specs = (
                 // Each controller
                 from controllerType in _configuration.OrderedControllerTypes
                 let controllerIndex = controllerCount++
@@ -75,7 +76,7 @@ namespace AttributeRouting.Framework
                     SitePrecedence = GetSortableOrder(routeAttribute.SitePrecedence),
                     Subdomain = subdomain,
                     UseLowercaseRoute = routeAttribute.UseLowercaseRouteFlag,
-                };
+                }).ToArray();
 
             // Return specs ordered by route precedence: 
             return specs.OrderBy(x => x.SitePrecedence)
@@ -87,13 +88,15 @@ namespace AttributeRouting.Framework
 
         private static string GetActionName(MethodInfo actionMethod, bool isAsyncController)
         {
-            var actionName = actionMethod.Name;
-            
+            // added support for ActionName attribute
+            var anAttribute = actionMethod.GetCustomAttributes<Attribute>(false).FirstOrDefault(a => a.GetType().Name == "ActionNameAttribute");
+            var actionName = anAttribute == null ? actionMethod.Name : (string)FastMember.ObjectAccessor.Create(anAttribute)["Name"];
+
             if (isAsyncController && actionName.EndsWith("Async"))
             {
                 actionName = actionName.Substring(0, actionName.Length - 5);
             }
-            
+
             return actionName;
         }
 

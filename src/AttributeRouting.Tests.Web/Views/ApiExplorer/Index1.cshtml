@@ -1,0 +1,34 @@
+﻿@model System.Web.Http.Description.IApiExplorer
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>API Explorer (Index 1)</title>
+        <style type="text/css">
+            body { font: 14px/1.5em helvetica, arial, sans-serif; }
+            strong { font-size: 1.25em; }
+            li { margin-bottom: 10px; }
+        </style>
+    </head>
+    <body>
+        <div>
+            <ul>
+                @foreach  (var api in Model.ApiDescriptions)
+                {
+                    <li>
+                        <strong>@api.HttpMethod @api.RelativePath</strong>
+                        @foreach(var param in api.ParameterDescriptions)
+                        {
+                            <p>Parameter: @param.Name (@param.Source)</p>
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+    </body>
+</html>

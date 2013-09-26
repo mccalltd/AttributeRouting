@@ -1,5 +1,5 @@
-﻿using System.Web.Http;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using System.Web.Http;
 using AttributeRouting.Web.Http;
 
 namespace AttributeRouting.Tests.Web.Controllers
@@ -8,7 +8,8 @@ namespace AttributeRouting.Tests.Web.Controllers
     public class ApiExplorerController : Controller
     {
         [GET("")]
-        public ActionResult Index()
+        [System.Web.Mvc.ActionName("Index")]
+        public ActionResult Index101()
         {
             var explorer = GlobalConfiguration.Configuration.Services.GetApiExplorer();
             return View(explorer);
