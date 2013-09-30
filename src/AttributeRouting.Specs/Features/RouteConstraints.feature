@@ -164,3 +164,5 @@ Scenario Outline: Matching inline route constraints in the querystring
 	| Querystring?x=abc         | Querystring         | is not    |
 	| Querystring?y=hello       | Querystring         | is not    |
 	| QuerystringOptional       | QuerystringOptional | is        |
+	| QuerystringDefault        | QuerystringDefault  | is        |
+	| QuerystringDefault?x=123  | QuerystringDefault  | is        |

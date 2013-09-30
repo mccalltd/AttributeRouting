@@ -91,6 +91,9 @@ namespace AttributeRouting.Web.Mvc.Framework
                 return null;
             }
 
+            // Add querystring default values if applicable.
+            _visitor.AddQueryStringDefaultsToRouteValues(routeData.Values);
+
             // Constrain by querystring param if there are any.
             if (!_visitor.ProcessQueryStringConstraints((constraint, parameterName) => ProcessConstraint(httpContext, constraint, parameterName, routeData.Values, RouteDirection.IncomingRequest)))
             {
