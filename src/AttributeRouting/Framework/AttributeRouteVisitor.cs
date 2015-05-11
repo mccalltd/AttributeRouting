@@ -222,7 +222,7 @@ namespace AttributeRouting.Framework
         public bool IsStaticLeftPartOfUrlMatched(string requestedPath)
         {
             // Compare the left part with the requested path
-            var comparableRequestedPath = requestedPath.TrimEnd('/');
+            var comparableRequestedPath = requestedPath.TrimEnd('/').TrimStart('/');
             return comparableRequestedPath.StartsWith(StaticLeftPartOfUrl, StringComparison.OrdinalIgnoreCase);
         }
 
