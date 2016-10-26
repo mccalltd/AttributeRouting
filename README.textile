@@ -1,6 +1,6 @@
-h2. Please see "the documentation":https://github.com/mccalltd/AttributeRouting/blob/gh-pages/index.html rendered by "HTMLPreview":http://htmlpreview.github.io/ at "this URL":doc-preview.
+h2. Please see "the documentation":https://github.com/mccalltd/AttributeRouting/blob/gh-pages/index.html rendered by "RawGit":http://rawgit.com/ at "this URL":doc-rawgit.
 
-[doc-preview]http://htmlpreview.github.io/?https://github.com/mccalltd/AttributeRouting/blob/gh-pages/index.html
+[doc-rawgit]https://cdn.rawgit.com/mccalltd/AttributeRouting/gh-pages/index.html
 
 *If you encounter any issues using this library, please log them in the "issue tracker":https://github.com//issues. Thanks.*
 
