@@ -1,10 +1,12 @@
-h2. Please see "the documentation":https://github.com/mccalltd/AttributeRouting/blob/gh-pages/index.html rendered by "RawGit":http://rawgit.com/ at "this URL":doc-rawgit.
+h1. AttributeRouting
 
-[doc-rawgit]https://cdn.rawgit.com/mccalltd/AttributeRouting/gh-pages/index.html
+h2. Getting Started
 
-*If you encounter any issues using this library, please log them in the "issue tracker":https://github.com//issues. Thanks.*
+"Read the docs":http://mccalltd.github.io/AttributeRouting/.
 
-h3. Changelog
+If you encounter any issues using this library, please log them in the "issue tracker":https://github.com//issues. Note that this repository has been unmaintained since Microsoft baked AttributeRouting into the framework. If you are interested in maintaining this project, please let me know.
+
+h2. Changelog
 
 _3.5.6_
 
