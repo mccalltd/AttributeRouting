@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using AttributeRouting.Helpers;
+using System.Collections.Generic;
 
 namespace AttributeRouting.Web.Mvc
 {
@@ -12,6 +13,15 @@ namespace AttributeRouting.Web.Mvc
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class RouteAttribute : ActionMethodSelectorAttribute, IRouteAttribute
     {
+        //private static readonly SortedSet<string> Members =
+        //    new SortedSet<string>(
+        //        typeof(RouteAttribute).GetProperties()
+        //            .Where(p => p.CanRead)
+        //            .Select(p => p.Name),
+        //        StringComparer.CurrentCultureIgnoreCase);
+
+        //private static readonly FastMember.TypeAccessor Accessor = FastMember.TypeAccessor.Create(typeof(RouteAttribute));
+
         /// <summary>
         /// Specify the route information for an action. 
         /// The route URL will be the name of the action.
@@ -132,5 +142,17 @@ namespace AttributeRouting.Web.Mvc
             
             return HttpMethods.Any(m => m.ValueEquals(httpMethod));
         }
+
+        public string ActionName { get; set; }
+
+        //public object this[string name]
+        //{
+        //    get
+        //    {
+        //        if(Members.Contains(name))
+        //        { return Accessor[this, name]; }
+        //        return null;
+        //    }
+        //}
     }
 }
